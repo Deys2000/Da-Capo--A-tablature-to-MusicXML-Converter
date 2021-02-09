@@ -85,17 +85,34 @@ public class TextFileReader {
 	private void detectInstrument(){
 		
 		//variables
+		Scanner sc = null;
 		
 		String instrument = null;
 		String bass = null;
 		String guitar = null;
 		String drums = null;
-		int lines = 0;
+		int count = 0;
 		
-		if(lines == 4) {
+		//
+		try {
+			sc = new Scanner(inputFile);
+			
+			while(sc.hasNextLine()){	
+				count++;					
+				}		
+		}
+		catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		finally {
+			sc.close();
+		}		
+		//
+		
+		if(count == 4) {
 			instrument = bass;
 		}
-		else if (lines == 6) {
+		else if (count == 6) {
 			instrument = guitar;
 		}
 		else {
