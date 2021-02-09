@@ -20,12 +20,16 @@ public class TextFileReader {
 	//Parsed text 
 	private List<List<String>> parsedTab = new ArrayList<List<String>>();
 	
+	//Rhythm text
+	private List<List<String>> rhythmTab = new ArrayList<List<String>>();
+	
 	//Read in the file
 	public TextFileReader(String inputFile){
 		this.inputFile = new File(inputFile);
 		this.createOriginal();
 		this.createParsed();
-		this.parsedToRhythm();
+		
+		// this.parsedToRhythm();
 	}
 	
 	/**
@@ -98,7 +102,35 @@ public class TextFileReader {
 	 * Creates a rhythm array of the file in from parsed array
 	 */
 	private void parsedToRhythm() {
+		int counter = 0;
+		int length = 0;
+		int lines = parsedTab.size();
+		int currentLine = 0;
+		String padding = "-";
+		String rhythmLine = "";
+		boolean hasFret = false;
 		
+		while (counter < parsedTab.get(0).size()) {
+			
+			List<String> list = new ArrayList<>();
+			
+			// Skip "|" and padding "-"
+			if (parsedTab.get(0).get(counter) == "|") {
+				rhythmLine += "|-";
+				counter++;
+			}
+			
+			while(hasFret == false && currentLine < lines) {
+				
+				
+				currentLine++;
+			}
+			
+			counter++;
+			
+			list.add(rhythmLine);
+			rhythmTab.add(list);
+		}
 	}
 	
 	/**
