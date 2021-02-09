@@ -83,6 +83,9 @@ public class TextFileReader {
 	 * still in progress
 	 */
 	private void detectInstrument(){
+		
+		//variables
+		
 		String instrument = null;
 		String bass = null;
 		String guitar = null;
