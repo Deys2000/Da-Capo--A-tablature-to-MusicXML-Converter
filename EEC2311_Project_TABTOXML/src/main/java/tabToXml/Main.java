@@ -20,9 +20,12 @@ public class Main extends Application {
 	public static void main(String[] args) {
 	
 		System.out.print("Launching Application");
-		launch(args);
+		//launch(args);
 		//new stuff
-		
+		parser p = new parser("exampleemajor.txt");
+		p.createParsed();
+		p.test();
+		System.out.print("Launching Application");
 	}
 
   
