@@ -78,7 +78,27 @@ public class TextFileReader {
 			sc.close();
 		}
 	}
-	
+	/**
+	 * determines the instrument based on the number of lines
+	 * still in progress
+	 */
+	private void detectInstrument(){
+		String instrument = null;
+		String bass = null;
+		String guitar = null;
+		String drums = null;
+		int lines = 0;
+		
+		if(lines == 4) {
+			instrument = bass;
+		}
+		else if (lines == 6) {
+			instrument = guitar;
+		}
+		else {
+			instrument = drums;
+		}
+	}
 	/**
 	 * Prints the parsed text file
 	 * @return
