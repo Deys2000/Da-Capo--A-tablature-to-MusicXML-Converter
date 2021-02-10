@@ -14,7 +14,7 @@ public class RhythmParser {
 	 * @return
 	 * @throws Exception
 	 */
-	public static ArrayList<String> parsedToRhythm(ArrayList<String> parsedTab) {
+	public static ArrayList<String> parseToRhythm(ArrayList<String> parsedTab) {
 		
 		int counter = 0;
 		int noteLength = 0; // in 16th notes
@@ -22,6 +22,7 @@ public class RhythmParser {
 		int currentLine = 0;
 		String rhythmLine = "";
 		boolean hasFret = false;
+		boolean isCounting = false;
 		
 		ArrayList<String> result = new ArrayList<String>();
 		
@@ -34,45 +35,38 @@ public class RhythmParser {
 		
 		while (counter < parsedTab.get(0).length() - 1) {
 			
+			currentLine = 0;
+			hasFret = false;
+			
 			// Skip "|" and padding "-"
 			if (parsedTab.get(0).charAt(counter) == '|') {
-				counter++;
+				counter += 2; // skipping both '|' and padding '-'
 			}
 			
-			// Check when the next note starts
-			while(hasFret == false && currentLine < lines) {
-				if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
-					hasFret = true;
-					noteLength++;
-				}
-				
-				currentLine++;
-			}
-			
-			// If next note found, check note length by counting "-"
-			if (hasFret == true) {
-				
-				hasFret = false;
-				counter++;
-				currentLine = 0;
-				
+			if (isCounting == false) {
+				// Check when the next note starts // NOTE ONLY WORKS FOR FRETS 0-9
 				while(hasFret == false && currentLine < lines) {
 					if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
 						hasFret = true;
-					}
-					else if (currentLine == lines - 1) {
+						isCounting = true;
 						noteLength++;
 					}
 					
 					currentLine++;
-					
 				}
-				
-				rhythmLine += noteLength + " ";
-				hasFret = false;
+			}
+			else if (isCounting == true) {
+				while(hasFret == false && currentLine < lines) {
+					if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
+						hasFret = true;
+						rhythmLine += "[" + noteLength + "]";
+						noteLength = 1;
+					}
+					
+					currentLine++;
+				}
 			}
 			
-			currentLine = 0;
 			counter++;
 		}
 		
