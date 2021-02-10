@@ -16,6 +16,8 @@ public class RhythmParserTest {
 		expected.add("[6][16]");
 		ArrayList<String> actual = RhythmParser.parseToRhythm(test);
 		assertEquals(expected,actual);
+		
+		System.out.println("translation: " + actual);
 	}
 	
 	@Test
@@ -26,6 +28,8 @@ public class RhythmParserTest {
 		expected.add("[4][4][16]");
 		ArrayList<String> actual = RhythmParser.parseToRhythm(test);
 		assertEquals(expected,actual);
+		
+		System.out.println("translation: " + actual);
 	}
 	
 	@Test
@@ -36,6 +40,25 @@ public class RhythmParserTest {
 		expected.add("[8][2][16]");
 		ArrayList<String> actual = RhythmParser.parseToRhythm(test);
 		assertEquals(expected,actual);
+		
+		System.out.println("translation: " + actual);
+	}
+	
+	@Test
+	void testTranslate4() throws Exception {
+		ArrayList<String> test = new ArrayList<>();
+		test.add("|-----------0-----|-0---------------|");
+		test.add("|---------0---0---|-0---------------|");
+		test.add("|-------1-------1-|-1---------------|");
+		test.add("|-----2-----------|-2---------------|");
+		test.add("|---2-------------|-2---------------|");
+		test.add("|-0---------------|-0---------------|");
+		ArrayList<String> expected = new ArrayList<>();
+		expected.add("[2][2][2][2][2][2][2][2][16]");
+		ArrayList<String> actual = RhythmParser.parseToRhythm(test);
+		assertEquals(expected,actual);
+		
+		System.out.println("translation: " + actual);
 	}
 
 }
