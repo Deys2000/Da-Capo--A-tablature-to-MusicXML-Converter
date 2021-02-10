@@ -19,13 +19,21 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 	
-		System.out.print("Launching Application");
-		//launch(args);
+		System.out.println("Launching Application");
+		launch(args);
 		//new stuff
-		parser p = new parser("exampleemajor.txt");
+		// the following lines are just test examples you can use to test my parser.java class.
+		parser p = new parser("tab.txt");
+		parser q = new parser("exampleemajor.txt");
 		p.createParsed();
 		p.test();
-		System.out.print("Launching Application");
+		q.createParsed();
+		q.test();
+		for(String s : p.getParsed())
+			System.out.println(s);
+		System.out.println("*******************");
+		for(String s : q.getParsed())
+			System.out.println(s);
 	}
 
   
