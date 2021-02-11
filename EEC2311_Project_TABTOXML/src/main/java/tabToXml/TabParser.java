@@ -1,7 +1,8 @@
 package tabToXml;
 
-public class TabInterface {
+public class TabParser {
 	
+	public TabParser() {}
 
 	/**
 	 * Converts a Note
