@@ -53,7 +53,6 @@ public class TextFileReader {
 	 */
 	private void createParsed(){
 		Scanner sc = null;
-//		int counter = 0;
 		try {
 			sc = new Scanner(inputFile);
 			
@@ -129,9 +128,11 @@ public class TextFileReader {
 	 * Prints the parsed text file
 	 * @return
 	 */
-	public List<List<String>> printParsed() {		
+	public List<List<String>> printParsed() {	
+		
 		return parsedTab;
 	}
+	
 	
 	/**
 	 * Prints the original text file

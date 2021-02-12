@@ -19,8 +19,16 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 	
-		System.out.print("Launching Application");
-		launch(args);
+		System.out.print("Launching Application" + "\n");
+		//launch(args);
+		TextFileReader fileReader = new TextFileReader("test.txt");
+		TabInterface tmp = new TabInterface();
+		
+		for (int i = 0; i < fileReader.printParsed().size(); i++) {
+			System.out.print(fileReader.printParsed().get(i) + "\n");
+		}
+		
+		System.out.print(tmp.translateParsed("test.txt"));
 		//new stuff
 		
 	}
