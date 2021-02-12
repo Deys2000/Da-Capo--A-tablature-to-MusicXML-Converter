@@ -40,39 +40,76 @@ public class TabInterface {
 		
 		TextFileReader tabReader = new TextFileReader(inputfile);
 		ArrayList<String> note = new ArrayList<>();
-		ArrayList<Character> fretChar = new ArrayList<>();
+		//ArrayList<Character> fretChar = new ArrayList<>();
 		ArrayList<Integer> fretNum = new ArrayList<>();
 		
 		int row = tabReader.printParsed().size();
-		int col = tabReader.printParsed().get(0).size();
+//		int col = tabReader.printParsed().get(0).size();
 		int next = tabReader.printParsed().get(0).get(0).length();
-		//String line = "";
 		char fret2 = '\0';
 		
 
 			for (int j = 0; j < next; j++) {
+				String chord = "";
 				for(int i = 0; i < row; i++) {
 					
 					fret2 = tabReader.printParsed().get(i).get(0).charAt(j);
 					int fret = Character.getNumericValue(fret2);
 					if (fret2 >= '0' && fret2 <= '9') {
 						if (i == 0) {
-							note.add(translate("E4", fret));
+							if (chord.isEmpty()) {
+								chord = translate("E4", fret);
+							}else {
+								note.remove(note.size() - 1);
+								chord = translate("E4", fret) + "+" + chord;
+							}
+							note.add(chord);
 							fretNum.add(fret);
 						}else if (i == 1) {
-							note.add(translate("B3", fret));
+							if (chord.isEmpty()) {
+								chord = translate("B3", fret);
+							}else {
+								note.remove(note.size() - 1);
+								chord = translate("B3", fret) + "+" + chord;
+							}
+							note.add(chord);
 							fretNum.add(fret);
 						}else if (i == 2) {
-							note.add(translate("G3", fret));
+							if (chord.isEmpty()) {
+								chord = translate("G3", fret);
+							}else {
+								note.remove(note.size() - 1);
+								chord = translate("G3", fret)  + "+" + chord;
+							}
+							note.add(chord);
 							fretNum.add(fret);
 						}else if (i == 3) {
-							note.add(translate("D3", fret));
+							if (chord.isEmpty()) {
+								chord = translate("D3", fret);
+							}else {
+								note.remove(note.size() - 1);
+								chord = translate("D3", fret)  + "+" +  chord;
+							}
+							note.add(chord);
 							fretNum.add(fret);
 						}else if (i == 4) {
-							note.add(translate("A2", fret));
+							if (chord.isEmpty()) {
+								chord = translate("A2", fret);
+							}else {
+								note.remove(note.size() - 1);
+								chord =  translate("A2", fret) + "+" +  chord;
+							}
+							note.add(chord);
 							fretNum.add(fret);
 						}else if (i == 5) {
-							note.add(translate("E2", fret));
+							if (chord.isEmpty()) {
+								chord = translate("E2", fret);
+							}else {
+								note.remove(note.size() - 1);
+								chord = translate("E2", fret) + "+" +  chord;
+							}
+							note.add(chord);
+
 							fretNum.add(fret);
 						}
 						
@@ -81,7 +118,7 @@ public class TabInterface {
 					
 				}	
 			}
-//		System.out.print("Fret Num: \n" + fretNum + "Fret size: \n" + fretNum.size() + "\n");
+		System.out.print("Fret Num: " + fretNum + " Fret size: " + fretNum.size() + "\n");
 		return note;
 	
 	}
