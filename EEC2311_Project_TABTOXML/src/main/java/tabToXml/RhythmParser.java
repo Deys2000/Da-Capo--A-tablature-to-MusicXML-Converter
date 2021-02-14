@@ -20,7 +20,7 @@ public class RhythmParser {
 		int noteLength = 0; // in 16th notes
 		int lines = parsedTab.size();
 		int currentLine = 0;
-		String rhythmLine = "";
+		//String rhythmLine = "";
 		boolean hasFret = false;
 		boolean isCounting = false;
 		
@@ -32,19 +32,27 @@ public class RhythmParser {
 			currentLine = 0;
 			hasFret = false;
 			
-			// System.out.println("current counter: " + counter);
-			// System.out.println("counter on fret: " + Character.isDigit(parsedTab.get(currentLine).charAt(counter)));
+			System.out.println("current counter: " + counter);
 			
 			// Skip "|" and padding "-"
 			if (parsedTab.get(0).charAt(counter) == '|') {
-				counter += 2; // skipping both '|' and padding '-'
+				
+				System.out.println("char: " + parsedTab.get(currentLine).charAt(counter));
+				
+				result.add("|");
+				counter += 1; // skipping both '|' and padding '-'
+				
+				System.out.println("current counter: " + counter);
 			}
 			
 			// Should be only run before a note is encountered
-			if (isCounting == false) {
+			else if (isCounting == false) {
 				// System.out.println("First Branch");
 				// Check when the next note starts // NOTE ONLY WORKS FOR FRETS 0-9
 				while(hasFret == false && currentLine < lines) {
+					
+					System.out.println("char: " + parsedTab.get(currentLine).charAt(counter));
+					
 					if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
 						hasFret = true;
 						isCounting = true;
@@ -59,9 +67,12 @@ public class RhythmParser {
 			else if (isCounting == true) {
 				// System.out.println("Second Branch");
 				while(hasFret == false && currentLine < lines) {
+					
+					System.out.println("char: " + parsedTab.get(currentLine).charAt(counter));
+					
 					if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
 						hasFret = true;
-						rhythmLine += "[" + noteLength + "]";
+						result.add("" + noteLength);
 						noteLength = 0;
 					}
 					
@@ -74,8 +85,10 @@ public class RhythmParser {
 			counter++;
 		}
 		
-		rhythmLine += "[" + noteLength + "]";
-		result.add(rhythmLine);
+		result.add("" + noteLength);
+		result.add("||");
+		//rhythmLine += "[" + noteLength + "]";
+		//result.add(rhythmLine);
 		
 		return result;
 	}
