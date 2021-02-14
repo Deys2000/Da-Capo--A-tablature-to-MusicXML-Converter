@@ -37,8 +37,16 @@ public class RhythmParser {
 			// Skip "|" and padding "-"
 			if (parsedTab.get(0).charAt(counter) == '|') {
 				
+				// Assuming note lengths end at barlines
+				if(noteLength != 0) {
+					result.add("" + noteLength);
+					noteLength = 0;
+					isCounting = false;
+				}
+				
 				System.out.println("char: " + parsedTab.get(currentLine).charAt(counter));
 				
+				System.out.println("adding | to result");
 				result.add("|");
 				counter += 1; // skipping both '|' and padding '-'
 				
@@ -72,6 +80,7 @@ public class RhythmParser {
 					
 					if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
 						hasFret = true;
+						System.out.println("adding " + noteLength + " to result");
 						result.add("" + noteLength);
 						noteLength = 0;
 					}
@@ -85,7 +94,10 @@ public class RhythmParser {
 			counter++;
 		}
 		
+		// Last note length and ending barline is added
+		System.out.println("adding " + noteLength + " to result");
 		result.add("" + noteLength);
+		System.out.println("adding || to result");
 		result.add("||");
 		//rhythmLine += "[" + noteLength + "]";
 		//result.add(rhythmLine);
