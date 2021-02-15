@@ -19,9 +19,10 @@ public class Main extends Application {
 	public static void main(String[] args) {
 	
 		System.out.println("Launching Application");
-		launch(args);
+		//launch(args);
 		//new stuff
-		
+		XMLGenerator.runner();
+		System.exit(0);
 	}
 
   
