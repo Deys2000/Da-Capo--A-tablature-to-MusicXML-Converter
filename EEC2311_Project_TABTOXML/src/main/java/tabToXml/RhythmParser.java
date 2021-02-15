@@ -3,18 +3,24 @@ package tabToXml;
 import java.util.ArrayList;
 
 public class RhythmParser {
+	
+	public ArrayList<String> durationArr = new ArrayList<String>();
+	public ArrayList<String> typeArr = new ArrayList<String>();
+	
+	private int divisions = 0;
 
-	public RhythmParser() {
-		
+	public RhythmParser(int divisions) { // divisions should be 4 by default
+		durationArr = new ArrayList<String>();
+		typeArr = new ArrayList<String>();
+		this.divisions = divisions;
 	}
 	
 	/**
-	 * Creates a rhythm array of the file in from parsed array
+	 * Generates duration and type arrays from parsed array
 	 * @param
-	 * @return
 	 * @throws Exception
 	 */
-	public static ArrayList<String> parseToRhythm(ArrayList<String> parsedTab) {
+	public void parseToRhythm(ArrayList<String> parsedTab) {
 		
 		int counter = 0;
 		int noteLength = 0; // in 16th notes
@@ -24,42 +30,32 @@ public class RhythmParser {
 		boolean hasFret = false;
 		boolean isCounting = false;
 		
-		ArrayList<String> result = new ArrayList<String>();
-		// System.out.println("tab length: " + parsedTab.get(0).length());
-		
 		while (counter < parsedTab.get(0).length() - 1) {
 			
 			currentLine = 0;
 			hasFret = false;
-			
-			// System.out.println("current counter: " + counter);
 			
 			// Skip "|" and padding "-"
 			if (parsedTab.get(0).charAt(counter) == '|') {
 				
 				// Assuming note lengths end at barlines
 				if(noteLength != 0) {
-					result.add("" + noteLength);
+					durationArr.add("" + noteLength);
+					typeArr.add(durationToType(noteLength, divisions));
 					noteLength = 0;
 					isCounting = false;
 				}
 				
-				// System.out.println("char: " + parsedTab.get(currentLine).charAt(counter));
-				
-				// System.out.println("adding | to result");
-				result.add("|");
+				durationArr.add("|");
+				typeArr.add("|");
 				counter += 1; // skipping both '|' and padding '-'
-				
-				// System.out.println("current counter: " + counter);
 			}
 			
 			// Should be only run before a note is encountered
 			else if (isCounting == false) {
-				// System.out.println("First Branch");
+				
 				// Check when the next note starts // NOTE ONLY WORKS FOR FRETS 0-9
 				while(hasFret == false && currentLine < lines) {
-					
-					//System.out.println("char: " + parsedTab.get(currentLine).charAt(counter));
 					
 					if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
 						hasFret = true;
@@ -73,15 +69,13 @@ public class RhythmParser {
 			
 			// Should be run all other times
 			else if (isCounting == true) {
-				// System.out.println("Second Branch");
+				
 				while(hasFret == false && currentLine < lines) {
-					
-					//System.out.println("char: " + parsedTab.get(currentLine).charAt(counter));
 					
 					if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
 						hasFret = true;
-						//System.out.println("adding " + noteLength + " to result");
-						result.add("" + noteLength);
+						durationArr.add("" + noteLength);
+						typeArr.add(durationToType(noteLength, divisions));
 						noteLength = 0;
 					}
 					
@@ -95,14 +89,35 @@ public class RhythmParser {
 		}
 		
 		// Last note length and ending barline is added
-		//System.out.println("adding " + noteLength + " to result");
-		result.add("" + noteLength);
-		//System.out.println("adding || to result");
-		result.add("||");
-		//rhythmLine += "[" + noteLength + "]";
-		//result.add(rhythmLine);
-		
-		return result;
+		durationArr.add("" + noteLength);
+		typeArr.add(durationToType(noteLength, divisions));
+		durationArr.add("||");
+		typeArr.add("||");
 	}
 	
+	private String durationToType(int duration, int divisions) {
+		
+		double durOverDiv = (double) duration / divisions;
+		String result = "";
+		
+		if (durOverDiv == 4.0) {
+			result = "whole";
+		}
+		else if (durOverDiv == 2.0) {
+			result = "half";
+		}
+		else if (durOverDiv == 1.0) {
+			result = "quarter";
+		}
+		else if (durOverDiv == 0.5) {
+			result = "eigth";
+		}
+		else if (durOverDiv == 0.25) {
+			result = "sixteenth";
+		}
+		
+		return result;
+		
+		
+	}	
 }
