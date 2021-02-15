@@ -30,18 +30,19 @@ public class XMLGenerator {
     	String[][] noteVals = {	{"1","E","1","5"},
     							{"1","E",null,"4"},
     							{"1","E","1","3"},
-    							{"1","E","1","2"}			};
+    							{"1",null,"1","2"}			};
     	
         DocumentBuilderFactory documentbuilderfactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentbuilder;
         
         try {
+        	
             documentbuilder = documentbuilderfactory.newDocumentBuilder();
             Document musicTab = documentbuilder.newDocument();
  
                        
+            //creation of all object nodes
             getScorePartwise(musicTab, attributeVals, noteVals);
-// 
             
             
             // AFTER ADDING ALL THE NODES //
@@ -93,16 +94,16 @@ public class XMLGenerator {
     // DURATION
     private static Node getDuration(Document doc, String durationVal) {
     	Element duration_element = doc.createElement("duration");
-    	duration_element.appendChild(doc.createTextNode(durationVal));
+    	if(durationVal != null) duration_element.appendChild(doc.createTextNode(durationVal));
     	return duration_element;
     }
     
     // PITCH
     private static Node getPitch(Document doc, String stepVal, String alterVal, String octaveVal) {
     	Element pitch = doc.createElement("pitch");
-    	pitch.appendChild(getStep(doc, stepVal));
-    	pitch.appendChild(getAlter(doc, alterVal));
-    	pitch.appendChild(getOctave(doc, octaveVal));
+    	if(stepVal != null)   	pitch.appendChild(getStep(doc, stepVal));
+    	if(alterVal != null)   	pitch.appendChild(getAlter(doc, alterVal));
+    	if(octaveVal != null)  	pitch.appendChild(getOctave(doc, octaveVal));
     	return pitch;	
     }
     private static Node getStep(Document doc, String stepVal) {
