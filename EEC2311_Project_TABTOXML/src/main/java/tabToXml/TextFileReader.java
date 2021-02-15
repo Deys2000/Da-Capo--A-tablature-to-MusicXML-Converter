@@ -93,7 +93,6 @@ public class TextFileReader {
 		String drums = null;
 		int count = 0;
 		
-		//
 		try {
 			sc = new Scanner(inputFile);
 			
@@ -107,7 +106,6 @@ public class TextFileReader {
 		finally {
 			sc.close();
 		}		
-		//
 		
 		if(count == 4) {
 			instrument = bass;
