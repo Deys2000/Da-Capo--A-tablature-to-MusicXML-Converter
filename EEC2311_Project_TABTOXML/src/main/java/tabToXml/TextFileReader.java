@@ -14,6 +14,7 @@ public class TextFileReader {
 	
 	private File inputFile;
 	int count;
+	boolean isDrum;
 	
 	//Original text 
 	private ArrayList<String> originalTab = new ArrayList<String>();
@@ -25,8 +26,8 @@ public class TextFileReader {
 	public TextFileReader(String inputFile){
 		this.inputFile = new File(inputFile);
 		this.createOriginal();
-		this.detectInstrument();
 		this.createParsed();
+		this.detectInstrument();
 	}
 	
 	/**
@@ -40,6 +41,7 @@ public class TextFileReader {
 			while(sc.hasNextLine()){	
 				String line = sc.nextLine();
 				originalTab.add(line);
+				//counts number of lines for instrumental detection
 				count++;
 				}		
 		}
@@ -70,8 +72,13 @@ public class TextFileReader {
 				if ((previousLine.contains("-") && previousLine.contains("|")) && !(line.contains("-") && line.contains("|"))) {					
 					parsedTab.add(list);
 					list = new ArrayList<>();						
-				}		
-				previousLine = line;			
+				}
+				
+				previousLine = line;
+				//differentiates between drum or other tab
+				if(line.contains("o")) {
+					isDrum = true;
+				}
 			}		
 		}
 		catch(FileNotFoundException e) {
@@ -86,13 +93,12 @@ public class TextFileReader {
 	 * still in progress
 	 */
 	public String detectInstrument(){	
-		String instrument ="weewee";
+		String instrument ="";
 		
-		
-		if(count == 4) {
+		if(count == 4 && isDrum == false ) {
 			instrument = "bass";
 		}
-		else if (count == 6) {
+		else if (count == 6 && isDrum == false) {
 			instrument = "guitar";
 		}
 		else {
@@ -100,7 +106,8 @@ public class TextFileReader {
 		}
 		
 		System.out.println(instrument);
-		System.out.println(count);
+//		System.out.println(count);
+		
 		return instrument;
 	}
 	/**
