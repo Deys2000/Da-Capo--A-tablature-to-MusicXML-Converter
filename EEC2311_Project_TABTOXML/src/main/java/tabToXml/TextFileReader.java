@@ -82,7 +82,7 @@ public class TextFileReader {
 	 * determines the instrument based on the number of lines
 	 * still in progress
 	 */
-	private void detectInstrument(){
+	private String detectInstrument(){
 		
 		//variables
 		Scanner sc = null;
@@ -118,6 +118,7 @@ public class TextFileReader {
 		else {
 			instrument = drums;
 		}
+		return instrument;
 	}
 	/**
 	 * Prints the parsed text file
