@@ -73,7 +73,7 @@ public class Iterator {
 					
 					if(Character.isDigit(curFret)) {
 						
-						System.out.println(tuning[currentLine] + " + " + curFret + " = " + translate(tuning[currentLine], Character.getNumericValue(curFret)));
+						// System.out.println(tuning[currentLine] + " + " + curFret + " = " + translate(tuning[currentLine], Character.getNumericValue(curFret)));
 						notesArr.add(translate(tuning[currentLine], Character.getNumericValue(curFret)));
 						
 						hasFret = true;
@@ -96,7 +96,7 @@ public class Iterator {
 					
 					if(Character.isDigit(curFret)) {
 						
-						System.out.println(tuning[currentLine] + " + " + curFret + " = " + translate(tuning[currentLine], Character.getNumericValue(curFret)));
+						// System.out.println(tuning[currentLine] + " + " + curFret + " = " + translate(tuning[currentLine], Character.getNumericValue(curFret)));
 						notesArr.add(translate(tuning[currentLine], Character.getNumericValue(curFret)));
 						
 						hasFret = true;
