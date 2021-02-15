@@ -82,8 +82,12 @@ public class HomeController {
 	 */
 	public void reader() {
 		TextFileReader gt = new TextFileReader(selectedFile.getAbsolutePath());
-		tabTextArea1.setText(gt.printOrginal());		
-		tabTextArea2.setText(gt.printParsed().toString());
+		tabTextArea1.setText(gt.printOrginal());	
+		
+		for (int i = 0; i < gt.printParsed().size(); i++) {
+			tabTextArea2.setText(gt.printParsed().get(i).toString());
+		}
+		
 	}
 	
 }
