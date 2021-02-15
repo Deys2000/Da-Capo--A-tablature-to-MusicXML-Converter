@@ -65,10 +65,12 @@ public class RhythmParserTest {
 			expected.add(arr[i]);
 		}
 		
+		System.out.println("expected: \t" + expected);
+		
 		ArrayList<String> actual = RhythmParser.parseToRhythm(test);
 		assertEquals(expected,actual);
 		
-		System.out.println("translation: " + actual);
+		System.out.println("translation: \t" + actual);
 	}
 
 }

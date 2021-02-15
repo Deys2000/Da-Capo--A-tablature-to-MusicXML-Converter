@@ -32,7 +32,7 @@ public class RhythmParser {
 			currentLine = 0;
 			hasFret = false;
 			
-			System.out.println("current counter: " + counter);
+			// System.out.println("current counter: " + counter);
 			
 			// Skip "|" and padding "-"
 			if (parsedTab.get(0).charAt(counter) == '|') {
@@ -44,13 +44,13 @@ public class RhythmParser {
 					isCounting = false;
 				}
 				
-				System.out.println("char: " + parsedTab.get(currentLine).charAt(counter));
+				// System.out.println("char: " + parsedTab.get(currentLine).charAt(counter));
 				
-				System.out.println("adding | to result");
+				// System.out.println("adding | to result");
 				result.add("|");
 				counter += 1; // skipping both '|' and padding '-'
 				
-				System.out.println("current counter: " + counter);
+				// System.out.println("current counter: " + counter);
 			}
 			
 			// Should be only run before a note is encountered
@@ -59,7 +59,7 @@ public class RhythmParser {
 				// Check when the next note starts // NOTE ONLY WORKS FOR FRETS 0-9
 				while(hasFret == false && currentLine < lines) {
 					
-					System.out.println("char: " + parsedTab.get(currentLine).charAt(counter));
+					//System.out.println("char: " + parsedTab.get(currentLine).charAt(counter));
 					
 					if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
 						hasFret = true;
@@ -76,11 +76,11 @@ public class RhythmParser {
 				// System.out.println("Second Branch");
 				while(hasFret == false && currentLine < lines) {
 					
-					System.out.println("char: " + parsedTab.get(currentLine).charAt(counter));
+					//System.out.println("char: " + parsedTab.get(currentLine).charAt(counter));
 					
 					if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
 						hasFret = true;
-						System.out.println("adding " + noteLength + " to result");
+						//System.out.println("adding " + noteLength + " to result");
 						result.add("" + noteLength);
 						noteLength = 0;
 					}
@@ -95,9 +95,9 @@ public class RhythmParser {
 		}
 		
 		// Last note length and ending barline is added
-		System.out.println("adding " + noteLength + " to result");
+		//System.out.println("adding " + noteLength + " to result");
 		result.add("" + noteLength);
-		System.out.println("adding || to result");
+		//System.out.println("adding || to result");
 		result.add("||");
 		//rhythmLine += "[" + noteLength + "]";
 		//result.add(rhythmLine);
