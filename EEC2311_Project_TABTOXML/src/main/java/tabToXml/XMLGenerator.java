@@ -24,13 +24,17 @@ public class XMLGenerator {
  
     public static void runner() {
  
+    	//the values are as follows
+    	// division, fifths, beats, beat type, sign, line and stafflines, tuningsteps and tuning octaves 
     	String[][] attributeVals = {};
     	
-    	//noteVals contains: duration, step, alter and octave in each row
-    	String[][] noteVals = {	{"1","E","1","5"},
-    							{"1","E",null,"4"},
-    							{"1","E","1","3"},
-    							{"1",null,"1","2"}			};
+    	
+    	// noteVals array contain all the information for each note
+    	//each row contains: duration, step, alter,octave,type,string,fret in each row
+    	String[][] noteVals = {	{"1","E","1","5","2","eighth","6","3"},
+    							{"1","E",null,"4","2","eighth","4","2"},
+    							{"1","E","1","3","2","eighth","3","1"},
+    							{"1",null,"1","2","2","eighth","2","0"}			};
     	
         DocumentBuilderFactory documentbuilderfactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentbuilder;
