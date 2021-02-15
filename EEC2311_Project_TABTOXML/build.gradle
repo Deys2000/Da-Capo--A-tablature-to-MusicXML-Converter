@@ -9,12 +9,20 @@
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java-library'
+    id 'application'
+    id "org.openjfx.javafxplugin" version "0.0.9"
 }
 
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
-    jcenter()
+    mavenCentral()
+}
+
+javafx{
+	version = "15"
+	modules = [ 'javafx.controls', 'javafx.fxml' ]
+	
 }
 
 dependencies {
@@ -27,3 +35,6 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }
+
+
+mainClassName = 'org.openjfx.Main'
