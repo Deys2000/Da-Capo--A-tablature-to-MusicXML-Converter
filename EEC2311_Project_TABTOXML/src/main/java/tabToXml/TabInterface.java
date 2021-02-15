@@ -36,6 +36,9 @@ public class TabInterface {
 		return newNote;
 	}
 	
+	/*This method takes the input file and parses that into a 2d array. 
+	 *The result of that 2d array is used to obtain the fret and chord/note
+	 *using the translate() method above. */
 	public ArrayList<String> translateParsed(String inputfile) {
 		
 		TextFileReader tabReader = new TextFileReader(inputfile);
@@ -47,6 +50,7 @@ public class TabInterface {
 //		int col = tabReader.printParsed().get(0).size();
 		int next = tabReader.printParsed().get(0).get(0).length();
 		char fret2 = '\0';
+		String tmp = "";
 		
 
 			for (int j = 0; j < next; j++) {
@@ -57,6 +61,7 @@ public class TabInterface {
 					int fret = Character.getNumericValue(fret2);
 					if (fret2 >= '0' && fret2 <= '9') {
 						if (i == 0) {
+							tmp = "";
 							if (chord.isEmpty()) {
 								chord = translate("E4", fret);
 							}else {
@@ -66,6 +71,7 @@ public class TabInterface {
 							note.add(chord);
 							fretNum.add(fret);
 						}else if (i == 1) {
+							tmp = "";
 							if (chord.isEmpty()) {
 								chord = translate("B3", fret);
 							}else {
@@ -75,6 +81,7 @@ public class TabInterface {
 							note.add(chord);
 							fretNum.add(fret);
 						}else if (i == 2) {
+							tmp = "";
 							if (chord.isEmpty()) {
 								chord = translate("G3", fret);
 							}else {
@@ -84,6 +91,7 @@ public class TabInterface {
 							note.add(chord);
 							fretNum.add(fret);
 						}else if (i == 3) {
+							tmp = "";
 							if (chord.isEmpty()) {
 								chord = translate("D3", fret);
 							}else {
@@ -93,6 +101,7 @@ public class TabInterface {
 							note.add(chord);
 							fretNum.add(fret);
 						}else if (i == 4) {
+							tmp = "";
 							if (chord.isEmpty()) {
 								chord = translate("A2", fret);
 							}else {
@@ -102,6 +111,7 @@ public class TabInterface {
 							note.add(chord);
 							fretNum.add(fret);
 						}else if (i == 5) {
+							tmp = "";
 							if (chord.isEmpty()) {
 								chord = translate("E2", fret);
 							}else {
@@ -109,10 +119,14 @@ public class TabInterface {
 								chord = translate("E2", fret) + "+" +  chord;
 							}
 							note.add(chord);
-
 							fretNum.add(fret);
 						}
 						
+					}else if (fret2 == '|') {
+						if (tmp.isEmpty()) {
+							tmp = fret2 + "";
+							note.add(tmp);
+						}
 					}
 					
 					
