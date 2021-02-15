@@ -82,7 +82,7 @@ public class TextFileReader {
 	 * determines the instrument based on the number of lines
 	 * still in progress
 	 */
-	private String detectInstrument(){
+	public String detectInstrument(){
 		
 		//variables
 		Scanner sc = null;
@@ -105,7 +105,7 @@ public class TextFileReader {
 		}
 		finally {
 			sc.close();
-		}		
+		}
 		
 		if(count == 4) {
 			instrument = bass;
