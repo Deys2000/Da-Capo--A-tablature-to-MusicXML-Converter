@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TabInterface {
+	
+	public ArrayList<String> note = new ArrayList<>();
+	public ArrayList<String> fretString = new ArrayList<>();
+	public ArrayList<String> fretNum = new ArrayList<>();
+	
 
 	/**
 	 * Converts a Note
@@ -39,22 +44,23 @@ public class TabInterface {
 	/*This method takes the input file and parses that into a 2d array. 
 	 *The result of that 2d array is used to obtain the fret and chord/note
 	 *using the translate() method above. */
-	public ArrayList<String> translateParsed(String inputfile) {
+	public void translateParsed(String inputfile) {
 		
 		TextFileReader tabReader = new TextFileReader(inputfile);
-		ArrayList<String> note = new ArrayList<>();
-		//ArrayList<Character> fretChar = new ArrayList<>();
-		ArrayList<Integer> fretNum = new ArrayList<>();
 		
 		int row = tabReader.printParsed().size();
 //		int col = tabReader.printParsed().get(0).size();
 		int next = tabReader.printParsed().get(0).get(0).length();
 		char fret2 = '\0';
 		String tmp = "";
-		
+		int cal = 0;
 
 			for (int j = 0; j < next; j++) {
 				String chord = "";
+				String fretNumVar = "";
+				String fretStringVar = "";
+				
+				
 				for(int i = 0; i < row; i++) {
 					
 					fret2 = tabReader.printParsed().get(i).get(0).charAt(j);
@@ -62,78 +68,152 @@ public class TabInterface {
 					if (fret2 >= '0' && fret2 <= '9') {
 						if (i == 0) {
 							tmp = "";
-							if (chord.isEmpty()) {
+							if (chord.isEmpty() && fretNumVar.isEmpty() && fretStringVar.isEmpty()) {
 								chord = translate("E4", fret);
+								fretNumVar = fret + "";
+								cal = i + 1;
+								fretStringVar = cal + "";
+								
 							}else {
 								note.remove(note.size() - 1);
+								fretNum.remove(fretNum.size() - 1);
+								fretString.remove(fretString.size()-1);
 								chord = translate("E4", fret) + "+" + chord;
+								fretNumVar = fretNumVar + "+" + fret;
+								fretStringVar = fretStringVar + "+" + cal;
 							}
 							note.add(chord);
-							fretNum.add(fret);
+							fretNum.add(fretNumVar);
+							fretString.add(fretStringVar);
 						}else if (i == 1) {
 							tmp = "";
 							if (chord.isEmpty()) {
 								chord = translate("B3", fret);
+								fretNumVar = fret + "";
+								cal = i + 1;
+								fretStringVar = cal + "";
 							}else {
 								note.remove(note.size() - 1);
+								fretNum.remove(fretNum.size() - 1);
+								fretString.remove(fretString.size()-1);
 								chord = translate("B3", fret) + "+" + chord;
+								fretNumVar = fretNumVar + "+" + fret;
+								fretStringVar = fretStringVar + "+" + cal;
 							}
 							note.add(chord);
-							fretNum.add(fret);
+							fretNum.add(fretNumVar);
+							fretString.add(fretStringVar);
 						}else if (i == 2) {
 							tmp = "";
 							if (chord.isEmpty()) {
 								chord = translate("G3", fret);
+								fretNumVar = fret + "";
+								cal = i + 1;
+								fretStringVar = cal + "";
 							}else {
 								note.remove(note.size() - 1);
+								fretNum.remove(fretNum.size() - 1);
+								fretString.remove(fretString.size()-1);
 								chord = translate("G3", fret)  + "+" + chord;
+								fretNumVar = fretNumVar + "+" + fret;
+								fretStringVar = fretStringVar + "+" + cal;
 							}
 							note.add(chord);
-							fretNum.add(fret);
+							fretNum.add(fretNumVar);
+							fretString.add(fretStringVar);
 						}else if (i == 3) {
 							tmp = "";
 							if (chord.isEmpty()) {
 								chord = translate("D3", fret);
+								fretNumVar = fret + "";
+								cal = i + 1;
+								fretStringVar = cal + "";
 							}else {
 								note.remove(note.size() - 1);
+								fretNum.remove(fretNum.size() - 1);
+								fretString.remove(fretString.size()-1);
 								chord = translate("D3", fret)  + "+" +  chord;
+								fretNumVar = fretNumVar + "+" + fret;
+								fretStringVar = fretStringVar + "+" + cal;
 							}
 							note.add(chord);
-							fretNum.add(fret);
+							fretNum.add(fretNumVar);
+							fretString.add(fretStringVar);
 						}else if (i == 4) {
 							tmp = "";
 							if (chord.isEmpty()) {
 								chord = translate("A2", fret);
+								fretNumVar = fret + "";
+								cal = i + 1;
+								fretStringVar = cal + "";
 							}else {
 								note.remove(note.size() - 1);
+								fretNum.remove(fretNum.size() - 1);
+								fretString.remove(fretString.size()-1);
 								chord =  translate("A2", fret) + "+" +  chord;
+								fretNumVar = fretNumVar + "+" + fret;
+								fretStringVar = fretStringVar + "+" + cal;
 							}
 							note.add(chord);
-							fretNum.add(fret);
+							fretNum.add(fretNumVar);
+							fretString.add(fretStringVar);
 						}else if (i == 5) {
 							tmp = "";
 							if (chord.isEmpty()) {
 								chord = translate("E2", fret);
+								fretNumVar = fret + "";
+								cal = i + 1;
+								fretStringVar = cal + "";
 							}else {
 								note.remove(note.size() - 1);
+								fretNum.remove(fretNum.size() - 1);
+								fretString.remove(fretString.size()-1);
 								chord = translate("E2", fret) + "+" +  chord;
+								fretNumVar = fretNumVar + "+" + fret;
+								fretStringVar = fretStringVar + "+" + cal;
+							
 							}
 							note.add(chord);
-							fretNum.add(fret);
+							fretNum.add(fretNumVar);
+							fretString.add(fretStringVar);
 						}
 						
 					}else if (fret2 == '|') {
 						if (tmp.isEmpty()) {
 							tmp = fret2 + "";
 							note.add(tmp);
+							fretNum.add(tmp);
+							fretString.add(tmp);
 						}
 					}
 					
 					
 				}	
 			}
-		System.out.print("Fret Num: " + fretNum + " Fret size: " + fretNum.size() + "\n");
-		return note;
+		
+			note.remove(note.size() - 1);
+			fretNum.remove(fretNum.size() - 1);
+			fretString.remove(fretString.size()-1);
+			note.add("||");
+			fretNum.add("||");
+			fretString.add("||");
+//		System.out.print("Fret String: " + fretString + " Fret size: " + fretString.size() + "\n");
+//		System.out.print("Fret Num: " + fretNum + " Fret size: " + fretNum.size() + "\n");
+//		System.out.print("\nNote size: " + note.size());
+		
 	
 	}
+	
+	public ArrayList<String> notes(){
+		return note;
+	}
+	
+	public ArrayList<String> fretStrings(){
+		return fretString;
+	}
+	
+	public ArrayList<String> fretNums(){
+		return fretNum;
+	}
+	
 }

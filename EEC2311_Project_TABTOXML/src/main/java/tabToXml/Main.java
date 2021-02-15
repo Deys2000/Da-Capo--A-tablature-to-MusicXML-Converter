@@ -28,7 +28,10 @@ public class Main extends Application {
 			System.out.print(fileReader.printParsed().get(i) + "\n");
 		}
 		
-		System.out.print(tmp.translateParsed("test.txt"));
+		tmp.translateParsed("test.txt");
+		System.out.print("\nNotes: " + tmp.notes() + " size of array: " + tmp.notes().size());
+		System.out.print("\nFrets: " + tmp.fretNums() + " size of array: " + tmp.fretNums().size());
+		System.out.print("\nFret Strings: " + tmp.fretStrings() + " size of array: " + tmp.fretStrings().size());
 		//new stuff
 		
 	}
