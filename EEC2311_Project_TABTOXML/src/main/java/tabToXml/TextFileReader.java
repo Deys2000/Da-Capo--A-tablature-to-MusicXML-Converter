@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class TextFileReader {
 	
 	private File inputFile;
+	int count;
 	
 	//Original text 
 	private ArrayList<String> originalTab = new ArrayList<String>();
@@ -24,7 +25,8 @@ public class TextFileReader {
 	public TextFileReader(String inputFile){
 		this.inputFile = new File(inputFile);
 		this.createOriginal();
-		this.createParsed();		
+		this.detectInstrument();
+		this.createParsed();
 	}
 	
 	/**
@@ -37,7 +39,8 @@ public class TextFileReader {
 			
 			while(sc.hasNextLine()){	
 				String line = sc.nextLine();
-				originalTab.add(line);					
+				originalTab.add(line);
+				count++;
 				}		
 		}
 		catch(FileNotFoundException e) {
@@ -45,7 +48,7 @@ public class TextFileReader {
 		}
 		finally {
 			sc.close();
-		}		
+		}
 	}
 	
 	/**
@@ -82,40 +85,22 @@ public class TextFileReader {
 	 * determines the instrument based on the number of lines
 	 * still in progress
 	 */
-	public String detectInstrument(){
+	public String detectInstrument(){	
+		String instrument ="weewee";
 		
-		//variables
-		Scanner sc = null;
-		
-		String instrument = null;
-		String bass = null;
-		String guitar = null;
-		String drums = null;
-		int count = 0;
-		
-		try {
-			sc = new Scanner(inputFile);
-			
-			while(sc.hasNextLine()){	
-				count++;					
-				}		
-		}
-		catch(FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		finally {
-			sc.close();
-		}
 		
 		if(count == 4) {
-			instrument = bass;
+			instrument = "bass";
 		}
 		else if (count == 6) {
-			instrument = guitar;
+			instrument = "guitar";
 		}
 		else {
-			instrument = drums;
+			instrument = "drums";
 		}
+		
+		System.out.println(instrument);
+		System.out.println(count);
 		return instrument;
 	}
 	/**
