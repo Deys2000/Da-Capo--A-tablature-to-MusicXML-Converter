@@ -1,5 +1,9 @@
 package tabToXml;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,7 +24,11 @@ public class Main extends Application {
 	
 
 		System.out.print("Launching Application" + "\n");
-		launch(args);
+		//launch(args);
+		sideTask();
+	}
+	
+	public static void sideTask() throws Exception {
 		TextFileReader fileReader = new TextFileReader("test.txt");
 		TabInterface tmp = new TabInterface();
 		
@@ -29,13 +37,19 @@ public class Main extends Application {
 		}
 		
 		tmp.translateParsed("test.txt");
-		System.out.print("\nNotes: " + tmp.notes() + " size of array: " + tmp.notes().size());
-		System.out.print("\nFrets: " + tmp.fretNums() + " size of array: " + tmp.fretNums().size());
-		System.out.print("\nFret Strings: " + tmp.fretStrings() + " size of array: " + tmp.fretStrings().size());
+		System.out.println("Notes: " + tmp.notes() + " size of array: " + tmp.notes().size());
+		System.out.println("Frets: " + tmp.fretNums() + " size of array: " + tmp.fretNums().size());
+		System.out.println("Fret Strings: " + tmp.fretStrings() + " size of array: " + tmp.fretStrings().size());
 
+		RhythmParser rhythmParser = new RhythmParser(4);
+        rhythmParser.parseToRhythm(fileReader.printParsed2());
+		
+        System.out.println("duration: \t" + rhythmParser.getDurationArr() + " Length of Array:" + rhythmParser.getDurationArr().size() );
+	    System.out.println("type: \t" + rhythmParser.getTypeArr() + " Length of Array:" + rhythmParser.getTypeArr().size() );
 		
 		//new stuff
-		XMLGenerator.runner();
+	    String[][] information = XMLGenerator.processor(tmp.notes(), tmp.fretNums(), tmp.fretStrings(), rhythmParser.getDurationArr(), rhythmParser.getTypeArr());
+		XMLGenerator.runner(information);
 		System.exit(0);
 	}
 

@@ -93,6 +93,14 @@ public class RhythmParser {
         typeArr.add(durationToType(noteLength, divisions));
         durationArr.add("||");
         typeArr.add("||");
+        
+        // small temporary fix for error- Syed
+        if(durationArr.size() > 3 && typeArr.size() > 3) {
+        	durationArr.remove(durationArr.size()-2);
+        	durationArr.remove(durationArr.size()-2);
+        	typeArr.remove(typeArr.size()-2);
+        	typeArr.remove(typeArr.size()-2);
+        }
     }
     
     private String durationToType(int duration, int divisions) {
@@ -110,7 +118,7 @@ public class RhythmParser {
             result = "quarter";
         }
         else if (durOverDiv == 0.5) {
-            result = "eigth";
+            result = "eighth";
         }
         else if (durOverDiv == 0.25) {
             result = "sixteenth";
@@ -120,4 +128,10 @@ public class RhythmParser {
         
         
     }    
+    public ArrayList<String> getTypeArr(){
+    	return this.typeArr;
+    }
+    public ArrayList<String> getDurationArr(){
+    	return this.durationArr;
+    }
 }

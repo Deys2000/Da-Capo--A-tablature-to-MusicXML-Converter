@@ -194,6 +194,13 @@ public class TextFileReader {
 		return parsedTab;
 	}
 	
+	public ArrayList<String> printParsed2() {	
+		ArrayList<String> s = new ArrayList<String>();
+		for(List<String> pt : parsedTab)
+			s.add(pt.toString());
+		return s;
+	}
+	
 	
 	/**
 	 * Prints the original text file
