@@ -26,6 +26,7 @@ public class Main extends Application {
 		System.out.print("Launching Application" + "\n");
 		launch(args);
 		//sideTask();
+		//
 	}
 	
 	public static void sideTask() throws Exception {
