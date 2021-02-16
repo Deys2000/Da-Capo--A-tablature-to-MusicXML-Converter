@@ -20,7 +20,7 @@ public class Main extends Application {
 	
 
 		System.out.print("Launching Application" + "\n");
-		//launch(args);
+		launch(args);
 		TextFileReader fileReader = new TextFileReader("test.txt");
 		TabInterface tmp = new TabInterface();
 		
