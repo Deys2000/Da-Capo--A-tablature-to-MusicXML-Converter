@@ -56,7 +56,12 @@
             </HBox>
             <Label fx:id="statusLabel" layoutX="10.0" layoutY="76.0" text="File Status: ">
                <VBox.margin>
-                  <Insets bottom="5.0" left="8.0" />
+                  <Insets bottom="2.0" left="8.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="instrumentLabel" layoutX="18.0" layoutY="80.0" text="Instrument Detection: ">
+               <VBox.margin>
+                  <Insets bottom="2.0" left="8.0" />
                </VBox.margin>
             </Label>
          </children>

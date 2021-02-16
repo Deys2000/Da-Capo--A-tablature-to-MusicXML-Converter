@@ -30,7 +30,7 @@ public class HomeController {
 	@FXML
 	private Button viewText2, viewparsed2, viewXml2;
 	@FXML
-	private Label filePathLabel, statusLabel;
+	private Label filePathLabel, statusLabel, instrumentLabel;
 	@FXML
 	private TextArea tabTextArea1, tabTextArea2;
 	
@@ -69,6 +69,8 @@ public class HomeController {
 			statusLabel.setTextFill(Color.RED);
 			statusLabel.setText("File Status: NOT a \".txt\" file, pls select a .txt file");
 			tabTextArea1.setText("");
+			tabTextArea2.setText("");
+			instrumentLabel.setText("Instrument Detection: Unable to Identify");
 		}		
 	}
 	
@@ -115,6 +117,7 @@ public class HomeController {
 		//System.exit(0);
 
 		instrument = guitarTab.detectInstrument();
+		instrumentLabel.setText("Instrument Detection: " + instrument);
 	}
 	
 }

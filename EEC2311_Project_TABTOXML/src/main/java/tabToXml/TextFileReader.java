@@ -137,7 +137,7 @@ public class TextFileReader {
 	 * still in progress
 	 */
 	public String detectInstrument(){	
-		String instrument ="";
+		String instrument = "Unable to Identify";
 		
 		if(count == 4 && isDrum == false ) {
 			instrument = "bass";
@@ -145,13 +145,12 @@ public class TextFileReader {
 		else if (count == 6 && isDrum == false) {
 			instrument = "guitar";
 		}
-		else {
+		else{
 			instrument = "drums";
 		}
 		
-//		System.out.println(count);
-		
-		return instrument;
+		//for now we just return guitar
+		return "Guitar";
 	}
 	
 //	/**
