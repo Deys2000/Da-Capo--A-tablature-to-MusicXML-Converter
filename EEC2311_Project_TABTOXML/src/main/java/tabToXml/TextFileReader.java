@@ -24,7 +24,7 @@ public class TextFileReader {
 	public TextFileReader(String inputFile){
 		this.inputFile = new File(inputFile);
 		this.createOriginal();
-		this.createParsed();
+		//this.createParsed();
 	}
 	
 	/**
@@ -48,42 +48,42 @@ public class TextFileReader {
 		}		
 	}
 	
-	/**
-	 * Creates a parsed array of the file in parsedTab variable
-	 */
-	private void createParsed(){
-		Scanner sc = null;
-		try {
-			sc = new Scanner(inputFile);
-			List<String> list = new ArrayList<>();
-			String previousLine = "";
-			
-			if (sc.hasNextLine()) {
-				previousLine = sc.nextLine();
-				list.add(previousLine);
-				parsedTab.add(list);
-				list = new ArrayList<>();	
-			}
-			
-			while(sc.hasNextLine()){
-				
-				String line = sc.nextLine();
-
-				if ((previousLine.contains("-") && previousLine.contains("|")) && (line.contains("-") && line.contains("|"))) {
-					list.add(line);
-					parsedTab.add(list);
-					list = new ArrayList<>();						
-				}		
-				previousLine = line;			
-			}		
-		}
-		catch(FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		finally {
-			sc.close();
-		}
-	}
+//	/**
+//	 * Creates a parsed array of the file in parsedTab variable
+//	 */
+//	private void createParsed(){
+//		Scanner sc = null;
+//		try {
+//			sc = new Scanner(inputFile);
+//			List<String> list = new ArrayList<>();
+//			String previousLine = "";
+//			
+//			if (sc.hasNextLine()) {
+//				previousLine = sc.nextLine();
+//				list.add(previousLine);
+//				parsedTab.add(list);
+//				list = new ArrayList<>();	
+//			}
+//			
+//			while(sc.hasNextLine()){
+//				
+//				String line = sc.nextLine();
+//
+//				if ((previousLine.contains("-") && previousLine.contains("|")) && (line.contains("-") && line.contains("|"))) {
+//					list.add(line);
+//					parsedTab.add(list);
+//					list = new ArrayList<>();						
+//				}		
+//				previousLine = line;			
+//			}		
+//		}
+//		catch(FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//		finally {
+//			sc.close();
+//		}
+//	}
 	
 	/**
 	 * Prints the parsed text file
