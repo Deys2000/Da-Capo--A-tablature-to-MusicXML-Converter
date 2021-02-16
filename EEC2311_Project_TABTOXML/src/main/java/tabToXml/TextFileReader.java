@@ -60,26 +60,70 @@ public class TextFileReader {
 		Scanner sc = null;
 		try {
 			sc = new Scanner(inputFile);
-			List<String> list = new ArrayList<>();
+			
+			
+			List<String> listE2 = new ArrayList<>();
+			List<String> listB2 =new ArrayList<>();
+			List<String> listG3 = new ArrayList<>();
+			List<String> listD3 = new ArrayList<>();
+			List<String> listA3 = new ArrayList<>();
+			List<String> listD4 = new ArrayList<>();
+			
+			String lineE2 = "E|";
+			String lineB2 = "B|";
+			String lineG3 = "G|";
+			String lineD3 = "D|";
+			String lineA3 = "A|";
+			String lineD4 = "D|";
 			
 			String previousLine = "";
 			while(sc.hasNextLine()){
-				
-				String line = sc.nextLine();
-				if (!(previousLine.isEmpty()) && (line.contains("-") && line.contains("|")))
-					list.add(line);
-					
-				if ((previousLine.contains("-") && previousLine.contains("|")) && !(line.contains("-") && line.contains("|"))) {					
-					parsedTab.add(list);
-					list = new ArrayList<>();						
-				}
-				
-				previousLine = line;
-				//differentiates between drum or other tab
+
+					String line = sc.nextLine();
+					if (line.contains("-") && line.contains("|") && line.matches(".*[a-zA-Z].*")) {
+						//list.add(line);
+						
+						if (line.contains("E") && !(previousLine.contains("A"))) {
+							lineE2 = lineE2 + line.substring(2, line.length());
+						}
+						else if (!(previousLine.isEmpty()) && previousLine.contains("A")) {
+							lineD4 = lineD4 + line.substring(2, line.length());
+							
+						}
+						else if (line.contains("B")) {
+							lineB2 = lineB2 + line.substring(2, line.length());
+						}
+						else if (line.contains("G")) {
+							lineG3 = lineG3 + line.substring(2, line.length());
+						}
+						else if (line.contains("D")) {
+							lineD3 = lineD3 + line.substring(2, line.length());
+						}
+						else if (line.contains("A")) {
+							lineA3 = lineA3 + line.substring(2, line.length());
+						}
+					} 			
+	
+				previousLine = line;	
+				//miguel info
 				if(line.contains("o")) {
 					isDrum = true;
 				}
-			}		
+			}
+			listE2.add(lineE2);
+			listD4.add(lineD4);
+			listB2.add(lineB2);
+			listG3.add(lineG3);
+			listD3.add(lineD3);
+			listA3.add(lineA3);
+			
+			parsedTab.add(listE2);
+			parsedTab.add(listB2);
+			parsedTab.add(listG3);
+			parsedTab.add(listD3);
+			parsedTab.add(listA3);
+			parsedTab.add(listD4);
+			
 		}
 		catch(FileNotFoundException e) {
 			e.printStackTrace();
@@ -105,18 +149,70 @@ public class TextFileReader {
 			instrument = "drums";
 		}
 		
-		System.out.println(instrument);
 //		System.out.println(count);
 		
 		return instrument;
 	}
+	
+//	/**
+//	 * Creates a parsed array of the file in parsedTab variable
+//	 */
+//	private void createParsed(){
+//		Scanner sc = null;
+//		try {
+//			sc = new Scanner(inputFile);
+//			List<String> list = new ArrayList<>();
+//			String previousLine = "";
+//			
+//			if (sc.hasNextLine()) {
+//				previousLine = sc.nextLine();
+//				list.add(previousLine);
+//				parsedTab.add(list);
+//				list = new ArrayList<>();	
+//			}
+//			
+//			while(sc.hasNextLine()){
+//				
+//				String line = sc.nextLine();
+//
+//				if ((previousLine.contains("-") && previousLine.contains("|")) && (line.contains("-") && line.contains("|"))) {
+//					list.add(line);
+//					parsedTab.add(list);
+//					list = new ArrayList<>();						
+//				}		
+//				previousLine = line;			
+//			}		
+//		}
+//		catch(FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//		finally {
+//			sc.close();
+//		}
+//	}
+	
+	public String getParsedString() {
+		StringBuilder sb = new StringBuilder();
+		for(List<String> s : parsedTab)
+			sb.append(s.toString()+"\n");
+		return sb.toString();
+	}
+	
 	/**
 	 * Prints the parsed text file
 	 * @return
 	 */
-	public List<List<String>> printParsed() {		
+	public List<List<String>> printParsed() {	
 		return parsedTab;
 	}
+	
+	public ArrayList<String> printParsed2() {	
+		ArrayList<String> s = new ArrayList<String>();
+		for(List<String> pt : parsedTab)
+			s.add(pt.toString());
+		return s;
+	}
+	
 	
 	/**
 	 * Prints the original text file
