@@ -4,6 +4,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import javax.xml.transform.stream.StreamResult;
  
 public class XMLGenerator {
  
-    public static void runner(String[][] noteValsX) {
+    public static String runner(String[][] noteValsX) {
  
     	//the values are as follows
     	// division, fifths, beats, beat type, sign, line and stafflines, tuningsteps and tuning octaves 
@@ -47,6 +48,7 @@ public class XMLGenerator {
     	
         DocumentBuilderFactory documentbuilderfactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentbuilder;
+        String xmlString = "";
         
         try {
         	
@@ -62,13 +64,22 @@ public class XMLGenerator {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");            
             DOMSource source = new DOMSource(musicTab);
-            StreamResult console = new StreamResult(System.out);
-            transformer.transform(source, console);
-            System.out.println("XML complete");
+           
+            
+            StringWriter writer = new StringWriter();
+            
+            //transform document to string 
+            transformer.transform(source, new StreamResult(writer));
+     
+            xmlString = writer.getBuffer().toString();   
+
+            
             
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        return xmlString;  
     }
  
     private static void getScorePartwise(Document doc, String[][] attributeVals, String[][] noteVals) {
@@ -286,7 +297,7 @@ public class XMLGenerator {
     	for(int i = 0; i < notes.size(); i++) {
     		infoArray[i][0] = durationArr.get(i);
     		infoArray[i][1] = notes.get(i).substring(0,1);
-    		infoArray[i][2] = "1(default4now)";
+    		infoArray[i][2] = "1"; //default4now
     		infoArray[i][3] = notes.get(i).substring(1,2);
     		infoArray[i][4] = typeArr.get(i);
     		infoArray[i][5] = fretStrings.get(i);

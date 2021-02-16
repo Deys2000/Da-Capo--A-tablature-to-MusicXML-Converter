@@ -17,6 +17,8 @@ public class HomeController {
 	FileChooser fc;
 	File selectedFile, oldFile;
 	String txtFileContents, fileType;
+
+	StringBuilder parsedInfo;
 	
 	public HomeController() {}
 	
@@ -34,9 +36,9 @@ public class HomeController {
 	/**
 	 * Method for action event of file chooser button being clicked
 	 * @param event
-	 * @throws IOException
+	 * @throws Exception 
 	 */
-	public void fileChooser (ActionEvent event) throws IOException{
+	public void fileChooser (ActionEvent event) throws Exception{
 		fc = new FileChooser();
 		selectedFile = fc.showOpenDialog(null);
 		if(selectedFile == null)
@@ -79,14 +81,37 @@ public class HomeController {
 	
 	/**
 	 * Method to read a .txt file and displaying in the field window
+	 * @throws Exception 
 	 */
-	public void reader() {
-		TextFileReader gt = new TextFileReader(selectedFile.getAbsolutePath());
-		tabTextArea1.setText(gt.printOrginal());	
+	public void reader() throws Exception {
+		TextFileReader guitarTab = new TextFileReader(selectedFile.getAbsolutePath());		
+		//set area to be the text from the file
+		tabTextArea1.setText(guitarTab.printOrginal());	
 		
-		for (int i = 0; i < gt.printParsed().size(); i++) {
-			tabTextArea2.setText(gt.printParsed().get(i).toString());
-		}
+		
+		parsedInfo = new StringBuilder();
+		//adding the parsed tab
+		parsedInfo.append(guitarTab.getParsedString());		
+	
+		TabParser tmp = new TabParser();
+		tmp.translateParsed(selectedFile.getAbsolutePath());
+		
+		parsedInfo.append("\nNotes: " + tmp.notes() + " Length of array: " + tmp.notes().size());
+		parsedInfo.append("\nFrets: " + tmp.fretNums() + " Length of array: " + tmp.fretNums().size());
+		parsedInfo.append("\nFret Strings: " + tmp.fretStrings() + " Length of array: " + tmp.fretStrings().size());
+
+		RhythmParser rhythmParser = new RhythmParser(4);
+        rhythmParser.parseToRhythm(guitarTab.printParsed2());
+		
+        parsedInfo.append("\nDuration:" + rhythmParser.getDurationArr() + " Length of Array:" + rhythmParser.getDurationArr().size() );
+	    parsedInfo.append("\nType:" + rhythmParser.getTypeArr() + " Length of Array:" + rhythmParser.getTypeArr().size() );
+		
+		//tabTextArea2.setText(parsedInfo.toString());
+	    
+		//new stuff
+	    String[][] information = XMLGenerator.processor(tmp.notes(), tmp.fretNums(), tmp.fretStrings(), rhythmParser.getDurationArr(), rhythmParser.getTypeArr());
+		tabTextArea2.setText(XMLGenerator.runner(information));
+		//System.exit(0);
 		
 	}
 	

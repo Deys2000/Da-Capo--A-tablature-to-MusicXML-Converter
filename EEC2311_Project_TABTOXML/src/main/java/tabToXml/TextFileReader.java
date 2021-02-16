@@ -185,12 +185,18 @@ public class TextFileReader {
 //		}
 //	}
 	
+	public String getParsedString() {
+		StringBuilder sb = new StringBuilder();
+		for(List<String> s : parsedTab)
+			sb.append(s.toString()+"\n");
+		return sb.toString();
+	}
+	
 	/**
 	 * Prints the parsed text file
 	 * @return
 	 */
 	public List<List<String>> printParsed() {	
-		
 		return parsedTab;
 	}
 	

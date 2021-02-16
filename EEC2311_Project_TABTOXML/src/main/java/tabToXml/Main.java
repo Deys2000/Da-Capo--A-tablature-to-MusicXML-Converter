@@ -24,13 +24,14 @@ public class Main extends Application {
 	
 
 		System.out.print("Launching Application" + "\n");
-		//launch(args);
-		sideTask();
+		launch(args);
+		//sideTask();
 	}
 	
 	public static void sideTask() throws Exception {
+		
 		TextFileReader fileReader = new TextFileReader("test.txt");
-		TabInterface tmp = new TabInterface();
+		TabParser tmp = new TabParser();
 		
 		for (int i = 0; i < fileReader.printParsed().size(); i++) {
 			System.out.print(fileReader.printParsed().get(i) + "\n");
