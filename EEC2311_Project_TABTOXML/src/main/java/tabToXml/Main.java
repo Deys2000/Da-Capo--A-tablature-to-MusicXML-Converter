@@ -16,7 +16,7 @@ public class Main extends Application {
 
 		primaryStage.setTitle("Converter: Text to MusicXML");
 		// keep scene equal or bigger than default in fxml - 800x500
-	    primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("Home.fxml")),800, 500)); 
+	    primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("Home.fxml")), 800, 500)); 
 		primaryStage.show();
 	}
 
@@ -24,8 +24,7 @@ public class Main extends Application {
 
 		System.out.print("Launching Application" + "\n");
 		launch(args);
-		//sideTask();
-		//
+		// sideTask(); // what will launch this? 
 	}
 	
 	public static void sideTask() throws Exception {
