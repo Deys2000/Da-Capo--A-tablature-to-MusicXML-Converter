@@ -1,6 +1,7 @@
 package tabToXml;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class HomeController {
 
@@ -20,6 +22,8 @@ public class HomeController {
 
 	StringBuilder parsedInfo;
 	String instrument = "";
+	
+	public static Stage currentStage;
 	
 	public HomeController() {}
 	
@@ -79,7 +83,26 @@ public class HomeController {
 	 * @param event
 	 */
 	public void converter(ActionEvent event) {
-				
+		saveFile(currentStage);
+	}
+	
+	/**
+	 * Method for saving a file
+	 */
+	public void saveFile(Stage stage) {
+		fc = new FileChooser();
+		fc.setTitle("Save Translation");
+		File file = fc.showSaveDialog(stage);
+		
+		try {
+			FileWriter myWriter = new FileWriter(file);
+			myWriter.write(tabTextArea2.getText());
+			myWriter.close();
+			System.out.println("Successfully written to file.");
+		} catch (IOException e) {
+			System.out.println("Failed to write to file.");
+		}
+		
 	}
 	
 	/**

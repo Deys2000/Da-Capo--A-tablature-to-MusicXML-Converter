@@ -18,6 +18,7 @@ public class Main extends Application {
 		// keep scene equal or bigger than default in fxml - 800x500
 	    primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("Home.fxml")), 800, 500)); 
 		primaryStage.show();
+		HomeController.currentStage = primaryStage;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -51,7 +52,5 @@ public class Main extends Application {
 	    String[][] information = XMLGenerator.processor(tmp.notes(), tmp.fretNums(), tmp.fretStrings(), rhythmParser.getDurationArr(), rhythmParser.getTypeArr());
 		XMLGenerator.runner(information);
 		System.exit(0);
-	}
-
-  
+	}  
 }
