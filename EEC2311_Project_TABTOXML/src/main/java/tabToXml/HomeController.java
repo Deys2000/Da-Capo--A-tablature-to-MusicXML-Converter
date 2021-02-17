@@ -24,7 +24,7 @@ public class HomeController {
 	String instrument = "";
 	String[][] information;
 	
-	public static Stage currentStage;
+	public static Stage currentStage; // acquired from Main when program starts
 	
 	public HomeController() {}
 	
