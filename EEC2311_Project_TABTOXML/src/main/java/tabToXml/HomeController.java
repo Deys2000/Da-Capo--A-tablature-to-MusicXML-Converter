@@ -7,7 +7,10 @@ import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
@@ -97,14 +100,26 @@ public class HomeController {
 		fc = new FileChooser();
 		fc.setTitle("Save Translation");
 		File file = fc.showSaveDialog(stage);
-		
-		try {
+		String operationResult = "Successfully written to file.";
+				
+		try {			
 			FileWriter myWriter = new FileWriter(file);
 			myWriter.write(XMLGenerator.runner(information));
-			myWriter.close();
-			System.out.println("Successfully written to file.");
+			myWriter.close();			
+			
 		} catch (IOException e) {
-			System.out.println("Failed to write to file.");
+			operationResult = "Failed to write to file.";
+		} finally {
+			
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("User Message");
+			alert.setHeaderText("Operation Status");
+			alert.setContentText("Successfully written to file");
+			alert.showAndWait().ifPresent(rs -> {
+			    if (rs == ButtonType.OK) {
+			        System.out.println("Pressed OK.");
+			    }
+			});
 		}
 		
 	}
