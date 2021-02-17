@@ -22,6 +22,7 @@ public class HomeController {
 
 	StringBuilder parsedInfo;
 	String instrument = "";
+	String[][] information;
 	
 	public static Stage currentStage;
 	
@@ -64,17 +65,20 @@ public class HomeController {
 		if (selectedFile == null) {
 			statusLabel.setTextFill(Color.RED);
 			statusLabel.setText("File Status: No file selected, pls select a .txt file");
+			convertButton.setDisable(true);
 		}
 		else if(fileType.equals(".txt")) {
 			statusLabel.setTextFill(Color.GREEN);
 			statusLabel.setText("File Status: A \".txt\" file, you may convert this");
 			reader();
+			convertButton.setDisable(false);
 		}else {
 			statusLabel.setTextFill(Color.RED);
 			statusLabel.setText("File Status: NOT a \".txt\" file, pls select a .txt file");
 			tabTextArea1.setText("");
 			tabTextArea2.setText("");
 			instrumentLabel.setText("Instrument Detection: Unable to Identify");
+			convertButton.setDisable(true);
 		}		
 	}
 	
@@ -96,7 +100,7 @@ public class HomeController {
 		
 		try {
 			FileWriter myWriter = new FileWriter(file);
-			myWriter.write(tabTextArea2.getText());
+			myWriter.write(XMLGenerator.runner(information));
 			myWriter.close();
 			System.out.println("Successfully written to file.");
 		} catch (IOException e) {
@@ -135,7 +139,7 @@ public class HomeController {
 		//tabTextArea2.setText(parsedInfo.toString());
 	    
 		//new stuff
-	    String[][] information = XMLGenerator.processor(tmp.notes(), tmp.fretNums(), tmp.fretStrings(), rhythmParser.getDurationArr(), rhythmParser.getTypeArr());
+	    information = XMLGenerator.processor(tmp.notes(), tmp.fretNums(), tmp.fretStrings(), rhythmParser.getDurationArr(), rhythmParser.getTypeArr());
 		tabTextArea2.setText(XMLGenerator.runner(information));
 		//System.exit(0);
 

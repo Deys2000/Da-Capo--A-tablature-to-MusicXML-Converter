@@ -48,7 +48,7 @@
                      </HBox.margin>
                   </Label>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button fx:id="convertButton" layoutX="536.0" layoutY="10.0" mnemonicParsing="false" onAction="#converter" text="Convert" />
+                  <Button fx:id="convertButton" disable="true" layoutX="536.0" layoutY="10.0" mnemonicParsing="false" onAction="#converter" text="Convert" />
                </children>
                <VBox.margin>
                   <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
