@@ -29,7 +29,7 @@ public class XMLGenerator {
     	//the values are as follows
     	// division, fifths, beats, beat type, sign, line and stafflines, tuningsteps and tuning octaves 
     	String[][] attributeVals = {
-    			{"2"}, // divisions
+    			{"4"}, // divisions
     			{"0"}, // fifths
     			{"4","4"}, // beats and beat-type
     			{"TAB","5"}, // sign and line

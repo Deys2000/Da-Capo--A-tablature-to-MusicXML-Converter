@@ -111,8 +111,8 @@
               </rowConstraints>
                <children>
                   <Button fx:id="viewText1" disable="true" mnemonicParsing="false" text="Text" GridPane.halignment="RIGHT" />
-                  <Button fx:id="viewXml2" disable="true" mnemonicParsing="false" text="Xml" GridPane.columnIndex="2" />
-                  <Button fx:id="viewParsed2" mnemonicParsing="false" text="Parsed" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                  <Button fx:id="viewXml2" mnemonicParsing="false" text="Xml" GridPane.columnIndex="2" />
+                  <Button fx:id="viewParsed2" disable="true" mnemonicParsing="false" text="Parsed" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                </children>
             </GridPane>
             <GridPane GridPane.rowIndex="2">
