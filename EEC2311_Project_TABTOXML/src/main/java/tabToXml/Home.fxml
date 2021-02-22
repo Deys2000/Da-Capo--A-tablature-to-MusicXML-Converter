@@ -48,7 +48,7 @@
                      </HBox.margin>
                   </Label>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button fx:id="convertButton" layoutX="536.0" layoutY="10.0" mnemonicParsing="false" onAction="#converter" text="Convert" />
+                  <Button fx:id="convertButton" disable="true" layoutX="536.0" layoutY="10.0" mnemonicParsing="false" onAction="#converter" text="Convert" />
                </children>
                <VBox.margin>
                   <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
@@ -56,7 +56,12 @@
             </HBox>
             <Label fx:id="statusLabel" layoutX="10.0" layoutY="76.0" text="File Status: ">
                <VBox.margin>
-                  <Insets bottom="5.0" left="8.0" />
+                  <Insets bottom="2.0" left="8.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="instrumentLabel" layoutX="18.0" layoutY="80.0" text="Instrument Detection: ">
+               <VBox.margin>
+                  <Insets bottom="2.0" left="8.0" />
                </VBox.margin>
             </Label>
          </children>
