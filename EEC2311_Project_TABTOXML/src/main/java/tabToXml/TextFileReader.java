@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 /**
- * This Class creates an object that has two String Lists, the original text  and the parsed text
+ * This Class creates an object that has two String Lists, the original text  and the parsedTab text
  * @author Group15
  *
  */
@@ -19,14 +19,14 @@ public class TextFileReader {
 	//Original text 
 	private ArrayList<String> originalTab = new ArrayList<String>();
 	
-	//Parsed text 
-	private List<List<String>> parsedTab = new ArrayList<List<String>>();
+	//parsedTab text 
+	private List<String> parsedTab = new ArrayList<>();
 	
 	//Read in the file
 	public TextFileReader(String inputFile){
 		this.inputFile = new File(inputFile);
 		this.createOriginal();
-		this.createParsed();
+		this.createparsedTab();
 		this.detectInstrument();
 	}
 	
@@ -54,76 +54,36 @@ public class TextFileReader {
 	}
 	
 	/**
-	 * Creates a parsed array of the file in parsedTab variable
+	 * Creates a parsedTab array of the file in parsedTabTab variable
 	 */
-	private void createParsed(){
+	public void createparsedTab(){
 		Scanner sc = null;
 		try {
+			ArrayList<String> extracted  = new ArrayList<>();
 			sc = new Scanner(inputFile);
-			
-			
-			List<String> listE2 = new ArrayList<>();
-			List<String> listB2 =new ArrayList<>();
-			List<String> listG3 = new ArrayList<>();
-			List<String> listD3 = new ArrayList<>();
-			List<String> listA3 = new ArrayList<>();
-			List<String> listD4 = new ArrayList<>();
-			
-			String lineE2 = "E|";
-			String lineB2 = "B|";
-			String lineG3 = "G|";
-			String lineD3 = "D|";
-			String lineA3 = "A|";
-			String lineD4 = "D|";
-			
-			String previousLine = "";
 			while(sc.hasNextLine()){
-
-					String line = sc.nextLine();
-					if (line.contains("-") && line.contains("|") && line.matches(".*[a-zA-Z].*")) {
-						//list.add(line);
-						
-						if (line.contains("E") && !(previousLine.contains("A"))) {
-							lineE2 = lineE2 + line.substring(2, line.length());
-						}
-						else if (!(previousLine.isEmpty()) && previousLine.contains("A")) {
-							lineD4 = lineD4 + line.substring(2, line.length());
-							
-						}
-						else if (line.contains("B")) {
-							lineB2 = lineB2 + line.substring(2, line.length());
-						}
-						else if (line.contains("G")) {
-							lineG3 = lineG3 + line.substring(2, line.length());
-						}
-						else if (line.contains("D")) {
-							lineD3 = lineD3 + line.substring(2, line.length());
-						}
-						else if (line.contains("A")) {
-							lineA3 = lineA3 + line.substring(2, line.length());
-						}
-					} 			
-	
-				previousLine = line;	
-				//miguel info
-				if(line.contains("o")) {
-					isDrum = true;
+				
+				String line = sc.nextLine();
+				if (line.contains("-") && line.contains("|")) {// default tuning EADGBE
+						extracted.add(line);
 				}
 			}
-			listE2.add(lineE2);
-			listD4.add(lineD4);
-			listB2.add(lineB2);
-			listG3.add(lineG3);
-			listD3.add(lineD3);
-			listA3.add(lineA3);
-			
-			parsedTab.add(listE2);
-			parsedTab.add(listB2);
-			parsedTab.add(listG3);
-			parsedTab.add(listD3);
-			parsedTab.add(listA3);
-			parsedTab.add(listD4);
-			
+			for(int i = 0; i < extracted.size(); i++) 
+			{
+				// check if tab has base note here
+				// if not set base note to default
+				// default tuning EADGBE
+				if(i >= 6) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(parsedTab.get(i % 6));
+				sb.append(extracted.get(i).substring(2));
+				parsedTab.set(i%6, sb.toString());
+				}
+				else 
+				{
+					parsedTab.add(extracted.get(i));
+				}
+			}
 		}
 		catch(FileNotFoundException e) {
 			e.printStackTrace();
@@ -154,9 +114,9 @@ public class TextFileReader {
 	}
 	
 //	/**
-//	 * Creates a parsed array of the file in parsedTab variable
+//	 * Creates a parsedTab array of the file in parsedTabTab variable
 //	 */
-//	private void createParsed(){
+//	private void createparsedTab(){
 //		Scanner sc = null;
 //		try {
 //			sc = new Scanner(inputFile);
@@ -166,7 +126,7 @@ public class TextFileReader {
 //			if (sc.hasNextLine()) {
 //				previousLine = sc.nextLine();
 //				list.add(previousLine);
-//				parsedTab.add(list);
+//				parsedTabTab.add(list);
 //				list = new ArrayList<>();	
 //			}
 //			
@@ -176,7 +136,7 @@ public class TextFileReader {
 //
 //				if ((previousLine.contains("-") && previousLine.contains("|")) && (line.contains("-") && line.contains("|"))) {
 //					list.add(line);
-//					parsedTab.add(list);
+//					parsedTabTab.add(list);
 //					list = new ArrayList<>();						
 //				}		
 //				previousLine = line;			
@@ -190,27 +150,27 @@ public class TextFileReader {
 //		}
 //	}
 	
-	public String getParsedString() {
+	public String getparsedTabString() {
 		StringBuilder sb = new StringBuilder();
-		for(List<String> s : parsedTab)
+		for(String s : parsedTab)
 			sb.append(s.toString()+"\n");
 		return sb.toString();
 	}
 	
 	/**
-	 * Prints the parsed text file
+	 * Prints the parsedTab text file
 	 * @return
 	 */
-	public List<List<String>> printParsed() {	
+	public List<String> printparsedTab() {	
 		return parsedTab;
 	}
 	
-	public ArrayList<String> printParsed2() {	
-		ArrayList<String> s = new ArrayList<String>();
-		for(List<String> pt : parsedTab)
-			s.add(pt.toString());
-		return s;
-	}
+	// public ArrayList<String> printparsedTab2() {	
+	// 	ArrayList<String> s = new ArrayList<String>();
+	// 	for(List<String> pt : parsedTabTab)
+	// 		s.add(pt.toString());
+	// 	return s;
+	// }
 	
 	
 	/**

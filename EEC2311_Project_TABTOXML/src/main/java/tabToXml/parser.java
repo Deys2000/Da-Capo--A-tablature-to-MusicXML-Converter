@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class parser {
 
-	ArrayList<String> parsed  = new ArrayList<>();
+	public ArrayList<String> parsed  = new ArrayList<>();
 	private File inputFile;
 	private int  measures;
 	private ArrayList<String> baseNotes  = new ArrayList<>();
