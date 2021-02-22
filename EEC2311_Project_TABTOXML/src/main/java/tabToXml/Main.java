@@ -1,8 +1,5 @@
 package tabToXml;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,12 +17,13 @@ public class Main extends Application {
 		primaryStage.show();
 		HomeController.currentStage = primaryStage;
 	}
-
+	
 	public static void main(String[] args) throws Exception {
 
 		System.out.print("Launching Application" + "\n");
 		launch(args);
 		// sideTask(); // what will launch this? 
+		//
 	}
 	
 	public static void sideTask() throws Exception {
