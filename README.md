@@ -2,6 +2,9 @@
 
 
 ## Setup Instuctions
+
+**it is required to have a recent version of JDK 15, or at least JDK 11. installed in your system!!**
+
  > ### Setting up using eclipse
  > 1.  Import project via git - using this link (https://github.com/Deys2000/actual-EECS2311Group15).
  > 2.  Once imported, navigate to the Window tab at the top, then Show View, and click on Other... 
