@@ -82,9 +82,18 @@ public class TabParser {
 								note.remove(note.size() - 1);
 								fretNum.remove(fretNum.size() - 1);
 								fretString.remove(fretString.size()-1);
-								chord = translate("E4", fret) + "+" + chord;
-								fretNumVar = fretNumVar + "+" + fret;
-								fretStringVar = fretStringVar + "+" + cal;
+								
+								note.add(chord);
+								fretNum.add(fretNumVar);
+								fretString.add(fretStringVar);
+								
+								chord = "+" + translate("E4", fret);
+								fretNumVar = fret + "";
+								fretStringVar = cal + "";
+								
+//								chord = translate("E4", fret) + "+" + chord;
+//								fretNumVar = fretNumVar + "+" + fret;
+//								fretStringVar = fretStringVar + "+" + cal;
 							}
 							note.add(chord);
 							fretNum.add(fretNumVar);
@@ -100,9 +109,17 @@ public class TabParser {
 								note.remove(note.size() - 1);
 								fretNum.remove(fretNum.size() - 1);
 								fretString.remove(fretString.size()-1);
-								chord = translate("B3", fret) + "+" + chord;
-								fretNumVar = fretNumVar + "+" + fret;
-								fretStringVar = fretStringVar + "+" + cal;
+//								chord = translate("B3", fret) + "+" + chord;
+//								fretNumVar = fretNumVar + "+" + fret;
+//								fretStringVar = fretStringVar + "+" + cal;
+								
+								note.add(chord);
+								fretNum.add(fretNumVar);
+								fretString.add(fretStringVar);
+								
+								chord = "+" + translate("B3", fret);
+								fretNumVar = fret + "";
+								fretStringVar = cal + "";
 							}
 							note.add(chord);
 							fretNum.add(fretNumVar);
@@ -118,9 +135,18 @@ public class TabParser {
 								note.remove(note.size() - 1);
 								fretNum.remove(fretNum.size() - 1);
 								fretString.remove(fretString.size()-1);
-								chord = translate("G3", fret)  + "+" + chord;
-								fretNumVar = fretNumVar + "+" + fret;
-								fretStringVar = fretStringVar + "+" + cal;
+//								chord = translate("G3", fret)  + "+" + chord;
+//								fretNumVar = fretNumVar + "+" + fret;
+//								fretStringVar = fretStringVar + "+" + cal;
+								
+								note.add(chord);
+								fretNum.add(fretNumVar);
+								fretString.add(fretStringVar);
+								
+								chord = "+" + translate("G3", fret);
+								fretNumVar = fret + "";
+								fretStringVar = cal + "";
+								
 							}
 							note.add(chord);
 							fretNum.add(fretNumVar);
@@ -136,9 +162,17 @@ public class TabParser {
 								note.remove(note.size() - 1);
 								fretNum.remove(fretNum.size() - 1);
 								fretString.remove(fretString.size()-1);
-								chord = translate("D3", fret)  + "+" +  chord;
-								fretNumVar = fretNumVar + "+" + fret;
-								fretStringVar = fretStringVar + "+" + cal;
+//								chord = translate("D3", fret)  + "+" +  chord;
+//								fretNumVar = fretNumVar + "+" + fret;
+//								fretStringVar = fretStringVar + "+" + cal;
+								
+								note.add(chord);
+								fretNum.add(fretNumVar);
+								fretString.add(fretStringVar);
+								
+								chord = "+" + translate("D3", fret);
+								fretNumVar = fret + "";
+								fretStringVar = cal + "";
 							}
 							note.add(chord);
 							fretNum.add(fretNumVar);
@@ -154,9 +188,18 @@ public class TabParser {
 								note.remove(note.size() - 1);
 								fretNum.remove(fretNum.size() - 1);
 								fretString.remove(fretString.size()-1);
-								chord =  translate("A2", fret) + "+" +  chord;
-								fretNumVar = fretNumVar + "+" + fret;
-								fretStringVar = fretStringVar + "+" + cal;
+//								chord =  translate("A2", fret) + "+" +  chord;
+//								fretNumVar = fretNumVar + "+" + fret;
+//								fretStringVar = fretStringVar + "+" + cal;
+								
+								note.add(chord);
+								fretNum.add(fretNumVar);
+								fretString.add(fretStringVar);
+								
+								chord = "+" + translate("A2", fret);
+								fretNumVar = fret + "";
+								fretStringVar = cal + "";
+								
 							}
 							note.add(chord);
 							fretNum.add(fretNumVar);
@@ -172,9 +215,18 @@ public class TabParser {
 								note.remove(note.size() - 1);
 								fretNum.remove(fretNum.size() - 1);
 								fretString.remove(fretString.size()-1);
-								chord = translate("E2", fret) + "+" +  chord;
-								fretNumVar = fretNumVar + "+" + fret;
-								fretStringVar = fretStringVar + "+" + cal;
+//								chord = translate("E2", fret) + "+" +  chord;
+//								fretNumVar = fretNumVar + "+" + fret;
+//								fretStringVar = fretStringVar + "+" + cal;
+								
+								note.add(chord);
+								fretNum.add(fretNumVar);
+								fretString.add(fretStringVar);
+								
+								chord = "+" + translate("E2", fret);
+								fretNumVar = fret + "";
+								fretStringVar = cal + "";
+								
 							
 							}
 							note.add(chord);
