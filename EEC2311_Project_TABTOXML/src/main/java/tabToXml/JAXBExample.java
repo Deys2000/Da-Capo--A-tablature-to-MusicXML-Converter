@@ -15,14 +15,14 @@ public class JAXBExample {
 
         try {
 
-            File file = new File("C:\\file.xml");
+            File file = new File("file.xml");
             JAXBContext jaxbContext = JAXBContext.newInstance(Customer.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
         // output pretty printed
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-            axbMarshaller.marshal(customer, file);
+            jaxbMarshaller.marshal(customer, file);
             jaxbMarshaller.marshal(customer, System.out);
 
             } catch (JAXBException e) {
