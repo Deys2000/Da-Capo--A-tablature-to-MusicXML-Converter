@@ -150,7 +150,7 @@ public class TextFileReader {
 //		}
 //	}
 	
-	public String getparsedTabString() {
+	public String getParsedString() {
 		StringBuilder sb = new StringBuilder();
 		for(String s : parsedTab)
 			sb.append(s.toString()+"\n");
@@ -161,16 +161,16 @@ public class TextFileReader {
 	 * Prints the parsedTab text file
 	 * @return
 	 */
-	public List<String> printparsedTab() {	
+	public List<String> printParsed() {	
 		return parsedTab;
 	}
 	
-	// public ArrayList<String> printparsedTab2() {	
-	// 	ArrayList<String> s = new ArrayList<String>();
-	// 	for(List<String> pt : parsedTabTab)
-	// 		s.add(pt.toString());
-	// 	return s;
-	// }
+	public ArrayList<String> printParsed2() {	
+		ArrayList<String> s = new ArrayList<String>();
+		for(String pt : parsedTab)
+			s.add(pt.toString());
+		return s;
+	}
 	
 	
 	/**

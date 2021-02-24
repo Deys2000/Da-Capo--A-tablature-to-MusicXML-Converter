@@ -95,12 +95,12 @@ public class RhythmParser {
         typeArr.add("||");
         
         // small temporary fix for error- Syed
-        if(durationArr.size() > 3 && typeArr.size() > 3) {
-        	durationArr.remove(durationArr.size()-2);
-        	durationArr.remove(durationArr.size()-2);
-        	typeArr.remove(typeArr.size()-2);
-        	typeArr.remove(typeArr.size()-2);
-        }
+        // if(durationArr.size() > 3 && typeArr.size() > 3) {
+        // 	durationArr.remove(durationArr.size()-2);
+        // 	durationArr.remove(durationArr.size()-2);
+        // 	typeArr.remove(typeArr.size()-2);
+        // 	typeArr.remove(typeArr.size()-2);
+        // }
     }
     
     private String durationToType(int duration, int divisions) {

@@ -54,7 +54,7 @@ public class TabParser {
 		
 		int row = tabReader.printParsed().size();
 //		int col = tabReader.printParsed().get(0).size();
-		int next = tabReader.printParsed().get(0).get(0).length();
+		int next = tabReader.printParsed().get(0).length();
 		char fret2 = '\0';
 		String tmp = "";
 		int cal = 0;
@@ -67,7 +67,7 @@ public class TabParser {
 				
 				for(int i = 0; i < row; i++) {
 					
-					fret2 = tabReader.printParsed().get(i).get(0).charAt(j);
+					fret2 = tabReader.printParsed().get(i).charAt(j);
 					int fret = Character.getNumericValue(fret2);
 					if (fret2 >= '0' && fret2 <= '9') {
 						if (i == 0) {
