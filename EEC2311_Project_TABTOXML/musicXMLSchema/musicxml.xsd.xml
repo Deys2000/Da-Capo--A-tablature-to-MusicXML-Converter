@@ -1,0 +1,1154 @@
+<score-partwise version="1.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!--Optional:-->
+  <work>
+    <!--Optional:-->
+    <work-number>string</work-number>
+    <!--Optional:-->
+    <work-title>string</work-title>
+    <!--Optional:-->
+    <opus xlink:href="http://www.company.org/cum/sonoras" xlink:type="simple" xlink:role="token" xlink:title="token" xlink:show="replace" xlink:actuate="onRequest"/>
+  </work>
+  <!--Optional:-->
+  <movement-number>string</movement-number>
+  <!--Optional:-->
+  <movement-title>string</movement-title>
+  <!--Optional:-->
+  <identification>
+    <!--Zero or more repetitions:-->
+    <creator type="token">string</creator>
+    <!--Zero or more repetitions:-->
+    <rights type="token">string</rights>
+    <!--Optional:-->
+    <encoding>
+      <!--You have a CHOICE of the next 5 items at this level-->
+      <encoding-date>2004-02-14</encoding-date>
+      <encoder type="token">string</encoder>
+      <software>string</software>
+      <encoding-description>string</encoding-description>
+      <supports type="no" element="string" attribute="string" value="token"/>
+    </encoding>
+    <!--Optional:-->
+    <source>string</source>
+    <!--Zero or more repetitions:-->
+    <relation type="token">string</relation>
+    <!--Optional:-->
+    <miscellaneous>
+      <!--Zero or more repetitions:-->
+      <miscellaneous-field name="token">string</miscellaneous-field>
+    </miscellaneous>
+  </identification>
+  <!--Optional:-->
+  <defaults>
+    <!--Optional:-->
+    <scaling>
+      <millimeters>1000.00</millimeters>
+      <tenths>1000.00</tenths>
+    </scaling>
+    <!--Optional:-->
+    <page-layout>
+      <page-height>1000.00</page-height>
+      <page-width>1000.00</page-width>
+      <!--0 to 2 repetitions:-->
+      <page-margins type="even">
+        <left-margin>1000.00</left-margin>
+        <right-margin>1000.00</right-margin>
+        <top-margin>1000.00</top-margin>
+        <bottom-margin>1000.00</bottom-margin>
+      </page-margins>
+    </page-layout>
+    <!--Optional:-->
+    <system-layout>
+      <!--Optional:-->
+      <system-margins>
+        <left-margin>1000.00</left-margin>
+        <right-margin>1000.00</right-margin>
+      </system-margins>
+      <!--Optional:-->
+      <system-distance>1000.00</system-distance>
+      <!--Optional:-->
+      <top-system-distance>1000.00</top-system-distance>
+      <!--Optional:-->
+      <system-dividers>
+        <left-divider print-object="no" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" halign="left" valign="baseline"/>
+        <right-divider print-object="no" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="xx-small" font-weight="normal" color="token" halign="right" valign="baseline"/>
+      </system-dividers>
+    </system-layout>
+    <!--Zero or more repetitions:-->
+    <staff-layout number="201">
+      <!--Optional:-->
+      <staff-distance>1000.00</staff-distance>
+    </staff-layout>
+    <!--Optional:-->
+    <appearance>
+      <!--Zero or more repetitions:-->
+      <line-width type="token">1000.00</line-width>
+      <!--Zero or more repetitions:-->
+      <note-size type="grace">1000.00</note-size>
+      <!--Zero or more repetitions:-->
+      <distance type="token">1000.00</distance>
+      <!--Zero or more repetitions:-->
+      <glyph type="token">string</glyph>
+      <!--Zero or more repetitions:-->
+      <other-appearance type="token">string</other-appearance>
+    </appearance>
+    <!--Optional:-->
+    <music-font font-family="token" font-style="normal" font-size="1000.00" font-weight="normal"/>
+    <!--Optional:-->
+    <word-font font-family="token" font-style="italic" font-size="x-large" font-weight="bold"/>
+    <!--Zero or more repetitions:-->
+    <lyric-font number="string" name="token" font-family="token" font-style="italic" font-size="small" font-weight="normal"/>
+    <!--Zero or more repetitions:-->
+    <lyric-language number="string" name="token" xml:lang="string"/>
+  </defaults>
+  <!--Zero or more repetitions:-->
+  <credit page="201" id="string">
+    <!--Zero or more repetitions:-->
+    <credit-type>string</credit-type>
+    <!--Zero or more repetitions:-->
+    <link xlink:href="http://www.sample.com/praeterea/arce" xlink:type="simple" xlink:role="token" xlink:title="token" xlink:show="replace" xlink:actuate="onRequest" name="token" element="string" position="201" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00"/>
+    <!--Zero or more repetitions:-->
+    <bookmark id="string" name="token" element="string" position="201"/>
+    <!--You have a CHOICE of the next 2 items at this level-->
+    <credit-image source="http://www.corp.org/imperio/certo" type="token" height="1000.00" width="1000.00" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" halign="left" valign="top" id="string"/>
+    <!--You have a CHOICE of the next 2 items at this level-->
+    <credit-words justify="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" halign="right" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="string" xml:space="preserve" dir="lro" enclosure="octagon" id="string">string</credit-words>
+    <credit-symbol justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" halign="center" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" dir="lro" enclosure="octagon" id="string">string</credit-symbol>
+    <!--Zero or more repetitions:-->
+    <link xlink:href="http://www.your.com/ventos/tenens" xlink:type="simple" xlink:role="token" xlink:title="token" xlink:show="replace" xlink:actuate="onRequest" name="token" element="string" position="201" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00"/>
+    <!--Zero or more repetitions:-->
+    <bookmark id="string" name="token" element="string" position="201"/>
+    <!--You have a CHOICE of the next 2 items at this level-->
+    <credit-words justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" halign="left" valign="middle" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="1000.00" xml:lang="string" xml:space="preserve" dir="ltr" enclosure="diamond" id="string">string</credit-words>
+    <credit-symbol justify="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" halign="center" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="1000.00" dir="rlo" enclosure="nonagon" id="string">string</credit-symbol>
+  </credit>
+  <part-list>
+    <part-group type="stop" number="1">
+      <!--Optional:-->
+      <group-name default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="x-large" font-weight="normal" color="token" justify="left">string</group-name>
+      <!--Optional:-->
+      <group-name-display print-object="yes">
+        <!--You have a CHOICE of the next 2 items at this level-->
+        <display-text justify="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" halign="left" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="normal" xml:lang="" xml:space="preserve" dir="rtl" enclosure="heptagon">string</display-text>
+        <accidental-text justify="right" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" halign="right" valign="middle" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="1000.00" xml:lang="" xml:space="default" dir="rtl" enclosure="decagon" smufl="string">slash-quarter-sharp</accidental-text>
+      </group-name-display>
+      <!--Optional:-->
+      <group-abbreviation default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="x-large" font-weight="normal" color="token" justify="right">string</group-abbreviation>
+      <!--Optional:-->
+      <group-abbreviation-display print-object="no">
+        <!--You have a CHOICE of the next 2 items at this level-->
+        <display-text justify="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="x-small" font-weight="normal" color="token" halign="center" valign="middle" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="1000.00" xml:lang="string" xml:space="preserve" dir="rlo" enclosure="oval">string</display-text>
+        <accidental-text justify="right" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="xx-large" font-weight="normal" color="token" halign="right" valign="bottom" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="" xml:space="default" dir="ltr" enclosure="rectangle" smufl="string">flat-flat</accidental-text>
+      </group-abbreviation-display>
+      <!--Optional:-->
+      <group-symbol default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" color="token">brace</group-symbol>
+      <!--Optional:-->
+      <group-barline color="token">Mensurstrich</group-barline>
+      <!--Optional:-->
+      <group-time/>
+      <footnote justify="right" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" halign="center" valign="baseline" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="" xml:space="preserve" dir="rlo" enclosure="hexagon">string</footnote>
+      <level reference="yes" parentheses="no" bracket="no" size="grace-cue">string</level>
+    </part-group>
+    <score-part id="string">
+      <!--Optional:-->
+      <identification>
+        <!--Zero or more repetitions:-->
+        <creator type="token">string</creator>
+        <!--Zero or more repetitions:-->
+        <rights type="token">string</rights>
+        <!--Optional:-->
+        <encoding>
+          <!--You have a CHOICE of the next 5 items at this level-->
+          <encoding-date>2009-10-14</encoding-date>
+          <encoder type="token">string</encoder>
+          <software>string</software>
+          <encoding-description>string</encoding-description>
+          <supports type="yes" element="string" attribute="string" value="token"/>
+        </encoding>
+        <!--Optional:-->
+        <source>string</source>
+        <!--Zero or more repetitions:-->
+        <relation type="token">string</relation>
+        <!--Optional:-->
+        <miscellaneous>
+          <!--Zero or more repetitions:-->
+          <miscellaneous-field name="token">string</miscellaneous-field>
+        </miscellaneous>
+      </identification>
+      <part-name default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="large" font-weight="normal" color="token" print-object="no" justify="left">string</part-name>
+      <!--Optional:-->
+      <part-name-display print-object="yes">
+        <!--You have a CHOICE of the next 2 items at this level-->
+        <display-text justify="right" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" halign="center" valign="middle" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="normal" xml:lang="" xml:space="default" dir="lro" enclosure="hexagon">string</display-text>
+        <accidental-text justify="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" halign="right" valign="bottom" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="normal" xml:lang="" xml:space="preserve" dir="lro" enclosure="bracket" smufl="string">natural</accidental-text>
+      </part-name-display>
+      <!--Optional:-->
+      <part-abbreviation default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" print-object="yes" justify="right">string</part-abbreviation>
+      <!--Optional:-->
+      <part-abbreviation-display print-object="no">
+        <!--You have a CHOICE of the next 2 items at this level-->
+        <display-text justify="right" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" halign="center" valign="baseline" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="" xml:space="preserve" dir="ltr" enclosure="bracket">string</display-text>
+        <accidental-text justify="right" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="large" font-weight="bold" color="token" halign="center" valign="baseline" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="normal" xml:lang="" xml:space="preserve" dir="rtl" enclosure="hexagon" smufl="string">arrow-down</accidental-text>
+      </part-abbreviation-display>
+      <!--Zero or more repetitions:-->
+      <group>string</group>
+      <!--Zero or more repetitions:-->
+      <score-instrument id="string">
+        <instrument-name>string</instrument-name>
+        <!--Optional:-->
+        <instrument-abbreviation>string</instrument-abbreviation>
+        <!--Optional:-->
+        <instrument-sound>string</instrument-sound>
+        <!--You have a CHOICE of the next 2 items at this level-->
+        <solo/>
+        <ensemble>201</ensemble>
+        <!--Optional:-->
+        <virtual-instrument>
+          <!--Optional:-->
+          <virtual-library>string</virtual-library>
+          <!--Optional:-->
+          <virtual-name>string</virtual-name>
+        </virtual-instrument>
+      </score-instrument>
+      <!--Optional:-->
+      <midi-device port="16" id="string">string</midi-device>
+      <!--Optional:-->
+      <midi-instrument id="string">
+        <!--Optional:-->
+        <midi-channel>16</midi-channel>
+        <!--Optional:-->
+        <midi-name>string</midi-name>
+        <!--Optional:-->
+        <midi-bank>201</midi-bank>
+        <!--Optional:-->
+        <midi-program>128</midi-program>
+        <!--Optional:-->
+        <midi-unpitched>128</midi-unpitched>
+        <!--Optional:-->
+        <volume>100</volume>
+        <!--Optional:-->
+        <pan>180</pan>
+        <!--Optional:-->
+        <elevation>180</elevation>
+      </midi-instrument>
+    </score-part>
+    <!--You have a CHOICE of the next 2 items at this level-->
+    <part-group type="start" number="1">
+      <!--Optional:-->
+      <group-name default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" justify="left">string</group-name>
+      <!--Optional:-->
+      <group-name-display print-object="yes">
+        <!--You have a CHOICE of the next 2 items at this level-->
+        <display-text justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" halign="center" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="normal" xml:lang="" xml:space="preserve" dir="lro" enclosure="decagon">string</display-text>
+        <accidental-text justify="right" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" halign="center" valign="baseline" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="normal" xml:lang="string" xml:space="preserve" dir="lro" enclosure="none" smufl="string">sharp-3</accidental-text>
+      </group-name-display>
+      <!--Optional:-->
+      <group-abbreviation default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" justify="right">string</group-abbreviation>
+      <!--Optional:-->
+      <group-abbreviation-display print-object="yes">
+        <!--You have a CHOICE of the next 2 items at this level-->
+        <display-text justify="right" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="small" font-weight="normal" color="token" halign="right" valign="baseline" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="1000.00" xml:lang="" xml:space="preserve" dir="ltr" enclosure="diamond">string</display-text>
+        <accidental-text justify="right" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="large" font-weight="normal" color="token" halign="right" valign="middle" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="normal" xml:lang="string" xml:space="default" dir="rlo" enclosure="none" smufl="string">flat-3</accidental-text>
+      </group-abbreviation-display>
+      <!--Optional:-->
+      <group-symbol default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" color="token">square</group-symbol>
+      <!--Optional:-->
+      <group-barline color="token">yes</group-barline>
+      <!--Optional:-->
+      <group-time/>
+      <footnote justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" halign="right" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="string" xml:space="preserve" dir="rlo" enclosure="diamond">string</footnote>
+      <level reference="yes" parentheses="no" bracket="yes" size="cue">string</level>
+    </part-group>
+    <score-part id="string">
+      <!--Optional:-->
+      <identification>
+        <!--Zero or more repetitions:-->
+        <creator type="token">string</creator>
+        <!--Zero or more repetitions:-->
+        <rights type="token">string</rights>
+        <!--Optional:-->
+        <encoding>
+          <!--You have a CHOICE of the next 5 items at this level-->
+          <encoding-date>2019-07-08-04:00</encoding-date>
+          <encoder type="token">string</encoder>
+          <software>string</software>
+          <encoding-description>string</encoding-description>
+          <supports type="no" element="string" attribute="string" value="token"/>
+        </encoding>
+        <!--Optional:-->
+        <source>string</source>
+        <!--Zero or more repetitions:-->
+        <relation type="token">string</relation>
+        <!--Optional:-->
+        <miscellaneous>
+          <!--Zero or more repetitions:-->
+          <miscellaneous-field name="token">string</miscellaneous-field>
+        </miscellaneous>
+      </identification>
+      <part-name default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="small" font-weight="normal" color="token" print-object="yes" justify="center">string</part-name>
+      <!--Optional:-->
+      <part-name-display print-object="no">
+        <!--You have a CHOICE of the next 2 items at this level-->
+        <display-text justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" halign="right" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="normal" xml:lang="string" xml:space="default" dir="rlo" enclosure="square">string</display-text>
+        <accidental-text justify="right" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-large" font-weight="normal" color="token" halign="left" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="1000.00" xml:lang="" xml:space="preserve" dir="rtl" enclosure="diamond" smufl="string">natural-up</accidental-text>
+      </part-name-display>
+      <!--Optional:-->
+      <part-abbreviation default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" print-object="no" justify="right">string</part-abbreviation>
+      <!--Optional:-->
+      <part-abbreviation-display print-object="yes">
+        <!--You have a CHOICE of the next 2 items at this level-->
+        <display-text justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" halign="right" valign="middle" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="" xml:space="preserve" dir="ltr" enclosure="circle">string</display-text>
+        <accidental-text justify="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="small" font-weight="normal" color="token" halign="center" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="" xml:space="default" dir="rlo" enclosure="hexagon" smufl="string">three-quarters-flat</accidental-text>
+      </part-abbreviation-display>
+      <!--Zero or more repetitions:-->
+      <group>string</group>
+      <!--Zero or more repetitions:-->
+      <score-instrument id="string">
+        <instrument-name>string</instrument-name>
+        <!--Optional:-->
+        <instrument-abbreviation>string</instrument-abbreviation>
+        <!--Optional:-->
+        <instrument-sound>string</instrument-sound>
+        <!--You have a CHOICE of the next 2 items at this level-->
+        <solo/>
+        <ensemble/>
+        <!--Optional:-->
+        <virtual-instrument>
+          <!--Optional:-->
+          <virtual-library>string</virtual-library>
+          <!--Optional:-->
+          <virtual-name>string</virtual-name>
+        </virtual-instrument>
+      </score-instrument>
+      <!--Optional:-->
+      <midi-device port="16" id="string">string</midi-device>
+      <!--Optional:-->
+      <midi-instrument id="string">
+        <!--Optional:-->
+        <midi-channel>16</midi-channel>
+        <!--Optional:-->
+        <midi-name>string</midi-name>
+        <!--Optional:-->
+        <midi-bank>201</midi-bank>
+        <!--Optional:-->
+        <midi-program>128</midi-program>
+        <!--Optional:-->
+        <midi-unpitched>128</midi-unpitched>
+        <!--Optional:-->
+        <volume>100</volume>
+        <!--Optional:-->
+        <pan>180</pan>
+        <!--Optional:-->
+        <elevation>180</elevation>
+      </midi-instrument>
+    </score-part>
+  </part-list>
+  <!--1 or more repetitions:-->
+  <part id="string">
+    <!--1 or more repetitions:-->
+    <measure number="token" text="token" implicit="yes" non-controlling="yes" width="1000.00" id="string">
+      <!--You have a CHOICE of the next 13 items at this level-->
+      <note default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="large" font-weight="normal" color="token" print-object="yes" print-dot="yes" print-spacing="yes" print-lyric="yes" print-leger="yes" dynamics="1000.00" end-dynamics="1000.00" attack="1000.00" release="1000.00" time-only="token" pizzicato="yes" id="string">
+        <!--You have a CHOICE of the next 3 items at this level-->
+        <grace steal-time-previous="100" steal-time-following="100" make-time="1000.00" slash="no"/>
+        <!--You have a CHOICE of the next 2 items at this level-->
+        <!--Optional:-->
+        <chord/>
+        <!--You have a CHOICE of the next 3 items at this level-->
+        <pitch>
+          <step>C</step>
+          <!--Optional:-->
+          <alter>1000.00</alter>
+          <octave>9</octave>
+        </pitch>
+        <unpitched>
+          <display-step>A</display-step>
+          <display-octave>9</display-octave>
+        </unpitched>
+        <rest measure="yes">
+          <display-step>E</display-step>
+          <display-octave>9</display-octave>
+        </rest>
+        <!--0 to 2 repetitions:-->
+        <tie type="stop" time-only="token"/>
+        <cue/>
+        <!--Optional:-->
+        <chord/>
+        <!--You have a CHOICE of the next 3 items at this level-->
+        <pitch>
+          <step>A</step>
+          <!--Optional:-->
+          <alter>1000.00</alter>
+          <octave>9</octave>
+        </pitch>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>9</display-octave>
+        </unpitched>
+        <rest measure="yes">
+          <display-step>B</display-step>
+          <display-octave>9</display-octave>
+        </rest>
+        <cue/>
+        <!--Optional:-->
+        <chord/>
+        <!--You have a CHOICE of the next 3 items at this level-->
+        <pitch>
+          <step>E</step>
+          <!--Optional:-->
+          <alter>1000.00</alter>
+          <octave>9</octave>
+        </pitch>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>9</display-octave>
+        </unpitched>
+        <rest measure="no">
+          <display-step>B</display-step>
+          <display-octave>9</display-octave>
+        </rest>
+        <duration>1000.00</duration>
+        <!--Optional:-->
+        <chord/>
+        <!--You have a CHOICE of the next 3 items at this level-->
+        <pitch>
+          <step>C</step>
+          <!--Optional:-->
+          <alter>1000.00</alter>
+          <octave>9</octave>
+        </pitch>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>9</display-octave>
+        </unpitched>
+        <rest measure="yes">
+          <display-step>G</display-step>
+          <display-octave>9</display-octave>
+        </rest>
+        <duration>1000.00</duration>
+        <!--0 to 2 repetitions:-->
+        <tie type="stop" time-only="token"/>
+        <!--Optional:-->
+        <instrument id="string"/>
+        <footnote justify="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="xx-small" font-weight="normal" color="token" halign="left" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="1000.00" xml:lang="" xml:space="preserve" dir="rtl" enclosure="triangle">string</footnote>
+        <level reference="no" parentheses="yes" bracket="yes" size="cue">string</level>
+        <voice>string</voice>
+        <!--Optional:-->
+        <type size="cue">64th</type>
+        <!--Zero or more repetitions:-->
+        <dot default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="x-small" font-weight="normal" color="token" placement="below"/>
+        <!--Optional:-->
+        <accidental cautionary="no" editorial="yes" parentheses="no" bracket="no" size="grace-cue" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-small" font-weight="normal" color="token" smufl="string">flat-4</accidental>
+        <!--Optional:-->
+        <time-modification>
+          <actual-notes>200</actual-notes>
+          <normal-notes>200</normal-notes>
+          <normal-type>256th</normal-type>
+          <!--Zero or more repetitions:-->
+          <normal-dot/>
+        </time-modification>
+        <!--Optional:-->
+        <stem default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" color="token">down</stem>
+        <!--Optional:-->
+        <notehead filled="yes" parentheses="yes" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" smufl="string">slashed</notehead>
+        <!--Optional:-->
+        <notehead-text>
+          <!--You have a CHOICE of the next 2 items at this level-->
+          <display-text justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="large" font-weight="normal" color="token" halign="right" valign="baseline" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="string" xml:space="preserve" dir="rlo" enclosure="oval">string</display-text>
+          <accidental-text justify="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="large" font-weight="bold" color="token" halign="left" valign="middle" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="string" xml:space="preserve" dir="rlo" enclosure="heptagon" smufl="string">flat-1</accidental-text>
+        </notehead-text>
+        <staff>201</staff>
+        <!--0 to 8 repetitions:-->
+        <beam number="1" repeater="no" fan="accel" color="token" id="string">continue</beam>
+        <!--Zero or more repetitions:-->
+        <notations print-object="yes" id="string">
+          <footnote justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="small" font-weight="bold" color="token" halign="center" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="normal" xml:lang="" xml:space="default" dir="lro" enclosure="triangle">string</footnote>
+          <level reference="no" parentheses="yes" bracket="no" size="grace-cue">string</level>
+          <!--You have a CHOICE of the next 14 items at this level-->
+          <tied type="stop" number="6" line-type="dotted" dash-length="1000.00" space-length="1000.00" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" placement="above" orientation="under" bezier-x="1000.00" bezier-y="1000.00" bezier-x2="1000.00" bezier-y2="1000.00" bezier-offset="1000.00" bezier-offset2="1000.00" color="token" id="string"/>
+          <slur type="start" number="1" line-type="dashed" dash-length="1000.00" space-length="1000.00" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" placement="above" orientation="over" bezier-x="1000.00" bezier-y="1000.00" bezier-x2="1000.00" bezier-y2="1000.00" bezier-offset="1000.00" bezier-offset2="1000.00" color="token" id="string"/>
+          <tuplet type="stop" number="6" bracket="no" show-number="actual" show-type="none" line-shape="curved" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" placement="above" id="string">
+            <!--Optional:-->
+            <tuplet-actual>
+              <!--Optional:-->
+              <tuplet-number font-family="token" font-style="normal" font-size="medium" font-weight="normal" color="token">200</tuplet-number>
+              <!--Optional:-->
+              <tuplet-type font-family="token" font-style="italic" font-size="x-large" font-weight="bold" color="token">32nd</tuplet-type>
+              <!--Zero or more repetitions:-->
+              <tuplet-dot font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token"/>
+            </tuplet-actual>
+            <!--Optional:-->
+            <tuplet-normal>
+              <!--Optional:-->
+              <tuplet-number font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token">200</tuplet-number>
+              <!--Optional:-->
+              <tuplet-type font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token">maxima</tuplet-type>
+              <!--Zero or more repetitions:-->
+              <tuplet-dot font-family="token" font-style="normal" font-size="medium" font-weight="normal" color="token"/>
+            </tuplet-normal>
+          </tuplet>
+          <glissando type="stop" number="1" line-type="solid" dash-length="1000.00" space-length="1000.00" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="medium" font-weight="bold" color="token" id="string">string</glissando>
+          <slide type="start" number="1" line-type="wavy" dash-length="1000.00" space-length="1000.00" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" accelerate="no" beats="1000.00" first-beat="100" last-beat="100" id="string">string</slide>
+          <ornaments id="string">
+            <!--You have a CHOICE of the next 15 items at this level-->
+            <trill-mark default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" placement="above" start-note="below" trill-step="whole" two-note-turn="half" accelerate="no" beats="1000.00" second-beat="100" last-beat="100"/>
+            <turn default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" placement="below" start-note="main" trill-step="unison" two-note-turn="none" accelerate="no" beats="1000.00" second-beat="100" last-beat="100" slash="yes"/>
+            <delayed-turn default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" placement="above" start-note="below" trill-step="half" two-note-turn="whole" accelerate="no" beats="1000.00" second-beat="100" last-beat="100" slash="no"/>
+            <inverted-turn default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" placement="below" start-note="below" trill-step="whole" two-note-turn="whole" accelerate="yes" beats="1000.00" second-beat="100" last-beat="100" slash="no"/>
+            <delayed-inverted-turn default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" placement="above" start-note="below" trill-step="unison" two-note-turn="none" accelerate="no" beats="1000.00" second-beat="100" last-beat="100" slash="yes"/>
+            <vertical-turn default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" placement="below" start-note="main" trill-step="whole" two-note-turn="whole" accelerate="yes" beats="1000.00" second-beat="100" last-beat="100"/>
+            <inverted-vertical-turn default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" placement="below" start-note="main" trill-step="unison" two-note-turn="half" accelerate="no" beats="1000.00" second-beat="100" last-beat="100"/>
+            <shake default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="xx-small" font-weight="normal" color="token" placement="above" start-note="upper" trill-step="unison" two-note-turn="half" accelerate="no" beats="1000.00" second-beat="100" last-beat="100"/>
+            <wavy-line type="stop" number="6" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" placement="above" color="token" start-note="upper" trill-step="half" two-note-turn="none" accelerate="yes" beats="1000.00" second-beat="100" last-beat="100"/>
+            <mordent default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="small" font-weight="normal" color="token" placement="above" start-note="main" trill-step="half" two-note-turn="whole" accelerate="yes" beats="1000.00" second-beat="100" last-beat="100" long="yes" approach="above" departure="below"/>
+            <inverted-mordent default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" placement="below" start-note="main" trill-step="unison" two-note-turn="none" accelerate="no" beats="1000.00" second-beat="100" last-beat="100" long="yes" approach="below" departure="above"/>
+            <schleifer default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" placement="above"/>
+            <tremolo type="single" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" placement="above" smufl="string">8</tremolo>
+            <haydn default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" placement="above" start-note="below" trill-step="whole" two-note-turn="none" accelerate="no" beats="1000.00" second-beat="100" last-beat="100"/>
+            <other-ornament default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" placement="below" smufl="string">string</other-ornament>
+            <!--Zero or more repetitions:-->
+            <accidental-mark parentheses="no" bracket="yes" size="grace-cue" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-large" font-weight="bold" color="token" placement="above" smufl="string" id="string">flat-4</accidental-mark>
+          </ornaments>
+          <technical id="string">
+            <!--You have a CHOICE of the next 31 items at this level-->
+            <up-bow default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" placement="above"/>
+            <down-bow default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="xx-small" font-weight="normal" color="token" placement="below"/>
+            <harmonic print-object="no" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-small" font-weight="bold" color="token" placement="below">
+              <!--You have a CHOICE of the next 2 items at this level-->
+              <natural/>
+              <artificial/>
+              <!--You have a CHOICE of the next 3 items at this level-->
+              <base-pitch/>
+              <touching-pitch/>
+              <sounding-pitch/>
+            </harmonic>
+            <open-string default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="large" font-weight="bold" color="token" placement="below"/>
+            <thumb-position default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-small" font-weight="bold" color="token" placement="above"/>
+            <fingering substitution="no" alternate="yes" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="medium" font-weight="normal" color="token" placement="below">string</fingering>
+            <pluck default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" placement="below">string</pluck>
+            <double-tongue default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="large" font-weight="bold" color="token" placement="above"/>
+            <triple-tongue default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="small" font-weight="bold" color="token" placement="below"/>
+            <stopped default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="xx-small" font-weight="normal" color="token" placement="below" smufl="string"/>
+            <snap-pizzicato default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" placement="below"/>
+            <fret font-family="token" font-style="normal" font-size="x-large" font-weight="normal" color="token">200</fret>
+            <string default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-large" font-weight="bold" color="token" placement="below">201</string>
+            <hammer-on type="stop" number="1" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="xx-large" font-weight="normal" color="token" placement="above">string</hammer-on>
+            <pull-off type="stop" number="1" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="large" font-weight="bold" color="token" placement="below">string</pull-off>
+            <bend default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="xx-small" font-weight="normal" color="token" accelerate="yes" beats="1000.00" first-beat="100" last-beat="100">
+              <bend-alter>1000.00</bend-alter>
+              <!--You have a CHOICE of the next 2 items at this level-->
+              <pre-bend/>
+              <release/>
+              <!--Optional:-->
+              <with-bar default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="medium" font-weight="normal" color="token" placement="above">string</with-bar>
+            </bend>
+            <tap hand="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" placement="above">string</tap>
+            <heel default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" placement="above" substitution="yes"/>
+            <toe default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" placement="below" substitution="no"/>
+            <fingernails default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="medium" font-weight="bold" color="token" placement="above"/>
+            <hole default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="medium" font-weight="bold" color="token" placement="below">
+              <!--Optional:-->
+              <hole-type>string</hole-type>
+              <hole-closed location="bottom">yes</hole-closed>
+              <!--Optional:-->
+              <hole-shape>string</hole-shape>
+            </hole>
+            <arrow default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-large" font-weight="bold" color="token" placement="below" smufl="string">
+              <!--You have a CHOICE of the next 2 items at this level-->
+              <arrow-direction>northeast</arrow-direction>
+              <!--Optional:-->
+              <arrow-style>combined</arrow-style>
+              <!--Optional:-->
+              <arrowhead/>
+              <circular-arrow>anticlockwise</circular-arrow>
+            </arrow>
+            <handbell default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" placement="above">mallet table</handbell>
+            <brass-bend default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="x-large" font-weight="normal" color="token" placement="above"/>
+            <flip default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="medium" font-weight="normal" color="token" placement="below"/>
+            <smear default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" placement="below"/>
+            <open default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" placement="below" smufl="string"/>
+            <half-muted default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-small" font-weight="bold" color="token" placement="above" smufl="string"/>
+            <harmon-mute default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-large" font-weight="normal" color="token" placement="above">
+              <harmon-closed location="top">yes</harmon-closed>
+            </harmon-mute>
+            <golpe default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" placement="above"/>
+            <other-technical default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="medium" font-weight="bold" color="token" placement="below" smufl="string">string</other-technical>
+          </technical>
+          <articulations id="string">
+            <!--You have a CHOICE of the next 17 items at this level-->
+            <accent default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="x-large" font-weight="bold" color="token" placement="above"/>
+            <strong-accent default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" placement="below" type="up"/>
+            <staccato default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" placement="above"/>
+            <tenuto default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" placement="above"/>
+            <detached-legato default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" placement="below"/>
+            <staccatissimo default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" placement="below"/>
+            <spiccato default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="small" font-weight="bold" color="token" placement="above"/>
+            <scoop line-shape="straight" line-type="wavy" line-length="medium" dash-length="1000.00" space-length="1000.00" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" placement="below"/>
+            <plop line-shape="straight" line-type="solid" line-length="medium" dash-length="1000.00" space-length="1000.00" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" placement="above"/>
+            <doit line-shape="straight" line-type="dotted" line-length="short" dash-length="1000.00" space-length="1000.00" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" placement="above"/>
+            <falloff line-shape="curved" line-type="wavy" line-length="long" dash-length="1000.00" space-length="1000.00" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="medium" font-weight="normal" color="token" placement="above"/>
+            <breath-mark default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="xx-small" font-weight="bold" color="token" placement="above">upbow</breath-mark>
+            <caesura default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-large" font-weight="normal" color="token" placement="below">thick</caesura>
+            <stress default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" placement="below"/>
+            <unstress default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" placement="below"/>
+            <soft-accent default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="large" font-weight="bold" color="token" placement="below"/>
+            <other-articulation default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" placement="below" smufl="string">string</other-articulation>
+          </articulations>
+          <dynamics default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="xx-large" font-weight="normal" color="token" halign="right" valign="middle" placement="below" underline="3" overline="3" line-through="3" enclosure="triangle" id="string">
+            <!--You have a CHOICE of the next 27 items at this level-->
+            <p/>
+            <pp/>
+            <ppp/>
+            <pppp/>
+            <ppppp/>
+            <pppppp/>
+            <f/>
+            <ff/>
+            <fff/>
+            <ffff/>
+            <fffff/>
+            <ffffff/>
+            <mp/>
+            <mf/>
+            <sf/>
+            <sfp/>
+            <sfpp/>
+            <fp/>
+            <rf/>
+            <rfz/>
+            <sfz/>
+            <sffz/>
+            <fz/>
+            <n/>
+            <pf/>
+            <sfzp/>
+            <other-dynamics smufl="string">string</other-dynamics>
+          </dynamics>
+          <fermata type="upright" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" id="string">half-curve</fermata>
+          <arpeggiate number="6" direction="down" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" placement="below" color="token" id="string"/>
+          <non-arpeggiate type="top" number="6" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" placement="above" color="token" id="string"/>
+          <accidental-mark parentheses="no" bracket="no" size="full" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="x-large" font-weight="bold" color="token" placement="below" smufl="string" id="string">natural-down</accidental-mark>
+          <other-notation type="single" number="1" print-object="no" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="large" font-weight="normal" color="token" placement="above" smufl="string" id="string">string</other-notation>
+        </notations>
+        <!--Zero or more repetitions:-->
+        <lyric number="string" name="token" justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" placement="below" color="token" print-object="no" time-only="token" id="string">
+          <!--You have a CHOICE of the next 4 items at this level-->
+          <!--Optional:-->
+          <syllabic>single</syllabic>
+          <text font-family="token" font-style="italic" font-size="xx-small" font-weight="normal" color="token" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" xml:lang="" dir="rtl">string</text>
+          <elision font-family="token" font-style="normal" font-size="large" font-weight="normal" color="token" smufl="string">string</elision>
+          <!--Optional:-->
+          <syllabic>middle</syllabic>
+          <text font-family="token" font-style="italic" font-size="medium" font-weight="normal" color="token" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" xml:lang="" dir="rlo">string</text>
+          <!--Optional:-->
+          <extend type="start" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" color="token"/>
+          <extend type="start" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" color="token"/>
+          <laughing/>
+          <humming/>
+          <!--Optional:-->
+          <end-line/>
+          <!--Optional:-->
+          <end-paragraph/>
+          <footnote justify="right" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" halign="center" valign="bottom" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="normal" xml:lang="string" xml:space="default" dir="rtl" enclosure="octagon">string</footnote>
+          <level reference="yes" parentheses="yes" bracket="no" size="large">string</level>
+        </lyric>
+        <!--Optional:-->
+        <play id="string">
+          <!--You have a CHOICE of the next 4 items at this level-->
+          <ipa>string</ipa>
+          <mute>harmon-no-stem</mute>
+          <semi-pitched>low</semi-pitched>
+          <other-play type="token">string</other-play>
+        </play>
+      </note>
+      <backup>
+        <duration>1000.00</duration>
+        <footnote justify="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" halign="center" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="" xml:space="default" dir="rtl" enclosure="octagon">string</footnote>
+        <level reference="yes" parentheses="yes" bracket="no" size="full">string</level>
+      </backup>
+      <forward>
+        <duration>1000.00</duration>
+        <footnote justify="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="xx-small" font-weight="normal" color="token" halign="left" valign="bottom" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="normal" xml:lang="" xml:space="default" dir="rlo" enclosure="none">string</footnote>
+        <level reference="yes" parentheses="yes" bracket="yes" size="cue">string</level>
+        <voice>string</voice>
+        <staff>201</staff>
+      </forward>
+      <direction placement="below" directive="no" id="string">
+        <!--1 or more repetitions:-->
+        <direction-type id="string">
+          <!--You have a CHOICE of the next 23 items at this level-->
+          <!--1 or more repetitions:-->
+          <rehearsal justify="right" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="x-small" font-weight="normal" color="token" halign="right" valign="middle" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="string" xml:space="preserve" dir="rtl" enclosure="hexagon" id="string">string</rehearsal>
+          <!--1 or more repetitions:-->
+          <segno default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" halign="right" valign="top" id="string" smufl="string"/>
+          <!--1 or more repetitions:-->
+          <coda default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-small" font-weight="normal" color="token" halign="center" valign="middle" id="string" smufl="string"/>
+          <!--You have a CHOICE of the next 2 items at this level-->
+          <words justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" halign="left" valign="middle" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="" xml:space="preserve" dir="rtl" enclosure="pentagon" id="string">string</words>
+          <symbol justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" halign="left" valign="bottom" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" dir="rtl" enclosure="nonagon" id="string">string</symbol>
+          <wedge type="continue" number="6" spread="1000.00" niente="yes" line-type="dotted" dash-length="1000.00" space-length="1000.00" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" color="token" id="string"/>
+          <!--1 or more repetitions:-->
+          <dynamics default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-small" font-weight="normal" color="token" halign="left" valign="middle" placement="above" underline="3" overline="3" line-through="3" enclosure="triangle" id="string">
+            <!--You have a CHOICE of the next 27 items at this level-->
+            <p/>
+            <pp/>
+            <ppp/>
+            <pppp/>
+            <ppppp/>
+            <pppppp/>
+            <f/>
+            <ff/>
+            <fff/>
+            <ffff/>
+            <fffff/>
+            <ffffff/>
+            <mp/>
+            <mf/>
+            <sf/>
+            <sfp/>
+            <sfpp/>
+            <fp/>
+            <rf/>
+            <rfz/>
+            <sfz/>
+            <sffz/>
+            <fz/>
+            <n/>
+            <pf/>
+            <sfzp/>
+            <other-dynamics smufl="string">string</other-dynamics>
+          </dynamics>
+          <dashes type="start" number="6" dash-length="1000.00" space-length="1000.00" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" color="token" id="string"/>
+          <bracket type="start" number="6" line-end="down" end-length="1000.00" line-type="wavy" dash-length="1000.00" space-length="1000.00" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" color="token" id="string"/>
+          <pedal type="continue" number="6" line="yes" sign="no" abbreviated="no" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-small" font-weight="normal" color="token" halign="left" valign="bottom" id="string"/>
+          <metronome default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="medium" font-weight="normal" color="token" halign="right" valign="baseline" justify="left" parentheses="no" id="string">
+            <!--You have a CHOICE of the next 2 items at this level-->
+            <beat-unit>quarter</beat-unit>
+            <!--Zero or more repetitions:-->
+            <beat-unit-dot/>
+            <!--Zero or more repetitions:-->
+            <beat-unit-tied>
+              <beat-unit>quarter</beat-unit>
+              <!--Zero or more repetitions:-->
+              <beat-unit-dot/>
+            </beat-unit-tied>
+            <!--You have a CHOICE of the next 2 items at this level-->
+            <per-minute font-family="token" font-style="normal" font-size="1000.00" font-weight="bold">string</per-minute>
+            <beat-unit>breve</beat-unit>
+            <!--Zero or more repetitions:-->
+            <beat-unit-dot/>
+            <!--Zero or more repetitions:-->
+            <beat-unit-tied>
+              <beat-unit>whole</beat-unit>
+              <!--Zero or more repetitions:-->
+              <beat-unit-dot/>
+            </beat-unit-tied>
+            <!--Optional:-->
+            <metronome-arrows/>
+            <!--1 or more repetitions:-->
+            <metronome-note>
+              <metronome-type>128th</metronome-type>
+              <!--Zero or more repetitions:-->
+              <metronome-dot/>
+              <!--Zero or more repetitions:-->
+              <metronome-beam number="1">forward hook</metronome-beam>
+              <!--Optional:-->
+              <metronome-tied type="start"/>
+              <!--Optional:-->
+              <metronome-tuplet type="start" bracket="no" show-number="both">
+                <actual-notes>200</actual-notes>
+                <normal-notes>200</normal-notes>
+                <normal-type>64th</normal-type>
+                <!--Zero or more repetitions:-->
+                <normal-dot/>
+              </metronome-tuplet>
+            </metronome-note>
+            <metronome-relation>string</metronome-relation>
+            <!--1 or more repetitions:-->
+            <metronome-note>
+              <metronome-type>1024th</metronome-type>
+              <!--Zero or more repetitions:-->
+              <metronome-dot/>
+              <!--Zero or more repetitions:-->
+              <metronome-beam number="1">continue</metronome-beam>
+              <!--Optional:-->
+              <metronome-tied type="stop"/>
+              <!--Optional:-->
+              <metronome-tuplet type="start" bracket="no" show-number="both">
+                <actual-notes>200</actual-notes>
+                <normal-notes>200</normal-notes>
+                <normal-type>1024th</normal-type>
+                <!--Zero or more repetitions:-->
+                <normal-dot/>
+              </metronome-tuplet>
+            </metronome-note>
+          </metronome>
+          <octave-shift type="up" number="6" size="8" dash-length="1000.00" space-length="1000.00" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="large" font-weight="normal" color="token" id="string"/>
+          <harp-pedals default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" halign="left" valign="baseline" id="string">
+            <!--1 or more repetitions:-->
+            <pedal-tuning>
+              <pedal-step>D</pedal-step>
+              <pedal-alter>1000.00</pedal-alter>
+            </pedal-tuning>
+          </harp-pedals>
+          <damp default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="x-small" font-weight="bold" color="token" halign="right" valign="baseline" id="string"/>
+          <damp-all default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="medium" font-weight="normal" color="token" halign="left" valign="middle" id="string"/>
+          <eyeglasses default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" halign="center" valign="bottom" id="string"/>
+          <string-mute type="off" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" halign="left" valign="top" id="string"/>
+          <scordatura id="string">
+            <!--1 or more repetitions:-->
+            <accord string="201">
+              <tuning-step>A</tuning-step>
+              <!--Optional:-->
+              <tuning-alter>1000.00</tuning-alter>
+              <tuning-octave>9</tuning-octave>
+            </accord>
+          </scordatura>
+          <image source="http://www.any.edu/et/et" type="token" height="1000.00" width="1000.00" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" halign="left" valign="middle" id="string"/>
+          <principal-voice type="start" symbol="Nebenstimme" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-large" font-weight="normal" color="token" halign="right" valign="middle" id="string">string</principal-voice>
+          <!--1 or more repetitions:-->
+          <percussion default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="small" font-weight="normal" color="token" halign="left" valign="top" enclosure="circle" id="string">
+            <!--You have a CHOICE of the next 11 items at this level-->
+            <glass smufl="string">glass harp</glass>
+            <metal>cowbell</metal>
+            <wood>log drum</wood>
+            <pitched smufl="string">marimba</pitched>
+            <membrane>bongos</membrane>
+            <effect>klaxon horn</effect>
+            <timpani/>
+            <beater tip="southwest">guiro scraper</beater>
+            <stick tip="southwest" parentheses="yes" dashed-circle="no">
+              <stick-type>glockenspiel</stick-type>
+              <stick-material>hard</stick-material>
+            </stick>
+            <stick-location>center</stick-location>
+            <other-percussion smufl="string">string</other-percussion>
+          </percussion>
+          <accordion-registration default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" halign="center" valign="top" id="string">
+            <!--Optional:-->
+            <accordion-high/>
+            <!--Optional:-->
+            <accordion-middle>3</accordion-middle>
+            <!--Optional:-->
+            <accordion-low/>
+          </accordion-registration>
+          <staff-divide type="up" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" halign="left" valign="bottom" id="string"/>
+          <other-direction print-object="yes" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="x-small" font-weight="bold" color="token" halign="right" valign="bottom" smufl="string" id="string">string</other-direction>
+        </direction-type>
+        <!--Optional:-->
+        <offset sound="yes">1000.00</offset>
+        <footnote justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" halign="left" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="normal" xml:lang="string" xml:space="preserve" dir="rtl" enclosure="nonagon">string</footnote>
+        <level reference="no" parentheses="yes" bracket="no" size="large">string</level>
+        <voice>string</voice>
+        <staff>201</staff>
+        <!--Optional:-->
+        <sound tempo="1000.00" dynamics="1000.00" dacapo="yes" segno="token" dalsegno="token" coda="token" tocoda="token" divisions="1000.00" forward-repeat="yes" fine="token" time-only="token" pizzicato="no" pan="180" elevation="180" damper-pedal="no" soft-pedal="1000.00" sostenuto-pedal="1000.00" id="string">
+          <!--Optional:-->
+          <midi-device port="16" id="string">string</midi-device>
+          <!--Optional:-->
+          <midi-instrument id="string">
+            <!--Optional:-->
+            <midi-channel>16</midi-channel>
+            <!--Optional:-->
+            <midi-name>string</midi-name>
+            <!--Optional:-->
+            <midi-bank>201</midi-bank>
+            <!--Optional:-->
+            <midi-program>128</midi-program>
+            <!--Optional:-->
+            <midi-unpitched>128</midi-unpitched>
+            <!--Optional:-->
+            <volume>100</volume>
+            <!--Optional:-->
+            <pan>180</pan>
+            <!--Optional:-->
+            <elevation>180</elevation>
+          </midi-instrument>
+          <!--Optional:-->
+          <play id="string">
+            <!--You have a CHOICE of the next 4 items at this level-->
+            <ipa>string</ipa>
+            <mute>plunger</mute>
+            <semi-pitched>medium</semi-pitched>
+            <other-play type="token">string</other-play>
+          </play>
+          <!--Optional:-->
+          <offset sound="no">1000.00</offset>
+        </sound>
+      </direction>
+      <attributes>
+        <footnote justify="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="xx-large" font-weight="bold" color="token" halign="left" valign="bottom" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="normal" xml:lang="string" xml:space="default" dir="rlo" enclosure="heptagon">string</footnote>
+        <level reference="yes" parentheses="no" bracket="no" size="full">string</level>
+        <!--Optional:-->
+        <divisions>1000.00</divisions>
+        <!--Zero or more repetitions:-->
+        <key number="201" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" print-object="yes" id="string">
+          <!--You have a CHOICE of the next 2 items at this level-->
+          <!--Optional:-->
+          <cancel location="right">100</cancel>
+          <fifths>100</fifths>
+          <!--Optional:-->
+          <mode>string</mode>
+          <key-step>A</key-step>
+          <key-alter>1000.00</key-alter>
+          <!--Optional:-->
+          <key-accidental smufl="string">flat-flat</key-accidental>
+          <!--Zero or more repetitions:-->
+          <key-octave number="201" cancel="no">9</key-octave>
+        </key>
+        <!--Zero or more repetitions:-->
+        <time number="201" symbol="dotted-note" separator="none" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" halign="left" valign="top" print-object="no" id="string">
+          <!--You have a CHOICE of the next 2 items at this level-->
+          <beats>string</beats>
+          <beat-type>string</beat-type>
+          <!--Optional:-->
+          <interchangeable symbol="cut" separator="none">
+            <!--Optional:-->
+            <time-relation>equals</time-relation>
+            <beats>string</beats>
+            <beat-type>string</beat-type>
+          </interchangeable>
+          <senza-misura>string</senza-misura>
+        </time>
+        <!--Optional:-->
+        <staves>200</staves>
+        <!--Optional:-->
+        <part-symbol top-staff="201" bottom-staff="201" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" color="token">none</part-symbol>
+        <!--Optional:-->
+        <instruments>200</instruments>
+        <!--Zero or more repetitions:-->
+        <clef number="201" additional="no" size="cue" after-barline="yes" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="x-large" font-weight="bold" color="token" print-object="yes" id="string">
+          <sign>TAB</sign>
+          <!--Optional:-->
+          <line>100</line>
+          <!--Optional:-->
+          <clef-octave-change>100</clef-octave-change>
+        </clef>
+        <!--Zero or more repetitions:-->
+        <staff-details number="201" show-frets="letters" print-object="yes" print-spacing="no">
+          <!--Optional:-->
+          <staff-type>cue</staff-type>
+          <!--Optional:-->
+          <staff-lines>200</staff-lines>
+          <!--Zero or more repetitions:-->
+          <staff-tuning line="100">
+            <tuning-step>D</tuning-step>
+            <!--Optional:-->
+            <tuning-alter>1000.00</tuning-alter>
+            <tuning-octave>9</tuning-octave>
+          </staff-tuning>
+          <!--Optional:-->
+          <capo>200</capo>
+          <!--Optional:-->
+          <staff-size>1000.00</staff-size>
+        </staff-details>
+        <!--Zero or more repetitions:-->
+        <transpose number="201" id="string">
+          <!--Optional:-->
+          <diatonic>100</diatonic>
+          <chromatic>1000.00</chromatic>
+          <!--Optional:-->
+          <octave-change>100</octave-change>
+          <!--Optional:-->
+          <double/>
+        </transpose>
+        <!--Zero or more repetitions:-->
+        <directive default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="x-large" font-weight="bold" color="token" xml:lang="">string</directive>
+        <!--Zero or more repetitions:-->
+        <measure-style number="201" font-family="token" font-style="italic" font-size="x-large" font-weight="bold" color="token" id="string">
+          <!--You have a CHOICE of the next 4 items at this level-->
+          <multiple-rest use-symbols="yes">201</multiple-rest>
+          <measure-repeat type="stop" slashes="201">201</measure-repeat>
+          <beat-repeat type="stop" slashes="201" use-dots="no">
+            <slash-type>32nd</slash-type>
+            <!--Zero or more repetitions:-->
+            <slash-dot/>
+            <!--Zero or more repetitions:-->
+            <except-voice>string</except-voice>
+          </beat-repeat>
+          <slash type="stop" use-dots="no" use-stems="no">
+            <slash-type>whole</slash-type>
+            <!--Zero or more repetitions:-->
+            <slash-dot/>
+            <!--Zero or more repetitions:-->
+            <except-voice>string</except-voice>
+          </slash>
+        </measure-style>
+      </attributes>
+      <harmony type="alternate" print-object="no" print-frame="no" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" placement="below" id="string">
+        <!--You have a CHOICE of the next 2 items at this level-->
+        <root>
+          <root-step text="token" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="medium" font-weight="normal" color="token">B</root-step>
+          <!--Optional:-->
+          <root-alter print-object="no" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="x-small" font-weight="bold" color="token" location="left">1000.00</root-alter>
+        </root>
+        <function default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="large" font-weight="normal" color="token">string</function>
+        <kind use-symbols="no" text="token" stack-degrees="no" parentheses-degrees="yes" bracket-degrees="yes" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="x-small" font-weight="bold" color="token" halign="left" valign="baseline">dominant-11th</kind>
+        <!--Optional:-->
+        <inversion default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="x-large" font-weight="bold" color="token">200</inversion>
+        <!--Optional:-->
+        <bass>
+          <bass-step text="token" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="medium" font-weight="bold" color="token">F</bass-step>
+          <!--Optional:-->
+          <bass-alter print-object="no" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" location="right">1000.00</bass-alter>
+        </bass>
+        <!--Zero or more repetitions:-->
+        <degree print-object="no">
+          <degree-value symbol="half-diminished" text="token" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="large" font-weight="normal" color="token">201</degree-value>
+          <degree-alter default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" plus-minus="yes">1000.00</degree-alter>
+          <degree-type text="token" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="medium" font-weight="bold" color="token">subtract</degree-type>
+        </degree>
+        <!--Optional:-->
+        <frame default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" color="token" halign="left" valign="top" height="1000.00" width="1000.00" unplayed="token" id="string">
+          <frame-strings>201</frame-strings>
+          <frame-frets>201</frame-frets>
+          <!--Optional:-->
+          <first-fret text="token" location="left">201</first-fret>
+          <!--1 or more repetitions:-->
+          <frame-note>
+            <string default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" placement="above">201</string>
+            <fret font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token">200</fret>
+            <!--Optional:-->
+            <fingering substitution="yes" alternate="no" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="xx-large" font-weight="normal" color="token" placement="below">string</fingering>
+            <!--Optional:-->
+            <barre type="stop" color="token"/>
+          </frame-note>
+        </frame>
+        <!--Optional:-->
+        <offset sound="no">1000.00</offset>
+        <footnote justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" halign="right" valign="bottom" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="normal" xml:lang="" xml:space="default" dir="rlo" enclosure="decagon">string</footnote>
+        <level reference="no" parentheses="no" bracket="yes" size="full">string</level>
+        <staff>201</staff>
+      </harmony>
+      <figured-bass default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="normal" color="token" print-object="no" print-dot="no" print-spacing="yes" print-lyric="yes" parentheses="no" id="string">
+        <!--1 or more repetitions:-->
+        <figure>
+          <!--Optional:-->
+          <prefix default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token">string</prefix>
+          <!--Optional:-->
+          <figure-number default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-small" font-weight="bold" color="token">string</figure-number>
+          <!--Optional:-->
+          <suffix default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="xx-large" font-weight="bold" color="token">string</suffix>
+          <!--Optional:-->
+          <extend type="continue" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" color="token"/>
+          <footnote justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="x-large" font-weight="normal" color="token" halign="left" valign="bottom" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="" xml:space="preserve" dir="rtl" enclosure="circle">string</footnote>
+          <level reference="yes" parentheses="yes" bracket="no" size="large">string</level>
+        </figure>
+        <duration>1000.00</duration>
+        <footnote justify="center" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" halign="center" valign="middle" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="1000.00" xml:lang="string" xml:space="default" dir="ltr" enclosure="diamond">string</footnote>
+        <level reference="yes" parentheses="no" bracket="no" size="grace-cue">string</level>
+      </figured-bass>
+      <print staff-spacing="1000.00" new-system="no" new-page="no" blank-page="201" page-number="token" id="string">
+        <!--Optional:-->
+        <page-layout>
+          <page-height>1000.00</page-height>
+          <page-width>1000.00</page-width>
+          <!--0 to 2 repetitions:-->
+          <page-margins type="odd">
+            <left-margin>1000.00</left-margin>
+            <right-margin>1000.00</right-margin>
+            <top-margin>1000.00</top-margin>
+            <bottom-margin>1000.00</bottom-margin>
+          </page-margins>
+        </page-layout>
+        <!--Optional:-->
+        <system-layout>
+          <!--Optional:-->
+          <system-margins>
+            <left-margin>1000.00</left-margin>
+            <right-margin>1000.00</right-margin>
+          </system-margins>
+          <!--Optional:-->
+          <system-distance>1000.00</system-distance>
+          <!--Optional:-->
+          <top-system-distance>1000.00</top-system-distance>
+          <!--Optional:-->
+          <system-dividers>
+            <left-divider print-object="no" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-large" font-weight="normal" color="token" halign="left" valign="baseline"/>
+            <right-divider print-object="yes" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="large" font-weight="normal" color="token" halign="center" valign="middle"/>
+          </system-dividers>
+        </system-layout>
+        <!--Zero or more repetitions:-->
+        <staff-layout number="201">
+          <!--Optional:-->
+          <staff-distance>1000.00</staff-distance>
+        </staff-layout>
+        <!--Optional:-->
+        <measure-layout>
+          <!--Optional:-->
+          <measure-distance>1000.00</measure-distance>
+        </measure-layout>
+        <!--Optional:-->
+        <measure-numbering default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" halign="left" valign="middle">none</measure-numbering>
+        <!--Optional:-->
+        <part-name-display print-object="no">
+          <!--You have a CHOICE of the next 2 items at this level-->
+          <display-text justify="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-large" font-weight="normal" color="token" halign="right" valign="middle" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="" xml:space="preserve" dir="lro" enclosure="oval">string</display-text>
+          <accidental-text justify="right" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="xx-small" font-weight="bold" color="token" halign="left" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="1000.00" xml:lang="string" xml:space="preserve" dir="rlo" enclosure="hexagon" smufl="string">three-quarters-sharp</accidental-text>
+        </part-name-display>
+        <!--Optional:-->
+        <part-abbreviation-display print-object="no">
+          <!--You have a CHOICE of the next 2 items at this level-->
+          <display-text justify="right" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="1000.00" font-weight="bold" color="token" halign="right" valign="top" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="1000.00" xml:lang="" xml:space="preserve" dir="rlo" enclosure="bracket">string</display-text>
+          <accidental-text justify="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="large" font-weight="bold" color="token" halign="center" valign="middle" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="normal" line-height="normal" xml:lang="string" xml:space="default" dir="rlo" enclosure="pentagon" smufl="string">double-sharp-down</accidental-text>
+        </part-abbreviation-display>
+      </print>
+      <sound tempo="1000.00" dynamics="1000.00" dacapo="no" segno="token" dalsegno="token" coda="token" tocoda="token" divisions="1000.00" forward-repeat="yes" fine="token" time-only="token" pizzicato="no" pan="180" elevation="180" damper-pedal="yes" soft-pedal="no" sostenuto-pedal="1000.00" id="string">
+        <!--Optional:-->
+        <midi-device port="16" id="string">string</midi-device>
+        <!--Optional:-->
+        <midi-instrument id="string">
+          <!--Optional:-->
+          <midi-channel>16</midi-channel>
+          <!--Optional:-->
+          <midi-name>string</midi-name>
+          <!--Optional:-->
+          <midi-bank>201</midi-bank>
+          <!--Optional:-->
+          <midi-program>128</midi-program>
+          <!--Optional:-->
+          <midi-unpitched>128</midi-unpitched>
+          <!--Optional:-->
+          <volume>100</volume>
+          <!--Optional:-->
+          <pan>180</pan>
+          <!--Optional:-->
+          <elevation>180</elevation>
+        </midi-instrument>
+        <!--Optional:-->
+        <play id="string">
+          <!--You have a CHOICE of the next 4 items at this level-->
+          <ipa>string</ipa>
+          <mute>hat</mute>
+          <semi-pitched>medium-low</semi-pitched>
+          <other-play type="token">string</other-play>
+        </play>
+        <!--Optional:-->
+        <offset sound="no">1000.00</offset>
+      </sound>
+      <barline location="right" segno="token" coda="token" divisions="1000.00" id="string">
+        <!--Optional:-->
+        <bar-style color="token">dashed</bar-style>
+        <footnote justify="left" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="bold" color="token" halign="center" valign="bottom" underline="3" overline="3" line-through="3" rotation="180" letter-spacing="1000.00" line-height="normal" xml:lang="string" xml:space="default" dir="rlo" enclosure="hexagon">string</footnote>
+        <level reference="yes" parentheses="yes" bracket="yes" size="large">string</level>
+        <!--Optional:-->
+        <wavy-line type="start" number="6" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" placement="below" color="token" start-note="below" trill-step="unison" two-note-turn="whole" accelerate="yes" beats="1000.00" second-beat="100" last-beat="100"/>
+        <!--Optional:-->
+        <segno default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="large" font-weight="normal" color="token" halign="center" valign="middle" id="string" smufl="string"/>
+        <!--Optional:-->
+        <coda default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="1000.00" font-weight="normal" color="token" halign="center" valign="top" id="string" smufl="string"/>
+        <!--0 to 2 repetitions:-->
+        <fermata type="upright" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="italic" font-size="x-large" font-weight="normal" color="token" id="string">double-dot</fermata>
+        <!--Optional:-->
+        <ending number="token" type="discontinue" print-object="no" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00" font-family="token" font-style="normal" font-size="small" font-weight="bold" color="token" end-length="1000.00" text-x="1000.00" text-y="1000.00">string</ending>
+        <!--Optional:-->
+        <repeat direction="forward" times="200" winged="double-curved"/>
+      </barline>
+      <grouping type="start" number="1" member-of="token" id="string">
+        <!--Zero or more repetitions:-->
+        <feature type="token">string</feature>
+      </grouping>
+      <link xlink:href="http://www.sample.com/iovisque/nimborum" xlink:type="simple" xlink:role="token" xlink:title="token" xlink:show="replace" xlink:actuate="onRequest" name="token" element="string" position="201" default-x="1000.00" default-y="1000.00" relative-x="1000.00" relative-y="1000.00"/>
+      <bookmark id="string" name="token" element="string" position="201"/>
+    </measure>
+  </part>
+</score-partwise>
