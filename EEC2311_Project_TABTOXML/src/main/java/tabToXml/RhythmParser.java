@@ -8,6 +8,7 @@ public class RhythmParser {
     public ArrayList<String> typeArr = new ArrayList<String>();
     
     private int divisions = 0;
+    private int padding = 1;
 
     public RhythmParser(int divisions) { // divisions should be 4 by default
         durationArr = new ArrayList<String>();
@@ -26,11 +27,14 @@ public class RhythmParser {
         int noteLength = 0; // in 16th notes
         int lines = parsedTab.size();
         int currentLine = 0;
+        //int prevChordNum = 0;
+        //int curChordNum = 0;
         //String rhythmLine = "";
+        
         boolean hasFret = false;
         boolean isCounting = false;
         
-        while (counter < parsedTab.get(0).length() - 1) {
+        while (counter < parsedTab.get(0).length() - 2) { // Changed from -1 to -2, the parsedTab is one space longer than expected ???
             
             currentLine = 0;
             hasFret = false;
@@ -40,15 +44,18 @@ public class RhythmParser {
                 
                 // Assuming note lengths end at barlines
                 if(noteLength != 0) {
-                    durationArr.add("" + noteLength);
-                    typeArr.add(durationToType(noteLength, divisions));
+                	//while (prevChordNum > 0) {
+	                    durationArr.add("" + noteLength);
+	                    typeArr.add(durationToType(noteLength, divisions));
+	                    //prevChordNum--;
+                	//}
                     noteLength = 0;
                     isCounting = false;
                 }
                 
                 durationArr.add("|");
                 typeArr.add("|");
-                counter += 1; // skipping both '|' and padding '-'
+                counter += padding; // skipping both '|' and padding '-'
             }
             
             // Should be only run before a note is encountered
@@ -58,9 +65,11 @@ public class RhythmParser {
                 while(hasFret == false && currentLine < lines) {
                     
                     if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
-                        hasFret = true;
                         isCounting = true;
                         noteLength++;
+                        //prevChordNum++;
+                        
+                        hasFret = true;
                     }
                     
                     currentLine++;
@@ -73,15 +82,21 @@ public class RhythmParser {
                 while(hasFret == false && currentLine < lines) {
                     
                     if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
-                        hasFret = true;
-                        durationArr.add("" + noteLength);
-                        typeArr.add(durationToType(noteLength, divisions));
+                    	//while (prevChordNum > 0) {
+	                        durationArr.add("" + noteLength);
+	                        typeArr.add(durationToType(noteLength, divisions));
+	                        //prevChordNum--;
+                    	//}
                         noteLength = 0;
+                        //curChordNum++;
+                        hasFret = true;
                     }
                     
                     currentLine++;
                 }
                 
+                //prevChordNum = curChordNum;
+                //curChordNum = 0;
                 noteLength++;
             }
             
@@ -89,18 +104,27 @@ public class RhythmParser {
         }
         
         // Last note length and ending barline is added
-        durationArr.add("" + noteLength);
-        typeArr.add(durationToType(noteLength, divisions));
+        //while (prevChordNum > 0) {
+	        durationArr.add("" + noteLength);
+	        typeArr.add(durationToType(noteLength, divisions));
+	        //prevChordNum--;
+        //}
         durationArr.add("||");
         typeArr.add("||");
         
         // small temporary fix for error- Syed
-        if(durationArr.size() > 3 && typeArr.size() > 3) {
-        	durationArr.remove(durationArr.size()-2);
-        	durationArr.remove(durationArr.size()-2);
-        	typeArr.remove(typeArr.size()-2);
-        	typeArr.remove(typeArr.size()-2);
-        }
+        
+//        if(durationArr.size() > 3 && typeArr.size() > 3) {
+//        	durationArr.remove(durationArr.size()-2);
+//        	durationArr.remove(durationArr.size()-2);
+//        	typeArr.remove(typeArr.size()-2);
+//        	typeArr.remove(typeArr.size()-2);
+//        }
+        
+        System.out.print("Duration Array: ");
+        System.out.println(durationArr);
+        System.out.print("Type Array: ");
+        System.out.println(typeArr);
     }
     
     private String durationToType(int duration, int divisions) {
@@ -122,6 +146,9 @@ public class RhythmParser {
         }
         else if (durOverDiv == 0.25) {
             result = "sixteenth";
+        }
+        else {
+        	result = "unidentified";
         }
         
         return result;
