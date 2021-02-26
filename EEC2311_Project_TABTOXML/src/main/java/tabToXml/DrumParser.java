@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-// In progress - Syed & Miguel
-
 public class DrumParser {
 	
 	//contains the information on each string in the tab
@@ -18,74 +16,139 @@ public class DrumParser {
 		
 		//first clean the input so it contains only info i need in one long line of tablature
 		//createParsedDrum(inputFile) perhaps
-		//assume the following is what is recieved or created
+		//assume the following is what is received or created
 		String[] exampleInput = 	{	" C:|X---------------|X---------------|X---------------|X---------------|",
-										"HH:|----o---o---o---|----o---o---o---|----o---o---o---|----o---o---o---|",
-										" S:|----o--o-o--o---|----o--o-o--o---|----o--o-o--o---|----o--o-o--o---|",
-		 								" B:|o--o----o-oo--o-|o--o----o-oo--o-|o--o----o-oo--o-|o--o----o-oo--o-|"};
+										"HH:|----o---o---o---|----o---o---o---|----o---o---o---|----o---o-------|",
+										" S:|----o--o-o--o---|----o--o-o--o---|----o--o-o--o---|----o--o-o------|",
+		 								" B:|o--o----o-oo--o-|o--o----o-oo--o-|o--o----o-oo--o-|o--o----o-oo----|"};
 
 		
-		//second check for bad tablature (to do later)
-		//examples: there is no tab, the tab is not spaced properly, etc, all lines should have equal length
+		//second check for bad tablature (to do later) examples: there is no tab, the tab is not spaced properly, etc, all lines should have equal length
 		
 		
-		// gather the information on each string and complete the tabStrings arraylist
+		// gather the information on each string and complete the tabStrings Arraylist
 		int numOfRows = exampleInput.length;
 		for( int i = 0; i < numOfRows; i++) {
 			String instrumentSymbol = exampleInput[i].substring(0,exampleInput[i].indexOf(':'));
-			tabStrings.add(new StringInfo(instrumentSymbol));
+			tabStrings.add(new StringInfo(instrumentSymbol.strip()));
 			//remove the strings in front
 			exampleInput[i] = exampleInput[i].substring(exampleInput[i].indexOf(':')+1);
 		}
+		//TESTER for method above
+		//for(int i = 0; i < tabStrings.size(); i++)
+		//	System.out.println(tabStrings.get(i).getInstrumentName());
 		
-		//making a character array
-		char[][] tab = new char[exampleInput.length][exampleInput[0].length()];
-		for(int i = 0; i < tab.length; i++) {
-			for(int j = 0; j < tab[i].length; j++ ) {
-				tab[i][j] = exampleInput[i].charAt(j);
-			}
+		//making a string array
+		String[] tab = new String[exampleInput[0].length()];
+		for(int i = 0; i < exampleInput[0].length(); i++) {
+			String col = "";
+			for(int j = 0; j < exampleInput.length; j++ )
+				col = col + exampleInput[j].charAt(i);
+			tab[i] = col;
 		}
-		// uncomment below to check if it works
-		// printCharArray(tab);
+		//TESTER for method above 
+		//for(int i = 0; i < tab.length; i++)
+		//	System.out.println(tab[i]);
 		
+		//The drum tab has been transformed into an array like the following
+		// Basically, its been transposed so each column in a string
+//		"||||"
+//		"X--o"
+//		"----"
+//		"----"
+//		"---o"
+//		"-oo-"
+//		"----"
+//		----
+//		--o-
+//		-o-o
+//		--o-
+//		---o
+//		---o
+//		-oo-
+//		----
+//		---o
+//		----
+//		||||
+		
+		
+
 		//everything above this point works correctly, but is not yet prepared for bad input
 		
+		// The following is a logic of the for loop that comes up ahead
 		// loop should cycle through vertically gathering information
 		//information that we need to gather
-			// create note objects that are in an array of measure which is in a larger array of measures to form the whole piece. 
-			// note unpitched or rest
-			// if unpitched, then step,octave, instrument id and stem are determined by string - easy
-			// if unpitched, then we must gather duration, voice and type ( type is basically beat*beat-type/duration)
-			// if rest then we need duration, voice and type (type is the same as above)
+		// create note objects that are in an array of measure which is in a larger array of measures to form the whole piece. 
+		// note unpitched or rest
+		// if unpitched, then step,octave, instrument id and stem are determined by string - easy
+		// if unpitched, then we must gather duration, voice and type ( type is basically beat*beat-type/duration)
+		// if rest then we need duration, voice and type (type is the same as above)
 
-		//process of getting duration 
-			//check if you are at a 4th multiple spot
-			//stop at the note that you want to get duration for
-			//...in progress
-		
-		
-		//go through every column
-		for(int i = 0; i < tab[0].length;  i++) {
+		//go through every column (its a row in this transposed array btw)
+		//create new measures where necessary
+		Measure current = new Measure(1); //creates a useless measure for the first time, it does not get used anyway
+		int measureNumber = 1;
+		int beat = 4; int beattype = 4; int voice = 1;
+		int p = 0;
+		for(int i = 0; i < tab.length;  i++) {
+			// if you are at the end of a measure, switch your measure object to a new one
+			if(tab[i].contains("|")){
+					current = new Measure(measureNumber);
+					measures.add(current);
+					measureNumber++;
+					p = 0; //reset the beat multiple value counter
+			}
+			else {
+				p++;				
+				// if you are at a beat multiple spot
+				// and if no note exists here, make a rest note
+				if( p%beat == 0 && tab[i].equals("----")) {
+						//look ahead to get duration
+						int duration = 1;
+						for(int j = 1;j <= beat; j++)
+							if(tab[i+j] == "----")
+								duration++;
+							else
+								break;
+						// create rest note, parameters are stringInfo  duration voice beat beattype 
+						current.addNote(new Note(duration, voice, beat, beattype));
+				}
+				// you are at a non-beat-multiple spot
+				// note exists here, make an unpitched note
+				else {
+					//look ahead to get duration
+					int duration = 1;
+					for(int j = 1;j <= beat; j++)
+						if(tab[i+j] == "----" && (p+j)%beat != 0) // the columns ahead must be empty and not a beat multiple column
+							duration++;
+						else
+							break;
+					// loop to make notes for every element in the column
+					boolean chord = false;
+					for(int j = 0; j < tab[i].length(); j++ ) {
+						//if a note exists at that spot make a note
+						if(tab[i].charAt(j) != '-') {
+							// create unpitched note, parameters are stringInfo ,duration, voice, beat,beattype and whether its a chord or not
+							current.addNote(new Note(tabStrings.get(j),duration, voice, beat, beattype, chord));
+						}
+						chord = true;
+					}
+				}
 			
-			//go through each row
-			for(int j = 0; j < tab.length; j++) {
-				//if()
-			}		
+			}
 			
 		}
+		// By the end of this, you should have all the note objects and measure objects
+		
+		//TESTER METHOD FOR THE PROCESS ABOVE
+		for(int i = 0; i < measures.size(); i++ ) {
+			System.out.println(measures.get(i));
+		}
+		//there seems to be incorrect information with regards to the duration (and type since it is dependent)
 		
 		
 	}
 	
-	//just a temporary method for printing out stuff, can delete later
-		public void printCharArray(char[][] tab) {
-			for(int i = 0; i < tab.length; i++) {
-				for(int j = 0; j < tab[i].length; j++ ) {
-					System.out.print(tab[i][j]);
-				}
-				System.out.println();
-			}
-		}
 }
 
 class StringInfo{
@@ -318,41 +381,57 @@ class StringInfo{
 }
 	
 class Measure{
+	int measureNumber;
 	ArrayList<Note> notes = new ArrayList<Note>();
+	public Measure(int measureNumber) {
+		this.measureNumber = measureNumber;
+	}
 	public void addNote(Note note) {
 		this.notes.add(note);
+	}
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("Measure: " + measureNumber + "\n" );
+		for(Note n: notes)
+			sb.append(n + "\n");
+		return sb.toString();
 	}
 }
 
 // incomplete
 class Note {
-	String unpitchedOrRest = "";
-	String displayStep = "";
-	String displayOctave = "";
+	String unpitchedOrRest = null;
+	String displayStep = null;
+	String displayOctave = null;
 	int duration = 0;
-	String instrumentID = "";
+	String instrumentID = null;
 	int voice = 0;
-	String type = "";
-	String stem = "";
-	String notehead = "";
+	String type = null;
+	String stem = null;
+	String notehead = null;
+	boolean chord;
 	
-	public Note(String unpitchedOrRest, StringInfo stringInfo , int duration, int voice, String type, int beat, int beattype ){
-		if(unpitchedOrRest.equals("unpitched")) {
-			this.displayOctave = stringInfo.getDisplayOctave();
-			this.displayStep = stringInfo.getDisplayStep();
-			this.instrumentID = stringInfo.getInstrumentId();
-			this.stem = stringInfo.getStem();
-			this.notehead = stringInfo.getNotehead();
-			
-		}else if( unpitchedOrRest.equals("rest")){
-			this.duration = duration;
-			this.voice = voice;
-			this.type = getType(beat*beattype/duration);
-			
-		}else {
-			//theres an issue, u should not be here
-		}
+	//constructor for rest note
+	public Note(int duration, int voice, int beat, int beattype) {
+		this.unpitchedOrRest = "rest";
+		this.duration = duration;
+		this.voice = voice;
+		this.type = getType(beat*beattype/duration);
 	}
+	
+	//constructor for unpitched note
+	public Note(StringInfo stringInfo , int duration, int voice, int beat, int beattype, boolean chord ){
+		this.unpitchedOrRest = "unpitched";
+		this.displayOctave = stringInfo.getDisplayOctave();
+		this.displayStep = stringInfo.getDisplayStep();
+		this.instrumentID = stringInfo.getInstrumentId();
+		this.duration = duration;
+		this.voice = voice;
+		this.type = getType(beat*beattype/duration);
+		this.stem = stringInfo.getStem();
+		this.notehead = stringInfo.getNotehead();
+		this.chord = chord;
+	}	
 	public String getType(int val) {
 		switch(val) {
 		case 2:
@@ -367,6 +446,21 @@ class Note {
 			return "default";
 		}
 	}
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Unpitched or Rest: " + this.unpitchedOrRest);
+		sb.append(", Display-Step: " + this.displayStep);
+		sb.append(", Display-Octave: " + this.displayOctave);
+		sb.append(", Duration: " + this.duration);
+		sb.append(", Instrument ID: " + this.instrumentID);
+		sb.append(", Voice: " + this.voice);
+		sb.append(", Type: " + this.type);
+		sb.append(", Stem: " + this.stem);
+		sb.append(", Notehead: " + this.notehead);
+		sb.append(", Chord: " + this.chord);
+		return sb.toString();
+	}
 }
+
 
 
