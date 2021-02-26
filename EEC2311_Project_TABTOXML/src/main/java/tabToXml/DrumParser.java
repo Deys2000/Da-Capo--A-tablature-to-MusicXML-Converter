@@ -20,8 +20,10 @@ public class DrumParser {
 		String[] exampleInput = 	{	" C:|X---------------|X---------------|X---------------|X---------------|",
 										"HH:|----o---o---o---|----o---o---o---|----o---o---o---|----o---o-------|",
 										" S:|----o--o-o--o---|----o--o-o--o---|----o--o-o--o---|----o--o-o------|",
-		 								" B:|o--o----o-oo--o-|o--o----o-oo--o-|o--o----o-oo--o-|o--o----o-oo----|"};
-
+		 								" B:|o--o----o-oo--o-|o--o----o-oo--o-|o--o----o-oo--o-|o--o----o-o-----|"};
+		System.out.println("\nSIMPLIFIED TAB BELOW \n");
+		for(int i = 0; i < exampleInput.length; i++)
+			System.out.println(exampleInput[i]);
 		
 		//second check for bad tablature (to do later) examples: there is no tab, the tab is not spaced properly, etc, all lines should have equal length
 		
@@ -35,8 +37,9 @@ public class DrumParser {
 			exampleInput[i] = exampleInput[i].substring(exampleInput[i].indexOf(':')+1);
 		}
 		//TESTER for method above
-		//for(int i = 0; i < tabStrings.size(); i++)
-		//	System.out.println(tabStrings.get(i).getInstrumentName());
+		System.out.println("\nINSTRUMENTS USED BELOW \n");
+		for(int i = 0; i < tabStrings.size(); i++)
+			System.out.println(tabStrings.get(i).getInstrumentName());
 		
 		//making a string array
 		String[] tab = new String[exampleInput[0].length()];
@@ -47,8 +50,9 @@ public class DrumParser {
 			tab[i] = col;
 		}
 		//TESTER for method above 
-		//for(int i = 0; i < tab.length; i++)
-		//	System.out.println(tab[i]);
+		System.out.println("\nTRANSPOSED ARRAY BELOW \n");
+		for(int i = 0; i < tab.length; i++)
+			System.out.println(tab[i]);
 		
 		//The drum tab has been transformed into an array like the following
 		// Basically, its been transposed so each column in a string
@@ -75,7 +79,7 @@ public class DrumParser {
 
 		//everything above this point works correctly, but is not yet prepared for bad input
 		
-		// The following is a logic of the for loop that comes up ahead
+		// MY LOGIC OF PARSING BELOW
 		// loop should cycle through vertically gathering information
 		//information that we need to gather
 		// create note objects that are in an array of measure which is in a larger array of measures to form the whole piece. 
@@ -88,7 +92,7 @@ public class DrumParser {
 		//create new measures where necessary
 		Measure current = new Measure(1); //creates a useless measure for the first time, it does not get used anyway
 		int measureNumber = 1;
-		int beat = 4; int beattype = 4; int voice = 1;
+		int beat = 4; int beattype = 4; int voice = 1; // some default declarations for now
 		int p = 0;
 		for(int i = 0; i < tab.length;  i++) {
 			// if you are at the end of a measure, switch your measure object to a new one
@@ -99,17 +103,18 @@ public class DrumParser {
 					p = 0; //reset the beat multiple value counter
 			}
 			else {
-				p++;				
+				//p++;				
 				// if you are at a beat multiple spot
 				// and if no note exists here, make a rest note
 				if( p%beat == 0 && tab[i].equals("----")) {
 						//look ahead to get duration
 						int duration = 1;
-						for(int j = 1;j <= beat; j++)
-							if(tab[i+j] == "----")
+						for(int j = 1;j <= beat; j++) {
+							if(tab[i+j].equals("----"))
 								duration++;
 							else
 								break;
+						}
 						// create rest note, parameters are stringInfo  duration voice beat beattype 
 						current.addNote(new Note(duration, voice, beat, beattype));
 				}
@@ -119,7 +124,7 @@ public class DrumParser {
 					//look ahead to get duration
 					int duration = 1;
 					for(int j = 1;j <= beat; j++)
-						if(tab[i+j] == "----" && (p+j)%beat != 0) // the columns ahead must be empty and not a beat multiple column
+						if(tab[i+j].equals("----") && (p+j)%beat != 0) // the columns ahead must be empty and not a beat multiple column
 							duration++;
 						else
 							break;
@@ -134,22 +139,27 @@ public class DrumParser {
 						chord = true;
 					}
 				}
-			
+				
+			p++;
 			}
 			
 		}
 		// By the end of this, you should have all the note objects and measure objects
 		
-		//TESTER METHOD FOR THE PROCESS ABOVE
-		for(int i = 0; i < measures.size(); i++ ) {
+		//TESTER METHOD FOR THE PROCESS ABOVE		
+		System.out.println("\nPARSED INFORMATION BELOW \n");
+		for(int i = 0; i < measures.size()-1; i++ ) {
 			System.out.println(measures.get(i));
 		}
 		//there seems to be incorrect information with regards to the duration (and type since it is dependent)
-		
-		
+		// extra measure object is created but need not be used
+		// Things are working for the most part :)
 	}
 	
-}
+} // END OF CONSTRUCTOR
+
+
+
 
 class StringInfo{
 		//gets the information of the instrument given its symbol on the tab line
@@ -379,7 +389,8 @@ class StringInfo{
 		public String getNotehead() {return notehead;}
 
 }
-	
+
+//|||||||||||||||||||||| MEASURE CLASS |||||||||||||||||||||||||||
 class Measure{
 	int measureNumber;
 	ArrayList<Note> notes = new ArrayList<Note>();
@@ -398,7 +409,7 @@ class Measure{
 	}
 }
 
-// incomplete
+//||||||||||||||||||||||||| NOTE CLASS ||||||||||||||||||||||||||||
 class Note {
 	String unpitchedOrRest = null;
 	String displayStep = null;
@@ -446,6 +457,7 @@ class Note {
 			return "default";
 		}
 	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Unpitched or Rest: " + this.unpitchedOrRest);
