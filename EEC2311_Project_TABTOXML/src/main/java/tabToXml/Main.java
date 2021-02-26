@@ -59,10 +59,8 @@ public class Main extends Application {
 			System.out.print("\n");
 		}
 
-		xmlGen gen10 = new xmlGen();
-		gen10.test(information); 
+		xmlGen gen10 = new xmlGen(information);
 		gen10.createFile();
-		
 		//XMLGenerator.runner(information);
 		System.exit(0);
 	}  

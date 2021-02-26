@@ -25,13 +25,9 @@ public class xmlGen {
         {"2","2","3","3","3","4"} // tuning-octave
 };
 
-public xmlGen(){
-    this.scorePartwise = new ScorePartwise();
-}
-
-    public void  test(java.lang.String[][] info)
+    public xmlGen (java.lang.String[][] info)
     {
-
+        this.scorePartwise = new ScorePartwise();
         scorePartwise.setMovementTitle("test");
         Part part = new Part();
         part.setId("1");
