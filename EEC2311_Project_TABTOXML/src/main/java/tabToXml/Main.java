@@ -22,7 +22,7 @@ public class Main extends Application {
 
 		System.out.print("Launching Application" + "\n");
 		launch(args);
-		// sideTask(); // what will launch this? 
+//	    sideTask(); // what will launch this? 
 		//
 	}
 	
@@ -47,8 +47,8 @@ public class Main extends Application {
 	    System.out.println("type: \t" + rhythmParser.getTypeArr() + " Length of Array:" + rhythmParser.getTypeArr().size() );
 		
 		//new stuff
-	    String[][] information = XMLGenerator.processor(tmp.notes(), tmp.fretNums(), tmp.fretStrings(), rhythmParser.getDurationArr(), rhythmParser.getTypeArr());
-		XMLGenerator.runner(information);
-		System.exit(0);
+//	    String[][] information = XMLGenerator.processor(tmp.notes(), tmp.fretNums(), tmp.fretStrings(), rhythmParser.getDurationArr(), rhythmParser.getTypeArr());
+//		XMLGenerator.runner(information);
+//		System.exit(0);
 	}  
 }
