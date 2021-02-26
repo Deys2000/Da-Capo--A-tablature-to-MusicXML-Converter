@@ -21,18 +21,18 @@ public class Main extends Application {
 	public static void main(String[] args) throws Exception {
 
 		System.out.print("Launching Application" + "\n");
-		launch(args);
-//	    sideTask(); // what will launch this? 
+//		launch(args);
+	    sideTask(); // what will launch this? 
 		//
 	}
 	
 	public static void sideTask() throws Exception {
 		
-		TextFileReader fileReader = new TextFileReader("test.txt");
+		TextFileReader fileReader = new TextFileReader("tester.txt");
 		TabParser tmp = new TabParser();
 		
-		for (int i = 0; i < fileReader.printParsed().size(); i++) {
-			System.out.print(fileReader.printParsed().get(i) + "\n");
+		for (int i = 0; i < fileReader.printer().size(); i++) {
+			System.out.print(fileReader.printer().get(i) + "\n");
 		}
 		
 		tmp.translateParsed("test.txt");
@@ -40,12 +40,14 @@ public class Main extends Application {
 		System.out.println("Frets: " + tmp.fretNums() + " size of array: " + tmp.fretNums().size());
 		System.out.println("Fret Strings: " + tmp.fretStrings() + " size of array: " + tmp.fretStrings().size());
 
-		RhythmParser rhythmParser = new RhythmParser(4);
-        rhythmParser.parseToRhythm(fileReader.printParsed2());
+//		RhythmParser rhythmParser = new RhythmParser(4);
+//        rhythmParser.parseToRhythm(fileReader.printParsed2());
+//		
+//        System.out.println("duration: \t" + rhythmParser.getDurationArr() + " Length of Array:" + rhythmParser.getDurationArr().size() );
+//	    System.out.println("type: \t" + rhythmParser.getTypeArr() + " Length of Array:" + rhythmParser.getTypeArr().size() );
 		
-        System.out.println("duration: \t" + rhythmParser.getDurationArr() + " Length of Array:" + rhythmParser.getDurationArr().size() );
-	    System.out.println("type: \t" + rhythmParser.getTypeArr() + " Length of Array:" + rhythmParser.getTypeArr().size() );
-		
+	    System.out.println("Number of steps is: " + fileReader.numberOfLines());
+	    System.out.println(fileReader.printer());
 		//new stuff
 //	    String[][] information = XMLGenerator.processor(tmp.notes(), tmp.fretNums(), tmp.fretStrings(), rhythmParser.getDurationArr(), rhythmParser.getTypeArr());
 //		XMLGenerator.runner(information);

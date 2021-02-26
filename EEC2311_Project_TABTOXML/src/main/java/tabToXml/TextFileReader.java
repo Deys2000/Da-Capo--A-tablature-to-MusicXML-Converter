@@ -13,8 +13,11 @@ import java.util.Scanner;
 public class TextFileReader {
 	
 	private File inputFile;
-	int count;
+	int count = 0;
 	boolean isDrum;
+	int nextstep = 0;
+	String[] lines;
+	public ArrayList<String> lines2 = new ArrayList<String>();
 	
 	//Original text 
 	private ArrayList<String> originalTab = new ArrayList<String>();
@@ -39,11 +42,19 @@ public class TextFileReader {
 			sc = new Scanner(inputFile);
 			
 			while(sc.hasNextLine()){	
-				String line = sc.nextLine();
-				originalTab.add(line);
-				//counts number of lines for instrumental detection
-				count++;
+//				String line = sc.nextLine();
+//				originalTab.add(line);
+//				//counts number of lines for instrumental detection
+//				count++;
+					String next = sc.nextLine();
+					if (next.contains("-") && next.contains("|")) {
+						count ++;
+						
+					}else if (!(next.contains("-") && next.contains("|"))) {
+						break;
+					}
 				}		
+			
 		}
 		catch(FileNotFoundException e) {
 			e.printStackTrace();
@@ -61,68 +72,40 @@ public class TextFileReader {
 		try {
 			sc = new Scanner(inputFile);
 			
+			int index = 0;
+			int startFrom;
+			Boolean key = false;
+			String holder;
+			while (sc.hasNextLine()) {
+				
+				String line = sc.nextLine();
 			
-			List<String> listE2 = new ArrayList<>();
-			List<String> listB2 =new ArrayList<>();
-			List<String> listG3 = new ArrayList<>();
-			List<String> listD3 = new ArrayList<>();
-			List<String> listA3 = new ArrayList<>();
-			List<String> listD4 = new ArrayList<>();
+				if (line.contains("-") && line.contains("|")) {
 			
-			String lineE2 = "E|";
-			String lineB2 = "B|";
-			String lineG3 = "G|";
-			String lineD3 = "D|";
-			String lineA3 = "A|";
-			String lineD4 = "D|";
-			
-			String previousLine = "";
-			while(sc.hasNextLine()){
-
-					String line = sc.nextLine();
-					if (line.contains("-") && line.contains("|") && line.matches(".*[a-zA-Z].*")) {
-						//list.add(line);
+					if (index <= count) {
 						
-						if (line.contains("E") && !(previousLine.contains("A"))) {
-							lineE2 = lineE2 + line.substring(2, line.length());
-						}
-						else if (!(previousLine.isEmpty()) && previousLine.contains("A")) {
-							lineD4 = lineD4 + line.substring(2, line.length());
+						if (key == false) {
 							
+							lines2.add(line);
+							index++;
+						}else if (key == true){
+							holder = lines2.get(index);
+							startFrom = line.indexOf('|') + 1;
+							holder = holder + line.substring(startFrom, line.length());
+							lines2.set(index, holder);
+							index++;
 						}
-						else if (line.contains("B")) {
-							lineB2 = lineB2 + line.substring(2, line.length());
-						}
-						else if (line.contains("G")) {
-							lineG3 = lineG3 + line.substring(2, line.length());
-						}
-						else if (line.contains("D")) {
-							lineD3 = lineD3 + line.substring(2, line.length());
-						}
-						else if (line.contains("A")) {
-							lineA3 = lineA3 + line.substring(2, line.length());
-						}
-					} 			
-	
-				previousLine = line;	
-				//miguel info
-				if(line.contains("o")) {
-					isDrum = true;
+						
+					}
+					
 				}
+				
+				if (index == count) {
+					key = true;
+					index = 0;
+				}
+				
 			}
-			listE2.add(lineE2);
-			listD4.add(lineD4);
-			listB2.add(lineB2);
-			listG3.add(lineG3);
-			listD3.add(lineD3);
-			listA3.add(lineA3);
-			
-			parsedTab.add(listE2);
-			parsedTab.add(listB2);
-			parsedTab.add(listG3);
-			parsedTab.add(listD3);
-			parsedTab.add(listA3);
-			parsedTab.add(listD4);
 			
 		}
 		catch(FileNotFoundException e) {
@@ -153,43 +136,6 @@ public class TextFileReader {
 		return "Guitar";
 	}
 	
-//	/**
-//	 * Creates a parsed array of the file in parsedTab variable
-//	 */
-//	private void createParsed(){
-//		Scanner sc = null;
-//		try {
-//			sc = new Scanner(inputFile);
-//			List<String> list = new ArrayList<>();
-//			String previousLine = "";
-//			
-//			if (sc.hasNextLine()) {
-//				previousLine = sc.nextLine();
-//				list.add(previousLine);
-//				parsedTab.add(list);
-//				list = new ArrayList<>();	
-//			}
-//			
-//			while(sc.hasNextLine()){
-//				
-//				String line = sc.nextLine();
-//
-//				if ((previousLine.contains("-") && previousLine.contains("|")) && (line.contains("-") && line.contains("|"))) {
-//					list.add(line);
-//					parsedTab.add(list);
-//					list = new ArrayList<>();						
-//				}		
-//				previousLine = line;			
-//			}		
-//		}
-//		catch(FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//		finally {
-//			sc.close();
-//		}
-//	}
-	
 	public String getParsedString() {
 		StringBuilder sb = new StringBuilder();
 		for(List<String> s : parsedTab)
@@ -212,6 +158,13 @@ public class TextFileReader {
 		return s;
 	}
 	
+	public int numberOfLines() {
+		return count;
+	}
+	
+	public ArrayList<String> printer(){
+		return lines2;
+	}
 	
 	/**
 	 * Prints the original text file
