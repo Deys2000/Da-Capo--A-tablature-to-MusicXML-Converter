@@ -135,8 +135,9 @@ public class DrumParser {
 						if(tab[i].charAt(j) != '-') {
 							// create unpitched note, parameters are stringInfo ,duration, voice, beat,beattype and whether its a chord or not
 							current.addNote(new Note(tabStrings.get(j),duration, voice, beat, beattype, chord));
+							chord = true;
 						}
-						chord = true;
+						
 					}
 				}
 				
@@ -154,9 +155,10 @@ public class DrumParser {
 		//there seems to be incorrect information with regards to the duration (and type since it is dependent)
 		// extra measure object is created but need not be used
 		// Things are working for the most part :)
-	}
 	
-} // END OF CONSTRUCTOR
+	}//END OF CONSTRUCTOR
+	
+}//END OF DRUMPARSER CLASS
 
 
 
