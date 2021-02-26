@@ -126,6 +126,14 @@ public class Key {
     @XmlAttribute(name = "relative-y", required = true)
     protected BigDecimal relativeY;
 
+
+    public Key(){}
+
+    public Key(BigInteger fifths){
+
+        this.fifths = fifths;
+    }
+
     /**
      * Gets the value of the cancel property.
      * 

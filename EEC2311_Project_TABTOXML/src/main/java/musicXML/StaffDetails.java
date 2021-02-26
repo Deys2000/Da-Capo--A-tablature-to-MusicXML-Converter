@@ -5,11 +5,13 @@
 // Generated on: 2021.02.25 at 11:44:40 AM EST 
 //
 
-
 package musicXML;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -66,7 +68,7 @@ public class StaffDetails {
     @XmlElement(name = "staff-lines", required = true)
     protected BigInteger staffLines;
     @XmlElement(name = "staff-tuning", required = true)
-    protected StaffTuning staffTuning;
+    protected ArrayList<StaffTuning> staffTuning;
     @XmlElement(required = true)
     protected BigInteger capo;
     @XmlElement(name = "staff-size", required = true)
@@ -142,7 +144,7 @@ public class StaffDetails {
      *     {@link StaffTuning }
      *     
      */
-    public StaffTuning getStaffTuning() {
+    public ArrayList<StaffTuning> getStaffTuning() {
         return staffTuning;
     }
 
@@ -154,7 +156,7 @@ public class StaffDetails {
      *     {@link StaffTuning }
      *     
      */
-    public void setStaffTuning(StaffTuning value) {
+    public void setStaffTuning(ArrayList<StaffTuning> value) {
         this.staffTuning = value;
     }
 

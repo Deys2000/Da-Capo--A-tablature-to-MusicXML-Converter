@@ -51,6 +51,11 @@ public class PartList {
     })
     protected List<Object> partGroupOrScorePart;
 
+    public PartList(){};
+    public PartList(ScorePart scorePart)
+    {
+        this.getPartGroupOrScorePart().add(scorePart);
+    }
     /**
      * Gets the value of the partGroupOrScorePart property.
      * 

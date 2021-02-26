@@ -89,7 +89,14 @@ public class String {
     @XmlAttribute(name = "relative-y", required = true)
     protected BigDecimal relativeY;
 
-    /**
+    public String(){}
+    public String(BigInteger value ) {
+
+        this.value = value;
+	}
+
+
+	/**
      * Gets the value of the value property.
      * 
      * @return

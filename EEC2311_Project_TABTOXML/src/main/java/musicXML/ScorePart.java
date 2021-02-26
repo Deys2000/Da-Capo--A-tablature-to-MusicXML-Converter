@@ -87,6 +87,13 @@ public class ScorePart {
     @XmlSchemaType(name = "NCName")
     protected java.lang.String id;
 
+
+
+    public ScorePart(){}
+    public ScorePart(java.lang.String id)
+    {
+        this.id = id; 
+    }
     /**
      * Gets the value of the identification property.
      * 

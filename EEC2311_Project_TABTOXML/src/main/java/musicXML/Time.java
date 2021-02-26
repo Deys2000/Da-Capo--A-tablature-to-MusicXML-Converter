@@ -136,6 +136,13 @@ public class Time {
     @XmlSchemaType(name = "NCName")
     protected java.lang.String valign;
 
+    public Time(){}
+    public Time(java.lang.String beats, java.lang.String beatType)
+    {
+        this.beats  = beats;
+        this.beatType = beatType;
+    }
+
     /**
      * Gets the value of the beats property.
      * 

@@ -295,16 +295,16 @@ public class XMLGenerator {
     	//each row contains: duration, step, alter,octave,type,string,fret in each row
     	String [][] infoArray = new String[notes.size()][7];
     	for(int i = 0; i < notes.size(); i++) {
-    		infoArray[i][0] = durationArr.get(i);
-    		infoArray[i][1] = notes.get(i).substring(0,1);
-    		infoArray[i][2] = "1"; //default4now
-    		infoArray[i][3] = notes.get(i).substring(1,2);
-    		infoArray[i][4] = typeArr.get(i);
-    		infoArray[i][5] = fretStrings.get(i);
-    		infoArray[i][6] = fretNums.get(i);
+    		infoArray[i][0] = durationArr.get(i);   //duration
+    		infoArray[i][1] = notes.get(i).substring(0,1); // step 
+    		infoArray[i][2] = "1"; //default4now // alter
+    		infoArray[i][3] = notes.get(i).substring(1,2); // octave
+    		infoArray[i][4] = typeArr.get(i); //type
+    		infoArray[i][5] = fretStrings.get(i); //string
+    		infoArray[i][6] = fretNums.get(i); // fret 
     	}
 		return infoArray;
 	}
 }
 
-	
+

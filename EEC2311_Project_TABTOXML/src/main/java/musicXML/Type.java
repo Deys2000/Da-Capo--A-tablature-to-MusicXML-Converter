@@ -52,7 +52,14 @@ public class Type {
     @XmlSchemaType(name = "NCName")
     protected java.lang.String size;
 
-    /**
+    public Type(){}
+
+    public Type(java.lang.String value) {
+
+        this.value = value;
+	}
+
+	/**
      * Gets the value of the value property.
      * 
      * @return

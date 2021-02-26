@@ -21,7 +21,7 @@ public class TabParser {
 		if(fret > 12)
 			throw new Exception("The fret must be between 1 and 12 (inclusive)");
 
-		String[] table = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};			
+		String[] table = {"C","C","D","D","E","F","F","G","G","A","A","B"};			
 		//find location in table
 		int location = 0;
 		for(int i = 0; i < table.length; i++) {

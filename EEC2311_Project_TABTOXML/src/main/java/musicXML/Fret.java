@@ -71,7 +71,12 @@ public class Fret {
     @XmlSchemaType(name = "NCName")
     protected java.lang.String fontWeight;
 
-    /**
+    public Fret() {}
+    public Fret(BigInteger value) {
+        this.value = value;
+    }
+
+	/**
      * Gets the value of the value property.
      * 
      * @return

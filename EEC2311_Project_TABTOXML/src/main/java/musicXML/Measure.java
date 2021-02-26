@@ -5,10 +5,11 @@
 // Generated on: 2021.02.25 at 11:44:40 AM EST 
 //
 
-
 package musicXML;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -59,11 +60,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "note",
+    "attributes",
     "backup",
     "forward",
     "direction",
-    "attributes",
+    "note",
     "harmony",
     "figuredBass",
     "print",
@@ -77,7 +78,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Measure {
 
     @XmlElement(required = true)
-    protected Note note;
+    protected ArrayList<Note> note;
     @XmlElement(required = true)
     protected Backup backup;
     @XmlElement(required = true)
@@ -133,7 +134,7 @@ public class Measure {
      *     {@link Note }
      *     
      */
-    public Note getNote() {
+    public ArrayList<Note> getNote() {
         return note;
     }
 
@@ -145,7 +146,7 @@ public class Measure {
      *     {@link Note }
      *     
      */
-    public void setNote(Note value) {
+    public void setNote(ArrayList<Note> value) {
         this.note = value;
     }
 
