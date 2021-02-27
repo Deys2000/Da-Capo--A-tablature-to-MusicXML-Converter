@@ -56,8 +56,21 @@ public class XMLGenerator {
 		return sign;
 	}
 	public static String line(){
-		
-		return "5";
+		String instrument =TextFileReader.instrument;
+		String line = "";
+		if(instrument == "guitar") {
+			//treble lies on 3rd string for guitar
+			line = "3";
+		}
+		else if (instrument == "bass") {
+			//bass clef lies on 1st string for bass
+			line = "1";
+		}
+		else {
+			//not 100% sure where the clef actually falls for drums, 5 is a placeholder
+			line = "5";
+		}
+		return line;
 	}
 	
     public static String runner(String[][] noteValsX) {
@@ -83,7 +96,7 @@ public class XMLGenerator {
     			{"4"}, // divisions
     			{"0"}, // fifths
     			{"4","4"}, // beats and beat-type
-    			{XMLGenerator.sign(),"5"}, // sign and line
+    			{XMLGenerator.sign(),XMLGenerator.line()}, // sign and line
     			{XMLGenerator.staffLines()}, // staff lines
     			{"E","A","D","G","B","E"}, //tuning-step
     			{"2","2","3","3","3","4"} // tuning-octave
