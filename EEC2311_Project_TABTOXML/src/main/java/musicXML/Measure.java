@@ -126,10 +126,6 @@ public class Measure {
     @XmlAttribute(name = "width", required = true)
     protected BigDecimal width;
 
-    //added this cuz i was getting an error for not having a constructor or something - Syed
-    public Measure() {
-    	
-    }
     /**
      * Gets the value of the note property.
      * 
