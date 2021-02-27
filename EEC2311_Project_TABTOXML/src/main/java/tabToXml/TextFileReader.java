@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class TextFileReader {
 	
 	private File inputFile;
-	int count;
+	private static int count;
 	boolean isDrum;
 	
 	//Original text 
@@ -39,10 +39,12 @@ public class TextFileReader {
 			sc = new Scanner(inputFile);
 			
 			while(sc.hasNextLine()){	
-				String line = sc.nextLine();
-				originalTab.add(line);
 				//counts number of lines for instrumental detection
 				count++;
+				
+				String line = sc.nextLine();
+				originalTab.add(line);
+				System.out.println(count);
 				}		
 		}
 		catch(FileNotFoundException e) {
@@ -138,11 +140,12 @@ public class TextFileReader {
 	 */
 	public String detectInstrument(){	
 		String instrument = "Unable to Identify";
+		int lines = count/2;
 		
-		if(count == 4 && isDrum == false ) {
+		if(lines == 4 && isDrum == false ) {
 			instrument = "bass";
 		}
-		else if (count == 6 && isDrum == false) {
+		else if (lines == 6 && isDrum == false) {
 			instrument = "guitar";
 		}
 		else{
@@ -150,8 +153,12 @@ public class TextFileReader {
 		}
 		
 		//for now we just return guitar
-		return "Guitar";
+		return instrument;
 	}
+	
+	public static int getLines() {
+	     return count/2;
+	  }
 	
 //	/**
 //	 * Creates a parsed array of the file in parsedTab variable
