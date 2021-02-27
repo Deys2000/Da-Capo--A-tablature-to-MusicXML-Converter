@@ -44,7 +44,6 @@ public class TextFileReader {
 				
 				String line = sc.nextLine();
 				originalTab.add(line);
-				System.out.println(count);
 				}		
 		}
 		catch(FileNotFoundException e) {
