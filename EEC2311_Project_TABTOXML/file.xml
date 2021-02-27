@@ -5,7 +5,7 @@
         <score-part id="1"/>
     </part-list>
     <part id="1">
-        <measure id="1">
+        <measure number="1">
             <attributes>
                 <divisions>2</divisions>
                 <key>

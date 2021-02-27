@@ -128,8 +128,8 @@ public class Measure {
 
     public Measure() {
 	}
-    public Measure(java.lang.String id) {
-        this.id = id;
+    public Measure(java.lang.String number) {
+        this.number = number;
 	}
 
 	/**
