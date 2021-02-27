@@ -26,6 +26,8 @@ public class HomeController {
 	StringBuilder parsedInfo;
 	String instrument = "";
 	String[][] information;
+	GuitarParser gp;
+	xmlGen gen10;
 	
 	public static Stage currentStage; // acquired from Main when program starts
 	
@@ -97,18 +99,21 @@ public class HomeController {
 	 * Method for saving a file
 	 */
 	public void saveFile(Stage stage) {
+		//can put into users tmp file - good practice
+		
 		fc = new FileChooser();
 		fc.setTitle("Save Translation");
 		File file = fc.showSaveDialog(stage);
 		String operationResult = "Successfully written to file.";
-				
+		
+		// clean this up later
 		try {			
-			FileWriter myWriter = new FileWriter(file);
-			myWriter.write(XMLGenerator.runner(information));
-			myWriter.close();			
+			//FileWriter myWriter = new FileWriter(file);
+			gen10 = new xmlGen(gp.processor());
+			gen10.createFile(file);
+			//myWriter.write(XMLGenerator.runner(information));
+			//myWriter.close();			
 			
-		} catch (IOException e) {
-			operationResult = "Failed to write to file.";
 		} finally {
 			
 			Alert alert = new Alert(AlertType.INFORMATION);
@@ -120,8 +125,7 @@ public class HomeController {
 			        System.out.println("Pressed OK.");
 			    }
 			});
-		}
-		
+		}		
 	}
 	
 	/**
@@ -136,26 +140,26 @@ public class HomeController {
 		
 		parsedInfo = new StringBuilder();
 		//adding the parsed tab
-		parsedInfo.append(guitarTab.getParsedString());		
+		parsedInfo.append(guitarTab.printOrginal());		
 	
-		TabParser tmp = new TabParser();
-		tmp.translateParsed(selectedFile.getAbsolutePath());
+		gp = new GuitarParser();
+		gp.translateParsed(selectedFile.getAbsolutePath());
 		
-		parsedInfo.append("\nNotes: " + tmp.notes() + " Length of array: " + tmp.notes().size());
-		parsedInfo.append("\nFrets: " + tmp.fretNums() + " Length of array: " + tmp.fretNums().size());
-		parsedInfo.append("\nFret Strings: " + tmp.fretStrings() + " Length of array: " + tmp.fretStrings().size());
+		parsedInfo.append("\nNotes: " + gp.getNotes() + " Length of array: " + gp.getNotes().size());
+		parsedInfo.append("\nFrets: " + gp.getFretNums() + " Length of array: " + gp.getFretNums().size());
+		parsedInfo.append("\nFret Strings: " + gp.getFretStrings() + " Length of array: " + gp.getFretStrings().size());
 
-		RhythmParser rhythmParser = new RhythmParser(4);
-        rhythmParser.parseToRhythm(guitarTab.printParsed2());
+		//RhythmParser rhythmParser = new RhythmParser(4);
+        gp.parseToRhythm(guitarTab.getParsed());
 		
-        parsedInfo.append("\nDuration:" + rhythmParser.getDurationArr() + " Length of Array:" + rhythmParser.getDurationArr().size() );
-	    parsedInfo.append("\nType:" + rhythmParser.getTypeArr() + " Length of Array:" + rhythmParser.getTypeArr().size() );
+        parsedInfo.append("\nDuration:" + gp.getDurationArr() + " Length of Array:" + gp.getDurationArr().size() );
+	    parsedInfo.append("\nType:" + gp.getTypeArr() + " Length of Array:" + gp.getTypeArr().size() );
 		
 		//tabTextArea2.setText(parsedInfo.toString());
 	    
 		//new stuff
-	    information = XMLGenerator.processor(tmp.notes(), tmp.fretNums(), tmp.fretStrings(), rhythmParser.getDurationArr(), rhythmParser.getTypeArr());
-		tabTextArea2.setText(XMLGenerator.runner(information));
+	    //information = gp.processor();
+		tabTextArea2.setText(gen10.getXMLContent());
 		//System.exit(0);
 
 		instrument = guitarTab.detectInstrument();

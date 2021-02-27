@@ -45,47 +45,47 @@ public class RhythmParserTest {
 //    }
 //    */
 //    
-   @Test
-   void testDuration1() throws Exception {
-       ArrayList<String> test = new ArrayList<>();
-       test.add("|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|");
-       test.add("|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|");
-       test.add("|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|");
-       test.add("|-7-------6-------|-5-------4-------|-3---------------|-----------------|");
-       test.add("|-----------------|-----------------|-----------------|-2-0-0---0--/8-7-|");
-       test.add("|-----------------|-----------------|-----------------|-----------------|");
-       
-       ArrayList<String> expected = new ArrayList<>();
-       String[] arr = {"|", "2", "2", "2", "2", "2", "2", "2", "2",
-                       "|", "2", "2", "2", "2", "2", "2", "2", "2",
-                       "|", "2", "2", "2", "4", "2", "2", "2",
-                       "|", "2", "2", "4", "4", "2", "2", "||"};
-       
-       for (int i = 0; i < arr.length; i++) {
-           expected.add(arr[i]);
-       }
-       
-       System.out.println("expected duration: \t" + expected);
-       
-       RhythmParser rhythmParser = new RhythmParser(4);
-       rhythmParser.parseToRhythm(test);
-       ArrayList<String> actual = rhythmParser.durationArr;
-       
-       System.out.println("actual duration: \t" + actual);
-       
-       assertEquals(expected,actual);
-   }
-   
-   @Test
-   void testType1() throws Exception {
-       ArrayList<String> test = new ArrayList<>();
-       test.add("|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|");
-       test.add("|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|");
-       test.add("|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|");
-       test.add("|-7-------6-------|-5-------4-------|-3---------------|-----------------|");
-       test.add("|-----------------|-----------------|-----------------|-2-0-0---0--/8-7-|");
-       test.add("|-----------------|-----------------|-----------------|-----------------|");
-       
+//   @Test
+//   void testDuration1() throws Exception {
+//       ArrayList<String> test = new ArrayList<>();
+//       test.add("|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|");
+//       test.add("|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|");
+//       test.add("|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|");
+//       test.add("|-7-------6-------|-5-------4-------|-3---------------|-----------------|");
+//       test.add("|-----------------|-----------------|-----------------|-2-0-0---0--/8-7-|");
+//       test.add("|-----------------|-----------------|-----------------|-----------------|");
+//       
+//       ArrayList<String> expected = new ArrayList<>();
+//       String[] arr = {"|", "2", "2", "2", "2", "2", "2", "2", "2",
+//                       "|", "2", "2", "2", "2", "2", "2", "2", "2",
+//                       "|", "2", "2", "2", "4", "2", "2", "2",
+//                       "|", "2", "2", "4", "4", "2", "2", "||"};
+//       
+//       for (int i = 0; i < arr.length; i++) {
+//           expected.add(arr[i]);
+//       }
+//       
+//       System.out.println("expected duration: \t" + expected);
+//       
+//       RhythmParser rhythmParser = new RhythmParser(4);
+//       rhythmParser.parseToRhythm(test);
+//       ArrayList<String> actual = rhythmParser.durationArr;
+//       
+//       System.out.println("actual duration: \t" + actual);
+//       
+//       assertEquals(expected,actual);
+//   }
+//   
+//   @Test
+//   void testType1() throws Exception {
+//       ArrayList<String> test = new ArrayList<>();
+//       test.add("|-------5-7-----7-|-8-----8-2-----2-|-0---------0-----|-----------------|");
+//       test.add("|-----5-----5-----|---5-------3-----|---1---1-----1---|-0-1-1-----------|");
+//       test.add("|---5---------5---|-----5-------2---|-----2---------2-|-0-2-2---2-------|");
+//       test.add("|-7-------6-------|-5-------4-------|-3---------------|-----------------|");
+//       test.add("|-----------------|-----------------|-----------------|-2-0-0---0--/8-7-|");
+//       test.add("|-----------------|-----------------|-----------------|-----------------|");
+//       
        ArrayList<String> expected = new ArrayList<>();
        String[] arr = {"|", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth",
                        "|", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth",

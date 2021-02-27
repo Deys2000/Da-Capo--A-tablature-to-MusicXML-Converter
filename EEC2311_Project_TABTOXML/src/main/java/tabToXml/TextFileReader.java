@@ -13,44 +13,42 @@ import java.util.Scanner;
 public class TextFileReader {
 	
 	private File inputFile;
-	int count;
+	int numOfLines = 0;
 	boolean isDrum;
+	
+	//Parsed text 
+	public ArrayList<String> parsedTab = new ArrayList<String>();
 	
 	//Original text 
 	private ArrayList<String> originalTab = new ArrayList<String>();
-	
-	//parsedTab text 
-	private List<String> parsedTab = new ArrayList<>();
-	
+
 	//Read in the file
 	public TextFileReader(String inputFile){
 		this.inputFile = new File(inputFile);
-		this.createOriginal();
+		this.countLines();
 		this.createparsedTab();
+
 		this.detectInstrument();
 	}
 	
 	/**
-	 * copies the file exactly the way it is into a dynamic string array
+	 * counts the number of lines for Instrument Detection
+	 * also responsible for checking if the input provided is bad
 	 */
-	private void createOriginal(){
+	private void countLines(){
 		Scanner sc = null;
 		try {
 			sc = new Scanner(inputFile);
-			
 			while(sc.hasNextLine()){	
-				String line = sc.nextLine();
-				originalTab.add(line);
-				//counts number of lines for instrumental detection
-				count++;
-				}		
+				String next = sc.nextLine();
+				if (next.contains("-") && next.contains("|"))
+					numOfLines ++;						
+				else if( 0 < numOfLines )  // modified this line to cater to prevent crashing with spacing at the start
+					break;
+			}					
 		}
-		catch(FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		finally {
-			sc.close();
-		}
+		catch(FileNotFoundException e) {e.printStackTrace();}
+		finally {sc.close();}
 	}
 	
 	/**
@@ -61,29 +59,57 @@ public class TextFileReader {
 		try {
 			ArrayList<String> extracted  = new ArrayList<>();
 			sc = new Scanner(inputFile);
-			while(sc.hasNextLine()){
+
+			int index = 0;
+			int startFrom;
+			boolean key = false;
+			String holder;
+			while (sc.hasNextLine()) {
 				
 				String line = sc.nextLine();
-				if (line.contains("-") && line.contains("|")) {// default tuning EADGBE
-						extracted.add(line);
+			
+				if (line.contains("-") && line.contains("|")) {
+			
+					if (index <= numOfLines) {
+						
+						if (key == false) {
+							
+							parsedTab.add(line);
+							index++;
+						}else if (key == true){
+							holder = parsedTab.get(index);
+							startFrom = line.indexOf('|') + 1;
+							holder = holder + line.substring(startFrom, line.length());
+							parsedTab.set(index, holder);
+							index++;
+						}
+					}
+
 				}
-			}
-			for(int i = 0; i < extracted.size(); i++) 
-			{
-				// check if tab has base note here
-				// if not set base note to default
-				// default tuning EADGBE
-				if(i >= 6) {
-				StringBuilder sb = new StringBuilder();
-				sb.append(parsedTab.get(i % 6));
-				sb.append(extracted.get(i).substring(2));
-				parsedTab.set(i%6, sb.toString());
-				}
-				else 
-				{
-					parsedTab.add(extracted.get(i));
-				}
-			}
+				if (index == numOfLines) {
+					key = true;
+					index = 0;
+				}			
+			}			
+//=======
+//			}
+//			for(int i = 0; i < extracted.size(); i++) 
+//			{
+//				// check if tab has base note here
+//				// if not set base note to default
+//				// default tuning EADGBE
+//				if(i >= 6) {
+//				StringBuilder sb = new StringBuilder();
+//				sb.append(parsedTab.get(i % 6));
+//				sb.append(extracted.get(i).substring(2));
+//				parsedTab.set(i%6, sb.toString());
+//				}
+//				else 
+//				{
+//					parsedTab.add(extracted.get(i));
+//				}
+//			}
+//>>>>>>> refs/heads/Ayub_Features
 		}
 		catch(FileNotFoundException e) {
 			e.printStackTrace();
@@ -98,21 +124,22 @@ public class TextFileReader {
 	 */
 	public String detectInstrument(){	
 		String instrument = "Unable to Identify";
-		
-		if(count == 4 && isDrum == false ) {
+		if(numOfLines == 4 && isDrum == false ) {
 			instrument = "bass";
 		}
-		else if (count == 6 && isDrum == false) {
+		else if (numOfLines == 6 && isDrum == false) {
 			instrument = "guitar";
 		}
 		else{
 			instrument = "drums";
 		}
-		
 		//for now we just return guitar
-		return "Guitar";
+		return instrument;
 	}
 	
+	public int numberOfLines() {
+		return numOfLines;
+	}
 //	/**
 //	 * Creates a parsedTab array of the file in parsedTabTab variable
 //	 */
@@ -157,21 +184,10 @@ public class TextFileReader {
 		return sb.toString();
 	}
 	
-	/**
-	 * Prints the parsedTab text file
-	 * @return
-	 */
-	public List<String> printParsed() {	
+	public ArrayList<String> getParsed(){
 		return parsedTab;
 	}
-	
-	public ArrayList<String> printParsed2() {	
-		ArrayList<String> s = new ArrayList<String>();
-		for(String pt : parsedTab)
-			s.add(pt.toString());
-		return s;
-	}
-	
+
 	
 	/**
 	 * Prints the original text file
@@ -179,9 +195,14 @@ public class TextFileReader {
 	 */
 	public String printOrginal() {
 		StringBuilder sb = new StringBuilder();	
-		
-		for(String s : originalTab) {
-			sb.append(s + "\n");
+		try {
+			Scanner sc = new Scanner(inputFile);
+			while(sc.hasNextLine()) {
+				sb.append(sc.nextLine()+"\n");
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return sb.toString();	
 	}

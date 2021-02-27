@@ -1,5 +1,6 @@
 package tabToXml;
 import java.io.File;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.Duration;
@@ -13,7 +14,9 @@ import musicXML.String;
 
 
 public class xmlGen {
-
+	
+	private File xmlfile;
+	Marshaller jaxbMarshaller;
     private ScorePartwise scorePartwise;
     private java.lang.String[][] attributeVals = {
         {"4"}, // divisions
@@ -38,7 +41,9 @@ public class xmlGen {
         // partlist.getPartGroupOrScorePart().add(scorePart);
         // scorePartwise.setPartList(partlist);
 
-        Measure measure = new Measure("1");
+        ArrayList<musicXML.Measure> measures = new ArrayList<musicXML.Measure>();
+        musicXML.Measure measure = new musicXML.Measure();
+        measure.setNumber("1");
 
         
         Attributes attributes = new Attributes();
@@ -71,52 +76,82 @@ public class xmlGen {
         StaffDetails.setStaffTuning(staffTunings);
         attributes.setStaffDetails(StaffDetails);
 
-        ArrayList<Note> notes = new ArrayList<>();
-
-        for(int i = 0; i < info[0].length; i++)
+        ArrayList<musicXML.Note> notes = new ArrayList<>();
+        int measureNum = 1;
+        for(int i = 1; i < info.length; i++)
         {
-            Note note = new Note();
-
+        	if(info[i][0] == null ) {
+        		measure.setNote(notes);
+        		notes = new ArrayList<musicXML.Note>();
+        		measures.add(measure);
+        		measure = new musicXML.Measure();
+        		measureNum++;
+        		measure.setNumber(""+measureNum);
+        	}
+        	else {
+        		musicXML.Note note = new musicXML.Note();
+        		Chord c = new Chord();
+        		if( info[i][7].equals("true"))
+        			note.getDurationOrChordOrCue().add(c); // chord
             Pitch pitch = new Pitch(info[i][1],new BigInteger(info[i][3]));
-            // pitch.setStep(info[i][1]);
-            // pitch.setOctave(new BigInteger(info[i][3]));
             note.getDurationOrChordOrCue().add(pitch);
             note.getDurationOrChordOrCue().add(new BigDecimal(info[i][0])); // duration
-
             note.setVoice(info[i][2]);
             note.setType(new Type(info[i][4]));
-
             Notations notations = new Notations();
             Technical technical = new Technical();
             technical.setString( new String(new BigInteger(info[i][5])));
             technical.setFret(new Fret(new BigInteger(info[i][6])));
-
             notations.setTechnical(technical);
             note.setNotations(notations);
             notes.add(note);
+        	}
         }
+        
         measure.setAttributes(attributes);
         measure.setNote(notes);
-        part.setMeasure(measure);
+        part.setMeasure(measures);
         scorePartwise.setPart(part);
-    }
-
-    public void createFile()
-    {
+        
+        // ADDED TO CONSTRUCTOR
         try {
 
-            File file = new File("file.xml");
             JAXBContext jaxbContext = JAXBContext.newInstance(ScorePartwise.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller = jaxbContext.createMarshaller();
 
-        // output pretty printed
+            // output pretty printed
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            
 
-            jaxbMarshaller.marshal(scorePartwise, file); // return as a string???
-            jaxbMarshaller.marshal(scorePartwise, System.out);
+            jaxbMarshaller.marshal(scorePartwise, System.out); //prints to console
 
-            } catch (JAXBException e) {
+        } catch (JAXBException e) {
             e.printStackTrace();
-            }
+        }
+        
+        
+    }
+
+    public File createFile(File file)
+    {
+    	try {
+        jaxbMarshaller.marshal(scorePartwise, file); // return as a string???
+    	}
+    	catch(JAXBException e) {
+    		e.printStackTrace();
+    	}finally {
+    		return file;
+    	}
+    }
+    public java.lang.String getXMLContent() {
+    	StringWriter xml =  new StringWriter();
+    	try {    		
+            jaxbMarshaller.marshal(scorePartwise, xml); // return as a string???
+        }
+        catch(JAXBException e) {
+        	e.printStackTrace();
+        }finally {
+        	return xml.toString();
+        }
     }
 }

@@ -28,7 +28,7 @@ public class JAXBExample {
         partlist.getPartGroupOrScorePart().add(scorePart);
         s.setPartList(partlist);
 
-        Measure m = new Measure();
+        musicXML.Measure m = new musicXML.Measure();
         m.setId("1");
         Attributes a = new Attributes();
         a.setDivisions(new BigDecimal(2));
@@ -87,7 +87,7 @@ public class JAXBExample {
 
         a.setStaffDetails(sD);
         
-        Note n1 = new Note();
+        musicXML.Note n1 = new musicXML.Note();
         Pitch pitch = new Pitch();
         pitch.setStep("B");
         pitch.setOctave(new BigInteger("2"));
@@ -113,7 +113,7 @@ public class JAXBExample {
 
 
 
-        Note n2 = new Note();
+        musicXML.Note n2 = new musicXML.Note();
         Pitch pitch2 = new Pitch();
         pitch2.setStep("B");
         pitch2.setOctave(new BigInteger("2"));
@@ -140,7 +140,7 @@ public class JAXBExample {
 
 
         
-        ArrayList<Note> notes = new ArrayList<>();
+        ArrayList<musicXML.Note> notes = new ArrayList<>();
 
         notes.add(n1);
         notes.add(n2);
