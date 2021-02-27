@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.web.WebView?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <VBox prefHeight="106.0" prefWidth="640.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Open Text File" />
+                        <MenuItem mnemonicParsing="false" text="Save as MusicXML" />
+                        <MenuItem mnemonicParsing="false" text="Quit" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Clear All" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <HBox>
+               <children>
+                  <Button fx:id="selectButton" layoutX="56.0" layoutY="10.0" mnemonicParsing="false" onAction="#fileChooser" prefHeight="25.0" prefWidth="101.0" text="Select File" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button fx:id="convertButton" disable="true" layoutX="536.0" layoutY="10.0" mnemonicParsing="false" onAction="#converter" prefHeight="25.0" prefWidth="229.0" text="Convert" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label fx:id="filePathLabel" text="File Path:">
+                     <padding>
+                        <Insets left="8.0" />
+                     </padding>
+                  </Label>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <ProgressBar prefWidth="200.0" progress="0.0" />
+                  <ProgressIndicator prefHeight="32.0" prefWidth="80.0" progress="0.0" />
+               </children>
+               <padding>
+                  <Insets left="8.0" right="8.0" />
+               </padding>
+            </HBox>
+            <Label fx:id="statusLabel" layoutX="10.0" layoutY="76.0" text="File Status: ">
+               <VBox.margin>
+                  <Insets bottom="2.0" left="8.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="instrumentLabel" layoutX="18.0" layoutY="80.0" text="Instrument Detection: ">
+               <VBox.margin>
+                  <Insets bottom="2.0" left="8.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+   </top>
+   <bottom>
+      <HBox alignment="BOTTOM_RIGHT" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Some text maybe" HBox.hgrow="NEVER" />
+         </children>
+         <padding>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <center>
+      <GridPane style="-fx-background-color: LightGray;" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="223.0" vgrow="ALWAYS" />
+        </rowConstraints>
+         <children>
+            <Accordion GridPane.columnIndex="1">
+              <panes>
+                <TitledPane animated="false" text="Browse for Tabs">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <WebView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                     </content>
+                </TitledPane>
+                <TitledPane animated="false" expanded="false" text="XML File Contents">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <TextArea fx:id="tabTextArea2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+                                 <font>
+                                    <Font name="Lucida Console" size="12.0" />
+                                 </font>
+                              </TextArea>
+                           </children>
+                        </VBox>
+                     </content>
+                </TitledPane>
+                <TitledPane animated="false" expanded="false" text="Parsed Information">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <TextArea fx:id="tabTextArea21" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+                                 <font>
+                                    <Font name="Lucida Console" size="12.0" />
+                                 </font>
+                              </TextArea>
+                           </children>
+                        </VBox>
+                     </content>
+                </TitledPane>
+              </panes>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+               <GridPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </GridPane.margin>
+            </Accordion>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="43.0" text="Tablature Editor" />
+                  <TextArea fx:id="tabTextArea1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="258.0" prefWidth="315.0" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Lucida Console" size="12.0" />
+                     </font>
+                  </TextArea>
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="43.0" text="Extracted Information" />
+                  <TextArea maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="315.0" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" />
+         </BorderPane.margin>
+      </GridPane>
+   </center>
+   <left>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="NEVER" />
+          <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="NEVER" />
+          <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="NEVER" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="NEVER" />
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+        </rowConstraints>
+         <children>
+            <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#dde2e8" height="48.0" stroke="BLACK" strokeType="INSIDE" width="91.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <GridPane.margin>
+                  <Insets top="10.0" />
+               </GridPane.margin>
+            </Rectangle>
+            <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#dde2e8" height="48.0" stroke="BLACK" strokeType="INSIDE" width="91.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <GridPane.margin>
+                  <Insets top="10.0" />
+               </GridPane.margin>
+            </Rectangle>
+            <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#dde2e8" height="48.0" stroke="BLACK" strokeType="INSIDE" width="91.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <GridPane.margin>
+                  <Insets top="10.0" />
+               </GridPane.margin>
+            </Rectangle>
+            <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#dde2e8" height="48.0" stroke="BLACK" strokeType="INSIDE" width="91.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <GridPane.margin>
+                  <Insets top="10.0" />
+               </GridPane.margin>
+            </Rectangle>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Convert" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <font>
+                  <Font name="Albany AMT" size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Valid Tab" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                  <Font name="Albany AMT" size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="XML File" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+               <font>
+                  <Font name="Albany AMT" size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Tab" GridPane.halignment="CENTER">
+               <font>
+                  <Font name="Albany AMT" size="13.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Text>
+         </children>
+         <BorderPane.margin>
+            <Insets left="5.0" />
+         </BorderPane.margin>
+      </GridPane>
+   </left>
+</BorderPane>
