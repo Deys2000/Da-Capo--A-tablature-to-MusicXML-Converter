@@ -15,7 +15,7 @@ import musicXML.String;
 public class xmlGen {
 
     private ScorePartwise scorePartwise;
-    java.lang.String[][] attributeVals = {
+    private java.lang.String[][] attributeVals = {
         {"4"}, // divisions
         {"0"}, // fifths
         {"4","4"}, // beats and beat-type
@@ -28,43 +28,43 @@ public class xmlGen {
     public xmlGen (java.lang.String[][] info)
     {
         this.scorePartwise = new ScorePartwise();
-        scorePartwise.setMovementTitle("test");
-        Part part = new Part();
-        part.setId("1");
-        PartList partlist = new PartList();
-        ScorePart scorePart = new ScorePart();
-        scorePart.setId("1");
-        partlist.getPartGroupOrScorePart().add(scorePart);
-        scorePartwise.setPartList(partlist);
+        scorePartwise.setMovementTitle("test"); // move to constuctor
+        scorePartwise.setPartList( new PartList(new ScorePart("1")));
+        Part part = new Part("1");
+        // part.setId("1"); // move to constuctor 
+        // PartList partlist = new PartList();
+        // ScorePart scorePart = new ScorePart();  //no need to refrence  
+        // scorePart.setId("1"); // move to constuctor 
+        // partlist.getPartGroupOrScorePart().add(scorePart);
+        // scorePartwise.setPartList(partlist);
 
-        Measure measure = new Measure();
-        measure.setId("1");
+        Measure measure = new Measure("1");
 
         
         Attributes attributes = new Attributes();
         attributes.setDivisions(new BigDecimal(2));
+
         Key key = new Key();
         key.setFifths(new BigInteger("0"));
         attributes.setKey(key);
-        Time time = new Time();
-        time.setBeats("4");
-        time.setBeatType("4");
-        attributes.setTime(time);
-        Clef clef = new Clef();
-        clef.setSign("TAB");
-        clef.setLine(new BigInteger("5"));
-        attributes.setClef(clef);
 
-        StaffDetails StaffDetails = new StaffDetails();
-        StaffDetails.setStaffLines(new BigInteger("6"));
+        attributes.setTime(new Time("4", "4"));
+        attributes.setClef(new Clef("TAB", new BigInteger("5")));
+
+        // Clef clef = new Clef("TAB", new BigInteger("5"));
+        // clef.setSign("TAB");
+        // clef.setLine(new BigInteger("5"));
+
+        StaffDetails StaffDetails = new StaffDetails(new BigInteger("6"));
+        //StaffDetails.setStaffLines();
+
         ArrayList<StaffTuning> staffTunings = new ArrayList<>();
+        
     	for(int i = 0; i < attributeVals[5].length; i++) {
-            StaffTuning staffTuning = new StaffTuning();
-            staffTuning.setLine(new BigInteger(Integer.toString(i + 1)));
-            staffTuning.setTuningStep(attributeVals[5][i]);
-            staffTuning.setTuningOctave(new BigInteger(attributeVals[6][i]));
-            
-
+            StaffTuning staffTuning = new StaffTuning(new BigInteger(Integer.toString(i + 1)),attributeVals[5][i],new BigInteger(attributeVals[6][i]));
+            // staffTuning.setLine(new BigInteger(Integer.toString(i + 1)));
+            // staffTuning.setTuningStep(attributeVals[5][i]);
+            // staffTuning.setTuningOctave(new BigInteger(attributeVals[6][i]));
             staffTunings.add(staffTuning);
     	}
 
@@ -76,19 +76,21 @@ public class xmlGen {
         for(int i = 0; i < info[0].length; i++)
         {
             Note note = new Note();
-            Pitch pitch = new Pitch();
-            pitch.setStep(info[i][1]);
-            System.out.println(info[i][3]);
-            pitch.setOctave(new BigInteger(info[i][3]));
+
+            Pitch pitch = new Pitch(info[i][1],new BigInteger(info[i][3]));
+            // pitch.setStep(info[i][1]);
+            // pitch.setOctave(new BigInteger(info[i][3]));
             note.getDurationOrChordOrCue().add(pitch);
             note.getDurationOrChordOrCue().add(new BigDecimal(info[i][0])); // duration
+
             note.setVoice(info[i][2]);
             note.setType(new Type(info[i][4]));
+
             Notations notations = new Notations();
             Technical technical = new Technical();
-            System.out.println(info[i][5]);
             technical.setString( new String(new BigInteger(info[i][5])));
             technical.setFret(new Fret(new BigInteger(info[i][6])));
+
             notations.setTechnical(technical);
             note.setNotations(notations);
             notes.add(note);

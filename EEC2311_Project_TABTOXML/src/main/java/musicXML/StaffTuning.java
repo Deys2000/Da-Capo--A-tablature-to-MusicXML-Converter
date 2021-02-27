@@ -63,7 +63,16 @@ public class StaffTuning {
     @XmlAttribute(name = "line", required = true)
     protected BigInteger line;
 
-    /**
+    public StaffTuning() {
+	}
+    public StaffTuning(BigInteger line, java.lang.String tuningStep, BigInteger tuningOctave) {
+
+        this.line = line;
+        this.tuningStep = tuningStep;
+        this.tuningOctave = tuningOctave;
+	}
+
+	/**
      * Gets the value of the tuningStep property.
      * 
      * @return

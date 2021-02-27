@@ -126,7 +126,13 @@ public class Measure {
     @XmlAttribute(name = "width", required = true)
     protected BigDecimal width;
 
-    /**
+    public Measure() {
+	}
+    public Measure(java.lang.String id) {
+        this.id = id;
+	}
+
+	/**
      * Gets the value of the note property.
      * 
      * @return
