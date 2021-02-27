@@ -22,10 +22,10 @@ public class RhythmParser {
      */
     public void parseToRhythm(ArrayList<String> parsedTab) {
     	
-    	// For Debugging
-    	for(int i = 0; i < parsedTab.size(); i++) {
-    		System.out.println(parsedTab.get(i));
-    	}
+//    	// For Debugging
+//    	for(int i = 0; i < parsedTab.size(); i++) {
+//    		System.out.println(parsedTab.get(i));
+//    	}
         
         int counter = 0; // iterates horizontally
         int noteLength = 0; // in 16th notes
@@ -126,11 +126,11 @@ public class RhythmParser {
         durationArr.add("||");
         typeArr.add("||");
         
-        // For debugging
-        System.out.print("Duration Array: ");
-        System.out.println(durationArr);
-        System.out.print("Type Array: ");
-        System.out.println(typeArr);
+//        // For debugging
+//        System.out.print("Duration Array: ");
+//        System.out.println(durationArr);
+//        System.out.print("Type Array: ");
+//        System.out.println(typeArr);
     }
     
     private String durationToType(int duration, int divisions) {
