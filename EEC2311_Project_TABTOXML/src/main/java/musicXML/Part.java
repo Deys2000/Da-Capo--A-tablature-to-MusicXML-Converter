@@ -8,6 +8,8 @@
 
 package musicXML;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -47,7 +49,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Part {
 
     @XmlElement(required = true)
-    protected Measure measure;
+    protected ArrayList<Measure> measure;
     @XmlAttribute(name = "id", required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlSchemaType(name = "NCName")
@@ -61,7 +63,7 @@ public class Part {
      *     {@link Measure }
      *     
      */
-    public Measure getMeasure() {
+    public ArrayList<Measure> getMeasure() {
         return measure;
     }
 
@@ -73,7 +75,7 @@ public class Part {
      *     {@link Measure }
      *     
      */
-    public void setMeasure(Measure value) {
+    public void setMeasure(ArrayList<Measure> value) {
         this.measure = value;
     }
 
