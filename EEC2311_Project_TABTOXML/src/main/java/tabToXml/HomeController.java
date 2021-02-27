@@ -136,7 +136,7 @@ public class HomeController {
 		
 		parsedInfo = new StringBuilder();
 		//adding the parsed tab
-		parsedInfo.append(guitarTab.getParsedString());		
+		parsedInfo.append(guitarTab.printOrginal());		
 	
 		TabParser tmp = new TabParser();
 		tmp.translateParsed(selectedFile.getAbsolutePath());
@@ -146,7 +146,7 @@ public class HomeController {
 		parsedInfo.append("\nFret Strings: " + tmp.fretStrings() + " Length of array: " + tmp.fretStrings().size());
 
 		RhythmParser rhythmParser = new RhythmParser(4);
-        rhythmParser.parseToRhythm(guitarTab.printParsed2());
+        rhythmParser.parseToRhythm(guitarTab.getParsed());
 		
         parsedInfo.append("\nDuration:" + rhythmParser.getDurationArr() + " Length of Array:" + rhythmParser.getDurationArr().size() );
 	    parsedInfo.append("\nType:" + rhythmParser.getTypeArr() + " Length of Array:" + rhythmParser.getTypeArr().size() );
