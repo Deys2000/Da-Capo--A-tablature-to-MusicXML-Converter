@@ -28,14 +28,12 @@ public class Main extends Application {
 	
 	public static void sideTask() throws Exception {
 		
-		TextFileReader fileReader = new TextFileReader("tester.txt");
+		TextFileReader fileReader = new TextFileReader("tab.txt");
 		TabParser tmp = new TabParser();
 		
-		for (int i = 0; i < fileReader.printer().size(); i++) {
-			System.out.print(fileReader.printer().get(i) + "\n");
-		}
+		System.out.println(fileReader.printOrginal());
 		
-		tmp.translateParsed("test.txt");
+		tmp.translateParsed("tab.txt");
 		System.out.println("Notes: " + tmp.notes() + " size of array: " + tmp.notes().size());
 		System.out.println("Frets: " + tmp.fretNums() + " size of array: " + tmp.fretNums().size());
 		System.out.println("Fret Strings: " + tmp.fretStrings() + " size of array: " + tmp.fretStrings().size());
@@ -46,8 +44,9 @@ public class Main extends Application {
 //        System.out.println("duration: \t" + rhythmParser.getDurationArr() + " Length of Array:" + rhythmParser.getDurationArr().size() );
 //	    System.out.println("type: \t" + rhythmParser.getTypeArr() + " Length of Array:" + rhythmParser.getTypeArr().size() );
 		
-	    System.out.println("Number of steps is: " + fileReader.numberOfLines());
-	    System.out.println(fileReader.printer());
+	    System.out.println("Number of Lines in the Tab is: " + fileReader.numberOfLines());
+	    for(String s: fileReader.getParsed())	
+	    	System.out.println(s);
 		//new stuff
 //	    String[][] information = XMLGenerator.processor(tmp.notes(), tmp.fretNums(), tmp.fretStrings(), rhythmParser.getDurationArr(), rhythmParser.getTypeArr());
 //		XMLGenerator.runner(information);
