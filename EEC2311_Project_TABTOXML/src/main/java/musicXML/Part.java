@@ -55,7 +55,14 @@ public class Part {
     @XmlSchemaType(name = "NCName")
     protected java.lang.String id;
 
-    /**
+    public Part() {
+	}
+    public Part(java.lang.String id) {
+        
+        this.id  = id; 
+	}
+
+	/**
      * Gets the value of the measure property.
      * 
      * @return

@@ -5,7 +5,11 @@
             <part-name>Classical Guitar</part-name>
         </score-part>
     </part-list>
+<<<<<<< HEAD
+    <part id="1">
+=======
     <part id="P1">
+>>>>>>> develop
         <measure number="1">
             <attributes>
                 <divisions>2</divisions>

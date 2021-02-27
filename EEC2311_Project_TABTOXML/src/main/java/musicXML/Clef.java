@@ -125,7 +125,15 @@ public class Clef {
     @XmlSchemaType(name = "NCName")
     protected java.lang.String size;
 
-    /**
+    public Clef() {
+	}
+    public Clef(java.lang.String sign, BigInteger line) {
+
+        this.sign = sign;
+        this.line = line; 
+	}
+
+	/**
      * Gets the value of the sign property.
      * 
      * @return

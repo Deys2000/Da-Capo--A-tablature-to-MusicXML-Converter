@@ -88,7 +88,14 @@ public class StaffDetails {
     @XmlSchemaType(name = "NCName")
     protected java.lang.String showFrets;
 
-    /**
+    public StaffDetails() {
+	}
+    public StaffDetails(BigInteger staffLines) {
+
+        this.staffLines = staffLines;
+	}
+
+	/**
      * Gets the value of the staffType property.
      * 
      * @return

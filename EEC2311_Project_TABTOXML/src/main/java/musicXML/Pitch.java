@@ -59,7 +59,15 @@ public class Pitch {
     @XmlElement(required = true)
     protected BigInteger octave;
 
-    /**
+    public Pitch() {
+	}
+    public Pitch(java.lang.String step, BigInteger octave) {
+
+        this.step = step;
+        this.octave = octave;
+	}
+
+	/**
      * Gets the value of the step property.
      * 
      * @return
