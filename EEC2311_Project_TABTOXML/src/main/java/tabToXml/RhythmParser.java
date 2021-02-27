@@ -7,7 +7,7 @@ public class RhythmParser {
     public ArrayList<String> durationArr = new ArrayList<String>();
     public ArrayList<String> typeArr = new ArrayList<String>();
     
-    private int divisions = 0;
+    private int divisions = 4;
     private int padding = 1;
      
     public RhythmParser(int divisions) { // divisions should be 4 by default
