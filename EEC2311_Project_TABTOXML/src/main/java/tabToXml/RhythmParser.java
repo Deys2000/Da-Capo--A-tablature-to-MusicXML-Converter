@@ -131,6 +131,7 @@ public class RhythmParser {
 //        System.out.println(durationArr);
 //        System.out.print("Type Array: ");
 //        System.out.println(typeArr);
+
     }
     
     private String durationToType(int duration, int divisions) {

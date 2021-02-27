@@ -1,4 +1,5 @@
 plugins {
+  id 'java-library'
   id 'application'
   id 'org.openjfx.javafxplugin' version '0.0.8'
 }
@@ -11,6 +12,12 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+     implementation 'javax.xml.bind:jaxb-api:2.3.0'
+     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+     implementation'org.eclipse.persistence:org.eclipse.persistence.moxy:2.7.3'
+     compile('javax.xml.bind:jaxb-api:2.3.0')
+ compile('javax.activation:activation:1.1')
+ compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
 }
 
 test {

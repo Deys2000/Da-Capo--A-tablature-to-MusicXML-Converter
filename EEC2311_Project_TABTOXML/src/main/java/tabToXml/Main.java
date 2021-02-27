@@ -23,6 +23,7 @@ public class Main extends Application {
 		System.out.print("Launching Application" + "\n");
 		//launch(args);
 		 sideTask(); // what will launch this? 
+
 	}
 	
 	public static void sideTask() throws Exception {
@@ -30,20 +31,20 @@ public class Main extends Application {
 		TextFileReader fileReader = new TextFileReader("tab.txt");
 		TabParser tmp = new TabParser();
 
-		
 		System.out.println(fileReader.printOrginal());
 		
 		tmp.translateParsed("tab.txt");
+		
 		System.out.println("Notes: " + tmp.notes() + " size of array: " + tmp.notes().size());
 		System.out.println("Frets: " + tmp.fretNums() + " size of array: " + tmp.fretNums().size());
 		System.out.println("Fret Strings: " + tmp.fretStrings() + " size of array: " + tmp.fretStrings().size());
 
-
+		
 		RhythmParser rhythmParser = new RhythmParser(4);
         rhythmParser.parseToRhythm(fileReader.getParsed());
 		
-        System.out.println("duration: \t" + rhythmParser.getDurationArr() + " Length of Array:" + rhythmParser.getDurationArr().size() );
-	    System.out.println("type: \t" + rhythmParser.getTypeArr() + " Length of Array:" + rhythmParser.getTypeArr().size() );
+         System.out.println("duration: \t" + rhythmParser.getDurationArr() + " Length of Array:" + rhythmParser.getDurationArr().size() );
+	     System.out.println("type: \t" + rhythmParser.getTypeArr() + " Length of Array:" + rhythmParser.getTypeArr().size() );
 		
 	    System.out.println("Number of Lines in the Tab is: " + fileReader.numberOfLines());
 	    for(String s: fileReader.getParsed())	
@@ -51,6 +52,18 @@ public class Main extends Application {
 	    
 		//new stuff
 	    String[][] information = XMLGenerator.processor(tmp.notes(), tmp.fretNums(), tmp.fretStrings(), rhythmParser.getDurationArr(), rhythmParser.getTypeArr());
+
+		for(String[] s : information)
+		{
+			for(String st : s)
+			{
+				System.out.print(st + " ");
+			}
+			System.out.print("\n");
+		}
+
+		//xmlGen gen10 = new xmlGen(information);
+		//gen10.createFile();
 		System.out.println(XMLGenerator.runner(information));
 		System.exit(0);
 	}  

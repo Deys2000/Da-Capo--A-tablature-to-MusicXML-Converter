@@ -21,7 +21,7 @@ public class TabParser {
 		if(fret > 12)
 			throw new Exception("The fret must be between 1 and 12 (inclusive)");
 
-		String[] table = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};			
+		String[] table = {"C","C","D","D","E","F","F","G","G","A","A","B"};			
 		//find location in table
 		int location = 0;
 		for(int i = 0; i < table.length; i++) {
@@ -54,7 +54,9 @@ public class TabParser {
 		
 		int row = tabReader.getParsed().size();
 //		int col = tabReader.printParsed().get(0).size();
+
 		int next = tabReader.getParsed().get(0).length();
+
 		char fret2 = '\0';
 		String tmp = "";
 		int cal = 0;
@@ -66,8 +68,9 @@ public class TabParser {
 				
 				
 				for(int i = 0; i < row; i++) {
-					
+
 					fret2 = tabReader.getParsed().get(i).charAt(j);
+
 					int fret = Character.getNumericValue(fret2);
 					if (fret2 >= '0' && fret2 <= '9') {
 						if (i == 0) {
