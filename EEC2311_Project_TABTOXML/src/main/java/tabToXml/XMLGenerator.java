@@ -33,7 +33,33 @@ public class XMLGenerator {
 		
 		return lines;
 	}
- 
+	
+	public static String Beats(){
+		
+		return "4";
+	}
+	public static String sign(){
+		String instrument =TextFileReader.instrument; 
+		String sign = "tab";
+		if(instrument == "guitar") {
+			//G for treble
+			sign = "G";
+		}
+		else if (instrument == "bass") {
+			//F for bass
+			sign = "F";
+		}
+		else {
+			//TAB for drums
+			sign = "TAB";
+		}
+		return sign;
+	}
+	public static String line(){
+		
+		return "5";
+	}
+	
     public static String runner(String[][] noteValsX) {
  
     	//the values are as follows
@@ -57,7 +83,7 @@ public class XMLGenerator {
     			{"4"}, // divisions
     			{"0"}, // fifths
     			{"4","4"}, // beats and beat-type
-    			{"TAB","5"}, // sign and line
+    			{XMLGenerator.sign(),"5"}, // sign and line
     			{XMLGenerator.staffLines()}, // staff lines
     			{"E","A","D","G","B","E"}, //tuning-step
     			{"2","2","3","3","3","4"} // tuning-octave

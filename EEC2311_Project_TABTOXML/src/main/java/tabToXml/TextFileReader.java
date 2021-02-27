@@ -15,6 +15,7 @@ public class TextFileReader {
 	private File inputFile;
 	private static int count;
 	boolean isDrum;
+	static String instrument;
 	
 	//Original text 
 	private ArrayList<String> originalTab = new ArrayList<String>();
@@ -138,7 +139,7 @@ public class TextFileReader {
 	 * still in progress
 	 */
 	public String detectInstrument(){	
-		String instrument = "Unable to Identify";
+		instrument = "Unable to Identify";
 		int lines = count/2;
 		
 		if(lines == 4 && isDrum == false ) {
