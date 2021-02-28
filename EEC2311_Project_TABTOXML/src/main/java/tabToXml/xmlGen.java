@@ -30,9 +30,11 @@ public class xmlGen {
     };
 
     
+    public xmlGen(BassParser bp) {
+    	guitarGenerator(bp.processor());
+    }
     
     /**
-     * A constructor prepared for the future of this Class, it takes the instrument and makes xml stuff out of it based on instrument
      * this one is for guitar obviously
      * @param instrument
      * @param parserObject

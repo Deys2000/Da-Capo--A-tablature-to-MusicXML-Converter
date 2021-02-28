@@ -106,8 +106,7 @@ public class HomeController {
 			myWriter = new FileWriter(newFile);
 			myWriter.write(textAreaContents); 
 			myWriter.close();
-		} 
-		catch (IOException e) { e.printStackTrace(); }
+		
 		
 		// pass the file to textfilereader so we can begin the process
 		TextFileReader tfr = new TextFileReader(newFile);
@@ -124,16 +123,32 @@ public class HomeController {
 			//xmlGen xg = new xmlGen(dp);
 			break;
 		case "Bass":
-			//BassParser bp = new BassParser(tfr.getParsed());
-			//xmlGen xg = new xmlGen(bp);
+			BassParser bp = new BassParser(tfr.getParsed());
+			xg = new xmlGen(bp);
 			break;
 		default:
 			//give some error message saying instrument was not detected or something
 			
 		}	
 		//xmlGen xg = null;
-		tabTextArea2.setText(xg.getXMLContent());		
+		tabTextArea2.setText(xg.getXMLContent());	
 		saveButton.setDisable(false);
+		} 
+		catch (Exception e) { 
+			e.printStackTrace(); 
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("User Message");
+			alert.setHeaderText("ERROR: INVALID INPUT");
+			alert.setContentText("System is Unable to recognize the Tablature.");
+			alert.showAndWait().ifPresent(rs -> {
+			    if (rs == ButtonType.OK) {
+			        System.out.println("Pressed OK.");
+			    }
+			});
+			
+		}
+		
+		
 	}
 	
 	

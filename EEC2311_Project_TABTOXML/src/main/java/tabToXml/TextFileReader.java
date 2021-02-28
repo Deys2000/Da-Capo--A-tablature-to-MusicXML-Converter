@@ -28,7 +28,6 @@ public class TextFileReader {
 		this.inputFile = new File(inputFile);
 		this.countLines();
 		this.createparsedTab();
-
 		this.detectInstrument();
 	}
 	public TextFileReader(File inputFile){
@@ -137,10 +136,9 @@ public class TextFileReader {
 		else if (numOfLines == 6 && isDrum == false) {
 			instrument = "Guitar";
 		}
-		else{
+		else if( isDrum ){
 			instrument = "Drums";
 		}
-		//for now we just return guitar
 		return instrument;
 	}
 	

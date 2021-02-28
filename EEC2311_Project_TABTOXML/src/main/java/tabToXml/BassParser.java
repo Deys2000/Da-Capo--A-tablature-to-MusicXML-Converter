@@ -16,8 +16,9 @@ public class BassParser {
     private int divisions = 4; //current default is 4
     private int padding = 1;
     
-    public BassParser() {
-    	
+    public BassParser(ArrayList<String> tfrparsed) throws Exception {
+    	translateParsed(tfrparsed);
+    	parseToRhythm(tfrparsed);
     }
     
     public static String translate(String string, int fret) throws Exception{
