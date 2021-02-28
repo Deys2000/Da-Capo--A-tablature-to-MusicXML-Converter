@@ -159,6 +159,41 @@ public class TextFileReader {
 		
 		return lines;
 	}
+	
+	public static String sign(){
+		String sign = "tab";
+		if(instrument == "guitar") {
+			//G for treble
+			sign = "G";
+		}
+		else if (instrument == "bass") {
+			//F for bass
+			sign = "F";
+		}
+		else {
+			//TAB for drums
+			sign = "TAB";
+		}
+		return sign;
+	}
+	
+	public static java.lang.String line(){
+		java.lang.String line = "";
+		if(instrument == "guitar") {
+			//treble lies on 3rd string for guitar
+			line = "3";
+		}
+		else if (instrument == "bass") {
+			//bass clef lies on 1st string for bass
+			line = "1";
+		}
+		else {
+			//4 for drum tabs
+			line = "4";
+		}
+		return line;
+	}
+		
 //	/**
 //	 * Creates a parsedTab array of the file in parsedTabTab variable
 //	 */

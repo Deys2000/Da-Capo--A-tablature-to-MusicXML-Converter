@@ -23,7 +23,7 @@ public class xmlGen {
         {"4"}, // divisions
         {"0"}, // fifths
         {"4","4"}, // beats and beat-type
-        {"TAB","5"}, // sign and line
+        {TextFileReader.sign(),TextFileReader.line()}, // sign and line
         {TextFileReader.staffLines()}, // staff lines
         {"E","A","D","G","B","E"}, //tuning-step
         {"2","2","3","3","3","4"} // tuning-octave
