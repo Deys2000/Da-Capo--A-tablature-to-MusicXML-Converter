@@ -31,13 +31,17 @@ public class Main extends Application {
 	public static void sideTask() throws Exception {
 		
 		TextFileReader fileReader = new TextFileReader("tab.txt");
+
+		//An if statement should select which one to call based on the instrument detection
 		GuitarParser gp = new GuitarParser(fileReader.getParsed());
+//		BassParser gp = new BassParser();
 
 		System.out.println(fileReader.printOrginal());
 		
 		//gp.translateParsed("tab.txt");
 		//RhythmParser rhythmParser = new RhythmParser(4);
         gp.parseToRhythm(fileReader.getParsed());
+        gp.translateParsed(fileReader.getParsed());
 		
 		System.out.println("Notes: " + gp.getNotes() + " size of array: " + gp.getNotes().size());
 		System.out.println("Chord?: " + gp.getChordArr() + " size of array: " + gp.getChordArr().size() );

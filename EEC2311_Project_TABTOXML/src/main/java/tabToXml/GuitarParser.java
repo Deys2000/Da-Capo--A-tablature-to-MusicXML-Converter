@@ -25,14 +25,16 @@ public class GuitarParser {
 	/*This method takes the input file and parses that into a 2d array. 
 	 *The result of that 2d array is used to obtain the fret and chord/note
 	 *using the translate() method above. */
-	public void translateParsed(ArrayList<String> inputfile) throws Exception {
+
+	public void translateParsed(ArrayList<String> parsedTab) throws Exception {
 		
 		//TextFileReader tabReader = new TextFileReader(inputfile);
 		
-		int row = inputfile.size();
+
+		int row = parsedTab.size();
 //		int col = tabReader.printParsed().get(0).size();
 
-		int next = inputfile.get(0).length();
+		int next = parsedTab.get(0).length();
 
 		char fret2 = '\0';
 		String tmp = "";
@@ -50,7 +52,7 @@ public class GuitarParser {
 					
 					String fretStringVar = "";
 					
-					fret2 = inputfile.get(i).charAt(j);
+					fret2 = parsedTab.get(i).charAt(j);
 
 					int fret = Character.getNumericValue(fret2);
 					if (fret2 >= '0' && fret2 <= '9') {
@@ -401,7 +403,7 @@ public class GuitarParser {
             result = "eighth";
         }
         else if (durOverDiv == 0.25) {
-            result = "sixteenth";
+            result = "16th";
         }
         else {
         	result = "unidentified";
