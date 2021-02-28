@@ -4,9 +4,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import java.io.FileNotFoundException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,19 +25,82 @@ import javax.xml.transform.stream.StreamResult;
  */
  
 public class XMLGenerator {
- 
+	 static String lines;
+	
+	public static String staffLines(){
+		Integer count =TextFileReader.getLines();
+		lines = count.toString();
+		
+		return lines;
+	}
+	
+	public static String Beats(){
+		
+		return "4";
+	}
+	public static String sign(){
+		String instrument =TextFileReader.instrument; 
+		String sign = "tab";
+		if(instrument == "guitar") {
+			//G for treble
+			sign = "G";
+		}
+		else if (instrument == "bass") {
+			//F for bass
+			sign = "F";
+		}
+		else {
+			//TAB for drums
+			sign = "TAB";
+		}
+		return sign;
+	}
+	public static String line(){
+		String instrument =TextFileReader.instrument;
+		String line = "";
+		if(instrument == "guitar") {
+			//treble lies on 3rd string for guitar
+			line = "3";
+		}
+		else if (instrument == "bass") {
+			//bass clef lies on 1st string for bass
+			line = "1";
+		}
+		else {
+			//not 100% sure where the clef actually falls for drums, 5 is a placeholder
+			line = "5";
+		}
+		return line;
+	}
+	
     public static String runner(String[][] noteValsX) {
  
     	//the values are as follows
     	// division, fifths, beats, beat type, sign, line and stafflines, tuningsteps and tuning octaves 
+    	
+    	//commented out original in case of errors
+//    	String[][] attributeVals = {
+//    			{"4"}, // divisions
+//    			{"0"}, // fifths
+//    			{"4","4"}, // beats and beat-type
+//    			{"TAB","5"}, // sign and line
+//    			{"6"}, // staff lines
+//    			{"E","A","D","G","B","E"}, //tuning-step
+//    			{"2","2","3","3","3","4"} // tuning-octave
+//    	};
+    	
+    	//prints to console just to doublecheck # of lines is right
+    	System.out.println("# OF LINES ="+XMLGenerator.staffLines());
+    	
     	String[][] attributeVals = {
     			{"4"}, // divisions
     			{"0"}, // fifths
     			{"4","4"}, // beats and beat-type
-    			{"TAB","5"}, // sign and line
-    			{"6"}, // staff lines
+    			{XMLGenerator.sign(),XMLGenerator.line()}, // sign and line
+    			{XMLGenerator.staffLines()}, // staff lines
     			{"E","A","D","G","B","E"}, //tuning-step
     			{"2","2","3","3","3","4"} // tuning-octave
+    			
     	};
     	
     	

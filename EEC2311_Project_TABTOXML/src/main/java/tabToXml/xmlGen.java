@@ -26,10 +26,26 @@ public class xmlGen {
         {"6"}, // staff lines
         {"E","A","D","G","B","E"}, //tuning-step
         {"2","2","3","3","3","4"} // tuning-octave
-};
+    };
+    
+    
+    /**
+     * A constructor prepared for the future of this Class, it takes the instrument and makes xml stuff out of it based on instrument
+     * this one is for guitar obviously
+     * @param instrument
+     * @param parserObject
+     */
+    public xmlGen(GuitarParser gp) {
+    	guitarGenerator(gp.processor());
+    }    
 
-    public xmlGen (java.lang.String[][] info)
+    /**
+     * previously a constructor, this has now become a method the constructor call if the instrument is a guitar
+     * @param gp
+     */
+    public void guitarGenerator(java.lang.String[][] info)
     {
+    	    	
         this.scorePartwise = new ScorePartwise();
         scorePartwise.setMovementTitle("test"); // move to constuctor
         scorePartwise.setPartList( new PartList(new ScorePart("1")));
@@ -123,7 +139,7 @@ public class xmlGen {
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             
 
-            jaxbMarshaller.marshal(scorePartwise, System.out); //prints to console
+            //jaxbMarshaller.marshal(scorePartwise, System.out); //prints to console
 
         } catch (JAXBException e) {
             e.printStackTrace();
@@ -143,6 +159,7 @@ public class xmlGen {
     		return file;
     	}
     }
+    
     public java.lang.String getXMLContent() {
     	StringWriter xml =  new StringWriter();
     	try {    		

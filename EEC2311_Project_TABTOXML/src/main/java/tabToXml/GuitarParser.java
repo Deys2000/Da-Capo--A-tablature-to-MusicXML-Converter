@@ -17,21 +17,22 @@ public class GuitarParser {
     private int padding = 1;
     
     
-    public GuitarParser() {
-    	
+    public GuitarParser(ArrayList<String> tfrparsed) throws Exception {
+    	translateParsed(tfrparsed);
+    	parseToRhythm(tfrparsed);
     }
     
 	/*This method takes the input file and parses that into a 2d array. 
 	 *The result of that 2d array is used to obtain the fret and chord/note
 	 *using the translate() method above. */
-	public void translateParsed(String inputfile) throws Exception {
+	public void translateParsed(ArrayList<String> inputfile) throws Exception {
 		
-		TextFileReader tabReader = new TextFileReader(inputfile);
+		//TextFileReader tabReader = new TextFileReader(inputfile);
 		
-		int row = tabReader.getParsed().size();
+		int row = inputfile.size();
 //		int col = tabReader.printParsed().get(0).size();
 
-		int next = tabReader.getParsed().get(0).length();
+		int next = inputfile.get(0).length();
 
 		char fret2 = '\0';
 		String tmp = "";
@@ -49,7 +50,7 @@ public class GuitarParser {
 					
 					String fretStringVar = "";
 					
-					fret2 = tabReader.getParsed().get(i).charAt(j);
+					fret2 = inputfile.get(i).charAt(j);
 
 					int fret = Character.getNumericValue(fret2);
 					if (fret2 >= '0' && fret2 <= '9') {

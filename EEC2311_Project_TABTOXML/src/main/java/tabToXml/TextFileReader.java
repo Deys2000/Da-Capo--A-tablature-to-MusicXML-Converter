@@ -15,6 +15,7 @@ public class TextFileReader {
 	private File inputFile;
 	int numOfLines = 0;
 	boolean isDrum;
+	static String instrument;
 	
 	//Parsed text 
 	public ArrayList<String> parsedTab = new ArrayList<String>();
@@ -28,6 +29,12 @@ public class TextFileReader {
 		this.countLines();
 		this.createparsedTab();
 
+		this.detectInstrument();
+	}
+	public TextFileReader(File inputFile){
+		this.inputFile = inputFile;
+		this.countLines();
+		this.createparsedTab();
 		this.detectInstrument();
 	}
 	
@@ -125,13 +132,13 @@ public class TextFileReader {
 	public String detectInstrument(){	
 		String instrument = "Unable to Identify";
 		if(numOfLines == 4 && isDrum == false ) {
-			instrument = "bass";
+			instrument = "Bass";
 		}
 		else if (numOfLines == 6 && isDrum == false) {
-			instrument = "guitar";
+			instrument = "Guitar";
 		}
 		else{
-			instrument = "drums";
+			instrument = "Drums";
 		}
 		//for now we just return guitar
 		return instrument;

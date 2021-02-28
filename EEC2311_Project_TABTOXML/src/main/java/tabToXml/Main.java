@@ -23,19 +23,19 @@ public class Main extends Application {
 	public static void main(String[] args) throws Exception {
 
 		System.out.print("Launching Application" + "\n");
-		//launch(args);
-		sideTask(); // what will launch this? 
+		launch(args);
+		//sideTask(); // what will launch this? 
 
 	}
 	
 	public static void sideTask() throws Exception {
 		
 		TextFileReader fileReader = new TextFileReader("tab.txt");
-		GuitarParser gp = new GuitarParser();
+		GuitarParser gp = new GuitarParser(fileReader.getParsed());
 
 		System.out.println(fileReader.printOrginal());
 		
-		gp.translateParsed("tab.txt");
+		//gp.translateParsed("tab.txt");
 		//RhythmParser rhythmParser = new RhythmParser(4);
         gp.parseToRhythm(fileReader.getParsed());
 		
@@ -51,10 +51,10 @@ public class Main extends Application {
 	    	System.out.println(s);
 
 	    
-		xmlGen gen10 = new xmlGen(gp.processor());
-		gen10.createFile(new File("file.xml"));
-		
-		DrumParser dp = new DrumParser("exampleTabInput");
+		xmlGen gen10 = new xmlGen(gp);
+		//gen10.createFile(new File("file.xml"));
+		System.out.println(gen10.getXMLContent());
+		//DrumParser dp = new DrumParser("exampleTabInput");
 		
 		System.exit(0);
 	}  
