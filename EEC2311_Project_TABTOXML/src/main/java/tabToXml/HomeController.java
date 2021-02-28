@@ -124,12 +124,14 @@ public class HomeController {
 			tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
 			break;
-//		case "Drum":
-//			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
-//			+ "\nSystem is in prototype phase, unable to process Drums.");
-//			//DrumParser dp = new DrumParser(tfr.getParsed());
-//			//xmlGen xg = new xmlGen(dp);
-//			break;
+		case "Drum":
+			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
+			+ "\nSystem is in prototype phase, unable to process Drums completely."
+			+ "\nUse with caution."
+			+ "\nYou may find that rests and beams are not be processed correctly.");
+			DrumParser dp = new DrumParser(tfr.getParsed());
+			xmlGen xg = new xmlGen(dp);
+			break;
 //		case "Bass":
 //			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
 //			+ "\nSystem is in prototype phase, unable to process Bass.");

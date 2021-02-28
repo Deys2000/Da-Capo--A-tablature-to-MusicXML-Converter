@@ -260,6 +260,8 @@ public class xmlGen {
     	   // if the note is not a rest note give it the following values as well
     	   if( note.getUnpitchedOrRest().equals("unpitched")) {        	   
         	   n.getDurationOrChordOrCue().add(new Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));        	   
+        	   if(note.getChord())
+        		   n.getDurationOrChordOrCue().add(new Chord());
         	   Instrument instrument = new Instrument();
         	   instrument.setId(note.getInstrumentID());
         	   n.setInstrument(instrument);        	   
@@ -294,6 +296,8 @@ public class xmlGen {
         	   // if the note is not a rest note give it the following values as well
         	   if(note.getUnpitchedOrRest().equals("unpitched")) {
         		   n.getDurationOrChordOrCue().add(new Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
+        		   if(note.getChord())
+        			   n.getDurationOrChordOrCue().add(new Chord());
         		   Instrument instrument = new Instrument();
             	   instrument.setId(note.getInstrumentID());
             	   n.setInstrument(instrument);

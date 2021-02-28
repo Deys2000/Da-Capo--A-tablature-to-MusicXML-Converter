@@ -12,39 +12,41 @@ public class DrumParser {
 	ArrayList<StringInfo> tabStrings = new ArrayList<>();
 	ArrayList<Measure> measures = new ArrayList<>();
 	
-	public DrumParser(String exampleInputX) { //assume the class receives a parsed and clean tab
+	public DrumParser(ArrayList<String> exampleInput) throws Exception { //assume the class receives a parsed and clean tab
 		
 		//first clean the input so it contains only info i need in one long line of tablature
 		//createParsedDrum(inputFile) perhaps
 		//assume the following is what is received or created
-		String[] exampleInput2 = 	{	" C:|X---------------|X---------------|X---------------|X---------------|",
+		String[] exampleInput1 = 	{	" C:|X---------------|X---------------|X---------------|X---------------|",
 										"HH:|----o---o---o---|----o---o---o---|----o---o---o---|----o---o-------|",
 										" S:|----o--o-o--o---|----o--o-o--o---|----o--o-o--o---|----o--o-o------|",
-		 								" B:|o--o----o-oo--o-|o--o----o-oo--o-|o--o----o-oo--o-|o--o----o-o-----|"};
-		String[] exampleInput =
+		 								" BD:|o--o----o-oo--o-|o--o----o-oo--o-|o--o----o-oo--o-|o--o----o-o-----|"};
+		String[] exampleInput2 =
 		{"C|x---------------|--------x-------|",
 		"HH|--x-x-x-x-x-x-x-|----------------|",
 		"S|----o-------o---|oooo------------|",
-		"S|----------------|----oo----------|",
-		"S|----------------|------oo--------|",
-		"B|o-------o-------|o-------o-------|"};
+		"MT|----------------|----oo----------|",
+		"LT|----------------|------oo--------|",
+		"BD|o-------o-------|o-------o-------|"};
 		
 		
 		
 		System.out.println("\nSIMPLIFIED TAB BELOW \n");
-		for(int i = 0; i < exampleInput.length; i++)
-			System.out.println(exampleInput[i]);
+		for(int i = 0; i < exampleInput.size(); i++)
+			System.out.println(exampleInput.get(i));
 		
 		//second check for bad tablature (to do later) examples: there is no tab, the tab is not spaced properly, etc, all lines should have equal length
 		
 		
 		// gather the information on each string and complete the tabStrings Arraylist
-		int numOfRows = exampleInput.length;
+		int numOfRows = exampleInput.size();
 		for( int i = 0; i < numOfRows; i++) {
-			String instrumentSymbol = exampleInput[i].substring(0,exampleInput[i].indexOf('|'));
+			String instrumentSymbol = exampleInput.get(i).substring(0,exampleInput.get(i).indexOf('|'));
+			instrumentSymbol = instrumentSymbol.replaceAll("[^a-zA-Z0-9]", "");  // only keep alphanumeric values
 			tabStrings.add(new StringInfo(instrumentSymbol.strip()));
 			//remove the strings in front
-			exampleInput[i] = exampleInput[i].substring(exampleInput[i].indexOf('|'));
+			exampleInput.add(i, exampleInput.get(i).substring(exampleInput.get(i).indexOf('|')));
+			exampleInput.remove(i+1);
 		}
 		//TESTER for method above
 		System.out.println("\nINSTRUMENTS USED BELOW \n");
@@ -52,11 +54,11 @@ public class DrumParser {
 			System.out.println(tabStrings.get(i).getInstrumentName());
 		
 		//making a string array
-		String[] tab = new String[exampleInput[0].length()];
-		for(int i = 0; i < exampleInput[0].length(); i++) {
+		String[] tab = new String[exampleInput.get(0).length()];
+		for(int i = 0; i < exampleInput.get(0).length(); i++) {
 			String col = "";
-			for(int j = 0; j < exampleInput.length; j++ )
-				col = col + exampleInput[j].charAt(i);
+			for(int j = 0; j < exampleInput.size(); j++ )
+				col = col + exampleInput.get(j).charAt(i);
 			tab[i] = col;
 		}
 		//TESTER for method above 
@@ -144,7 +146,8 @@ public class DrumParser {
 						//if a note exists at that spot make a note
 						if(tab[i].charAt(j) != '-') {
 							// create unpitched note, parameters are stringInfo ,duration, voice, beat,beattype and whether its a chord or not
-							current.addNote(new Note(tabStrings.get(j),duration, beat, beattype, chord));
+							String notehead = ""+tab[i].charAt(j);
+							current.addNote(new Note(tabStrings.get(j),duration,notehead, beat, beattype, chord));
 							chord = true;
 						}
 						
@@ -184,13 +187,13 @@ public class DrumParser {
 class StringInfo{
 		//gets the information of the instrument given its symbol on the tab line
 		//name, id, step, octave, stem
-		String name, id, step, octave, stem, notehead;
+		String name, id, step, octave, stem, notehead; // i have realized the notehad property is incorrect
 		
-		public StringInfo(String symbol) {			
+		public StringInfo(String symbol) throws Exception {			
 		
 		switch(symbol) {
 			
-			case "B":
+			case "BD":
 				name = "Bass Drum 1";
 				id = "P1-I36";
 				step = "F";
@@ -268,14 +271,14 @@ class StringInfo{
 //				stem = "";		
 //				notehead = "";
 //				break;
-//			case "LT":
-//				name = "Low Tom";
-//				id = "P1-146";
-//				step = "";
-//				octave = "";
-//				stem = "";		
-//				notehead = "";
-//				break;
+			case "LT":
+				name = "Low Tom";
+				id = "P1-146";
+				step = "D";
+				octave = "5";
+				stem = "up";		
+				notehead = "x";
+				break;
 //			case "OHH":
 //				name = "Open Hi-Hat";
 //				id = "P1-I47";
@@ -284,14 +287,14 @@ class StringInfo{
 //				stem = "";
 //				notehead = "";
 //				break;
-//			case "LMT":
-//				name = "Low-Mid Tom";
-//				id = "P1-I48";
-//				step = "";
-//				octave = "";
-//				stem = "";			
-//				notehead = "";
-//				break;
+			case "MT":
+				name = "Low-Mid Tom";
+				id = "P1-I48";
+				step = "E";
+				octave = "5";
+				stem = "up";			
+				notehead = "x";
+				break;
 //			case "HMT":
 //				name = "Hi-Mid Tom";
 //				id = "P1-I49";
@@ -390,13 +393,14 @@ class StringInfo{
 //				break;
 						
 			default:
+				throw new Exception("Unrecognizable Instrument");
 				//throw some incorrect stuff exception later
-				name = "Closed Hi-Hat"; // High hat in doc
-				id = "P1-I43";
-				step = "G";
-				octave = "5";
-				stem = "up";		
-				notehead = "x";
+//				name = "Closed Hi-Hat"; // High hat in doc
+//				id = "P1-I43";
+//				step = "G";
+//				octave = "5";
+//				stem = "up";		
+//				notehead = "x";
 				// the values above are just default to prevent crashing
 		}
 			
@@ -446,7 +450,7 @@ class Note {
 	String type = null;
 	String stem = null;
 	String notehead = null;
-	boolean chord;
+	boolean chord = false;
 	
 	//constructor for rest note
 	public Note(int duration, int beat, int beattype) {
@@ -457,7 +461,7 @@ class Note {
 	}
 	
 	//constructor for unpitched note
-	public Note(StringInfo stringInfo , int duration, int beat, int beattype, boolean chord ){
+	public Note(StringInfo stringInfo , int duration, String notehead, int beat, int beattype, boolean chord ){
 		this.unpitchedOrRest = "unpitched";
 		this.displayOctave = stringInfo.getDisplayOctave();
 		this.displayStep = stringInfo.getDisplayStep();
@@ -467,7 +471,7 @@ class Note {
 		else { this.voice = 2; }
 		this.type = getType(beat*beattype/duration);
 		this.stem = stringInfo.getStem();
-		this.notehead = stringInfo.getNotehead();
+		this.notehead = notehead; //stringInfo.getNotehead();
 		this.chord = chord;
 	}	
 	private String getType(int val) {
@@ -540,7 +544,7 @@ class Note {
 		return notehead;
 	}
 
-	public boolean isChord() {
+	public boolean getChord() {
 		return chord;
 	}
 	

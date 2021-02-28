@@ -91,9 +91,12 @@ public class ScorePart {
 
 
 
-    public ScorePart(){}
+    public ScorePart(){
+    	this.scoreInstruments = new ArrayList<ScoreInstrument>();
+    }
     public ScorePart(java.lang.String id, java.lang.String partname)
     {
+    	this.scoreInstruments = new ArrayList<ScoreInstrument>();
         this.id = id;
         this.partName = new PartName(partname);
     }

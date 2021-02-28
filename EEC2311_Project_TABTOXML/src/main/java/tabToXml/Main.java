@@ -23,8 +23,8 @@ public class Main extends Application {
 	public static void main(String[] args) throws Exception {
 
 		System.out.print("Launching Application" + "\n");
-		//launch(args);
-		sideTask(); // what will launch this? 
+		launch(args);
+		//sideTask(); // what will launch this? 
 
 	}
 	
@@ -58,8 +58,8 @@ public class Main extends Application {
 //		xmlGen gen10 = new xmlGen(gp);
 //		//gen10.createFile(new File("file.xml"));
 //		System.out.println(gen10.getXMLContent());
-		DrumParser dp = new DrumParser("exampleTabInput");
-		xmlGen xg = new xmlGen(dp);
+		//DrumParser dp = new DrumParser("exampleTabInput");
+		//xmlGen xg = new xmlGen(dp);
 		
 		System.exit(0);
 	}  
