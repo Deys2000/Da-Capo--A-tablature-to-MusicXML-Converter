@@ -48,8 +48,8 @@ public class HomeController {
 	public void fileChooser (ActionEvent event) throws Exception{
 		fc = new FileChooser();
 		selectedFile = fc.showOpenDialog(null);
-		if(selectedFile == null)
-			selectedFile = oldFile;
+		//if(selectedFile == null)
+			//selectedFile = oldFile;
 		oldFile = selectedFile;
 		
 		if (selectedFile != null) {
@@ -93,7 +93,10 @@ public class HomeController {
 	 * @throws Exception 
 	 */
 	public void converter(ActionEvent event) throws Exception {
-				
+		//empty the XMLArea before getting new info
+		tabTextArea2.setText("");
+		saveButton.setDisable(true);
+		
 		//read the contents of the Tablature Editor Window
 		String textAreaContents = tabTextArea1.getText();
 		//Once the contents are collected, they should be sent to the TextFileReader
@@ -110,29 +113,37 @@ public class HomeController {
 		
 		// pass the file to textfilereader so we can begin the process
 		TextFileReader tfr = new TextFileReader(newFile);
-		tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument());
 		
 		// EVERYTHING ABOVE THIS LINE HAS BEEN TESTED, IT WORKS :)
 		switch(tfr.detectInstrument()) {
 		case "Guitar":
+			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument());
 			GuitarParser gp = new GuitarParser(tfr.getParsed());
 			xg = new xmlGen(gp);
+			// the following two lines should be outside the switch case, but bass and drums dont work yet
+			tabTextArea2.setText(xg.getXMLContent());
+			saveButton.setDisable(false);
 			break;
 		case "Drum":
+			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
+			+ "\nSystem is in prototype phase, unable to process Drums.");
 			//DrumParser dp = new DrumParser(tfr.getParsed());
 			//xmlGen xg = new xmlGen(dp);
 			break;
 		case "Bass":
-			BassParser bp = new BassParser(tfr.getParsed());
-			xg = new xmlGen(bp);
+			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
+			+ "\nSystem is in prototype phase, unable to process Bass.");
+			//BassParser bp = new BassParser(tfr.getParsed());
+			//xg = new xmlGen(bp);
+			
 			break;
 		default:
+			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument());
+			throw new Exception();
 			//give some error message saying instrument was not detected or something
 			
 		}	
-		//xmlGen xg = null;
-		tabTextArea2.setText(xg.getXMLContent());	
-		saveButton.setDisable(false);
+		//xmlGen xg = null;	
 		} 
 		catch (Exception e) { 
 			e.printStackTrace(); 
@@ -172,7 +183,7 @@ public class HomeController {
 		fc = new FileChooser();
 		fc.setTitle("Save MusicXML Conversion");
 		File file = fc.showSaveDialog(stage);
-		//String operationResult = "Successfully written to file.";
+		String operationResult = "Successfully written to file.";
 		
 		// clean this up later
 		try {			
@@ -182,12 +193,15 @@ public class HomeController {
 			myWriter.write(xg.getXMLContent());
 			myWriter.close();			
 			
-		} finally {
+		}catch(Exception e) {
+			operationResult = "Save Cancelled";
+		}
+			finally {
 			
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("User Message");
 			alert.setHeaderText("Operation Status");
-			alert.setContentText("Successfully written to file");
+			alert.setContentText(operationResult);
 			alert.showAndWait().ifPresent(rs -> {
 			    if (rs == ButtonType.OK) {
 			        System.out.println("Pressed OK.");
