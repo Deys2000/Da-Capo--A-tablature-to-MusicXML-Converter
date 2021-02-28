@@ -13,8 +13,8 @@ import java.util.Scanner;
 public class TextFileReader {
 	
 	private File inputFile;
-	static int numOfLines = 0;
-	boolean isDrum;
+	int numOfLines = 0;
+	boolean isDrum = false;
 	static String instrument;
 	
 	//Parsed text 
@@ -42,22 +42,28 @@ public class TextFileReader {
 	 * also responsible for checking if the input provided is bad
 	 */
 	private void countLines(){
+		numOfLines = 0;
 		Scanner sc = null;
 		try {
 			sc = new Scanner(inputFile);
 			while(sc.hasNextLine()){	
 				String next = sc.nextLine();
+				while(!next.contains("-") && !next.contains("|")) { // skip the non tab lines at start
+					next = sc.nextLine();
+				}
 				//drum tab check
 				if(next.contains("X") || next.contains("x") || next.contains("o") || next.contains("O"))  {
 					isDrum = true;
 				}
 				//end of drum tab check
 				if (next.contains("-") && next.contains("|")) {
-					numOfLines ++;
+					numOfLines++;
 					System.out.println(numOfLines);
 				}
-				else if( 0 < numOfLines )  // modified this line to cater to prevent crashing with spacing at the start
+				else
 					break;
+//				else if( 0 < numOfLines )  // modified this line to cater to prevent crashing with spacing at the start
+//					break;
 			}					
 		}
 		catch(FileNotFoundException e) {e.printStackTrace();}
@@ -151,11 +157,9 @@ public class TextFileReader {
 		return numOfLines;
 	}
 	
-	public static java.lang.String staffLines(){
-		Integer count = numOfLines/2;
-		java.lang.String lines = count.toString();
+	public java.lang.String staffLines(){
 		
-		return lines;
+		return String.valueOf(numOfLines);
 	}
 //	/**
 //	 * Creates a parsedTab array of the file in parsedTabTab variable

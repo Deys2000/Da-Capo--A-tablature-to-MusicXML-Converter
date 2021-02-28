@@ -43,6 +43,7 @@ public class DrumParser {
 		for( int i = 0; i < numOfRows; i++) {
 			String instrumentSymbol = exampleInput.get(i).substring(0,exampleInput.get(i).indexOf('|'));
 			instrumentSymbol = instrumentSymbol.replaceAll("[^a-zA-Z0-9]", "");  // only keep alphanumeric values
+			System.out.println(instrumentSymbol);
 			tabStrings.add(new StringInfo(instrumentSymbol.strip()));
 			//remove the strings in front
 			exampleInput.add(i, exampleInput.get(i).substring(exampleInput.get(i).indexOf('|')));

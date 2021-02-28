@@ -113,13 +113,13 @@ public class HomeController {
 		
 		// pass the file to textfilereader so we can begin the process
 		TextFileReader tfr = new TextFileReader(newFile);
-		
+		System.out.println(tfr.detectInstrument());
 		// EVERYTHING ABOVE THIS LINE HAS BEEN TESTED, IT WORKS :)
 		switch(tfr.detectInstrument()) {
 		case "Guitar":
 			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument());
 			GuitarParser gp = new GuitarParser(tfr.getParsed());
-			xg = new xmlGen(gp);
+			xg = new xmlGen(gp,tfr);
 			// the following two lines should be outside the switch case, but bass and drums dont work yet
 			tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
@@ -128,20 +128,21 @@ public class HomeController {
 			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
 			+ "\nSystem is in prototype phase, unable to process Drums completely."
 			+ "\nUse with caution."
-			+ "\nYou may find that rests and beams are not be processed correctly.");
+			+ "\nYou may find that rests and beams are not processed correctly.");
 			DrumParser dp = new DrumParser(tfr.getParsed());
-			xg = new xmlGen(dp);
+			xg = new xmlGen(dp,tfr);
 			// the following two lines should be outside the switch case, but bass and drums dont work yet
 			tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
 			break;
-//		case "Bass":
-//			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
-//			+ "\nSystem is in prototype phase, unable to process Bass.");
-//			//BassParser bp = new BassParser(tfr.getParsed());
-//			//xg = new xmlGen(bp);
-//			
-//			break;
+		case "Bass":
+			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
+			+ "\nSystem is in prototype phase, unable to process Bass.");
+			BassParser bp = new BassParser(tfr.getParsed());
+			xg = new xmlGen(bp,tfr);
+			tabTextArea2.setText(xg.getXMLContent());
+			saveButton.setDisable(false);
+			break;
 		default:
 			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument());
 			throw new Exception();

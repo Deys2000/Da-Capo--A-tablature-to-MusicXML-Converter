@@ -24,18 +24,21 @@ public class xmlGen {
         {"0"}, // fifths
         {"4","4"}, // beats and beat-type
         {"TAB","5"}, // sign and line
-        {TextFileReader.staffLines()}, // staff lines
-        {"E","A","D","G","B","E"}, //tuning-step
+        {"6"}, // staff lines
+        {"E","A","D","G","B","E"}, //tuning-step - deafault, the instrument detection is done in the constructor
         {"2","2","3","3","3","4"} // tuning-octave
     };
 
     
-    public xmlGen(DrumParser dp) {
+    public xmlGen(DrumParser dp, TextFileReader tfr) {
     	drumGenerator(dp);
+        attributeVals[4][0] = tfr.staffLines();
     }
     
-    public xmlGen(BassParser bp) {
+    public xmlGen(BassParser bp, TextFileReader tfr) {
     	guitarGenerator(bp.processor());
+        attributeVals[4][0] = tfr.staffLines();
+
     }
     
     /**
@@ -43,8 +46,9 @@ public class xmlGen {
      * @param instrument
      * @param parserObject
      */
-    public xmlGen(GuitarParser gp) {
+    public xmlGen(GuitarParser gp, TextFileReader tfr) {
     	guitarGenerator(gp.processor());
+        attributeVals[4][0] = tfr.staffLines();
     }    
 
     /**
@@ -320,7 +324,9 @@ public class xmlGen {
        	}
        
        	// At this point, we should have all the measures containing all the notes;
-        part.setMeasure(measures);
+       //we also have an extra empty measure created at the end so we remove it
+       measures.remove(measures.size()-1);
+       part.setMeasure(measures);
         scorePartwise.setPart(part);
         // add the part and our process of creating objects is complete
         // now we just need to marshall
