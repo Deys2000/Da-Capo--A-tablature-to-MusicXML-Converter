@@ -48,6 +48,11 @@ public class TextFileReader {
 			sc = new Scanner(inputFile);
 			while(sc.hasNextLine()){	
 				String next = sc.nextLine();
+				//drum tab check
+				if(next.contains("X") || next.contains("x"))  {
+					isDrum = true;
+				}
+				//end of drum tab check
 				if (next.contains("-") && next.contains("|"))
 					numOfLines ++;						
 				else if( 0 < numOfLines )  // modified this line to cater to prevent crashing with spacing at the start
@@ -72,9 +77,7 @@ public class TextFileReader {
 			boolean key = false;
 			String holder;
 			while (sc.hasNextLine()) {
-				
 				String line = sc.nextLine();
-			
 				if (line.contains("-") && line.contains("|")) {
 			
 					if (index <= numOfLines) {
