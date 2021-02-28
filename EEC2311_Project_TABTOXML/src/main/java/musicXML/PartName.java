@@ -95,7 +95,11 @@ public class PartName {
     @XmlAttribute(name = "relative-y", required = true)
     protected BigDecimal relativeY;
 
-    /**
+    public PartName(java.lang.String partname) {
+    	this.setPrintObject(partname);
+    }
+
+	/**
      * Gets the value of the value property.
      * 
      * @return

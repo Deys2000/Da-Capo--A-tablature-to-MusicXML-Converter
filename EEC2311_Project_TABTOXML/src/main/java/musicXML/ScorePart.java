@@ -90,9 +90,10 @@ public class ScorePart {
 
 
     public ScorePart(){}
-    public ScorePart(java.lang.String id)
+    public ScorePart(java.lang.String id, java.lang.String partname)
     {
-        this.id = id; 
+        this.id = id;
+        this.partName = new PartName(partname);
     }
     /**
      * Gets the value of the identification property.
