@@ -356,7 +356,7 @@ public class BassParser {
             result = "eighth";
         }
         else if (durOverDiv == 0.25) {
-            result = "sixteenth";
+            result = "16th";
         }
         else {
         	result = "unidentified";
