@@ -130,7 +130,10 @@ public class HomeController {
 			+ "\nUse with caution."
 			+ "\nYou may find that rests and beams are not be processed correctly.");
 			DrumParser dp = new DrumParser(tfr.getParsed());
-			xmlGen xg = new xmlGen(dp);
+			xg = new xmlGen(dp);
+			// the following two lines should be outside the switch case, but bass and drums dont work yet
+			tabTextArea2.setText(xg.getXMLContent());
+			saveButton.setDisable(false);
 			break;
 //		case "Bass":
 //			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 

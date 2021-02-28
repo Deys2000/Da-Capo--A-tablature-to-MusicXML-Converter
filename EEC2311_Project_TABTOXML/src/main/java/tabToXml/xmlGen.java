@@ -24,7 +24,7 @@ public class xmlGen {
         {"0"}, // fifths
         {"4","4"}, // beats and beat-type
         {"TAB","5"}, // sign and line
-        {"6"}, // staff lines
+        {TextFileReader.staffLines()}, // staff lines
         {"E","A","D","G","B","E"}, //tuning-step
         {"2","2","3","3","3","4"} // tuning-octave
     };
