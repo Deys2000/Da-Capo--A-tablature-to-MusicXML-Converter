@@ -50,7 +50,6 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label fx:id="instrumentLabel" text="Instrument Detection: " GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label fx:id="statusLabel" text="File Status: " GridPane.rowIndex="1" />
                   <Button fx:id="selectButton" mnemonicParsing="false" onAction="#fileChooser" text="Select File" />
                   <Button fx:id="convertButton" mnemonicParsing="false" onAction="#converter" text="Convert" GridPane.rowIndex="2" />

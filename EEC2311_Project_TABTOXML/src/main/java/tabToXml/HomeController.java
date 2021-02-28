@@ -36,11 +36,7 @@ public class HomeController {
 	@FXML
 	private Button selectButton, convertButton, saveButton;
 	@FXML
-	private Button viewText1, viewparsed1, viewXml1;
-	@FXML
-	private Button viewText2, viewparsed2, viewXml2;
-	@FXML
-	private Label filePathLabel, statusLabel, instrumentLabel;
+	private Label filePathLabel, statusLabel;
 	@FXML
 	private TextArea tabTextArea1, tabTextArea2, tabTextArea3;
 	
