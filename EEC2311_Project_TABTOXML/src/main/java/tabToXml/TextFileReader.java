@@ -49,7 +49,7 @@ public class TextFileReader {
 			while(sc.hasNextLine()){	
 				String next = sc.nextLine();
 				//drum tab check
-				if(next.contains("X") || next.contains("x"))  {
+				if(next.contains("X") || next.contains("x") || next.contains("O") || next.contains("o"))  {
 					isDrum = true;
 				}
 				//end of drum tab check
@@ -136,10 +136,11 @@ public class TextFileReader {
 	 */
 	public String detectInstrument(){	
 		String instrument = "Unable to Identify";
-		if(numOfLines == 4 && isDrum == false ) {
+		int lines = numOfLines/2;
+		if(lines == 4 && isDrum == false ) {
 			instrument = "Bass";
 		}
-		else if (numOfLines == 6 && isDrum == false) {
+		else if (lines == 6 && isDrum == false) {
 			instrument = "Guitar";
 		}
 		else{
