@@ -79,6 +79,7 @@ public class ScoreInstrument {
     @XmlSchemaType(name = "NCName")
     protected java.lang.String id;
 
+    
     /**
      * Gets the value of the instrumentName property.
      * 

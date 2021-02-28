@@ -54,6 +54,15 @@ public class Unpitched {
     @XmlElement(name = "display-octave", required = true)
     protected BigInteger displayOctave;
 
+    public Unpitched() {
+    	
+    }
+    public Unpitched(BigInteger displayOctave,java.lang.String displayStep ) {
+    	this.displayStep = displayStep;
+    	this.displayOctave = displayOctave;
+    }
+    
+    
     /**
      * Gets the value of the displayStep property.
      * 

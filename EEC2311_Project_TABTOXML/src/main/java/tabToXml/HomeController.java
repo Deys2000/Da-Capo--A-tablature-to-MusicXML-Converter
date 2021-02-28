@@ -48,7 +48,7 @@ public class HomeController {
 	public void fileChooser (ActionEvent event) throws Exception{
 		fc = new FileChooser();
 		selectedFile = fc.showOpenDialog(null);
-		//if(selectedFile == null)
+		if(selectedFile == null)
 			//selectedFile = oldFile;
 		oldFile = selectedFile;
 		
@@ -124,19 +124,19 @@ public class HomeController {
 			tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
 			break;
-		case "Drum":
-			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
-			+ "\nSystem is in prototype phase, unable to process Drums.");
-			//DrumParser dp = new DrumParser(tfr.getParsed());
-			//xmlGen xg = new xmlGen(dp);
-			break;
-		case "Bass":
-			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
-			+ "\nSystem is in prototype phase, unable to process Bass.");
-			//BassParser bp = new BassParser(tfr.getParsed());
-			//xg = new xmlGen(bp);
-			
-			break;
+//		case "Drum":
+//			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
+//			+ "\nSystem is in prototype phase, unable to process Drums.");
+//			//DrumParser dp = new DrumParser(tfr.getParsed());
+//			//xmlGen xg = new xmlGen(dp);
+//			break;
+//		case "Bass":
+//			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
+//			+ "\nSystem is in prototype phase, unable to process Bass.");
+//			//BassParser bp = new BassParser(tfr.getParsed());
+//			//xg = new xmlGen(bp);
+//			
+//			break;
 		default:
 			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument());
 			throw new Exception();

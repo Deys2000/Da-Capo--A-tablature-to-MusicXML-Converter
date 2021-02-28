@@ -100,7 +100,7 @@ public class PartName {
     }
     
     public PartName(java.lang.String partname) {
-    	this.setPrintObject(partname);
+    	this.setValue(partname);
     }
 
 	/**

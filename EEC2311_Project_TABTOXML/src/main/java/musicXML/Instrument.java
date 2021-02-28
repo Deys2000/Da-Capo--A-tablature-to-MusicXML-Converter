@@ -45,7 +45,12 @@ public class Instrument {
     @XmlSchemaType(name = "NCName")
     protected java.lang.String id;
 
-    /**
+
+	public Instrument() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
      * Gets the value of the id property.
      * 
      * @return

@@ -65,7 +65,14 @@ public class Stem {
     @XmlAttribute(name = "relative-y", required = true)
     protected BigDecimal relativeY;
 
-    /**
+    public Stem() {
+    	
+    }
+    public Stem(java.lang.String stem) {
+		this.value = stem;
+	}
+
+	/**
      * Gets the value of the value property.
      * 
      * @return

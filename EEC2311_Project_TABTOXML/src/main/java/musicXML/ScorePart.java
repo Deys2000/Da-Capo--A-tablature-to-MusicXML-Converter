@@ -8,6 +8,8 @@
 
 package musicXML;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -55,7 +57,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "partAbbreviation",
     "partAbbreviationDisplay",
     "group",
-    "scoreInstrument",
+    "scoreInstruments",
     "midiDevice",
     "midiInstrument"
 })
@@ -77,7 +79,7 @@ public class ScorePart {
     @XmlSchemaType(name = "NCName")
     protected java.lang.String group;
     @XmlElement(name = "score-instrument", required = true)
-    protected ScoreInstrument scoreInstrument;
+    protected ArrayList<ScoreInstrument> scoreInstruments;
     @XmlElement(name = "midi-device", required = true)
     protected MidiDevice midiDevice;
     @XmlElement(name = "midi-instrument", required = true)
@@ -247,8 +249,8 @@ public class ScorePart {
      *     {@link ScoreInstrument }
      *     
      */
-    public ScoreInstrument getScoreInstrument() {
-        return scoreInstrument;
+    public ScoreInstrument getScoreInstrument(int i) {
+        return scoreInstruments.get(i);
     }
 
     /**
@@ -259,8 +261,11 @@ public class ScorePart {
      *     {@link ScoreInstrument }
      *     
      */
-    public void setScoreInstrument(ScoreInstrument value) {
-        this.scoreInstrument = value;
+//    public void setScoreInstrument(ScoreInstrument value) {
+//        this.scoreInstrumentX = value;
+//    }
+    public void addScoreInstrument(ScoreInstrument si) {
+    	this.scoreInstruments.add(si);
     }
 
     /**
