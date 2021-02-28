@@ -135,7 +135,7 @@ public class TextFileReader {
 	 * still in progress
 	 */
 	public String detectInstrument(){	
-		String instrument = "Unable to Identify";
+		instrument = "Unable to Identify";
 		int lines = numOfLines/2;
 		if(lines == 4 && isDrum == false ) {
 			instrument = "Bass";
@@ -158,40 +158,43 @@ public class TextFileReader {
 		Integer count = numOfLines/2;
 		java.lang.String lines = count.toString();
 		
+		
 		return lines;
 	}
 	
-	public static String sign(){
+	public static java.lang.String sign(){
 		String sign = "tab";
-		if(instrument == "guitar") {
+		if(instrument == "Guitar") {
 			//G for treble
 			sign = "G";
 		}
-		else if (instrument == "bass") {
+		else if (instrument == "Bass") {
 			//F for bass
 			sign = "F";
 		}
 		else {
-			//TAB for drums
-			sign = "TAB";
+			//percussion for drums
+			sign = "percussion";
 		}
+		System.out.println(sign);
 		return sign;
 	}
 	
 	public static java.lang.String line(){
 		java.lang.String line = "";
-		if(instrument == "guitar") {
+		if(instrument == "Guitar") {
 			//treble lies on 3rd string for guitar
 			line = "3";
 		}
-		else if (instrument == "bass") {
+		else if (instrument == "Bass") {
 			//bass clef lies on 1st string for bass
 			line = "1";
 		}
 		else {
-			//4 for drum tabs
-			line = "4";
+			//2 for percussion tabs
+			line = "2";
 		}
+		System.out.println(line);
 		return line;
 	}
 		
