@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class TextFileReader {
 	
 	private File inputFile;
-	int numOfLines = 0;
+	static int numOfLines = 0;
 	boolean isDrum;
 	static String instrument;
 	
@@ -53,8 +53,10 @@ public class TextFileReader {
 					isDrum = true;
 				}
 				//end of drum tab check
-				if (next.contains("-") && next.contains("|"))
-					numOfLines ++;						
+				if (next.contains("-") && next.contains("|")) {
+					numOfLines ++;
+					System.out.println(numOfLines);
+				}
 				else if( 0 < numOfLines )  // modified this line to cater to prevent crashing with spacing at the start
 					break;
 			}					
@@ -149,6 +151,13 @@ public class TextFileReader {
 	
 	public int numberOfLines() {
 		return numOfLines;
+	}
+	
+	public static java.lang.String staffLines(){
+		Integer count = numOfLines/2;
+		java.lang.String lines = count.toString();
+		
+		return lines;
 	}
 //	/**
 //	 * Creates a parsedTab array of the file in parsedTabTab variable
