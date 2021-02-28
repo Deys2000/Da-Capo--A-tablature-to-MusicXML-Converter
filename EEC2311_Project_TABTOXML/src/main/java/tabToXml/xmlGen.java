@@ -53,7 +53,7 @@ public class xmlGen {
         scorePartwise.setMovementTitle("test"); // move to constuctor
         
         scorePartwise.setPartList( new PartList(new ScorePart("P1", "Instrument Name"))); // constructor sets ID and part-name
-        Part part = new Part("1"); // constructer sets ID
+        Part part = new Part("P1"); // constructer sets ID
         
 
         // creating measure list that will hold all the measures which will each contain all the notes
