@@ -42,7 +42,7 @@ public class HomeController {
 	@FXML
 	private Label filePathLabel, statusLabel, instrumentLabel;
 	@FXML
-	private TextArea tabTextArea1, tabTextArea2;
+	private TextArea tabTextArea1, tabTextArea2, tabTextArea3;
 	
 	/**
 	 * Method for action event of file chooser button being clicked
@@ -70,7 +70,7 @@ public class HomeController {
 		if (selectedFile == null) {
 			statusLabel.setTextFill(Color.RED);
 			statusLabel.setText("File Status: No file selected, pls select a .txt file");
-			convertButton.setDisable(true);
+			//convertButton.setDisable(true);
 		}
 		else if(fileType.equals(".txt")) {
 			statusLabel.setTextFill(Color.GREEN);
@@ -83,16 +83,21 @@ public class HomeController {
 			tabTextArea1.setText("");
 			tabTextArea2.setText("");
 			instrumentLabel.setText("Instrument Detection: Unable to Identify");
-			convertButton.setDisable(true);
+			//convertButton.setDisable(true);
 		}		
 	}
 	
 	/**
-	 * Method for action event of the convert button being clicked
+	 * Method for convert button being clicked
 	 * @param event
 	 */
 	public void converter(ActionEvent event) {
-		saveFile(currentStage);
+		//saveFile(currentStage);
+		
+		//read the contents of the Tablature Editor Window
+		String textAreaContents = tabTextArea1.getText();
+		System.out.println(textAreaContents);
+		
 	}
 	
 	/**
