@@ -27,14 +27,14 @@ public class HomeController {
 	String instrument = "";
 	String[][] information;
 	GuitarParser gp;
-	xmlGen gen10;
+	xmlGen xg;
 	
 	public static Stage currentStage; // acquired from Main when program starts
 	
 	public HomeController() {}
 	
 	@FXML
-	private Button selectButton, convertButton;
+	private Button selectButton, convertButton, saveButton;
 	@FXML
 	private Button viewText1, viewparsed1, viewXml1;
 	@FXML
@@ -83,41 +83,93 @@ public class HomeController {
 			tabTextArea1.setText("");
 			tabTextArea2.setText("");
 			instrumentLabel.setText("Instrument Detection: Unable to Identify");
-			//convertButton.setDisable(true);
+			convertButton.setDisable(true);
 		}		
 	}
 	
 	/**
 	 * Method for convert button being clicked
+	 * It takes the stuff in the tab editor area, turns it into a text file, passes that to textfile reader
+	 * Textfile reader will determine the instrument and clean the measures
+	 * (perhaps we ask the user for default info like beat & beat type)
+	 * depending on the instrument, we send the file to a guitar, drum or bass parser
 	 * @param event
+	 * @throws Exception 
 	 */
-	public void converter(ActionEvent event) {
-		//saveFile(currentStage);
-		
+	public void converter(ActionEvent event) throws Exception {
+				
 		//read the contents of the Tablature Editor Window
 		String textAreaContents = tabTextArea1.getText();
-		System.out.println(textAreaContents);
+		//Once the contents are collected, they should be sent to the TextFileReader
+		//But the TextFileReader only takes file objects, so i need to make the contents of the text area back into a file to process
+
+		// making a file from the contants of the editor window
+		File newFile = new File("TabEditorContents");
+		FileWriter myWriter = null;
+		try { 
+			myWriter = new FileWriter(newFile);
+			myWriter.write(textAreaContents); 
+			myWriter.close();
+		} 
+		catch (IOException e) { e.printStackTrace(); }
 		
+		// pass the file to textfilereader so we can begin the process
+		TextFileReader tfr = new TextFileReader(newFile);
+		tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument());
+		
+		// EVERYTHING ABOVE THIS LINE HAS BEEN TESTED, IT WORKS :)
+		switch(tfr.detectInstrument()) {
+		case "Guitar":
+			GuitarParser gp = new GuitarParser(tfr.getParsed());
+			xg = new xmlGen(gp);
+			break;
+		case "Drum":
+			//DrumParser dp = new DrumParser(tfr.getParsed());
+			//xmlGen xg = new xmlGen(dp);
+			break;
+		case "Bass":
+			//BassParser bp = new BassParser(tfr.getParsed());
+			//xmlGen xg = new xmlGen(bp);
+			break;
+		default:
+			//give some error message saying instrument was not detected or something
+			
+		}	
+		//xmlGen xg = null;
+		tabTextArea2.setText(xg.getXMLContent());		
+		saveButton.setDisable(false);
 	}
 	
+	
+	
+	/**
+	 * I DONT KNOW WHY THERE ARE TWO METHODS TO SAVE ONE FILE
+	 * KEEP BOTH UNTIL WE FIGURE OUT WHY
+	 * @param event
+	 * @throws IOException
+	 */
+	public void save(ActionEvent event) throws IOException {
+		saveFile(currentStage);
+	}
 	/**
 	 * Method for saving a file
+	 * @throws IOException 
 	 */
-	public void saveFile(Stage stage) {
+	public void saveFile(Stage stage) throws IOException {
 		//can put into users tmp file - good practice
 		
 		fc = new FileChooser();
-		fc.setTitle("Save Translation");
+		fc.setTitle("Save MusicXML Conversion");
 		File file = fc.showSaveDialog(stage);
-		String operationResult = "Successfully written to file.";
+		//String operationResult = "Successfully written to file.";
 		
 		// clean this up later
 		try {			
-			//FileWriter myWriter = new FileWriter(file);
-			gen10 = new xmlGen(gp.processor());
-			gen10.createFile(file);
-			//myWriter.write(XMLGenerator.runner(information));
-			//myWriter.close();			
+			FileWriter myWriter = new FileWriter(file);
+		//xmlGen gen10 = new xmlGen(gp.processor());
+		//gen10.createFile(file);
+			myWriter.write(xg.getXMLContent());
+			myWriter.close();			
 			
 		} finally {
 			
@@ -141,34 +193,34 @@ public class HomeController {
 		TextFileReader guitarTab = new TextFileReader(selectedFile.getAbsolutePath());		
 		//set area to be the text from the file
 		tabTextArea1.setText(guitarTab.printOrginal());	
-		
-		
-		parsedInfo = new StringBuilder();
-		//adding the parsed tab
-		parsedInfo.append(guitarTab.printOrginal());		
-	
-		gp = new GuitarParser();
-		gp.translateParsed(selectedFile.getAbsolutePath());
-		
-		parsedInfo.append("\nNotes: " + gp.getNotes() + " Length of array: " + gp.getNotes().size());
-		parsedInfo.append("\nFrets: " + gp.getFretNums() + " Length of array: " + gp.getFretNums().size());
-		parsedInfo.append("\nFret Strings: " + gp.getFretStrings() + " Length of array: " + gp.getFretStrings().size());
-
-		//RhythmParser rhythmParser = new RhythmParser(4);
-        gp.parseToRhythm(guitarTab.getParsed());
-		
-        parsedInfo.append("\nDuration:" + gp.getDurationArr() + " Length of Array:" + gp.getDurationArr().size() );
-	    parsedInfo.append("\nType:" + gp.getTypeArr() + " Length of Array:" + gp.getTypeArr().size() );
-		
-		//tabTextArea2.setText(parsedInfo.toString());
-	    
-		//new stuff
-	    //information = gp.processor();
-		tabTextArea2.setText(gen10.getXMLContent());
-		//System.exit(0);
-
-		instrument = guitarTab.detectInstrument();
-		instrumentLabel.setText("Instrument Detection: " + instrument);
+//		
+//		
+//		parsedInfo = new StringBuilder();
+//		//adding the parsed tab
+//		parsedInfo.append(guitarTab.printOrginal());		
+//	
+//		gp = new GuitarParser();
+//		gp.translateParsed(selectedFile.getAbsolutePath());
+//		
+//		parsedInfo.append("\nNotes: " + gp.getNotes() + " Length of array: " + gp.getNotes().size());
+//		parsedInfo.append("\nFrets: " + gp.getFretNums() + " Length of array: " + gp.getFretNums().size());
+//		parsedInfo.append("\nFret Strings: " + gp.getFretStrings() + " Length of array: " + gp.getFretStrings().size());
+//
+//		//RhythmParser rhythmParser = new RhythmParser(4);
+//        gp.parseToRhythm(guitarTab.getParsed());
+//		
+//        parsedInfo.append("\nDuration:" + gp.getDurationArr() + " Length of Array:" + gp.getDurationArr().size() );
+//	    parsedInfo.append("\nType:" + gp.getTypeArr() + " Length of Array:" + gp.getTypeArr().size() );
+//		
+//		//tabTextArea2.setText(parsedInfo.toString());
+//	    
+//		//new stuff
+//	    //information = gp.processor();
+//		tabTextArea2.setText(xg.getXMLContent());
+//		//System.exit(0);
+//
+//		instrument = guitarTab.detectInstrument();
+//		instrumentLabel.setText("Instrument Detection: " + instrument);
 	}
 	
 }

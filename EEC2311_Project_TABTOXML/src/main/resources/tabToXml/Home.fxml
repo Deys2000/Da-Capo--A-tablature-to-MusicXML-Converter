@@ -54,7 +54,7 @@
                   <Label fx:id="statusLabel" text="File Status: " GridPane.rowIndex="1" />
                   <Button fx:id="selectButton" mnemonicParsing="false" onAction="#fileChooser" text="Select File" />
                   <Button fx:id="convertButton" mnemonicParsing="false" onAction="#converter" text="Convert" GridPane.rowIndex="2" />
-                  <Button disable="true" mnemonicParsing="false" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Button fx:id="saveButton" disable="true" mnemonicParsing="false" onAction="#save" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
