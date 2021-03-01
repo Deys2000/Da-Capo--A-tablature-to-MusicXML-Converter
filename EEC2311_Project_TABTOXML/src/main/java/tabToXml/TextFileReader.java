@@ -125,13 +125,13 @@ public class TextFileReader {
 	public String detectInstrument(){	
 		String instrument = "Unable to Identify";
 		if(numOfLines == 4 && isDrum == false ) {
-			instrument = "bass";
+			instrument = "Bass";
 		}
 		else if (numOfLines == 6 && isDrum == false) {
-			instrument = "guitar";
+			instrument = "Guitar";
 		}
 		else{
-			instrument = "drums";
+			instrument = "Drums";
 		}
 		//for now we just return guitar
 		return instrument;
