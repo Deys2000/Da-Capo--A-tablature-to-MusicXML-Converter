@@ -10,12 +10,11 @@ At the moment, Da Capo can only translate a basic formatted guitar tablature, wi
 
 ##
 ## **1.2 Relevant Documents**
-- User Manuel ([Doc](https://docs.google.com/document/d/1IhHdD-Nd9ZIJpAWSL3IuWYTfuE3LoL_WjTELXTAvqtw/edit?usp=sharing), [Pdf](?))
-- Requirements ([Doc](https://docs.google.com/document/d/1e6TOLw2BATm9XsG7jF8Gk9tFdCKltIL-go9Af51f5Sw/edit?usp=sharing), [Pdf](?))
-- Testing ([Doc](https://docs.google.com/document/d/1OiztrqSeb4tApYALv-m1DQjSQHc3qtqlymFJoWkLy1M/edit?usp=sharing), [Pdf](?))
-- Reference/Conducted Research ([Doc](https://docs.google.com/document/d/1jesq2F7oVmy8Y_HqsO5No0yU1nKyRxtxBuIApClda5I/edit#heading=h.5uh2qfisicct), [Pdf](?))
-
-
+- User Manuel ([Doc](https://docs.google.com/document/d/1IhHdD-Nd9ZIJpAWSL3IuWYTfuE3LoL_WjTELXTAvqtw/edit?usp=sharing), [Pdf](Da Capo User Manual.pdf))
+- Requirements ([Doc](https://docs.google.com/document/d/1e6TOLw2BATm9XsG7jF8Gk9tFdCKltIL-go9Af51f5Sw/edit?usp=sharing), [Pdf](Requirements Document.pdf))
+- Testing ([Doc](https://docs.google.com/document/d/1OiztrqSeb4tApYALv-m1DQjSQHc3qtqlymFJoWkLy1M/edit?usp=sharing), [Pdf](Testing Document.pdf))
+- Reference/Conducted Research ([Doc](https://docs.google.com/document/d/1jesq2F7oVmy8Y_HqsO5No0yU1nKyRxtxBuIApClda5I/edit#heading=h.5uh2qfisicct), [Pdf](Research Document.pdf))
+ 
 ## 2. Installation Instructions ![](RackMultipart20210301-4-1e8kmev_html_981da44633f54b92.gif)
 
 ## **2.1 Setting Up Using Eclipse**
