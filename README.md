@@ -9,10 +9,11 @@ DA CAPO is the perfect software for any amateur musician looking to see what the
 At the moment, Da Capo can only translate a basic formatted guitar tablature, with frets from 0-9 and no special symbols. The translation also has a number of errors. However, it will be able to translate more complex guitar tablature, as well as bass and drum tablatures, in the future.
 
 ##
-## **1.2 Links on where to find the User Manual, Requirements and Testing Documents**
-- User Manuel ([Doc](https://docs.google.com/document/d/1IhHdD-Nd9ZIJpAWSL3IuWYTfuE3LoL_WjTELXTAvqtw/edit?usp=sharing), [Pdf](https://docs.google.com/document/d/1IhHdD-Nd9ZIJpAWSL3IuWYTfuE3LoL_WjTELXTAvqtw/edit?usp=sharing))
-- Requirements ([Doc](https://docs.google.com/document/d/1e6TOLw2BATm9XsG7jF8Gk9tFdCKltIL-go9Af51f5Sw/edit?usp=sharing), [Pdf](https://docs.google.com/document/d/1e6TOLw2BATm9XsG7jF8Gk9tFdCKltIL-go9Af51f5Sw/edit?usp=sharing))
-- Testing ([Doc](https://docs.google.com/document/d/1OiztrqSeb4tApYALv-m1DQjSQHc3qtqlymFJoWkLy1M/edit?usp=sharing), [Pdf](https://docs.google.com/document/d/1OiztrqSeb4tApYALv-m1DQjSQHc3qtqlymFJoWkLy1M/edit?usp=sharing))
+## **1.2 Relevant Documents**
+- User Manuel ([Doc](https://docs.google.com/document/d/1IhHdD-Nd9ZIJpAWSL3IuWYTfuE3LoL_WjTELXTAvqtw/edit?usp=sharing), [Pdf](?))
+- Requirements ([Doc](https://docs.google.com/document/d/1e6TOLw2BATm9XsG7jF8Gk9tFdCKltIL-go9Af51f5Sw/edit?usp=sharing), [Pdf](?))
+- Testing ([Doc](https://docs.google.com/document/d/1OiztrqSeb4tApYALv-m1DQjSQHc3qtqlymFJoWkLy1M/edit?usp=sharing), [Pdf](?))
+- Reference/Conducted Research ([Doc](https://docs.google.com/document/d/1jesq2F7oVmy8Y_HqsO5No0yU1nKyRxtxBuIApClda5I/edit#heading=h.5uh2qfisicct), [Pdf](?))
 
 
 ## 2. Installation Instructions ![](RackMultipart20210301-4-1e8kmev_html_981da44633f54b92.gif)
