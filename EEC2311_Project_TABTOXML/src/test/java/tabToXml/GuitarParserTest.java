@@ -4,11 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class DrumParserTest {
-	public static void main(String[] args) {
-		//DrumParser dp = new DrumParser(null);
-		//dp.printCharArray();
-	}
+class GuitarParserTest {
 
 	@Test
 	void test() {
