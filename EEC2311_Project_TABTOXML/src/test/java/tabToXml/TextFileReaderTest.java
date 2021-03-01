@@ -2,23 +2,50 @@ package tabToXml;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 
 class TextFileReaderTest {
 
 	@Test
 	void testTextFileReaderString() {
-		fail("Not yet implemented"); // TODO
+		
+		String expectedfile = "GuitarTab.txt";
+		
+		TextFileReader tfr = new TextFileReader(expectedfile);	
+		
+		String actualfile = tfr.getFile().getName();
+		
+		assertEquals(expectedfile,actualfile);
 	}
 
 	@Test
 	void testTextFileReaderFile() {
-		fail("Not yet implemented"); // TODO
+		String expectedfile = "DrumsTab.txt";
+		
+		TextFileReader tfr = new TextFileReader(expectedfile);	
+		
+		String actualfile = tfr.getFile().getName();
+		
+		assertEquals(expectedfile,actualfile);
 	}
 
 	@Test
 	void testCreateparsedTab() {
-		fail("Not yet implemented"); // TODO
+		ArrayList<String> expected = new ArrayList<String>();
+		expected.add("E|-----------0-----|-0---------------||");
+		expected.add("D|---------0---0---|-0---------------||");
+		expected.add("G|-------1-------1-|-1---------------||");
+		expected.add("B|-----2-----------|-2---------------||");
+		expected.add("A|---2-------------|-2---------------||");
+		expected.add("E|-0---------------|-0---------------||");
+				
+		TextFileReader tfr = new TextFileReader("GuitarTab.txt");
+		
+		ArrayList<String> actual = tfr.getParsed();
+		
+		assertEquals(actual, expected);			
 	}
 
 	@Test
