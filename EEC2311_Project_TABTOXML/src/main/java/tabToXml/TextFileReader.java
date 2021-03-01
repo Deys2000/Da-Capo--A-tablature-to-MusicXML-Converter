@@ -53,6 +53,7 @@ public class TextFileReader {
 					isDrum = true;
 				}
 				//end of drum tab check
+				
 				if (next.contains("-") && next.contains("|")) {
 					numOfLines ++;
 					System.out.println(numOfLines);
