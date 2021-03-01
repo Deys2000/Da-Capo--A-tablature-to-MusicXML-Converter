@@ -48,7 +48,7 @@ public class xmlGen {
      */
     public xmlGen(GuitarParser gp, TextFileReader tfr) {
     	guitarGenerator(gp.processor());
-        attributeVals[4][0] = tfr.staffLines();
+       	//attributeVals[4][0] = tfr.staffLines();
     }    
 
     /**
@@ -60,16 +60,16 @@ public class xmlGen {
 
     	// creating the outermost tag "score-partwise"
         this.scorePartwise = new ScorePartwise();
-        scorePartwise.setMovementTitle("test"); // move to constuctor
+        scorePartwise.setMovementTitle("Guitar Music Piece"); // move to constuctor
         
-        scorePartwise.setPartList( new PartList(new ScorePart("P1", "Instrument Name"))); // constructor sets ID and part-name
+        scorePartwise.setPartList( new PartList(new ScorePart("P1", "Classical Guitar"))); // constructor sets ID and part-name
         Part part = new Part("P1"); // constructer sets ID
         
 
         // creating measure list that will hold all the measures which will each contain all the notes
         ArrayList<musicXML.Measure> measures = new ArrayList<musicXML.Measure>();
         // initializing the first measure
-        musicXML.Measure measure = new musicXML.Measure("P1"); // constructor sets the measure number
+        musicXML.Measure measure = new musicXML.Measure("1"); // constructor sets the measure number
            
         // creating the attributes section that goes into the first measure
         Attributes attributes = new Attributes();
@@ -264,8 +264,8 @@ public class xmlGen {
     	   // if the note is not a rest note give it the following values as well
     	   if( note.getUnpitchedOrRest().equals("unpitched")) {        	   
         	   n.getDurationOrChordOrCue().add(new Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));        	   
-        	   if(note.getChord())
-        		   n.getDurationOrChordOrCue().add(new Chord());
+        	   //if(note.getChord())
+        		//   n.getDurationOrChordOrCue().add(new Chord());
         	   Instrument instrument = new Instrument();
         	   instrument.setId(note.getInstrumentID());
         	   n.setInstrument(instrument);        	   
@@ -300,8 +300,8 @@ public class xmlGen {
         	   // if the note is not a rest note give it the following values as well
         	   if(note.getUnpitchedOrRest().equals("unpitched")) {
         		   n.getDurationOrChordOrCue().add(new Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
-        		   if(note.getChord())
-        			   n.getDurationOrChordOrCue().add(new Chord());
+        		   //if(note.getChord())
+        			//   n.getDurationOrChordOrCue().add(new Chord());
         		   Instrument instrument = new Instrument();
             	   instrument.setId(note.getInstrumentID());
             	   n.setInstrument(instrument);

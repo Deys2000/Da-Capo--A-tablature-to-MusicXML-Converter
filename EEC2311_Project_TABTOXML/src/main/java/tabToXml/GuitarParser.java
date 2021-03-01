@@ -406,7 +406,7 @@ public class GuitarParser {
             result = "16th";
         }
         else {
-        	result = "unidentified";
+        	result = "16th"; //default
         }
         
         return result;

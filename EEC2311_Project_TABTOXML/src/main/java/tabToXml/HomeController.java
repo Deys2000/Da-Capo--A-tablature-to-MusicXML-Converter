@@ -107,7 +107,7 @@ public class HomeController {
 		FileWriter myWriter = null;
 		try { 
 			myWriter = new FileWriter(newFile);
-			myWriter.write(textAreaContents); 
+			myWriter.write(textAreaContents+"\n\n"); 
 			myWriter.close();
 		
 		
@@ -123,6 +123,12 @@ public class HomeController {
 			// the following two lines should be outside the switch case, but bass and drums dont work yet
 			tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
+			System.out.println("Notes: " + gp.getNotes() + " size of array: " + gp.getNotes().size());
+			System.out.println("Chord?: " + gp.getChordArr() + " size of array: " + gp.getChordArr().size() );
+			System.out.println("Frets: " + gp.getFretNums() + " size of array: " + gp.getFretNums().size());
+			System.out.println("Fret Strings: " + gp.getFretStrings() + " size of array: " + gp.getFretStrings().size());
+	        System.out.println("duration: \t" + gp.getDurationArr() + " Length of Array:" + gp.getDurationArr().size() );
+		    System.out.println("type: \t" + gp.getTypeArr() + " Length of Array:" + gp.getTypeArr().size() );
 			break;
 		case "Drum":
 			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 

@@ -6,6 +6,7 @@ import java.io.File;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -13,9 +14,10 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		primaryStage.setTitle("Converter: Text to MusicXML");
+		primaryStage.setTitle("Da Capo : Text Tab to MusicXML Converter - version 1.0");
 		// keep scene equal or bigger than default in fxml - 800x500
-	    primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("Home.fxml")), 800, 500)); 
+	    primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("Home.fxml")), 1000, 800));
+	    primaryStage.getIcons().add(new Image("file:DaCapo.png"));
 		primaryStage.show();
 		HomeController.currentStage = primaryStage;
 	}

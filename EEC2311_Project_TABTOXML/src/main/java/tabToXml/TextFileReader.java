@@ -46,11 +46,12 @@ public class TextFileReader {
 		Scanner sc = null;
 		try {
 			sc = new Scanner(inputFile);
+			String next = sc.nextLine();
+
+			while(!next.contains("-")) { // skip the non tab lines at start
+				next = sc.nextLine();
+			}
 			while(sc.hasNextLine()){	
-				String next = sc.nextLine();
-				while(!next.contains("-") && !next.contains("|")) { // skip the non tab lines at start
-					next = sc.nextLine();
-				}
 				//drum tab check
 				if(next.contains("X") || next.contains("x") || next.contains("o") || next.contains("O"))  {
 					isDrum = true;
@@ -60,11 +61,16 @@ public class TextFileReader {
 					numOfLines++;
 					System.out.println(numOfLines);
 				}
-				else
+				else {
 					break;
+				}
+				next = sc.nextLine();
 //				else if( 0 < numOfLines )  // modified this line to cater to prevent crashing with spacing at the start
 //					break;
-			}					
+			}	
+			//numOfLines++; // it exits before seeing the last, so this is a temporary fix
+			System.out.println(numOfLines);
+
 		}
 		catch(FileNotFoundException e) {e.printStackTrace();}
 		finally {sc.close();}
