@@ -223,4 +223,8 @@ public class TextFileReader {
 		}
 		return sb.toString();	
 	}
+	
+	public File getFile() {
+		return this.inputFile;
+	}
 }
