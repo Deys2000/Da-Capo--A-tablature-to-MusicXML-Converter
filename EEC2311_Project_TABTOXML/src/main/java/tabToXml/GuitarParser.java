@@ -280,7 +280,7 @@ public class GuitarParser {
 
         boolean isCounting = false; // if we're currently counting noteLength
         
-        while (counter < parsedTab.get(0).length() - 2) { // Changed from -1 to -2, the parsedTab is one space longer than expected ???
+        while (counter < parsedTab.get(0).length() - 1) { 
             
             currentLine = 0;
             
