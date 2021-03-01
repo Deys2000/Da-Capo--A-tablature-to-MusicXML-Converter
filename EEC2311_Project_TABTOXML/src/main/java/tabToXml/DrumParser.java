@@ -11,7 +11,7 @@ public class DrumParser {
 	// contains: name, id, step, octave, stem, notehead
 	ArrayList<StringInfo> tabStrings = new ArrayList<>();
 	ArrayList<Measure> measures = new ArrayList<>();
-	
+
 	public DrumParser(ArrayList<String> exampleInput) throws Exception { //assume the class receives a parsed and clean tab
 		
 		//first clean the input so it contains only info i need in one long line of tablature
@@ -169,6 +169,8 @@ public class DrumParser {
 		//there seems to be incorrect information with regards to the duration (and type since it is dependent)
 		// extra measure object is created but need not be used
 		// Things are working for the most part :)
+		
+		System.out.println(this.getTabStrings().toString());
 	
 	}//END OF CONSTRUCTOR
 	

@@ -2,6 +2,7 @@ package tabToXml;
 
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,14 +26,14 @@ public class Main extends Application {
 	public static void main(String[] args) throws Exception {
 
 		System.out.print("Launching Application" + "\n");
-		launch(args);
-		//sideTask(); // what will launch this? 
+		//launch(args);
+		sideTask(); // what will launch this? 
 
 	}
 	
 	public static void sideTask() throws Exception {
 		
-//		TextFileReader fileReader = new TextFileReader("tab.txt");
+		TextFileReader fileReader = new TextFileReader("DrumsTab2.txt");
 //
 //		//An if statement should select which one to call based on the instrument detection
 //		GuitarParser gp = new GuitarParser(fileReader.getParsed());
@@ -60,8 +61,8 @@ public class Main extends Application {
 //		xmlGen gen10 = new xmlGen(gp);
 //		//gen10.createFile(new File("file.xml"));
 //		System.out.println(gen10.getXMLContent());
-		//DrumParser dp = new DrumParser("exampleTabInput");
-		//xmlGen xg = new xmlGen(dp);
+		DrumParser dp = new DrumParser(fileReader.getParsed());
+		xmlGen xg = new xmlGen(dp, fileReader);
 		
 		System.exit(0);
 	}  
