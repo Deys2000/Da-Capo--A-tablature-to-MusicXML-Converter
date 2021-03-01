@@ -230,8 +230,7 @@ public class HomeController {
 		TextFileReader guitarTab = new TextFileReader(selectedFile.getAbsolutePath());		
 		//set area to be the text from the file
 		tabTextArea1.setText(guitarTab.printOrginal());	
-//		
-//		
+
 //		parsedInfo = new StringBuilder();
 //		//adding the parsed tab
 //		parsedInfo.append(guitarTab.printOrginal());		
