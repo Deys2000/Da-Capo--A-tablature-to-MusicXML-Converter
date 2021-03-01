@@ -56,5 +56,23 @@ public class DrumParserTest {
 		assertEquals(expectedLength,actualLength);
 		
 	}
+	
+	void test3() throws Exception{
+		ArrayList<String> drumTab = new ArrayList<String>();
+		drumTab.add(" C:|X---------------|");
+		drumTab.add("HH:|----o---o---o---|");
+		drumTab.add(" S:|----o--o-o--o---|");
+		drumTab.add("BD:|o--o----o-oo--o-|");
+		
+		String[] transposed = {"||||","X--o","----","----","---o","-oo-","----","----",
+						"--o-","-o-o","--o-","---o","---o","-oo-","----","---o","----","||||"};
+
+		
+		DrumParser dp = new DrumParser(drumTab);
+		
+		
+		assertEquals(dp.getTransposedTab(),transposed);
+		
+	}
 
 }

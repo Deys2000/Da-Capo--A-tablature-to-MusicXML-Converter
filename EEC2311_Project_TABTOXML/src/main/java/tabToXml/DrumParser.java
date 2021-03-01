@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class DrumParser {
 	
+	String[] tab;
+	
 	//contains the information on each string in the tab
 	// contains: name, id, step, octave, stem, notehead
 	ArrayList<StringInfo> tabStrings = new ArrayList<>();
@@ -55,7 +57,7 @@ public class DrumParser {
 			System.out.println(tabStrings.get(i).getInstrumentName());
 		
 		//making a string array
-		String[] tab = new String[exampleInput.get(0).length()];
+		tab = new String[exampleInput.get(0).length()];
 		for(int i = 0; i < exampleInput.get(0).length(); i++) {
 			String col = "";
 			for(int j = 0; j < exampleInput.size(); j++ )
@@ -180,6 +182,9 @@ public class DrumParser {
 
 	public ArrayList<Measure> getMeasures() {
 		return measures;
+	}
+	public String[] getTransposedTab() {
+		return this.tab;
 	}
 	
 }//END OF DRUMPARSER CLASS
