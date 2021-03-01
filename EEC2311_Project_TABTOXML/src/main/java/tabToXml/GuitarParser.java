@@ -257,6 +257,8 @@ public class GuitarParser {
     			chords.add("false");
     		}
     	}
+		
+		// chords - add the double bars later
 	}
 	
 	//CARRIED OVER FROM RHYTHMPARSER CLASS
