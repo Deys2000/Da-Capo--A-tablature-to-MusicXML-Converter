@@ -744,4 +744,6 @@ class GuitarParserTest {
 		   
 		assertEquals(expected,actual);
 	}
+	
+	// comment for merging
 }
