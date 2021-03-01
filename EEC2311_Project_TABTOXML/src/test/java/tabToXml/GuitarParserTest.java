@@ -518,4 +518,5 @@ class GuitarParserTest {
 		assertEquals(expected,actual);
 	 }
 
+	// merged
 }
