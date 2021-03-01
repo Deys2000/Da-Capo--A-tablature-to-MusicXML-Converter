@@ -23,8 +23,8 @@ public class xmlGen {
         {"4"}, // divisions
         {"0"}, // fifths
         {"4","4"}, // beats and beat-type
-        {TextFileReader.sign(),TextFileReader.line()}, // sign and line
-        {TextFileReader.staffLines()}, // staff lines
+        {"tab","5"}, // sign and line
+        {"6"}, // staff lines
         {"E","A","D","G","B","E"}, //tuning-step
         {"2","2","3","3","3","4"} // tuning-octave
     };
@@ -70,9 +70,9 @@ public class xmlGen {
         attributes.setKey(key);
 
         attributes.setTime(new Time("4", "4")); // constructor takes beat and beat type
-        attributes.setClef(new Clef("TAB", new BigInteger("5"))); // constuctor sets sign and line
+        attributes.setClef(new Clef(TextFileReader.sign(), new BigInteger(TextFileReader.line()))); // constuctor sets sign and line
 
-        StaffDetails staffDetails = new StaffDetails(new BigInteger("6")); // constructor takes the number of lines
+        StaffDetails staffDetails = new StaffDetails(new BigInteger(TextFileReader.staffLines())); // constructor takes the number of lines
 
         //creating all the staff tunings that will go into the staff details tag above 
         ArrayList<StaffTuning> staffTunings = new ArrayList<>();        
