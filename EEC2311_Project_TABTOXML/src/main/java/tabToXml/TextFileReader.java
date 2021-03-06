@@ -224,15 +224,15 @@ public class TextFileReader {
 		java.lang.String line = "";
 		if(instrument == "Guitar") {
 			//treble lies on 3rd string for guitar
-			line = "3";
+			line = "2";
 		}
 		else if (instrument == "Bass") {
-			//bass clef lies on 1st string for bass
-			line = "1";
+			//bass clef lies on 4th string for bass
+			line = "4";
 		}
 		else {
-			//2 for percussion tabs
-			line = "2";
+			//5 for percussion tabs
+			line = "5";
 		}
 		System.out.println(line);
 		return line;
