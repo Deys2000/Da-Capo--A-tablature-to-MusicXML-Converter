@@ -231,8 +231,8 @@ public class TextFileReader {
 			line = "4";
 		}
 		else {
-			//5 for percussion tabs
-			line = "5";
+			//2 for percussion tabs
+			line = "2";
 		}
 		System.out.println(line);
 		return line;
