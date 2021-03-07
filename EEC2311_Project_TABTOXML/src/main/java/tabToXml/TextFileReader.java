@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class TextFileReader {
 	
 	private File inputFile;
-	static int numOfLines = 0;
+	public static int numOfLines;
 	boolean isDrum = false;
 	static String instrument;
 	static String lineStorage;
@@ -43,7 +43,6 @@ public class TextFileReader {
 	 * also responsible for checking if the input provided is bad
 	 */
 	private void countLines(){
-		numOfLines = 0;
 		Scanner sc = null;
 		try {
 			int counter = 0;
@@ -67,6 +66,7 @@ public class TextFileReader {
 				}
 				//end of dash counting
 				
+				//drum check
 				if(next.contains("X") || next.contains("x") || next.contains("o") || next.contains("O"))  {
 
 					isDrum = true;
@@ -191,7 +191,7 @@ public class TextFileReader {
 		else if (lines == 6 && isDrum == false) {
 			instrument = "Guitar";
 		}
-		else if( isDrum ){
+		else if( isDrum == true){
 			instrument = "Drum";
 		}
 		return instrument;
@@ -208,11 +208,6 @@ public class TextFileReader {
 		return lines;
 		}
 		
-//	public java.lang.String staffLines(){
-//		
-//		return String.valueOf(numOfLines);
-//
-//	}
 	
 	public static java.lang.String sign(){
 		String sign = "tab";
@@ -250,42 +245,6 @@ public class TextFileReader {
 		return line;
 	}
 		
-//	/**
-//	 * Creates a parsedTab array of the file in parsedTabTab variable, DO WE NEED THIS?
-//	 */
-//	private void createparsedTab(){
-//		Scanner sc = null;
-//		try {
-//			sc = new Scanner(inputFile);
-//			List<String> list = new ArrayList<>();
-//			String previousLine = "";
-//			
-//			if (sc.hasNextLine()) {
-//				previousLine = sc.nextLine();
-//				list.add(previousLine);
-//				parsedTabTab.add(list);
-//				list = new ArrayList<>();	
-//			}
-//			
-//			while(sc.hasNextLine()){
-//				
-//				String line = sc.nextLine();
-//
-//				if ((previousLine.contains("-") && previousLine.contains("|")) && (line.contains("-") && line.contains("|"))) {
-//					list.add(line);
-//					parsedTabTab.add(list);
-//					list = new ArrayList<>();						
-//				}		
-//				previousLine = line;			
-//			}		
-//		}
-//		catch(FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//		finally {
-//			sc.close();
-//		}
-//	}
 	
 	/**
 	 * This is for printing purposes, it makes everything into one string
