@@ -52,7 +52,7 @@ public class TextFileReader {
 				//for line counting
 				String next = sc.nextLine();
 				
-				//getting array for dash counting for time signature
+				//getting array for dash counting for time signature for guitar/bass (skips first line for padding)
 				//not done
 				char [] info  = next.toCharArray();
 				for(int i = 2; i < info.length; i++) {
