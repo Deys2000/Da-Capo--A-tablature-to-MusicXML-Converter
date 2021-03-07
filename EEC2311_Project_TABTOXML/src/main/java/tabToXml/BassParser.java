@@ -2,6 +2,10 @@ package tabToXml;
 
 import java.util.ArrayList;
 
+// THIS WHOLE CLASS IS THE SAME AS GUITAR PARSER, SO AS WE IMPROVE THE GUITAR PARSER, WE SIMULTANEOUSLY UPDATE THIS PARSER AS WELL
+
+
+
 public class BassParser {
 
 	public ArrayList<String> notes = new ArrayList<>();

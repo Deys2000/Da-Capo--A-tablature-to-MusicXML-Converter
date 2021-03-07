@@ -19,6 +19,9 @@ import javafx.stage.Stage;
 
 public class HomeController {
 
+	// CLEAN UP, THERE IS A LOT OF EXTRA VARIABLES AND LINES HANGING AROUND
+	// ALSO LOOK INTO DEVELOPING GUI SO WE CAN SATISFY THE NEW REQUIREMENTS
+	
 	FileChooser fc;
 	File selectedFile, oldFile;
 	String txtFileContents, fileType;
@@ -132,7 +135,7 @@ public class HomeController {
 			break;
 		case "Drum":
 			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
-			+ "\nSystem is in prototype phase, unable to process Drums completely."
+			+ "\n\nSystem is in prototype phase, unable to process Drums completely."
 			+ "\nUse with caution."
 			+ "\nYou may find that rests and beams are not processed correctly.");
 			DrumParser dp = new DrumParser(tfr.getParsed());
@@ -162,7 +165,8 @@ public class HomeController {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("User Message");
 			alert.setHeaderText("ERROR: INVALID INPUT");
-			alert.setContentText("System is Unable to recognize the Tablature.");
+			alert.setContentText("System is Unable to recognize the Tablature. "
+					+ "\nPlease look at Section 5.2[Input Limitations] of the User Manual for more information");
 			alert.showAndWait().ifPresent(rs -> {
 			    if (rs == ButtonType.OK) {
 			        System.out.println("Pressed OK.");
