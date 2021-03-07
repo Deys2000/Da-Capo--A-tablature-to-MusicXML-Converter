@@ -131,6 +131,8 @@ public class TextFileReader {
 			sc.close();
 		}
 	}
+	
+	
 	/**
 	 * determines the instrument based on the number of lines
 	 * still in progress
@@ -158,7 +160,7 @@ public class TextFileReader {
 		return String.valueOf(numOfLines);
 	}
 //	/**
-//	 * Creates a parsedTab array of the file in parsedTabTab variable
+//	 * Creates a parsedTab array of the file in parsedTabTab variable, DO WE NEED THIS?
 //	 */
 //	private void createparsedTab(){
 //		Scanner sc = null;
@@ -194,6 +196,10 @@ public class TextFileReader {
 //		}
 //	}
 	
+	/**
+	 * This is for printing purposes, it makes everything into one string
+	 * @return
+	 */
 	public String getParsedString() {
 		StringBuilder sb = new StringBuilder();
 		for(String s : parsedTab)
@@ -201,13 +207,17 @@ public class TextFileReader {
 		return sb.toString();
 	}
 	
+	/**
+	 * This is the MAIN output of this file that goes into the three parsers
+	 * @return
+	 */
 	public ArrayList<String> getParsed(){
 		return parsedTab;
 	}
 
 	
 	/**
-	 * Prints the original text file
+	 * Prints the original text file, used only for the GUI when you open a file
 	 * @return
 	 */
 	public String printOrginal() {
@@ -224,6 +234,10 @@ public class TextFileReader {
 		return sb.toString();	
 	}
 	
+	/**
+	 * just to get the file
+	 * @return
+	 */
 	public File getFile() {
 		return this.inputFile;
 	}

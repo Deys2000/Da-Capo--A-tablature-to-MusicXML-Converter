@@ -12,6 +12,10 @@ import javax.xml.bind.Marshaller;
 import musicXML.*;
 
 
+// NEEDS TO ADAPT TO CHANGES AS THEY SHOW UP, MORE OF A RESPONSIVE TYPE OF CLASS
+// ORGANIZE THE SCHEMAS AND EVENTUALLY GET RID OF THE ONES WE DONT NEED
+// IDEALLY THIS CLASS HAS 3 MAJOR METHODS FOR THE CREATION OF AN XML FOR EACH OF THE INSTRUMENTS ( subject to improvement )
+
 public class xmlGen {
 	
 	Marshaller jaxbMarshaller;

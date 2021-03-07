@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+// NEEDS TO BE MODULAR SO THAT EVERYTHING IS NOT HAPPENING IN THE CONSTRUCTOR
+// ALSO NEEDS A COUPLE OF TAGS THAT ARE MISSING
+// NEED TO COMPLETE THE INSTRUMENT LIST AS WELL
+// LOOK INTO MAKING THE NOTE AND MEASURE CLASS PRIVATE
+
+
 public class DrumParser {
 	
 	String[] tab;

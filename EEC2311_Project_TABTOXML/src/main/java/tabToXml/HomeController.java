@@ -19,6 +19,9 @@ import javafx.stage.Stage;
 
 public class HomeController {
 
+	// CLEAN UP, THERE IS A LOT OF EXTRA VARIABLES AND LINES HANGING AROUND
+	// ALSO LOOK INTO DEVELOPING GUI SO WE CAN SATISFY THE NEW REQUIREMENTS
+	
 	FileChooser fc;
 	File selectedFile, oldFile;
 	String txtFileContents, fileType;
