@@ -5,6 +5,7 @@ import java.util.List;
 
 public class GuitarParser {
 	
+	// all the arrays to contain information gathered by the notes
 	public ArrayList<String> notes = new ArrayList<>();
 	public ArrayList<String> fretString = new ArrayList<>();
 	public ArrayList<String> fretNum = new ArrayList<>();
@@ -25,7 +26,7 @@ public class GuitarParser {
 	/*This method takes the input file and parses that into a 2d array. 
 	 *The result of that 2d array is used to obtain the fret and chord/note
 	 *using the translate() method above. */
-
+    
 	public void translateParsed(ArrayList<String> parsedTab) throws Exception {
 		
 		//TextFileReader tabReader = new TextFileReader(inputfile);
@@ -257,6 +258,8 @@ public class GuitarParser {
     			chords.add("false");
     		}
     	}
+		
+		// chords - add the double bars later
 	}
 	
 	//CARRIED OVER FROM RHYTHMPARSER CLASS
@@ -280,7 +283,7 @@ public class GuitarParser {
 
         boolean isCounting = false; // if we're currently counting noteLength
         
-        while (counter < parsedTab.get(0).length() - 2) { // Changed from -1 to -2, the parsedTab is one space longer than expected ???
+        while (counter < parsedTab.get(0).length() - 1) { 
             
             currentLine = 0;
             
@@ -406,7 +409,7 @@ public class GuitarParser {
             result = "16th";
         }
         else {
-        	result = "unidentified";
+        	result = "16th"; //default
         }
         
         return result;
@@ -451,6 +454,7 @@ public class GuitarParser {
 	
 	// CARRIED OVER FROM XMLGENERATOR CLASS
     // A PROCESSING METHOD TO MAKE INFORMATION EASY TO ACCESS FOR JAXB
+	// CHANGE LATER SO IT MAKES OBJECTS RATHER THAN STRINGS
     public String[][] processor() {
     	ArrayList<String> notes = this.notes;
     	ArrayList<String> fretNums = this.fretNum;
@@ -489,10 +493,12 @@ public class GuitarParser {
 		return infoArray;
 	}
 	
+    
+    // METHODS TO SEND EACH OF THE ARRAYS OF INFORMATION TO XMLGEN 
+    
 	public ArrayList<String> getNotes(){
 		return notes;
-	}
-	
+	}	
 	public ArrayList<String> getFretStrings(){
 		return fretString;
 	}

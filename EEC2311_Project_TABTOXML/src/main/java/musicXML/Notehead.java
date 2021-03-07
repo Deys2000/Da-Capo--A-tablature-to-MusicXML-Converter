@@ -86,7 +86,11 @@ public class Notehead {
     @XmlSchemaType(name = "NCName")
     protected java.lang.String smufl;
 
-    /**
+	public Notehead() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
      * Gets the value of the value property.
      * 
      * @return

@@ -19,6 +19,9 @@ import javafx.stage.Stage;
 
 public class HomeController {
 
+	// CLEAN UP, THERE IS A LOT OF EXTRA VARIABLES AND LINES HANGING AROUND
+	// ALSO LOOK INTO DEVELOPING GUI SO WE CAN SATISFY THE NEW REQUIREMENTS
+	
 	FileChooser fc;
 	File selectedFile, oldFile;
 	String txtFileContents, fileType;
@@ -49,7 +52,7 @@ public class HomeController {
 		fc = new FileChooser();
 		selectedFile = fc.showOpenDialog(null);
 		if(selectedFile == null)
-			selectedFile = oldFile;
+			//selectedFile = oldFile;
 		oldFile = selectedFile;
 		
 		if (selectedFile != null) {
@@ -93,7 +96,10 @@ public class HomeController {
 	 * @throws Exception 
 	 */
 	public void converter(ActionEvent event) throws Exception {
-				
+		//empty the XMLArea before getting new info
+		tabTextArea2.setText("");
+		saveButton.setDisable(true);
+		
 		//read the contents of the Tablature Editor Window
 		String textAreaContents = tabTextArea1.getText();
 		//Once the contents are collected, they should be sent to the TextFileReader
@@ -104,36 +110,72 @@ public class HomeController {
 		FileWriter myWriter = null;
 		try { 
 			myWriter = new FileWriter(newFile);
-			myWriter.write(textAreaContents); 
+			myWriter.write(textAreaContents+"\n\n"); 
 			myWriter.close();
-		} 
-		catch (IOException e) { e.printStackTrace(); }
+		
 		
 		// pass the file to textfilereader so we can begin the process
 		TextFileReader tfr = new TextFileReader(newFile);
-		tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument());
-		
+		System.out.println(tfr.detectInstrument());
 		// EVERYTHING ABOVE THIS LINE HAS BEEN TESTED, IT WORKS :)
 		switch(tfr.detectInstrument()) {
 		case "Guitar":
+			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument());
 			GuitarParser gp = new GuitarParser(tfr.getParsed());
-			xg = new xmlGen(gp);
+			xg = new xmlGen(gp,tfr);
+			// the following two lines should be outside the switch case, but bass and drums dont work yet
+			tabTextArea2.setText(xg.getXMLContent());
+			saveButton.setDisable(false);
+			System.out.println("Notes: " + gp.getNotes() + " size of array: " + gp.getNotes().size());
+			System.out.println("Chord?: " + gp.getChordArr() + " size of array: " + gp.getChordArr().size() );
+			System.out.println("Frets: " + gp.getFretNums() + " size of array: " + gp.getFretNums().size());
+			System.out.println("Fret Strings: " + gp.getFretStrings() + " size of array: " + gp.getFretStrings().size());
+	        System.out.println("duration: \t" + gp.getDurationArr() + " Length of Array:" + gp.getDurationArr().size() );
+		    System.out.println("type: \t" + gp.getTypeArr() + " Length of Array:" + gp.getTypeArr().size() );
 			break;
 		case "Drum":
-			//DrumParser dp = new DrumParser(tfr.getParsed());
-			//xmlGen xg = new xmlGen(dp);
+			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
+			+ "\n\nSystem is in prototype phase, unable to process Drums completely."
+			+ "\nUse with caution."
+			+ "\nYou may find that rests and beams are not processed correctly.");
+			DrumParser dp = new DrumParser(tfr.getParsed());
+			xg = new xmlGen(dp,tfr);
+			// the following two lines should be outside the switch case, but bass and drums dont work yet
+			tabTextArea2.setText(xg.getXMLContent());
+			saveButton.setDisable(false);
 			break;
 		case "Bass":
-			//BassParser bp = new BassParser(tfr.getParsed());
-			//xmlGen xg = new xmlGen(bp);
+			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
+			+ "\nSystem is in prototype phase, unable to process Bass.");
+			BassParser bp = new BassParser(tfr.getParsed());
+			xg = new xmlGen(bp,tfr);
+			tabTextArea2.setText(xg.getXMLContent());
+			saveButton.setDisable(false);
 			break;
 		default:
+			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument());
+			throw new Exception();
 			//give some error message saying instrument was not detected or something
 			
 		}	
-		//xmlGen xg = null;
-		tabTextArea2.setText(xg.getXMLContent());		
-		saveButton.setDisable(false);
+		//xmlGen xg = null;	
+		} 
+		catch (Exception e) { 
+			e.printStackTrace(); 
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("User Message");
+			alert.setHeaderText("ERROR: INVALID INPUT");
+			alert.setContentText("System is Unable to recognize the Tablature. "
+					+ "\nPlease look at Section 5.2[Input Limitations] of the User Manual for more information");
+			alert.showAndWait().ifPresent(rs -> {
+			    if (rs == ButtonType.OK) {
+			        System.out.println("Pressed OK.");
+			    }
+			});
+			
+		}
+		
+		
 	}
 	
 	
@@ -157,7 +199,7 @@ public class HomeController {
 		fc = new FileChooser();
 		fc.setTitle("Save MusicXML Conversion");
 		File file = fc.showSaveDialog(stage);
-		//String operationResult = "Successfully written to file.";
+		String operationResult = "Successfully written to file.";
 		
 		// clean this up later
 		try {			
@@ -167,12 +209,15 @@ public class HomeController {
 			myWriter.write(xg.getXMLContent());
 			myWriter.close();			
 			
-		} finally {
+		}catch(Exception e) {
+			operationResult = "Save Cancelled";
+		}
+			finally {
 			
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("User Message");
 			alert.setHeaderText("Operation Status");
-			alert.setContentText("Successfully written to file");
+			alert.setContentText(operationResult);
 			alert.showAndWait().ifPresent(rs -> {
 			    if (rs == ButtonType.OK) {
 			        System.out.println("Pressed OK.");
@@ -189,8 +234,7 @@ public class HomeController {
 		TextFileReader guitarTab = new TextFileReader(selectedFile.getAbsolutePath());		
 		//set area to be the text from the file
 		tabTextArea1.setText(guitarTab.printOrginal());	
-//		
-//		
+
 //		parsedInfo = new StringBuilder();
 //		//adding the parsed tab
 //		parsedInfo.append(guitarTab.printOrginal());		

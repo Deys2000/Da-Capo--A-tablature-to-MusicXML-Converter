@@ -2,6 +2,10 @@ package tabToXml;
 
 import java.util.ArrayList;
 
+// THIS WHOLE CLASS IS THE SAME AS GUITAR PARSER, SO AS WE IMPROVE THE GUITAR PARSER, WE SIMULTANEOUSLY UPDATE THIS PARSER AS WELL
+
+
+
 public class BassParser {
 
 	public ArrayList<String> notes = new ArrayList<>();
@@ -16,8 +20,9 @@ public class BassParser {
     private int divisions = 4; //current default is 4
     private int padding = 1;
     
-    public BassParser() {
-    	
+    public BassParser(ArrayList<String> tfrparsed) throws Exception {
+    	translateParsed(tfrparsed);
+    	parseToRhythm(tfrparsed);
     }
     
     public static String translate(String string, int fret) throws Exception{

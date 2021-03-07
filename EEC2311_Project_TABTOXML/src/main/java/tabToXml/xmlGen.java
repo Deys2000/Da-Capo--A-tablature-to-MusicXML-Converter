@@ -12,6 +12,10 @@ import javax.xml.bind.Marshaller;
 import musicXML.*;
 
 
+// NEEDS TO ADAPT TO CHANGES AS THEY SHOW UP, MORE OF A RESPONSIVE TYPE OF CLASS
+// ORGANIZE THE SCHEMAS AND EVENTUALLY GET RID OF THE ONES WE DONT NEED
+// IDEALLY THIS CLASS HAS 3 MAJOR METHODS FOR THE CREATION OF AN XML FOR EACH OF THE INSTRUMENTS ( subject to improvement )
+
 public class xmlGen {
 	
 	Marshaller jaxbMarshaller;
@@ -30,15 +34,25 @@ public class xmlGen {
     };
 
     
+    public xmlGen(DrumParser dp, TextFileReader tfr) {
+    	drumGenerator(dp);
+        attributeVals[4][0] = tfr.staffLines();
+    }
+    
+    public xmlGen(BassParser bp, TextFileReader tfr) {
+    	guitarGenerator(bp.processor());
+        attributeVals[4][0] = tfr.staffLines();
+
+    }
     
     /**
-     * A constructor prepared for the future of this Class, it takes the instrument and makes xml stuff out of it based on instrument
      * this one is for guitar obviously
      * @param instrument
      * @param parserObject
      */
-    public xmlGen(GuitarParser gp) {
+    public xmlGen(GuitarParser gp, TextFileReader tfr) {
     	guitarGenerator(gp.processor());
+       	//attributeVals[4][0] = tfr.staffLines();
     }    
 
     /**
@@ -50,16 +64,16 @@ public class xmlGen {
 
     	// creating the outermost tag "score-partwise"
         this.scorePartwise = new ScorePartwise();
-        scorePartwise.setMovementTitle("test"); // move to constuctor
+        scorePartwise.setMovementTitle("Guitar Music Piece"); // move to constuctor
         
-        scorePartwise.setPartList( new PartList(new ScorePart("P1", "Instrument Name"))); // constructor sets ID and part-name
+        scorePartwise.setPartList( new PartList(new ScorePart("P1", "Classical Guitar"))); // constructor sets ID and part-name
         Part part = new Part("P1"); // constructer sets ID
         
 
         // creating measure list that will hold all the measures which will each contain all the notes
         ArrayList<musicXML.Measure> measures = new ArrayList<musicXML.Measure>();
         // initializing the first measure
-        musicXML.Measure measure = new musicXML.Measure("P1"); // constructor sets the measure number
+        musicXML.Measure measure = new musicXML.Measure("1"); // constructor sets the measure number
            
         // creating the attributes section that goes into the first measure
         Attributes attributes = new Attributes();
@@ -184,5 +198,159 @@ public class xmlGen {
         }finally {
         	return xml.toString();
         }
+    }
+    
+    /**
+     * WORKING ON GETTING DRUMS TO WORK
+     * @param gp
+     */
+    public void drumGenerator(DrumParser dp)
+    {
+
+    	// creating the outermost tag "score-partwise"
+        this.scorePartwise = new ScorePartwise();
+       // scorePartwise.setMovementTitle("test"); // move to constuctor
+        //PartList partlist = new PartList();
+        
+        ScorePart scorepart = new ScorePart();//"P1","Drumset");
+        scorepart.setId("P1");
+        PartName partname = new PartName();
+        partname.setValue("Drumset");
+        scorepart.setPartName(partname);
+        //adding the list of insturments and their ID's
+        for(StringInfo stringinfo: dp.getTabStrings()) {
+        	ScoreInstrument si = new ScoreInstrument();
+        	si.setId(stringinfo.getInstrumentId());
+        	si.setInstrumentName(stringinfo.getInstrumentName());
+    		System.out.println(si.getInstrumentName());
+    		System.out.println(si.getId());
+        	try {
+        	scorepart.addScoreInstrument(si);
+        	}
+        	catch(NullPointerException e) {
+        		System.out.println(">>>>>>>>>>>>>>>>ISSUE");
+        		System.out.println(scorepart.getPartName().getValue());
+        		System.out.println(stringinfo.getInstrumentName());
+
+        	}
+        	finally {
+        		
+        	}
+        }
+        scorePartwise.setPartList( new PartList(scorepart) ); // constructor sets ID and part-name
+        
+        
+        
+        Part part = new Part("P1"); // constructer sets ID
+        
+
+        // creating measure list that will hold all the measures which will each contain all the notes
+        ArrayList<musicXML.Measure> measures = new ArrayList<musicXML.Measure>();
+        // initializing the first measure
+        musicXML.Measure measure = new musicXML.Measure("1"); // constructor sets the measure number
+           
+        // creating the attributes section that goes into the first measure
+        Attributes attributes = new Attributes();
+        attributes.setDivisions(new BigDecimal(4));
+        Key key = new Key();
+        key.setFifths(new BigInteger("0"));
+        attributes.setKey(key);
+        attributes.setTime(new Time("4", "4")); // constructor takes beat and beat type
+        attributes.setClef(new Clef("percussion", new BigInteger("2"))); // constuctor sets sign and line
+
+        // ADDING THE NOTES IN THE FIRST MEASURE
+       measure.setAttributes(attributes);
+       // adding all the notes of the first measure
+	   ArrayList<musicXML.Note> notes = new ArrayList<musicXML.Note>();
+	   musicXML.Note n;
+       for(tabToXml.Note note: dp.getMeasures().get(0).getNotes()) {
+    	   n = new musicXML.Note();
+    	   // if the note is not a rest note give it the following values as well
+    	   if( note.getUnpitchedOrRest().equals("unpitched")) {        	   
+        	   n.getDurationOrChordOrCue().add(new Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));        	   
+        	   //if(note.getChord())
+        		//   n.getDurationOrChordOrCue().add(new Chord());
+        	   Instrument instrument = new Instrument();
+        	   instrument.setId(note.getInstrumentID());
+        	   n.setInstrument(instrument);        	   
+        	   n.setStem(new Stem(note.getStem()));
+        	   Notehead notehead = new Notehead();
+        	   notehead.setValue(note.getNotehead());
+        	   n.setNotehead(notehead);
+    	   }   
+    	   // the else statement takes the rest notes
+    	   else {
+    		   n.getDurationOrChordOrCue().add(new Rest());
+    	   }    		   
+    	   // duration, voice and type are for all notes regardless
+    	   n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));
+    	   n.setVoice(java.lang.String.valueOf(note.getVoice()));
+    	   n.setType(new Type(note.getType()));    	       	   
+    	   notes.add(n);
+       }
+       //adding the first batch of notes to the first measure
+       measure.setNote(notes);  
+       measures.add(measure);
+    	 
+       // Making all the measures after the first one
+       int measureNum = 1;
+       for(int i = 1; i < dp.getMeasures().size(); i++) {
+    	   notes = new ArrayList<musicXML.Note>();
+    	   measureNum++;
+           measure = new musicXML.Measure(java.lang.String.valueOf(measureNum));
+
+    	   for(tabToXml.Note note: dp.getMeasures().get(i).getNotes()) {
+        	   n = new musicXML.Note();
+        	   // if the note is not a rest note give it the following values as well
+        	   if(note.getUnpitchedOrRest().equals("unpitched")) {
+        		   n.getDurationOrChordOrCue().add(new Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
+        		   //if(note.getChord())
+        			//   n.getDurationOrChordOrCue().add(new Chord());
+        		   Instrument instrument = new Instrument();
+            	   instrument.setId(note.getInstrumentID());
+            	   n.setInstrument(instrument);
+            	   n.setStem(new Stem(note.getStem()));
+            	   Notehead notehead = new Notehead();
+            	   notehead.setValue(note.getNotehead());
+            	   n.setNotehead(notehead);
+        	   }else {     	   // the else statement takes the rest notes
+
+        		   n.getDurationOrChordOrCue().add(new Rest());
+        	   }        	   
+        	   n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   
+        	   n.setVoice(java.lang.String.valueOf(note.getVoice()));
+        	   n.setType(new Type(note.getType()));
+        	   notes.add(n);
+           }
+           //adding the first batch of notes to the first measure
+           measure.setNote(notes); 
+           measures.add(measure);
+       	}
+       
+       	// At this point, we should have all the measures containing all the notes;
+       //we also have an extra empty measure created at the end so we remove it
+       measures.remove(measures.size()-1);
+       part.setMeasure(measures);
+        scorePartwise.setPart(part);
+        // add the part and our process of creating objects is complete
+        // now we just need to marshall
+        
+        // ADDED TO CONSTRUCTOR
+        try {
+
+            JAXBContext jaxbContext = JAXBContext.newInstance(ScorePartwise.class);
+            jaxbMarshaller = jaxbContext.createMarshaller();
+
+            // output pretty printed
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            
+
+            jaxbMarshaller.marshal(scorePartwise, System.out); //prints to console
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        
+        
     }
 }

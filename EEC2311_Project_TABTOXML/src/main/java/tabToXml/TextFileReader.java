@@ -14,7 +14,7 @@ public class TextFileReader {
 	
 	private File inputFile;
 	static int numOfLines = 0;
-	boolean isDrum;
+	boolean isDrum = false;
 	static String instrument;
 	static String lineStorage;
 	
@@ -29,7 +29,6 @@ public class TextFileReader {
 		this.inputFile = new File(inputFile);
 		this.countLines();
 		this.createparsedTab();
-
 		this.detectInstrument();
 	}
 	public TextFileReader(File inputFile){
@@ -44,6 +43,7 @@ public class TextFileReader {
 	 * also responsible for checking if the input provided is bad
 	 */
 	private void countLines(){
+		numOfLines = 0;
 		Scanner sc = null;
 		try {
 			int counter = 0;
@@ -67,14 +67,15 @@ public class TextFileReader {
 				}
 				//end of dash counting
 				
-				//drum tab check
-				if(next.contains("X") || next.contains("x") || next.contains("O") || next.contains("o"))  {
+				if(next.contains("X") || next.contains("x") || next.contains("o") || next.contains("O"))  {
+
 					isDrum = true;
 				}
 				//end of drum tab check
 				
 				if (next.contains("-") && next.contains("|")) {
-					numOfLines ++;
+					numOfLines++;
+					System.out.println(numOfLines);
 				}
 				else if( 0 < numOfLines )  // modified this line to cater to prevent crashing with spacing at the start
 					break;
@@ -149,6 +150,7 @@ public class TextFileReader {
 			sc.close();
 		}
 	}
+	
 	//checks number of dashes in first line
 //	public void checkDashes() {
 //		Scanner sc = null;
@@ -173,6 +175,9 @@ public class TextFileReader {
 //		}
 //		System.out.println(lineStorage);
 //	}
+	
+	
+
 	/**
 	 * determines the instrument based on the number of lines
 	 * still in progress
@@ -186,8 +191,8 @@ public class TextFileReader {
 		else if (lines == 6 && isDrum == false) {
 			instrument = "Guitar";
 		}
-		else{
-			instrument = "Drums";
+		else if( isDrum ){
+			instrument = "Drum";
 		}
 		return instrument;
 	}
@@ -196,11 +201,18 @@ public class TextFileReader {
 		return numOfLines;
 	}
 	
+
 	public static java.lang.String staffLines(){
 		Integer count = numOfLines/2;
 		java.lang.String lines = count.toString();
 		return lines;
-	}
+		}
+		
+//	public java.lang.String staffLines(){
+//		
+//		return String.valueOf(numOfLines);
+//
+//	}
 	
 	public static java.lang.String sign(){
 		String sign = "tab";
@@ -239,7 +251,7 @@ public class TextFileReader {
 	}
 		
 //	/**
-//	 * Creates a parsedTab array of the file in parsedTabTab variable
+//	 * Creates a parsedTab array of the file in parsedTabTab variable, DO WE NEED THIS?
 //	 */
 //	private void createparsedTab(){
 //		Scanner sc = null;
@@ -275,6 +287,10 @@ public class TextFileReader {
 //		}
 //	}
 	
+	/**
+	 * This is for printing purposes, it makes everything into one string
+	 * @return
+	 */
 	public String getParsedString() {
 		StringBuilder sb = new StringBuilder();
 		for(String s : parsedTab)
@@ -282,13 +298,17 @@ public class TextFileReader {
 		return sb.toString();
 	}
 	
+	/**
+	 * This is the MAIN output of this file that goes into the three parsers
+	 * @return
+	 */
 	public ArrayList<String> getParsed(){
 		return parsedTab;
 	}
 
 	
 	/**
-	 * Prints the original text file
+	 * Prints the original text file, used only for the GUI when you open a file
 	 * @return
 	 */
 	public String printOrginal() {
@@ -303,5 +323,13 @@ public class TextFileReader {
 			e.printStackTrace();
 		}
 		return sb.toString();	
+	}
+	
+	/**
+	 * just to get the file
+	 * @return
+	 */
+	public File getFile() {
+		return this.inputFile;
 	}
 }
