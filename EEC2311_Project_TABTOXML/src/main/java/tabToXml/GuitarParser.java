@@ -60,7 +60,7 @@ public class GuitarParser {
 						tmp = "";
 						// make regular note
 						if (chord.isEmpty() && fretNumVar.isEmpty() && fretStringVar.isEmpty()) {
-							chord = translate("E4", fret);
+							chord = translate(tuning[i], fret);
 							fretNumVar = fret + "";
 							cal = i + 1;
 							fretStringVar = cal + "";
