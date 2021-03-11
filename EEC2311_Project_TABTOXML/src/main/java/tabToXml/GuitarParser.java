@@ -12,7 +12,9 @@ public class GuitarParser {
     public ArrayList<String> durationArr = new ArrayList<String>();
     public ArrayList<String> typeArr = new ArrayList<String>();
     public ArrayList<String> chords = new ArrayList<String>();
-
+    
+    // current tuning, from top line to bottom line
+    public String[] tuning = {"E4", "B3", "G3", "D3", "A2", "E2"};
     
     private int divisions = 4; //current default is 4
     private int padding = 1;
@@ -48,8 +50,6 @@ public class GuitarParser {
 				
 				// go through each row
 				for(int i = 0; i < row; i++) {
-
-
 					
 					String fretStringVar = "";
 					
@@ -57,170 +57,34 @@ public class GuitarParser {
 
 					int fret = Character.getNumericValue(fret2);
 					if (fret2 >= '0' && fret2 <= '9') {
-						if (i == 0) {
-							tmp = "";
-							// make regular note
-							if (chord.isEmpty() && fretNumVar.isEmpty() && fretStringVar.isEmpty()) {
-								chord = translate("E4", fret);
-								fretNumVar = fret + "";
-								cal = i + 1;
-								fretStringVar = cal + "";
-								
-							}else { // make a chord note
-								notes.remove(notes.size() - 1);
-								fretNum.remove(fretNum.size() - 1);
-								//fretString.remove(fretString.size()-1);
-								
-								notes.add(chord);
-								fretNum.add(fretNumVar);
-								//fretString.add(fretStringVar);
-								
-								chord = "+" + translate("E4", fret);
-								fretNumVar = fret + "";
-								fretStringVar = cal + "";
-								
-//								chord = translate("E4", fret) + "+" + chord;
-//								fretNumVar = fretNumVar + "+" + fret;
-//								fretStringVar = fretStringVar + "+" + cal;
-							}
-							notes.add(chord);
-							fretNum.add(fretNumVar);
-							fretString.add(String.valueOf(i+1));
-						}else if (i == 1) {
-							tmp = "";
-							if (chord.isEmpty()) {
-								chord = translate("B3", fret);
-								fretNumVar = fret + "";
-								cal = i + 1;
-								fretStringVar = cal + "";
-							}else {
-								notes.remove(notes.size() - 1);
-								fretNum.remove(fretNum.size() - 1);
-								//fretString.remove(fretString.size()-1);
-//								chord = translate("B3", fret) + "+" + chord;
-//								fretNumVar = fretNumVar + "+" + fret;
-//								fretStringVar = fretStringVar + "+" + cal;
-								
-								notes.add(chord);
-								fretNum.add(fretNumVar);
-								//fretString.add(fretStringVar);
-								
-								chord = "+" + translate("B3", fret);
-								fretNumVar = fret + "";
-								fretStringVar = cal + "";
-							}
-							notes.add(chord);
-							fretNum.add(fretNumVar);
-							fretString.add(String.valueOf(i+1));
-						}else if (i == 2) {
-							tmp = "";
-							if (chord.isEmpty()) {
-								chord = translate("G3", fret);
-								fretNumVar = fret + "";
-								cal = i + 1;
-								fretStringVar = cal + "";
-							}else {
-								notes.remove(notes.size() - 1);
-								fretNum.remove(fretNum.size() - 1);
-								//fretString.remove(fretString.size()-1);
-//								chord = translate("G3", fret)  + "+" + chord;
-//								fretNumVar = fretNumVar + "+" + fret;
-//								fretStringVar = fretStringVar + "+" + cal;
-								
-								notes.add(chord);
-								fretNum.add(fretNumVar);
-								//fretString.add(fretStringVar);
-								
-								chord = "+" + translate("G3", fret);
-								fretNumVar = fret + "";
-								fretStringVar = cal + "";
-								
-							}
-							notes.add(chord);
-							fretNum.add(fretNumVar);
-							fretString.add(String.valueOf(i+1));
-						}else if (i == 3) {
-							tmp = "";
-							if (chord.isEmpty()) {
-								chord = translate("D3", fret);
-								fretNumVar = fret + "";
-								cal = i + 1;
-								fretStringVar = cal + "";
-							}else {
-								notes.remove(notes.size() - 1);
-								fretNum.remove(fretNum.size() - 1);
-								//fretString.remove(fretString.size()-1);
-//								chord = translate("D3", fret)  + "+" +  chord;
-//								fretNumVar = fretNumVar + "+" + fret;
-//								fretStringVar = fretStringVar + "+" + cal;
-								
-								notes.add(chord);
-								fretNum.add(fretNumVar);
-								//fretString.add(fretStringVar);
-								
-								chord = "+" + translate("D3", fret);
-								fretNumVar = fret + "";
-								fretStringVar = cal + "";
-							}
-							notes.add(chord);
-							fretNum.add(fretNumVar);
-							fretString.add(String.valueOf(i+1));
-						}else if (i == 4) {
-							tmp = "";
-							if (chord.isEmpty()) {
-								chord = translate("A2", fret);
-								fretNumVar = fret + "";
-								cal = i + 1;
-								fretStringVar = cal + "";
-							}else {
-								notes.remove(notes.size() - 1);
-								fretNum.remove(fretNum.size() - 1);
-								//fretString.remove(fretString.size()-1);
-//								chord =  translate("A2", fret) + "+" +  chord;
-//								fretNumVar = fretNumVar + "+" + fret;
-//								fretStringVar = fretStringVar + "+" + cal;
-								
-								notes.add(chord);
-								fretNum.add(fretNumVar);
-								//fretString.add(fretStringVar);
-								
-								chord = "+" + translate("A2", fret);
-								fretNumVar = fret + "";
-								fretStringVar = cal + "";
-								
-							}
-							notes.add(chord);
-							fretNum.add(fretNumVar);
-							fretString.add(String.valueOf(i+1));
-						}else if (i == 5) {
-							tmp = "";
-							if (chord.isEmpty()) {
-								chord = translate("E2", fret);
-								fretNumVar = fret + "";
-								cal = i + 1;
-								fretStringVar = cal + "";
-							}else {
-								notes.remove(notes.size() - 1);
-								fretNum.remove(fretNum.size() - 1);
-								//fretString.remove(fretString.size()-1);
-//								chord = translate("E2", fret) + "+" +  chord;
-//								fretNumVar = fretNumVar + "+" + fret;
-//								fretStringVar = fretStringVar + "+" + cal;
-								
-								notes.add(chord);
-								fretNum.add(fretNumVar);
-								//fretString.add(fretStringVar);
-								
-								chord = "+" + translate("E2", fret);
-								fretNumVar = fret + "";
-								fretStringVar = cal + "";
-								
+						tmp = "";
+						// make regular note
+						if (chord.isEmpty() && fretNumVar.isEmpty() && fretStringVar.isEmpty()) {
+							chord = translate("E4", fret);
+							fretNumVar = fret + "";
+							cal = i + 1;
+							fretStringVar = cal + "";
 							
-							}
+						}else { // make a chord note
+							notes.remove(notes.size() - 1);
+							fretNum.remove(fretNum.size() - 1);
+							//fretString.remove(fretString.size()-1);
+							
 							notes.add(chord);
 							fretNum.add(fretNumVar);
-							fretString.add(String.valueOf(i+1));
+							//fretString.add(fretStringVar);
+							
+							chord = "+" + translate(tuning[i], fret);
+							fretNumVar = fret + "";
+							fretStringVar = cal + "";
+							
+//							chord = translate("E4", fret) + "+" + chord;
+//							fretNumVar = fretNumVar + "+" + fret;
+//							fretStringVar = fretStringVar + "+" + cal;
 						}
+						notes.add(chord);
+						fretNum.add(fretNumVar);
+						fretString.add(String.valueOf(i+1));		
 						
 					}else if (fret2 == '|') {
 						if (tmp.isEmpty()) {
@@ -230,8 +94,7 @@ public class GuitarParser {
 							fretString.add(tmp);
 						}
 					}
-					
-					
+
 				}	
 			}
 		
