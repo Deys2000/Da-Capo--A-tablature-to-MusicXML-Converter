@@ -58,7 +58,7 @@ public class GuitarParser {
 					int fret = Character.getNumericValue(fret2);
 					if (fret2 >= '0' && fret2 <= '9') {
 						tmp = "";
-						// make regular note
+						// make regular note 
 						if (chord.isEmpty() && fretNumVar.isEmpty() && fretStringVar.isEmpty()) {
 							chord = translate(tuning[i], fret);
 							fretNumVar = fret + "";
