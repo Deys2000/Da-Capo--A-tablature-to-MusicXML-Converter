@@ -6,12 +6,12 @@ import java.util.List;
 public class GuitarParser {
 	
 	// all the arrays to contain information gathered by the notes
-	public ArrayList<String> notes = new ArrayList<>();
-	public ArrayList<String> fretString = new ArrayList<>();
-	public ArrayList<String> fretNum = new ArrayList<>();
+	public static ArrayList<String> notes = new ArrayList<>();
+	public static ArrayList<String> fretString = new ArrayList<>();
+	public static ArrayList<String> fretNum = new ArrayList<>();
     public ArrayList<String> durationArr = new ArrayList<String>();
     public ArrayList<String> typeArr = new ArrayList<String>();
-    public ArrayList<String> chords = new ArrayList<String>();
+    public static ArrayList<String> chords = new ArrayList<String>();
     
     // current tuning, from top line to bottom line
     public String[] tuning = {"E4", "B3", "G3", "D3", "A2", "E2"};
@@ -25,45 +25,74 @@ public class GuitarParser {
     	parseToRhythm(tfrparsed);
     }
     
+    public static String removeCharAt(String str, int pos) {
+    	return str.substring(0, pos) + str.substring(pos + 1);
+    }
+    
+//    public int columnLength(ArrayList<String> parsedTab) {
+//    	String shortString = parsedTab.get(0);
+//    	
+//    	for (String elem : parsedTab) {
+//    		if (elem.length() < shortString.length()) {
+//    			shortString = elem;
+//    		}
+//    	}
+//    	
+//    	return shortString.length();
+//    }
+    
 	/*This method takes the input file and parses that into a 2d array. 
 	 *The result of that 2d array is used to obtain the fret and chord/note
-	 *using the translate() method above. */
-    
+	 *using the translate() method above. */    
 	public void translateParsed(ArrayList<String> parsedTab) throws Exception {
-		
-		//TextFileReader tabReader = new TextFileReader(inputfile);
-		
 
-		int row = parsedTab.size();
-//		int col = tabReader.printParsed().get(0).size();
-
+		int row = parsedTab.size();	
 		int next = parsedTab.get(0).length();
-
+//		int next = columnLength(parsedTab);
 		char fret2 = '\0';
 		String tmp = "";
+		String fretStringValue = "";
+		
+		
+		
 		int cal = 0;
+		int j = 0;
 			// go through each column
-			for (int j = 0; j < next; j++) {
-				
+			for (j = 0; j < next; j++) {
+			
 				String fretNumVar = "";   // reset the fret string checker on the iteration of each new column
 				String chord = ""; 		// clear value of note before every column
 				
 				// go through each row
 				for(int i = 0; i < row; i++) {
 					
+					next = parsedTab.get(i).length();
 					String fretStringVar = "";
 					
-					fret2 = parsedTab.get(i).charAt(j);
-
-					int fret = Character.getNumericValue(fret2);
+					fret2 = parsedTab.get(i).charAt(j);					
+					int fret = Character.getNumericValue(fret2);	
+					
 					if (fret2 >= '0' && fret2 <= '9') {
+						fretStringValue = ""; //Used for concatenating two single numbers to make a double digit number
 						tmp = "";
+
+						
 						// make regular note 
 						if (chord.isEmpty() && fretNumVar.isEmpty() && fretStringVar.isEmpty()) {
-							chord = translate(tuning[i], fret);
-							fretNumVar = fret + "";
-							cal = i + 1;
-							fretStringVar = cal + "";
+							
+							//fret is the number
+							if (parsedTab.get(i).charAt(j+1) >= '0' && parsedTab.get(i).charAt(j+1) <= '9') {
+								fretStringValue =  String.valueOf(parsedTab.get(i).charAt(j)) + String.valueOf(parsedTab.get(i).charAt(j+1));
+								fret = Integer.parseInt(fretStringValue);
+								parsedTab.set(i, removeCharAt(parsedTab.get(i), j+1));							
+							}
+						
+							if (fret <= 12) {
+								chord = translate(tuning[i], fret);
+								fretNumVar = fret + "";
+								cal = i + 1;
+								fretStringVar = cal + "";
+							}
 							
 						}else { // make a chord note
 							notes.remove(notes.size() - 1);
@@ -74,40 +103,37 @@ public class GuitarParser {
 							fretNum.add(fretNumVar);
 							//fretString.add(fretStringVar);
 							
-							chord = "+" + translate(tuning[i], fret);
-							fretNumVar = fret + "";
-							fretStringVar = cal + "";
+							if (parsedTab.get(i).charAt(j+1) >= '0' && parsedTab.get(i).charAt(j+1) <= '9') {
+								fretStringValue =  String.valueOf(parsedTab.get(i).charAt(j)) + String.valueOf(parsedTab.get(i).charAt(j+1));
+								fret = Integer.parseInt(fretStringValue);
+								parsedTab.set(i, removeCharAt(parsedTab.get(i), j+1));
+							}
 							
-//							chord = translate("E4", fret) + "+" + chord;
-//							fretNumVar = fretNumVar + "+" + fret;
-//							fretStringVar = fretStringVar + "+" + cal;
+							if (fret <= 12) {
+								chord = "+" + translate(tuning[i], fret);
+								fretNumVar = fret + "";
+								fretStringVar = cal + "";
+							}
+						
 						}
-						notes.add(chord);
-						fretNum.add(fretNumVar);
-						fretString.add(String.valueOf(i+1));		
+						addToLists(chord, fretNumVar, String.valueOf(i+1));
+	
 						
 					}else if (fret2 == '|') {
 						if (tmp.isEmpty()) {
 							tmp = fret2 + "";
-							notes.add(tmp);
-							fretNum.add(tmp);
-							fretString.add(tmp);
+							addToLists(tmp, tmp, tmp);
+
 						}
 					}
 
-				}	
+				}
 			}
 		
-			notes.remove(notes.size() - 1);
-			fretNum.remove(fretNum.size() - 1);
-			fretString.remove(fretString.size()-1);
-			notes.add("||");
-			fretNum.add("||");
-			fretString.add("||");
-//		System.out.print("Fret String: " + fretString + " Fret size: " + fretString.size() + "\n");
-//		System.out.print("Fret Num: " + fretNum + " Fret size: " + fretNum.size() + "\n");
-//		System.out.print("\nNote size: " + note.size());
-    	
+			removeFromLists(notes.size() - 1, fretNum.size() - 1, fretString.size()-1);
+
+			addToLists("||", "||", "||");
+
 		//cleaning up the + in the chords and making a chords list
 		for( int i = 0; i < notes.size(); i++) {
 			if(notes.get(i).charAt(0) == '+'){
@@ -123,6 +149,20 @@ public class GuitarParser {
     	}
 		
 		// chords - add the double bars later
+	}
+	
+	public static void addToLists(String note, String ft, String fs) {
+		notes.add(note);
+		fretNum.add(ft);
+		fretString.add(fs);
+		
+	}
+	
+	public static void removeFromLists(int note, int ft, int fs) {
+		notes.remove(note);
+		fretNum.remove(ft);
+		fretString.remove(fs);
+		
 	}
 	
 	//CARRIED OVER FROM RHYTHMPARSER CLASS
