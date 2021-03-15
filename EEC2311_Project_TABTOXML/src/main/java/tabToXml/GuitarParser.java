@@ -17,7 +17,7 @@ public class GuitarParser {
     public String[] tuning = {"E4", "B3", "G3", "D3", "A2", "E2"};
     
     private int divisions = 4; //current default is 4
-    private int padding = 1;
+    private int padding = 1; // number of dashes used for padding, should be 0 or 1
     
     
     public GuitarParser(ArrayList<String> tfrparsed) throws Exception {
@@ -143,8 +143,8 @@ public class GuitarParser {
         int currentLine = 0;
         int prevChordNum = 0; // number of notes in previous chord
         int curChordNum = 0; // number of notes in current chord
-
-        boolean isCounting = false; // if we're currently counting noteLength
+        
+        boolean isDoubleDigit = false;
         
         while (counter < parsedTab.get(0).length() - 1) { 
             
@@ -164,26 +164,29 @@ public class GuitarParser {
                 	
                 	// since we have reached end of measure, reset and stop counting noteLength
                     noteLength = 0;
-                    isCounting = false;
                 }
                 
                 durationArr.add("|");
                 typeArr.add("|");
-                counter += padding; // skipping both '|' and padding '-'
+                counter += padding; // skipping both '|' and padding '-', if padding exists
             }
             
             // Should be run before encountering the first note/chord in a measure
-            else if (isCounting == false) {
-                
-                // Check when the next note starts 
-                while(currentLine < lines) {
-                    
+            else if (prevChordNum == 0) {
+            	
+            	// Assume Frets are Single digit
+                while(currentLine < lines && !isDoubleDigit) {
+                	                  
                 	// Add all notes to a chord
                     if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
                     	
-                    	// should only be done once
-                    	if (isCounting == false) {
-                    		isCounting = true;
+                    	// check if fret is doubledigit
+                    	if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
+                    		isDoubleDigit = true;
+                    	}
+                    	
+                    	// starts counting noteLength, should only be done once
+                    	if (prevChordNum == 0) {
                     		noteLength++;
                     	}
                     	
@@ -192,15 +195,38 @@ public class GuitarParser {
                     
                     currentLine++;
                 }
+                
+                // If DoubleDigit frets, recount using one's place
+                if (isDoubleDigit) {
+                	int totalFretNum = 0;
+                	currentLine = 0;
+                	
+                	while (currentLine < lines) {
+                		if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
+                			totalFretNum++;
+                		}
+                		
+                		currentLine++;
+                	}
+                	
+                	prevChordNum = totalFretNum;
+                }
             }
             
             // Should be run after encountering the first note/chord in a measure
-            else if (isCounting == true) {
+            else{
                 
-                while(currentLine < lines) {
+            	// Assume Frets are Single Digit
+                while(currentLine < lines && !isDoubleDigit) {
                     
                 	// Adds all previous chord notes to arrays, then adds current notes to current chord
                     if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
+                    	
+                    	// check if fret is doubledigit
+                    	if(Character.isDigit(parsedTab.get(currentLine).charAt(counter+1))) {
+                    		isDoubleDigit = true;
+                    	}
+                    	
                     	while (prevChordNum > 0) {
 	                        durationArr.add("" + noteLength);
 	                        typeArr.add(durationToType(noteLength, divisions));
@@ -215,13 +241,35 @@ public class GuitarParser {
                     currentLine++;
                 }
                 
+                // If DoubleDigit frets, recount using one's place
+                if (isDoubleDigit) {
+                	int totalFretNum = 0;
+                	currentLine = 0;
+                	
+                	while (currentLine < lines) {
+                		if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
+                			totalFretNum++;
+                		}
+                		
+                		currentLine++;
+                	}
+                	
+                	prevChordNum = totalFretNum;
+                }
+                
                 // if there are notes in the current chord, copy them to previous chord and empty current chord
                 if(curChordNum != 0) {
                 	prevChordNum = curChordNum;
                 	curChordNum = 0;
                 }
                 
-                noteLength++;
+                noteLength++; 
+            }
+            
+            // If Fret is double-digit, increment counter and reset isDoubleDigit
+            if (isDoubleDigit) {
+            	counter++;
+            	isDoubleDigit = false;
             }
             
             counter++;
@@ -247,6 +295,7 @@ public class GuitarParser {
     /**
      * CARRIED OVER FROM RHYTHM PARSER CLASS
      * returns the word representation of the duration amount
+     * The method that calls this should throw an error if result is "unknown"
      * @param duration
      * @param divisions
      * @return
@@ -256,14 +305,24 @@ public class GuitarParser {
         double durOverDiv = (double) duration / divisions;
         String result = "";
         
+        // Can't use switch since durOverDiv is double type
         if (durOverDiv == 4.0) {
             result = "whole";
+        }
+        else if (durOverDiv == 3.0) {	// note in musicXML needs <dot/> tag
+        	result = "dotted half";
         }
         else if (durOverDiv == 2.0) {
             result = "half";
         }
+        else if (durOverDiv == 1.5) {	// note in musicXML needs <dot/> tag
+            result = "dotted quarter";
+        }
         else if (durOverDiv == 1.0) {
             result = "quarter";
+        }
+        else if (durOverDiv == 0.75) {	// note in musicXML needs <dot/> tag
+            result = "dotted eighth";
         }
         else if (durOverDiv == 0.5) {
             result = "eighth";
@@ -272,14 +331,12 @@ public class GuitarParser {
             result = "16th";
         }
         else {
-        	result = "16th"; //default
+        	result = "16th"; //default, should be set to "unknown"
         }
         
         return result;
-        
     }    
-
-	
+    
 	/**
 	 * Converts a Note
 	 * C > C#/Db > D > D#/Eb > E > F > F#/Gb > G > G#/Ab > A > A#/Bb > B > Loops back to C
