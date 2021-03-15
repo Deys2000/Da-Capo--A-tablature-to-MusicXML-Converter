@@ -20,6 +20,7 @@ public class xmlGen {
 	
 	Marshaller jaxbMarshaller;
     private ScorePartwise scorePartwise;
+    private drumTag.ScorePartwise drumScorePartwise;
     
     // This section below needs work on automatic value entry
     
@@ -34,8 +35,13 @@ public class xmlGen {
     };
 
     
-    public xmlGen(DrumParser dp, TextFileReader tfr) {
+    public xmlGen(DrumParser2 dp) {
     	drumGenerator(dp);
+        //attributeVals[4][0] = tfr.staffLines();
+    }
+    
+    public xmlGen(DrumParser dp, TextFileReader tfr) {
+    	//drumGenerator(dp);
         attributeVals[4][0] = tfr.staffLines();
     }
     
@@ -202,154 +208,293 @@ public class xmlGen {
     
     /**
      * WORKING ON GETTING DRUMS TO WORK
-     * @param gp
+     * @param dp
      */
-    public void drumGenerator(DrumParser dp)
+    public void drumGenerator(DrumParser2 dp)
     {
 
     	// creating the outermost tag "score-partwise"
-        this.scorePartwise = new ScorePartwise();
-       // scorePartwise.setMovementTitle("test"); // move to constuctor
-        //PartList partlist = new PartList();
-        
-        ScorePart scorepart = new ScorePart();//"P1","Drumset");
+        this.drumScorePartwise = new drumTag.ScorePartwise();
+
+        drumTag.ScorePart scorepart = new drumTag.ScorePart();//"P1","Drumset");
         scorepart.setId("P1");
-        PartName partname = new PartName();
+        drumTag.PartName partname = new drumTag.PartName();
         partname.setValue("Drumset");
         scorepart.setPartName(partname);
         //adding the list of insturments and their ID's
-        for(StringInfo stringinfo: dp.getTabStrings()) {
-        	ScoreInstrument si = new ScoreInstrument();
+        for(DrumStringInfo stringinfo: dp.getDrumTabStrings()) {
+        	drumTag.ScoreInstrument si = new drumTag.ScoreInstrument();
         	si.setId(stringinfo.getInstrumentId());
         	si.setInstrumentName(stringinfo.getInstrumentName());
-    		System.out.println(si.getInstrumentName());
-    		System.out.println(si.getId());
-        	try {
+    		//System.out.println(si.getInstrumentName());
+    		//System.out.println(si.getId());
         	scorepart.addScoreInstrument(si);
-        	}
-        	catch(NullPointerException e) {
-        		System.out.println(">>>>>>>>>>>>>>>>ISSUE");
-        		System.out.println(scorepart.getPartName().getValue());
-        		System.out.println(stringinfo.getInstrumentName());
-
-        	}
-        	finally {
-        		
-        	}
         }
-        scorePartwise.setPartList( new PartList(scorepart) ); // constructor sets ID and part-name
-        
-        
-        
-        Part part = new Part("P1"); // constructer sets ID
-        
+        drumScorePartwise.setPartList( new drumTag.PartList(scorepart) ); // constructor sets ID and part-name
 
-        // creating measure list that will hold all the measures which will each contain all the notes
-        ArrayList<musicXML.Measure> measures = new ArrayList<musicXML.Measure>();
+        drumTag.Part part = new drumTag.Part("P1"); // constructer sets ID
+        
+        ArrayList<drumTag.Measure> measures = new ArrayList<drumTag.Measure>();
         // initializing the first measure
-        musicXML.Measure measure = new musicXML.Measure("1"); // constructor sets the measure number
+        drumTag.Measure measure;// = new drumTag.Measure("1"); // constructor sets the measure number
            
-        // creating the attributes section that goes into the first measure
-        Attributes attributes = new Attributes();
-        attributes.setDivisions(new BigDecimal(4));
-        Key key = new Key();
-        key.setFifths(new BigInteger("0"));
-        attributes.setKey(key);
-        attributes.setTime(new Time("4", "4")); // constructor takes beat and beat type
-        attributes.setClef(new Clef("percussion", new BigInteger("2"))); // constuctor sets sign and line
+                 
+        
+       for(int i = 0; i < dp.getDrumMeasures().size(); i++) {
+    	   ArrayList<drumTag.Note> notesVoice1 = new ArrayList<drumTag.Note>();
+    	   ArrayList<drumTag.Note> notesVoice2 = new ArrayList<drumTag.Note>();
+    	   int measureNum = i + 1;
+    	   measure = new drumTag.Measure(java.lang.String.valueOf(measureNum));
 
-        // ADDING THE NOTES IN THE FIRST MEASURE
-       measure.setAttributes(attributes);
-       // adding all the notes of the first measure
-	   ArrayList<musicXML.Note> notes = new ArrayList<musicXML.Note>();
-	   musicXML.Note n;
-       for(tabToXml.Note note: dp.getMeasures().get(0).getNotes()) {
-    	   n = new musicXML.Note();
-    	   // if the note is not a rest note give it the following values as well
-    	   if( note.getUnpitchedOrRest().equals("unpitched")) {        	   
-        	   n.getDurationOrChordOrCue().add(new Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));        	   
-        	   //if(note.getChord())
-        		//   n.getDurationOrChordOrCue().add(new Chord());
-        	   Instrument instrument = new Instrument();
-        	   instrument.setId(note.getInstrumentID());
-        	   n.setInstrument(instrument);        	   
-        	   n.setStem(new Stem(note.getStem()));
-        	   Notehead notehead = new Notehead();
-        	   notehead.setValue(note.getNotehead());
-        	   n.setNotehead(notehead);
-    	   }   
-    	   // the else statement takes the rest notes
-    	   else {
-    		   n.getDurationOrChordOrCue().add(new Rest());
-    	   }    		   
-    	   // duration, voice and type are for all notes regardless
-    	   n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));
-    	   n.setVoice(java.lang.String.valueOf(note.getVoice()));
-    	   n.setType(new Type(note.getType()));    	       	   
-    	   notes.add(n);
-       }
-       //adding the first batch of notes to the first measure
-       measure.setNote(notes);  
-       measures.add(measure);
-    	 
-       // Making all the measures after the first one
-       int measureNum = 1;
-       for(int i = 1; i < dp.getMeasures().size(); i++) {
-    	   notes = new ArrayList<musicXML.Note>();
-    	   measureNum++;
-           measure = new musicXML.Measure(java.lang.String.valueOf(measureNum));
+    	   System.out.println(">>>>>>>>>>>>>>" + measureNum);
+    	   // creating the attributes section that goes into the first measure
+    	   drumTag.Attributes attributes = new drumTag.Attributes();
+    	   attributes.setDivisions(new BigDecimal(4));
+    	   drumTag.Key key = new drumTag.Key();
+    	   key.setFifths(new BigInteger("0"));
+    	   attributes.setKey(key);
+    	   attributes.setTime(new drumTag.Time("4", "4")); // constructor takes beat and beat type
+    	   attributes.setClef(new drumTag.Clef("percussion", new BigInteger("2"))); // constuctor sets sign and line
 
-    	   for(tabToXml.Note note: dp.getMeasures().get(i).getNotes()) {
-        	   n = new musicXML.Note();
+    	   // ADDING THE ATTRIBUTES TO THE MEASURE
+    	   measure.setAttributes(attributes);
+
+    	   drumTag.Backup b = null;
+    	   drumTag.Note n;
+
+    	   for(tabToXml.DrumNote note: dp.getDrumMeasures().get(i).getNotes()) {
+        	   n = new drumTag.Note();
         	   // if the note is not a rest note give it the following values as well
+        	   
         	   if(note.getUnpitchedOrRest().equals("unpitched")) {
-        		   n.getDurationOrChordOrCue().add(new Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
-        		   //if(note.getChord())
-        			//   n.getDurationOrChordOrCue().add(new Chord());
-        		   Instrument instrument = new Instrument();
+        		   n.getDurationOrChordOrCue().add(new drumTag.Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
+        		   if(note.getChord())
+        			   n.getDurationOrChordOrCue().add(new drumTag.Chord());
+        		   drumTag.Instrument instrument = new drumTag.Instrument();
             	   instrument.setId(note.getInstrumentID());
             	   n.setInstrument(instrument);
-            	   n.setStem(new Stem(note.getStem()));
-            	   Notehead notehead = new Notehead();
+            	   n.setStem(new drumTag.Stem(note.getStem()));
+            	   drumTag.Notehead notehead = new drumTag.Notehead();
             	   notehead.setValue(note.getNotehead());
             	   n.setNotehead(notehead);
-        	   }else {     	   // the else statement takes the rest notes
-
-        		   n.getDurationOrChordOrCue().add(new Rest());
+            	   n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   
+            	   n.setVoice(java.lang.String.valueOf(note.getVoice()));
+            	   n.setType(new drumTag.Type(note.getType()));
+            	   
+            	   if(n.getVoice().equals("1"))  
+            		   notesVoice1.add(n);
+            	   else
+            		   notesVoice2.add(n);
+        	   }
+        	// the else statement takes the rest notes
+        	   else if( note.getUnpitchedOrRest().equals("backup")) {
+        		   b = new drumTag.Backup();
+        		   b.setDuration(new BigDecimal(note.getDuration()));
+        		   //b.setLevel(new drumTag.Level());        		   
         	   }        	   
-        	   n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   
-        	   n.setVoice(java.lang.String.valueOf(note.getVoice()));
-        	   n.setType(new Type(note.getType()));
-        	   notes.add(n);
+        	   else {     	   // the else statement takes the rest notes
+
+        		   n.getDurationOrChordOrCue().add(new drumTag.Rest());
+        		   n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   
+            	   n.setVoice(java.lang.String.valueOf(note.getVoice()));
+            	   n.setType(new drumTag.Type(note.getType()));
+            	   if(n.getVoice().equals("1"))  
+            		   notesVoice1.add(n);
+            	   else
+            		   notesVoice2.add(n);
+        	   }        	           	   
            }
            //adding the first batch of notes to the first measure
-           measure.setNote(notes); 
+           measure.setVoice1Note(notesVoice1);
+           measure.setVoice2Note(notesVoice2);
+           if (b != null) measure.setBackup(b);
            measures.add(measure);
        	}
        
-       	// At this point, we should have all the measures containing all the notes;
+       // At this point, we should have all the measures containing all the notes;
        //we also have an extra empty measure created at the end so we remove it
-       measures.remove(measures.size()-1);
+       //measures.remove(measures.size()-1);
        part.setMeasure(measures);
-        scorePartwise.setPart(part);
+       drumScorePartwise.setPart(part);
         // add the part and our process of creating objects is complete
         // now we just need to marshall
         
         // ADDED TO CONSTRUCTOR
         try {
 
-            JAXBContext jaxbContext = JAXBContext.newInstance(ScorePartwise.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(drumTag.ScorePartwise.class);
             jaxbMarshaller = jaxbContext.createMarshaller();
 
             // output pretty printed
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             
 
-            jaxbMarshaller.marshal(scorePartwise, System.out); //prints to console
+            jaxbMarshaller.marshal(drumScorePartwise, System.out); //prints to console
 
         } catch (JAXBException e) {
             e.printStackTrace();
         }
+    	// OLD PROCESS BELOW
+    	
+//    	
+//    	// creating the outermost tag "score-partwise"
+//        this.drumScorePartwise = new drumTag.ScorePartwise();
+//        // scorePartwise.setMovementTitle("test"); // move to constuctor
+//        //PartList partlist = new PartList();
+//        
+//        drumTag.ScorePart scorepart = new drumTag.ScorePart();//"P1","Drumset");
+//        scorepart.setId("P1");
+//        drumTag.PartName partname = new drumTag.PartName();
+//        partname.setValue("Drumset");
+//        scorepart.setPartName(partname);
+//        //adding the list of insturments and their ID's
+//        for(DrumStringInfo stringinfo: dp.getDrumTabStrings()) {
+//        	drumTag.ScoreInstrument si = new drumTag.ScoreInstrument();
+//        	si.setId(stringinfo.getInstrumentId());
+//        	si.setInstrumentName(stringinfo.getInstrumentName());
+//    		//System.out.println(si.getInstrumentName());
+//    		//System.out.println(si.getId());
+//        	scorepart.addScoreInstrument(si);
+//        }
+//        drumScorePartwise.setPartList( new drumTag.PartList(scorepart) ); // constructor sets ID and part-name
+//        
+//        
+//        
+//        drumTag.Part part = new drumTag.Part("P1"); // constructer sets ID
+//
+//        // creating measure list that will hold all the measures which will each contain all the notes                           
+//        ArrayList<drumTag.Measure> measures = new ArrayList<drumTag.Measure>();
+//        // initializing the first measure
+//        drumTag.Measure measure = new drumTag.Measure("1"); // constructor sets the measure number
+//           
+//        // creating the attributes section that goes into the first measure
+//        drumTag.Attributes attributes = new drumTag.Attributes();
+//        attributes.setDivisions(new BigDecimal(4));
+//        drumTag.Key key = new drumTag.Key();
+//        key.setFifths(new BigInteger("0"));
+//        attributes.setKey(key);
+//        attributes.setTime(new drumTag.Time("4", "4")); // constructor takes beat and beat type
+//        attributes.setClef(new drumTag.Clef("percussion", new BigInteger("2"))); // constuctor sets sign and line
+//
+//        // ADDING THE NOTES IN THE FIRST MEASURE
+//       measure.setAttributes(attributes);
+//       // adding all the notes of the first measure
+//	   ArrayList<drumTag.Note> notes = new ArrayList<>();
+//	   drumTag.Backup b = null;
+//	   drumTag.Note n;
+//       for(tabToXml.DrumNote note: dp.getDrumMeasures().get(0).getNotes()) {
+//    	   n = new drumTag.Note();
+//    	   // if the note is not a rest note give it the following values as well
+//    	   if( note.getUnpitchedOrRest().equals("unpitched")) {        	   
+//        	   n.getDurationOrChordOrCue().add(new Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));        	   
+//        	   //if(note.getChord())
+//        		//   n.getDurationOrChordOrCue().add(new Chord());
+//        	   drumTag.Instrument instrument = new drumTag.Instrument();
+//        	   instrument.setId(note.getInstrumentID());
+//        	   n.setInstrument(instrument);        	   
+//        	   n.setStem(new drumTag.Stem(note.getStem()));
+//        	   drumTag.Notehead notehead = new drumTag.Notehead();
+//        	   notehead.setValue(note.getNotehead());
+//        	   n.setNotehead(notehead);
+//        	   // duration, voice and type are for all notes regardless
+//        	   n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));
+//        	   n.setVoice(java.lang.String.valueOf(note.getVoice()));
+//        	   n.setType(new drumTag.Type(note.getType()));    	       	   
+//        	   notes.add(n);
+//    	   }   
+//    	   // the else statement takes the rest notes
+//    	   else if( note.getUnpitchedOrRest().equals("backup")) {
+//    		   b = new drumTag.Backup();
+//    		   b.setDuration(new BigDecimal(note.getDuration()));
+//    		   measure.setBackup(b);
+//    	   }
+//    	   
+//    	   else {
+//    		   n.getDurationOrChordOrCue().add(new drumTag.Rest());
+//        	   // duration, voice and type are for all notes regardless
+//        	   n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));
+//        	   n.setVoice(java.lang.String.valueOf(note.getVoice()));
+//        	   n.setType(new drumTag.Type(note.getType()));    	       	   
+//        	   notes.add(n);
+//    	   }    	
+//       }
+//       //adding the first batch of notes to the first measure
+//       measure.setNote(notes);  
+//       measures.add(measure);
+//    	 
+//       // Making all the measures after the first one
+//       int measureNum = 1;
+//       for(int i = 1; i < dp.getDrumMeasures().size(); i++) {
+//    	   notes = new ArrayList<drumTag.Note>();
+//    	   measureNum++;
+//           measure = new drumTag.Measure(java.lang.String.valueOf(measureNum));
+//
+//    	   for(tabToXml.DrumNote note: dp.getDrumMeasures().get(i).getNotes()) {
+//        	   n = new drumTag.Note();
+//        	   // if the note is not a rest note give it the following values as well
+//        	   
+//        	   if(note.getUnpitchedOrRest().equals("unpitched")) {
+//        		   n.getDurationOrChordOrCue().add(new Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
+//        		   //if(note.getChord())
+//        			//   n.getDurationOrChordOrCue().add(new Chord());
+//        		   drumTag.Instrument instrument = new drumTag.Instrument();
+//            	   instrument.setId(note.getInstrumentID());
+//            	   n.setInstrument(instrument);
+//            	   n.setStem(new drumTag.Stem(note.getStem()));
+//            	   drumTag.Notehead notehead = new drumTag.Notehead();
+//            	   notehead.setValue(note.getNotehead());
+//            	   n.setNotehead(notehead);
+//            	   n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   
+//            	   n.setVoice(java.lang.String.valueOf(note.getVoice()));
+//            	   n.setType(new drumTag.Type(note.getType()));
+//            	   notes.add(n);
+//        	   }
+//        	// the else statement takes the rest notes
+//        	   else if( note.getUnpitchedOrRest().equals("backup")) {
+//        		   b = new drumTag.Backup();
+//        		   b.setDuration(new BigDecimal(note.getDuration()));
+//        		   b.setLevel(new drumTag.Level());
+//        		   
+//        	   }        	   
+//        	   else {     	   // the else statement takes the rest notes
+//
+//        		   n.getDurationOrChordOrCue().add(new Rest());
+//        		   n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   
+//            	   n.setVoice(java.lang.String.valueOf(note.getVoice()));
+//            	   n.setType(new drumTag.Type(note.getType()));
+//            	   notes.add(n);
+// )       	   }        	   
+//        	   
+//           }
+//           //adding the first batch of notes to the first measure
+//           measure.setNote(notes); 
+//           if (b != null) measure.setBackup(b);
+//           measures.add(measure);
+//       	}
+//       
+       	// At this point, we should have all the measures containing all the notes;
+       //we also have an extra empty measure created at the end so we remove it
+//       measures.remove(measures.size()-1);
+//       part.setMeasure(measures);
+//        drumScorePartwise.setPart(part);
+//        // add the part and our process of creating objects is complete
+//        // now we just need to marshall
+//        
+//        // ADDED TO CONSTRUCTOR
+//        try {
+//
+//            JAXBContext jaxbContext = JAXBContext.newInstance(drumTag.ScorePartwise.class);
+//            jaxbMarshaller = jaxbContext.createMarshaller();
+//
+//            // output pretty printed
+//            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//            
+//
+//            jaxbMarshaller.marshal(drumScorePartwise, System.out); //prints to console
+//
+//        } catch (JAXBException e) {
+//            e.printStackTrace();
+//        }
         
         
     }

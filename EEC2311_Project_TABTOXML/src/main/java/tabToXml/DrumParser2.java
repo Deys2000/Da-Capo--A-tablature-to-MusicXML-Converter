@@ -2,6 +2,8 @@ package tabToXml;
 
 import java.util.ArrayList;
 
+import musicXML.Measure;
+
 //NEEDS TO BE MODULAR SO THAT EVERYTHING IS NOT HAPPENING IN THE CONSTRUCTOR
 //ALSO NEEDS A COUPLE OF TAGS THAT ARE MISSING
 //NEED TO COMPLETE THE INSTRUMENT LIST AS WELL
@@ -22,15 +24,19 @@ public class DrumParser2 {
 		// 1 List of Measures
 		ArrayList<ArrayList<String>> exampleInput = new ArrayList<ArrayList<String>>();
 		ArrayList<String> m1 = new ArrayList<>();
-		m1.add("|X---------------|");
-		m1.add("|----o---o---o---|");
-		m1.add("|----o--o-o--o---|");
-		m1.add("|o--o----o-oo--o-|");
+		m1.add("|-x---------------|");
+		m1.add("|---x-x-x-x-x-x-x-|");
+		m1.add("|-----o-------o---|");
+		m1.add("|-----------------|");
+		m1.add("|-----------------|");
+		m1.add("|-o-------o-------|");
 		ArrayList<String> m2 = new ArrayList<>();
-		m2.add("|X---------------|");
-		m2.add("|----o---o---o---|");
-		m2.add("|----o--o-o--o---|");
-		m2.add("|o--o----o-oo--o-|");		
+		m2.add("|---------x-------|");
+		m2.add("|-----------------|");
+		m2.add("|-oooo------------|");
+		m2.add("|-----oo----------|");	
+		m2.add("|-------oo--------|");	
+		m2.add("|-o-------o-------|");	
 		exampleInput.add(m1);
 		exampleInput.add(m2);
 		// 2 - List of corresponding attributes
@@ -44,6 +50,8 @@ public class DrumParser2 {
 		instruments.add("C");
 		instruments.add("HH");
 		instruments.add("S");
+		instruments.add("MT");
+		instruments.add("LT");
 		instruments.add("BD");
 		
 		/////////////////////////////
@@ -131,7 +139,7 @@ public class DrumParser2 {
 		
 	} // END OF CONSTRUCTOR
 	
-	private ArrayList<DrumStringInfo> getDrumTabStrings() {
+	public ArrayList<DrumStringInfo> getDrumTabStrings() {
 		return this.tabStrings;
 	}
 
@@ -162,8 +170,11 @@ public class DrumParser2 {
 					else								
 						break;
 				}
+				// for reasons i dont understand the duration is adding an additinal value
+				// the line below is a temporary fix for that
+				//if( duration > 2) duration--;
 				// create rest note, parameters are stringInfo duration voice beat beattype 
-				current.addNote(new DrumNote(dsi.get(0),duration, beat, beattype));
+				if(duration >= 4)current.addNote(new DrumNote(dsi.get(0),duration, beat, beattype));
 			}
 			// you are at a non-beat-multiple spot
 			// note exists here, make an unpitched note
@@ -171,12 +182,15 @@ public class DrumParser2 {
 				//look ahead to get duration
 				int duration = 1;
 				for(int j = 1;j <= beat; j++) {
-					String pruneDash2  = tab[i].replaceAll("\\-", "");
+					String pruneDash2  = tab[i+j].replaceAll("\\-", "");
 					if( (p+j)%beat != 0 && pruneDash2.length()==0) // the columns ahead must be empty and not a beat multiple column
 						duration++;
 					else
 						break;
 				}
+				// for reasons i dont understand the duration is adding an additinal value
+				// the line below is a temporary fix for that
+				//if( duration > 2) duration--;
 				// loop to make notes for every element in the column
 				boolean chord = false;
 				for(int j = 0; j < tab[i].length(); j++ ) {
@@ -237,6 +251,10 @@ public class DrumParser2 {
 		case "BD": return 2;
 		default: return 1;
 		}
+	}
+
+	public ArrayList<DrumMeasure> getDrumMeasures() {
+		return this.measures;
 	}
 
 }
