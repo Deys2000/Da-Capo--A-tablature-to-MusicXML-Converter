@@ -18,7 +18,7 @@ public class GuitarParser {
     
     private int divisions = 4; //current default is 4
     private int padding = 1; // number of dashes used for padding, should be 0 or 1
-    
+    // merging
     
     public GuitarParser(ArrayList<String> tfrparsed) throws Exception {
     	translateParsed(tfrparsed);
