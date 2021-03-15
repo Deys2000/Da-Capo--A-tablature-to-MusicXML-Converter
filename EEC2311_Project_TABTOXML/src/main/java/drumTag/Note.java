@@ -152,7 +152,7 @@ public class Note {
     @XmlElement(required = true)
     protected BigInteger staff;
     @XmlElement(required = true)
-    protected Beam beam;
+    protected ArrayList<Beam> beam = new ArrayList<>();
     @XmlElement(required = true)
     protected Notations notations;
     @XmlElement(required = true)
@@ -226,8 +226,8 @@ public class Note {
     @XmlAttribute(name = "time-only", required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlSchemaType(name = "NCName")
-    protected java.lang.String timeOnly;
-
+    protected java.lang.String timeOnly;   
+    
     /**
      * Gets the value of the grace property.
      * 
@@ -583,7 +583,7 @@ public class Note {
      *     {@link Beam }
      *     
      */
-    public Beam getBeam() {
+    public ArrayList<Beam> getBeam() {
         return beam;
     }
 
@@ -595,8 +595,20 @@ public class Note {
      *     {@link Beam }
      *     
      */
-    public void setBeam(Beam value) {
+    public void setBeam(ArrayList<Beam> value) {
         this.beam = value;
+    }
+    
+    /**
+     * Adds a beam to the lost of beams.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Beam }
+     *     
+     */
+    public void addBeam(Beam beam) {
+        this.beam.add(beam);
     }
 
     /**

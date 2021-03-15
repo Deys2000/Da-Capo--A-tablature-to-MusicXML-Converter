@@ -280,7 +280,18 @@ public class xmlGen {
             	   n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   
             	   n.setVoice(java.lang.String.valueOf(note.getVoice()));
             	   n.setType(new drumTag.Type(note.getType()));
-            	   
+            	   // set values for all three of the beams	
+            	   drumTag.Beam beam;
+            	   beam = new drumTag.Beam();
+            	   beam.setNumber(new BigInteger("1")); beam.setValue(note.getBeam1());
+            	   n.addBeam(beam);
+            	   beam = new drumTag.Beam();
+            	   beam.setNumber(new BigInteger("2")); beam.setValue(note.getBeam2());
+            	   n.addBeam(beam);
+            	   beam = new drumTag.Beam();
+            	   beam.setNumber(new BigInteger("3")); beam.setValue(note.getBeam3());
+            	   n.addBeam(beam);
+            	              	   
             	   if(n.getVoice().equals("1"))  
             		   notesVoice1.add(n);
             	   else

@@ -71,6 +71,7 @@ public class Beam {
     @XmlSchemaType(name = "NCName")
     protected java.lang.String repeater;
 
+
     /**
      * Gets the value of the value property.
      * 

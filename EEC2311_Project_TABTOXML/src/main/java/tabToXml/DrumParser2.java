@@ -21,22 +21,23 @@ public class DrumParser2 {
 	public DrumParser2() throws Exception {
 		
 		// WE WILL ASSUME THE FOLLOWING IS THE FORMAT OF OUR INFORMATION (precondition is that all must be same length)
+		// THIS CODE IS DESIGNED FOR NO PADDING IN EACH MEASURE //
 		// 1 List of Measures
 		ArrayList<ArrayList<String>> exampleInput = new ArrayList<ArrayList<String>>();
 		ArrayList<String> m1 = new ArrayList<>();
-		m1.add("|-x---------------|");
-		m1.add("|---x-x-x-x-x-x-x-|");
-		m1.add("|-----o-------o---|");
-		m1.add("|-----------------|");
-		m1.add("|-----------------|");
-		m1.add("|-o-------o-------|");
+		m1.add("|x---------------|");
+		m1.add("|--x-x-x-x-x-x-x-|");
+		m1.add("|----o-------o---|");
+		m1.add("|----------------|");
+		m1.add("|----------------|");
+		m1.add("|o-------o-------|");
 		ArrayList<String> m2 = new ArrayList<>();
-		m2.add("|---------x-------|");
-		m2.add("|-----------------|");
-		m2.add("|-oooo------------|");
-		m2.add("|-----oo----------|");	
-		m2.add("|-------oo--------|");	
-		m2.add("|-o-------o-------|");	
+		m2.add("|--------x-------|");
+		m2.add("|----------------|");
+		m2.add("|oooo------------|");
+		m2.add("|----oo----------|");	
+		m2.add("|------oo--------|");	
+		m2.add("|o-------o-------|");	
 		exampleInput.add(m1);
 		exampleInput.add(m2);
 		// 2 - List of corresponding attributes
@@ -115,13 +116,15 @@ public class DrumParser2 {
 			int measureNumber = (m+1);
 			currentMeasureObject = new DrumMeasure(measureNumber); 
 			// go through voice 1 and make notes for this measure
-			this.setNotes(verticalVoice1, currentAttribute, voice1StringsInfo, currentMeasureObject);						
+			this.setNotes(verticalVoice1, currentAttribute, voice1StringsInfo, currentMeasureObject);							
 			//backup
 			this.setBackup(currentAttribute.getBeats()*currentAttribute.getBeattype(), currentMeasureObject);
 			// go through voice 2
 			this.setNotes(verticalVoice2, currentAttribute, voice2StringsInfo, currentMeasureObject);		
 			// append the measure into the list of global measures
 			measures.add(currentMeasureObject);
+			// make beams for the created notes
+			this.setBeams(currentAttribute, currentMeasureObject);		
 		}			
 					
 		
@@ -142,15 +145,94 @@ public class DrumParser2 {
 	public ArrayList<DrumStringInfo> getDrumTabStrings() {
 		return this.tabStrings;
 	}
-
+	
+	private void setBeams(DrumAttribute da, DrumMeasure dm) {
+		// removing unnecessary information
+		ArrayList<DrumNote> voice1Notes = new ArrayList<DrumNote>();
+		ArrayList<DrumNote> voice2Notes = new ArrayList<DrumNote>();
+		for( DrumNote n : dm.getNotes()) {
+			if( n.getChord() == false && n.getType() != null ) {
+				if( n.getVoice().equals("1"))
+					voice1Notes.add(n);
+				else
+					voice2Notes.add(n);
+			}
+		}
+			
+// AN ATTEMPT AT USING STATIC ARRAYS...ABANDONED BECAUSE ITS PRONE TO ERRORS UPON CHANGES IN ATTRIBUTES
+//		// Storing into static arrays for easier processing via index accessing
+//		
+//		DrumNote[] voice1notes = new DrumNote[da.getBeats()*da.getBeattype()];
+//		DrumNote[] voice2notes = new DrumNote[da.getBeats()*da.getBeattype()];
+//		int j = 0;
+//		for(int i = 0; i < voice1Notes.size(); i++) {
+//			voice1notes[j] = voice1Notes.get(i);
+//			j = j + voice1Notes.get(i).getDuration();
+//		}
+//		for(int i = 0; i < voice2Notes.size(); i++) {
+//			voice2notes[j] = voice2Notes.get(i);
+//			j = j + voice2Notes.get(i).getDuration();
+//		}
+//		
+//		// Setting all the 32nd beams
+//		// skip for now
+//		
+//		// setting all the 16th beams
+//		for( int i = 0; i < voice1notes.length-1; i++) {
+//			if(voice1notes[i] != null && voice1notes[i+1] != null)
+//				if(voice1notes[i].getType().equals(voice2notes[i].getType()))
+//					
+//		}
+//		//setting all the 8th beams
+	
+		
+		// THOUGHT PROCESS 
+		// go through the list of notes in the measure
+			// first go through voice one notes
+				//join the notes with beams based on where they are
+				// use the duration property to get your location to terminate beams at beats
+			// then go through voice two notes
+				// do the same as mentioned above for voice one notes
+		DrumNote current = null;
+		DrumNote previous = null;
+		int durationCounter = 0;
+		int beattype = da.getBeattype();
+		// set up 16th barlines
+		for(int i = 0; i < voice1Notes.size(); i++) {
+			current = voice1Notes.get(i);
+			// if this is the first note, then start the barline if the next note has the same duration
+			 // NOT SURE IF THIS ID CALCULATING THE RIGHT THING
+			if( previous != null && (durationCounter % beattype) !=  0) {// || durationCounter > beattype) {
+				if(current.getType().equals(previous.getType())) { // the note before is the same type
+					if( previous.beam1 == null && previous.beam2 == null) {
+						previous.setBeam1("begin");
+						previous.setBeam2("begin");
+						current.setBeam1("end");
+						current.setBeam2("end");
+					}
+					else{
+						previous.setBeam1("continue");
+						previous.setBeam2("continue");
+						current.setBeam1("end");
+						current.setBeam2("end");					
+					}					
+				}		
+			}
+			durationCounter += current.getDuration();
+			previous = current;	
+		}	
+		
+	}// END OF SET BEAMS METHOD
+	
 	private void setBackup(int duration, DrumMeasure currentMeasureObject) {
+		// note that i have to create a fake note to trick the xmlGenerator (in actuality, its a backup object)
 		currentMeasureObject.addNote(new DrumNote(duration)); 
 	}
 	
 	
 	private void setNotes (String[] tab, DrumAttribute da, ArrayList<DrumStringInfo> dsi, DrumMeasure current) {
 		int beat = da.getBeats(); int beattype = da.getBeattype(); // some default declarations for now
-		int p = 0;
+		int p = -1; // start at -1 to account for the first barline column
 			
 		for(int i = 0; i < tab.length;  i++) {
 			String pruneBars = tab[i].replaceAll("\\|", "");
@@ -558,7 +640,11 @@ class DrumNote {
 	String stem = null;
 	String notehead = null;
 	boolean chord = false;
-	
+	// attributes for beams
+	String beam1 = null;
+	String beam2 = null;
+	String beam3 = null;
+		
 	// constructor for the backup note ( backup is not really a note, but we treat it as one for simplicity )
 	public DrumNote(int duration) {
 		this.unpitchedOrRestOrBackup = "backup";
@@ -617,6 +703,9 @@ class DrumNote {
 		sb.append(", Stem: " + this.stem);
 		sb.append(", Notehead: " + this.notehead);
 		sb.append(", Chord: " + this.chord);
+		sb.append(", Beam1: " + this.beam1);
+		sb.append(", Beam2: " + this.beam2);
+		sb.append(", Beam3: " + this.beam3);
 		return sb.toString();
 	}
 	
@@ -630,6 +719,12 @@ class DrumNote {
 	public String getStem() {return stem;}
 	public String getNotehead() {return notehead;}
 	public boolean getChord() {	return chord;}
+	public String getBeam1() {	return beam1;}
+	public String getBeam2() {	return beam2;}
+	public String getBeam3() {	return beam3;}
 	
+	public void setBeam1(String s) {this.beam1 = s;}
+	public void setBeam2(String s) {this.beam2 = s;}
+	public void setBeam3(String s) {this.beam3 = s;}
 	
 }
