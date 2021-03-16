@@ -291,4 +291,70 @@ public class TextFileReader {
 	public File getFile() {
 		return this.inputFile;
 	}
+	
+	public void getcheckAlignedVerticals() {
+		//checks that the vertical lines are aligned
+		Scanner quickScan = null;
+		try {
+			quickScan = new Scanner(inputFile);
+			while(quickScan.hasNextLine()){	
+				//stores line as a string
+				String next = quickScan.nextLine();
+				//converts string to character array to be looked through
+				char [] charCheck = next.toCharArray();
+				//boolean check for whether verticals are aligned
+				boolean alignedVerticals;
+				
+				//looks to see if tab begins with vertical line
+//				if(charCheck[1] == '|') {
+//					alignedVerticals = true;
+//				}
+//				else {
+//					alignedVerticals = false;
+//					System.out.println("verticals are not aligned");
+//					break;
+//				}
+				
+				next.indexOf('|');
+			}					
+		}
+		catch(FileNotFoundException e) {e.printStackTrace();}
+		finally {quickScan.close();}
+		
+	}
+	
+	public void tripleVerticalCheck() {
+		//checks that there aren't more than 3 staff lines in a row
+		
+	}
+	
+	public void SpaceCheck() {
+		//checks that there's no spaces between tabs
+		
+	}
+	
+	public void firstVertical() {
+		//checks that the tab starts with a vertical line
+		
+	}
+	
+	public void ExtraDashCheck() {
+		//checks that there's extra dashes in certain rows of a tab
+		
+	}
+	
+	public void UnderscoreCheck() {
+		//checks that there's no underscores instead of dashes
+		
+	}
+	
+	public void subInstrumentCheck() {
+		//checks that the initials for the drums or strings are correct (theres no base strings if the instrument is a guitar...etc)
+		
+	}
+	
+	public void SymbolCheck() {
+		//checks that the symbols for a given instrument are in english
+		
+	}
 }
