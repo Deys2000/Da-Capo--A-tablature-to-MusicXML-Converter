@@ -227,4 +227,48 @@ public class TextFileReader {
 	public File getFile() {
 		return this.inputFile;
 	}
+	
+	public void getcheckAlignedVerticals() {
+		//checks that the vertical lines are aligned
+		
+	}
+	
+	public void tripleVerticalCheck() {
+		//checks that there aren't more than 3 staff lines in a row
+		
+	}
+	
+	public void SpaceCheck() {
+		//checks that there's no spaces between tabs
+		
+	}
+	
+	public void firstVertical() {
+		//checks that the tab starts with a vertical line
+		
+	}
+	
+	public void ExtraDashCheck() {
+		//checks that there's extra dashes in certain rows of a tab
+		
+	}
+	
+	public void UnderscoreCheck() {
+		//checks that there's no underscores instead of dashes
+		
+	}
+	
+	public void subInstrumentCheck() {
+		//checks that the initials for the drums or strings are correct (theres no base strings if the instrument is a guitar...etc)
+		
+	}
+	
+	public void SymbolCheck() {
+		//checks that the symbols for a given instrument are in english
+		
+	}
+	
+	
+	
+	
 }
