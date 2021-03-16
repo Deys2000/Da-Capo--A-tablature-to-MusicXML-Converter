@@ -292,8 +292,12 @@ public class TextFileReader {
 		return this.inputFile;
 	}
 	
-	public void getcheckAlignedVerticals() {
+	public boolean checkAlignedVerticals() {
 		//checks that the vertical lines are aligned
+		
+		boolean isVertical = false;
+		int loopCount = 0;
+		int [] indexHolder = new int [20];
 		Scanner quickScan = null;
 		try {
 			quickScan = new Scanner(inputFile);
@@ -302,25 +306,46 @@ public class TextFileReader {
 				String next = quickScan.nextLine();
 				//converts string to character array to be looked through
 				char [] charCheck = next.toCharArray();
-				//boolean check for whether verticals are aligned
-				boolean alignedVerticals;
+				//check for whether verticals are aligned
+				for(int i = 0;i<charCheck.length;i++) {
+					//during first loop
+					if (loopCount == 0) {
+						//stores locations of vertical bars from scrolling array into a reference array 
+						//to compare the other lines with
+						if (charCheck[i] == '|') {
+							int instanceCount = 0;
+							indexHolder[instanceCount] = i;
+							instanceCount++;
+						}
+				//after first loop
+					else {
+						//makes sure the new array has verticals in the same spots as the original 
+							if (charCheck[i] == '|') {
+								int instanceCount = 0;
+								//when arrays match, result is true
+								if (indexHolder[instanceCount] == charCheck[i]) {
+									isVertical = true;
+								}
+								// when arrays don't match, return false and break
+								else {
+									isVertical = false;
+									break;
+								}
+								instanceCount++;
+							}
+						}
+					}
+					
+					loopCount++;
+				}
 				
-				//looks to see if tab begins with vertical line
-//				if(charCheck[1] == '|') {
-//					alignedVerticals = true;
-//				}
-//				else {
-//					alignedVerticals = false;
-//					System.out.println("verticals are not aligned");
-//					break;
-//				}
-				
-				next.indexOf('|');
+
 			}					
 		}
 		catch(FileNotFoundException e) {e.printStackTrace();}
 		finally {quickScan.close();}
 		
+		return isVertical;
 	}
 	
 	public void tripleVerticalCheck() {
