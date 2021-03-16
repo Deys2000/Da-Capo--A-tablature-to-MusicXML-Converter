@@ -317,6 +317,7 @@ public class TextFileReader {
 							indexHolder[instanceCount] = i;
 							instanceCount++;
 						}
+					}
 				//after first loop
 					else {
 						//makes sure the new array has verticals in the same spots as the original 
@@ -340,7 +341,7 @@ public class TextFileReader {
 				}
 				
 
-			}					
+								
 		}
 		catch(FileNotFoundException e) {e.printStackTrace();}
 		finally {quickScan.close();}
