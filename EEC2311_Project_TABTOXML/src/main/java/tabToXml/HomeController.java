@@ -4,11 +4,18 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.richtext.model.StyleSpans;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -16,6 +23,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
+import com.gluonhq.charm.glisten.control.Icon;
 
 public class HomeController {
 
@@ -31,32 +40,42 @@ public class HomeController {
 	String[][] information;
 	GuitarParser gp;
 	xmlGen xg;
-	
+
 	public static Stage currentStage; // acquired from Main when program starts
 	
 	public HomeController() {}
 	
+	
+
 	@FXML
 	private Button selectButton, convertButton, saveButton;
 	@FXML
 	private Label filePathLabel, statusLabel;
 	@FXML
 	private TextArea tabTextArea1, tabTextArea2, tabTextArea3;
+	@FXML
+	private CodeArea codeArea;
+	@FXML
+	private HBox hBox;
+	private double xOffset = 0;
+    private double yOffset = 0;
 	
 	/**
 	 * Method for action event of file chooser button being clicked
 	 * @param event
 	 * @throws Exception 
 	 */
-	public void fileChooser (ActionEvent event) throws Exception{
+
+	public void fileChooser (MouseEvent event) throws Exception{
 		fc = new FileChooser();
+		fc.getExtensionFilters().add(new ExtensionFilter("text tab", "*.txt"));
 		selectedFile = fc.showOpenDialog(null);
 		if(selectedFile == null)
 			//selectedFile = oldFile;
 		oldFile = selectedFile;
 		
 		if (selectedFile != null) {
-			filePathLabel.setText("File Path: "+ selectedFile.getAbsolutePath());
+			//filePathLabel.setText("File Path: "+ selectedFile.getAbsolutePath());
 		}
 		System.out.println(selectedFile);
 		
@@ -72,17 +91,17 @@ public class HomeController {
 			//convertButton.setDisable(true);
 		}
 		else if(fileType.equals(".txt")) {
-			statusLabel.setTextFill(Color.GREEN);
-			statusLabel.setText("File Status: A \".txt\" file, you may convert this");
+			//statusLabel.setTextFill(Color.GREEN);
+			//statusLabel.setText("File Status: A \".txt\" file, you may convert this");
 			reader();
-			convertButton.setDisable(false);
+			//convertButton.setDisable(false);
 		}else {
-			statusLabel.setTextFill(Color.RED);
-			statusLabel.setText("File Status: NOT a \".txt\" file, pls select a .txt file");
-			tabTextArea1.setText("");
-			tabTextArea2.setText("");
+			//statusLabel.setTextFill(Color.RED);
+			//statusLabel.setText("File Status: NOT a \".txt\" file, pls select a .txt file");
+			//tabTextArea1.setText("");
+			//tabTextArea2.setText("");
 			//instrumentLabel.setText("Instrument Detection: Unable to Identify");
-			convertButton.setDisable(true);
+			//convertButton.setDisable(true);
 		}		
 	}
 	
@@ -95,9 +114,26 @@ public class HomeController {
 	 * @param event
 	 * @throws Exception 
 	 */
+	public void quit(MouseEvent event) throws Exception
+	{
+		currentStage.close();
+	}
+	public void dragger(MouseEvent event) throws Exception
+	{
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+	}
+	public void dragger2(MouseEvent event) throws Exception
+	{
+	 	currentStage.setX(event.getScreenX() - xOffset);
+		currentStage.setY(event.getScreenY() - yOffset);
+
+	}
 	public void converter(ActionEvent event) throws Exception {
 		//empty the XMLArea before getting new info
-		tabTextArea2.setText("");
+		//tabTextArea2.setText("");
+		//codeArea.replaceText(0, 0, "hoooooo");
+		XMLView.Xmlsyntax(codeArea);
 		saveButton.setDisable(true);
 		
 		//read the contents of the Tablature Editor Window
@@ -124,7 +160,8 @@ public class HomeController {
 			GuitarParser gp = new GuitarParser(tfr.getParsed());
 			xg = new xmlGen(gp,tfr);
 			// the following two lines should be outside the switch case, but bass and drums dont work yet
-			tabTextArea2.setText(xg.getXMLContent());
+			//tabTextArea2.setText(xg.getXMLContent());
+			codeArea.replaceText(xg.getXMLContent());
 			saveButton.setDisable(false);
 			System.out.println("Notes: " + gp.getNotes() + " size of array: " + gp.getNotes().size());
 			System.out.println("Chord?: " + gp.getChordArr() + " size of array: " + gp.getChordArr().size() );
@@ -141,7 +178,7 @@ public class HomeController {
 			DrumParser dp = new DrumParser(tfr.getParsed());
 			xg = new xmlGen(dp,tfr);
 			// the following two lines should be outside the switch case, but bass and drums dont work yet
-			tabTextArea2.setText(xg.getXMLContent());
+			//tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
 			break;
 		case "Bass":
@@ -149,7 +186,7 @@ public class HomeController {
 			+ "\nSystem is in prototype phase, unable to process Bass.");
 			BassParser bp = new BassParser(tfr.getParsed());
 			xg = new xmlGen(bp,tfr);
-			tabTextArea2.setText(xg.getXMLContent());
+			//tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
 			break;
 		default:
@@ -198,6 +235,7 @@ public class HomeController {
 		
 		fc = new FileChooser();
 		fc.setTitle("Save MusicXML Conversion");
+		fc.getExtensionFilters().add(new ExtensionFilter("MusicXML File", "*.musicxml","*.xml"));
 		File file = fc.showSaveDialog(stage);
 		String operationResult = "Successfully written to file.";
 		
@@ -233,8 +271,8 @@ public class HomeController {
 	public void reader() throws Exception {
 		TextFileReader guitarTab = new TextFileReader(selectedFile.getAbsolutePath());		
 		//set area to be the text from the file
-		tabTextArea1.setText(guitarTab.printOrginal());	
-
+		//tabTextArea1.setText(guitarTab.printOrginal());	
+		codeArea.replaceText(guitarTab.printOrginal());
 //		parsedInfo = new StringBuilder();
 //		//adding the parsed tab
 //		parsedInfo.append(guitarTab.printOrginal());		
@@ -262,5 +300,8 @@ public class HomeController {
 //		instrument = guitarTab.detectInstrument();
 //		instrumentLabel.setText("Instrument Detection: " + instrument);
 	}
+
+
 	
 }
+

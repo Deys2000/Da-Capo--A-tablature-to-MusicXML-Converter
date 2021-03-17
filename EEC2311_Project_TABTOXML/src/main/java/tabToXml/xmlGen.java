@@ -17,7 +17,7 @@ import musicXML.*;
 // IDEALLY THIS CLASS HAS 3 MAJOR METHODS FOR THE CREATION OF AN XML FOR EACH OF THE INSTRUMENTS ( subject to improvement )
 
 public class xmlGen {
-	
+	 
 	Marshaller jaxbMarshaller;
     private ScorePartwise scorePartwise;
     
