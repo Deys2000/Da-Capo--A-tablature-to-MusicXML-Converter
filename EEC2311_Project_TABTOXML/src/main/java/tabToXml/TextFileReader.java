@@ -3,6 +3,7 @@ package tabToXml;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 /**
@@ -13,9 +14,11 @@ import java.util.Scanner;
 public class TextFileReader {
 	
 	private File inputFile;
-	int numOfLines = 0;
+	public static int numOfLines;
 	boolean isDrum = false;
 	static String instrument;
+	static String lineStorage;
+	boolean isVertical;
 	
 	//Parsed text 
 	public ArrayList<String> parsedTab = new ArrayList<String>();
@@ -42,18 +45,36 @@ public class TextFileReader {
 	 * also responsible for checking if the input provided is bad
 	 */
 	private void countLines(){
-		numOfLines = 0;
 		Scanner sc = null;
 		try {
+			int counter = 0;
+			int loopcheck = -1;
 			sc = new Scanner(inputFile);
-			while(sc.hasNextLine()){	
+			while(sc.hasNextLine()){			
+				//for line counting
 				String next = sc.nextLine();
 				
-				//drum tab check
+				//getting array for dash counting for time signature for guitar/bass (skips first line for padding)
+				//not done
+				char [] info  = next.toCharArray();
+				for(int i = 2; i < info.length; i++) {
+					counter ++;
+					if(loopcheck < 1 && info[i] == '|') {
+						loopcheck++;
+						int trueCount = counter - 1;
+						System.out.println(trueCount);
+					}
+					
+				}
+				//end of dash counting
+				
+				//drum check
 				if(next.contains("X") || next.contains("x") || next.contains("o") || next.contains("O"))  {
+
 					isDrum = true;
 				}
 				//end of drum tab check
+				
 				if (next.contains("-") && next.contains("|")) {
 					numOfLines++;
 					System.out.println(numOfLines);
@@ -132,22 +153,50 @@ public class TextFileReader {
 		}
 	}
 	
+	//checks number of dashes in first line
+//	public void checkDashes() {
+//		Scanner sc = null;
+//		try {
+//			
+//			sc = new Scanner(inputFile);
+//			lineStorage = sc.nextLine();
+//			
+//			
+//			char [] info  = lineStorage.toCharArray();
+//			for(int i = 0; i < info.length; i++) {
+//				System.out.println(info[i]);
+//			}		
+//		}
+//		
+//		catch(FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		finally {
+//			sc.close();
+//		}
+//		System.out.println(lineStorage);
+//	}
 	
+	
+
 	/**
 	 * determines the instrument based on the number of lines
 	 * still in progress
 	 */
 	public String detectInstrument(){	
-		String instrument = "Unable to Identify";
-		if(numOfLines == 4 && isDrum == false ) {
+		instrument = "Unable to Identify";
+		int lines = numOfLines/2;
+		if(lines == 4 && isDrum == false ) {
 			instrument = "Bass";
 		}
-		else if (numOfLines == 6 && isDrum == false) {
+		else if (lines == 6 && isDrum == false) {
 			instrument = "Guitar";
 		}
-		else if( isDrum ){
+		else if( isDrum == true){
 			instrument = "Drum";
 		}
+		checkAlignedVerticals();
 		return instrument;
 	}
 	
@@ -155,46 +204,50 @@ public class TextFileReader {
 		return numOfLines;
 	}
 	
-	public java.lang.String staffLines(){
+
+	public static java.lang.String staffLines(){
+		Integer count = numOfLines/2;
+		java.lang.String lines = count.toString();
+		return lines;
+		}
 		
-		return String.valueOf(numOfLines);
+	
+	public static java.lang.String sign(){
+		String sign = "tab";
+		if(instrument == "Guitar") {
+			//G for treble
+			sign = "G";
+		}
+		else if (instrument == "Bass") {
+			//F for bass
+			sign = "F";
+		}
+		else {
+			//percussion for drums
+			sign = "percussion";
+		}
+		System.out.println(sign);
+		return sign;
 	}
-//	/**
-//	 * Creates a parsedTab array of the file in parsedTabTab variable, DO WE NEED THIS?
-//	 */
-//	private void createparsedTab(){
-//		Scanner sc = null;
-//		try {
-//			sc = new Scanner(inputFile);
-//			List<String> list = new ArrayList<>();
-//			String previousLine = "";
-//			
-//			if (sc.hasNextLine()) {
-//				previousLine = sc.nextLine();
-//				list.add(previousLine);
-//				parsedTabTab.add(list);
-//				list = new ArrayList<>();	
-//			}
-//			
-//			while(sc.hasNextLine()){
-//				
-//				String line = sc.nextLine();
-//
-//				if ((previousLine.contains("-") && previousLine.contains("|")) && (line.contains("-") && line.contains("|"))) {
-//					list.add(line);
-//					parsedTabTab.add(list);
-//					list = new ArrayList<>();						
-//				}		
-//				previousLine = line;			
-//			}		
-//		}
-//		catch(FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//		finally {
-//			sc.close();
-//		}
-//	}
+	
+	public static java.lang.String line(){
+		java.lang.String line = "";
+		if(instrument == "Guitar") {
+			//treble lies on 3rd string for guitar
+			line = "2";
+		}
+		else if (instrument == "Bass") {
+			//bass clef lies on 4th string for bass
+			line = "4";
+		}
+		else {
+			//2 for percussion tabs
+			line = "2";
+		}
+		System.out.println(line);
+		return line;
+	}
+		
 	
 	/**
 	 * This is for printing purposes, it makes everything into one string
@@ -240,5 +293,119 @@ public class TextFileReader {
 	 */
 	public File getFile() {
 		return this.inputFile;
+	}
+	
+	public boolean checkAlignedVerticals() {
+		//checks that the vertical lines are aligned
+		int loopCount = 0;
+		int lineCount = 0;
+		int instanceCount = 0;
+		int instanceCount2 = 0;
+		int [] indexHolder = new int [5];
+		int [] indexHolder2 = new int [5];
+		Scanner quickScan = null;
+		try {
+			quickScan = new Scanner(inputFile);
+			while(quickScan.hasNextLine()){
+				System.out.println("line"+lineCount);
+				lineCount++;
+				
+				//stores line as a string
+				String next = quickScan.nextLine();
+				System.out.println("next: ");
+				System.out.println(next);
+
+				//converts string to character array to be looked through
+				char [] charCheck = next.toCharArray();
+
+//				check for whether verticals are aligned
+				for(int i = 0;i<(charCheck.length+1);i++) {
+					//during first loop
+					if ((loopCount < charCheck.length)) {
+						//stores locations of vertical bars from scrolling array into a reference array 
+						//to compare the other lines with
+						if (charCheck[i] == '|') {
+							indexHolder[instanceCount] = i;
+						
+							instanceCount++;
+						}
+					}
+				//after first loop
+					else if (loopCount == charCheck.length) {
+						for(int n = 0;n<charCheck.length;n++) {
+							
+							if (charCheck[n] == '|') {
+								indexHolder2[instanceCount2] = n;
+								System.out.println("indexHolder2: ");
+								System.out.println(Arrays.toString(indexHolder2));
+								System.out.println("indexHolder: ");
+								System.out.println(Arrays.toString(indexHolder));
+								
+								System.out.println("indexHolder2: ");
+								System.out.println(indexHolder2[instanceCount2]);
+								System.out.println("indexHolder: ");
+								System.out.println(indexHolder[instanceCount2]);
+
+								if ((indexHolder2[instanceCount2] == indexHolder[instanceCount2])) {
+									isVertical = true;
+									System.out.println(isVertical);	
+								}
+								else{
+									isVertical = false;
+									System.out.println(isVertical);
+									break;
+								}
+								instanceCount2++;
+								System.out.println("nextIteration: ");
+							}
+							
+						}	
+						
+						
+
+						}
+					loopCount++;
+					}
+					
+				}					
+		}
+		catch(FileNotFoundException e) {e.printStackTrace();}
+		finally {quickScan.close();}
+		return isVertical;
+	}
+	
+	public void tripleVerticalCheck() {
+		//checks that there aren't more than 3 staff lines in a row
+		
+	}
+	
+	public void SpaceCheck() {
+		//checks that there's no spaces between tabs
+		
+	}
+	
+	public void firstVertical() {
+		//checks that the tab starts with a vertical line
+		
+	}
+	
+	public void ExtraDashCheck() {
+		//checks that there's extra dashes in certain rows of a tab
+		
+	}
+	
+	public void UnderscoreCheck() {
+		//checks that there's no underscores instead of dashes
+		
+	}
+	
+	public void subInstrumentCheck() {
+		//checks that the initials for the drums or strings are correct (theres no base strings if the instrument is a guitar...etc)
+		
+	}
+	
+	public void SymbolCheck() {
+		//checks that the symbols for a given instrument are in english
+		
 	}
 }
