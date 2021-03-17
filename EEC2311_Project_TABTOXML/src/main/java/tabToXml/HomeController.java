@@ -16,6 +16,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class HomeController {
 
@@ -50,6 +51,7 @@ public class HomeController {
 	 */
 	public void fileChooser (ActionEvent event) throws Exception{
 		fc = new FileChooser();
+		fc.getExtensionFilters().add(new ExtensionFilter("text tab", "*.txt"));
 		selectedFile = fc.showOpenDialog(null);
 		if(selectedFile == null)
 			//selectedFile = oldFile;
@@ -198,6 +200,7 @@ public class HomeController {
 		
 		fc = new FileChooser();
 		fc.setTitle("Save MusicXML Conversion");
+		fc.getExtensionFilters().add(new ExtensionFilter("MusicXML File", "*.musicxml","*.xml"));
 		File file = fc.showSaveDialog(stage);
 		String operationResult = "Successfully written to file.";
 		
