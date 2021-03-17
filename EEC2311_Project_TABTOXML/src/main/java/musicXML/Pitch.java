@@ -61,9 +61,19 @@ public class Pitch {
 
     public Pitch() {
 	}
+    
+    // Constructor without Alter
     public Pitch(java.lang.String step, BigInteger octave) {
 
         this.step = step;
+        this.octave = octave;
+	}
+
+    // Constructor with Alter
+    public Pitch(java.lang.String step, BigDecimal alter, BigInteger octave) {
+
+        this.step = step;
+        this.alter = alter;
         this.octave = octave;
 	}
 

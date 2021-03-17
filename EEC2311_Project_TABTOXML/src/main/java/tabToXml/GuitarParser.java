@@ -7,6 +7,7 @@ public class GuitarParser {
 	
 	// all the arrays to contain information gathered by the notes
 	public ArrayList<String> notes = new ArrayList<>();
+	public ArrayList<String> alterArr = new ArrayList<>();
 	public ArrayList<String> fretString = new ArrayList<>();
 	public ArrayList<String> fretNum = new ArrayList<>();
     public ArrayList<String> durationArr = new ArrayList<String>();
@@ -90,6 +91,7 @@ public class GuitarParser {
 						if (tmp.isEmpty()) {
 							tmp = fret2 + "";
 							notes.add(tmp);
+							alterArr.add(tmp);
 							fretNum.add(tmp);
 							fretString.add(tmp);
 						}
@@ -99,9 +101,11 @@ public class GuitarParser {
 			}
 		
 			notes.remove(notes.size() - 1);
+			alterArr.remove(alterArr.size()-1);
 			fretNum.remove(fretNum.size() - 1);
 			fretString.remove(fretString.size()-1);
 			notes.add("||");
+			alterArr.add("||");
 			fretNum.add("||");
 			fretString.add("||");
 //		System.out.print("Fret String: " + fretString + " Fret size: " + fretString.size() + "\n");
@@ -344,11 +348,11 @@ public class GuitarParser {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static String translate(String string, int fret) throws Exception{
+	public String translate(String string, int fret) throws Exception{
 		if(fret > 12)
 			throw new Exception("The fret must be between 1 and 12 (inclusive)");
 
-		String[] table = {"C","C","D","D","E","F","F","G","G","A","A","B"};			
+		String[] table = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};			
 		//find location in table
 		int location = 0;
 		for(int i = 0; i < table.length; i++) {
@@ -367,8 +371,17 @@ public class GuitarParser {
 				location = 0;
 				octave++;
 			}
-		}		
-		String newNote = table[location]+octave;
+		}
+		
+		// Determining Alter - Hardcoded for C major
+		if (table[location].length() == 2) { // check if # is part of the note
+			alterArr.add("1");
+		}
+		else {
+			alterArr.add(null);
+		}
+		
+		String newNote = table[location].substring(0,1)+octave;
 		return newNote;
 	}
 	
@@ -377,7 +390,8 @@ public class GuitarParser {
 	// CHANGE LATER SO IT MAKES OBJECTS RATHER THAN STRINGS
     public String[][] processor() {
     	ArrayList<String> notes = this.notes;
-    	ArrayList<String> fretNums = this.fretNum;
+    	ArrayList<String> alterArr = this.alterArr;
+     	ArrayList<String> fretNums = this.fretNum;
 		ArrayList<String> fretStrings = this.fretString;
 		ArrayList<String> durationArr = this.durationArr;
 		ArrayList<String> typeArr = this.typeArr;
@@ -401,7 +415,7 @@ public class GuitarParser {
     		else {    		
     			infoArray[i][0] = durationArr.get(i);   //duration
     			infoArray[i][1] = notes.get(i).substring(0,1); // step 
-    			infoArray[i][2] = "1"; //default4now // alter
+    			infoArray[i][2] = alterArr.get(i);
     			infoArray[i][3] = notes.get(i).substring(1); // octave
     			infoArray[i][4] = typeArr.get(i); //type
     			infoArray[i][5] = fretStrings.get(i); //string
@@ -412,13 +426,15 @@ public class GuitarParser {
     	
 		return infoArray;
 	}
-	
     
     // METHODS TO SEND EACH OF THE ARRAYS OF INFORMATION TO XMLGEN 
     
 	public ArrayList<String> getNotes(){
 		return notes;
 	}	
+	public ArrayList<String> getAlters() {
+		return alterArr;
+	}
 	public ArrayList<String> getFretStrings(){
 		return fretString;
 	}

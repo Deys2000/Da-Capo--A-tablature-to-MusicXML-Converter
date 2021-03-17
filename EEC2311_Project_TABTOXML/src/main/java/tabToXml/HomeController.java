@@ -127,6 +127,7 @@ public class HomeController {
 			tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
 			System.out.println("Notes: " + gp.getNotes() + " size of array: " + gp.getNotes().size());
+			System.out.println("Alters: " + gp.getAlters() + " size of array: " + gp.getAlters().size());
 			System.out.println("Chord?: " + gp.getChordArr() + " size of array: " + gp.getChordArr().size() );
 			System.out.println("Frets: " + gp.getFretNums() + " size of array: " + gp.getFretNums().size());
 			System.out.println("Fret Strings: " + gp.getFretStrings() + " size of array: " + gp.getFretStrings().size());

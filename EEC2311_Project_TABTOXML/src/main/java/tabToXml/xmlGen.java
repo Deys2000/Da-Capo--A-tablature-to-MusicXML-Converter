@@ -52,7 +52,7 @@ public class xmlGen {
      */
     public xmlGen(GuitarParser gp, TextFileReader tfr) {
     	guitarGenerator(gp.processor());
-       	//attributeVals[4][0] = tfr.staffLines();
+       	attributeVals[4][0] = tfr.staffLines();
     }    
 
     /**
@@ -118,11 +118,18 @@ public class xmlGen {
         	}
         	//if you happen to NOT get a "|", then you are at a note, so create a note and store it in the notes list
         	else {
+        		Pitch pitch = new Pitch();
         		musicXML.Note note = new musicXML.Note();
         		Chord c = new Chord();
         		if( info[i][7].equals("true"))
         			note.getDurationOrChordOrCue().add(c); // chord
-            Pitch pitch = new Pitch(info[i][1],new BigInteger(info[i][3]));
+        		// Alter
+        		if(info[i][2] == null) {
+        			pitch = new Pitch(info[i][1], new BigInteger(info[i][3]));
+        		}
+        		else {
+        			pitch = new Pitch(info[i][1], new BigDecimal(info[i][2]), new BigInteger(info[i][3]));
+        		}
             note.getDurationOrChordOrCue().add(pitch);
             note.getDurationOrChordOrCue().add(new BigDecimal(info[i][0])); // duration
             note.setVoice(info[i][2]);
