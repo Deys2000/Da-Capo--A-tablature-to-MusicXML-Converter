@@ -215,11 +215,13 @@ public class TextFileReader {
 		String sign = "tab";
 		if(instrument == "Guitar") {
 			//G for treble
-			sign = "G";
+			// sign = "G";
+			sign = "TAB";
 		}
 		else if (instrument == "Bass") {
 			//F for bass
-			sign = "F";
+			//sign = "F";
+			sign = "TAB";
 		}
 		else {
 			//percussion for drums
@@ -233,11 +235,13 @@ public class TextFileReader {
 		java.lang.String line = "";
 		if(instrument == "Guitar") {
 			//treble lies on 3rd string for guitar
-			line = "2";
+			//line = "2";
+			line = "5";
 		}
 		else if (instrument == "Bass") {
 			//bass clef lies on 4th string for bass
-			line = "4";
+			//line = "4";
+			line = "5";
 		}
 		else {
 			//2 for percussion tabs
