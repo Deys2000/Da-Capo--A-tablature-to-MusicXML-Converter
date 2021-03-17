@@ -3,6 +3,7 @@ package tabToXml;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 /**
@@ -17,6 +18,7 @@ public class TextFileReader {
 	boolean isDrum = false;
 	static String instrument;
 	static String lineStorage;
+	boolean isVertical;
 	
 	//Parsed text 
 	public ArrayList<String> parsedTab = new ArrayList<String>();
@@ -194,6 +196,7 @@ public class TextFileReader {
 		else if( isDrum == true){
 			instrument = "Drum";
 		}
+		checkAlignedVerticals();
 		return instrument;
 	}
 	
@@ -294,58 +297,80 @@ public class TextFileReader {
 	
 	public boolean checkAlignedVerticals() {
 		//checks that the vertical lines are aligned
-		
-		boolean isVertical = false;
 		int loopCount = 0;
-		int [] indexHolder = new int [20];
+		int lineCount = 0;
+		int instanceCount = 0;
+		int instanceCount2 = 0;
+		int [] indexHolder = new int [5];
+		int [] indexHolder2 = new int [5];
 		Scanner quickScan = null;
 		try {
 			quickScan = new Scanner(inputFile);
-			while(quickScan.hasNextLine()){	
+			while(quickScan.hasNextLine()){
+				System.out.println("line"+lineCount);
+				lineCount++;
+				
 				//stores line as a string
 				String next = quickScan.nextLine();
+				System.out.println("next: ");
+				System.out.println(next);
+
 				//converts string to character array to be looked through
 				char [] charCheck = next.toCharArray();
-				//check for whether verticals are aligned
-				for(int i = 0;i<charCheck.length;i++) {
+
+//				check for whether verticals are aligned
+				for(int i = 0;i<(charCheck.length+1);i++) {
 					//during first loop
-					if (loopCount == 0) {
+					if ((loopCount < charCheck.length)) {
 						//stores locations of vertical bars from scrolling array into a reference array 
 						//to compare the other lines with
 						if (charCheck[i] == '|') {
-							int instanceCount = 0;
 							indexHolder[instanceCount] = i;
+						
 							instanceCount++;
 						}
 					}
 				//after first loop
-					else {
-						//makes sure the new array has verticals in the same spots as the original 
-							if (charCheck[i] == '|') {
-								int instanceCount = 0;
-								//when arrays match, result is true
-								if (indexHolder[instanceCount] == charCheck[i]) {
+					else if (loopCount == charCheck.length) {
+						for(int n = 0;n<charCheck.length;n++) {
+							
+							if (charCheck[n] == '|') {
+								indexHolder2[instanceCount2] = n;
+								System.out.println("indexHolder2: ");
+								System.out.println(Arrays.toString(indexHolder2));
+								System.out.println("indexHolder: ");
+								System.out.println(Arrays.toString(indexHolder));
+								
+								System.out.println("indexHolder2: ");
+								System.out.println(indexHolder2[instanceCount2]);
+								System.out.println("indexHolder: ");
+								System.out.println(indexHolder[instanceCount2]);
+
+								if ((indexHolder2[instanceCount2] == indexHolder[instanceCount2])) {
 									isVertical = true;
+									System.out.println(isVertical);	
 								}
-								// when arrays don't match, return false and break
-								else {
+								else{
 									isVertical = false;
+									System.out.println(isVertical);
 									break;
 								}
-								instanceCount++;
+								instanceCount2++;
+								System.out.println("nextIteration: ");
 							}
+							
+						}	
+						
+						
+
 						}
+					loopCount++;
 					}
 					
-					loopCount++;
-				}
-				
-
-								
+				}					
 		}
 		catch(FileNotFoundException e) {e.printStackTrace();}
 		finally {quickScan.close();}
-		
 		return isVertical;
 	}
 	
