@@ -19,7 +19,7 @@ public class Main extends Application {
 
 		primaryStage.setTitle("Da Capo : Text Tab to MusicXML Converter - version 1.0");
 		// keep scene equal or bigger than default in fxml - 800x500
-	    primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("Home3.fxml")), 832,679 ));
+	    primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("Home3.fxml"))));
 	    primaryStage.getIcons().add(new Image("file:DaCapo.png"));
 		primaryStage.getScene().getStylesheets().add(test.class.getResource("xml-highlighting.css").toExternalForm());
 		primaryStage.initStyle(StageStyle.UNDECORATED);
