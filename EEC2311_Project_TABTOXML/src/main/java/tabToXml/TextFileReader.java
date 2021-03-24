@@ -240,6 +240,7 @@ public class TextFileReader {
 	
 	public boolean checkAlignedVerticals() {
 		//checks that the vertical lines are aligned
+		//not fully working yet
 		int loopCount = 0;
 		int lineCount = 0;
 		int instanceCount = 0;
