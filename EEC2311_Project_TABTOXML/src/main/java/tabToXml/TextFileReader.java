@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 /**
- * This Class creates an object that has two String Lists, the original text  and the parsedTab text
+ * This Class creates an object that has two String Lists, the original text  and the parsedTab text (it does more now - syed)
  * @author Group15
  *
  */
