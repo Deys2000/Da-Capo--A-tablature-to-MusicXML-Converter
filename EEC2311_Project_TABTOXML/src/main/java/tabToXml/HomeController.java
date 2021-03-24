@@ -116,11 +116,11 @@ public class HomeController {
 		
 		// pass the file to textfilereader so we can begin the process
 		TextFileReader tfr = new TextFileReader(newFile);
-		System.out.println(tfr.detectInstrument());
+		System.out.println(tfr.getDetectedInstrument());
 		// EVERYTHING ABOVE THIS LINE HAS BEEN TESTED, IT WORKS :)
-		switch(tfr.detectInstrument()) {
+		switch(tfr.getDetectedInstrument()) {
 		case "Guitar":
-			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument());
+			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument());
 			GuitarParser gp = new GuitarParser(tfr.getParsed());
 			xg = new xmlGen(gp,tfr);
 			// the following two lines should be outside the switch case, but bass and drums dont work yet
@@ -134,26 +134,27 @@ public class HomeController {
 		    System.out.println("type: \t" + gp.getTypeArr() + " Length of Array:" + gp.getTypeArr().size() );
 			break;
 		case "Drum":
-			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
+			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument() 
 			+ "\n\nSystem is in prototype phase, unable to process Drums completely."
 			+ "\nUse with caution."
 			+ "\nYou may find that rests and beams are not processed correctly.");
-			DrumParser dp = new DrumParser(tfr.getParsed());
-			xg = new xmlGen(dp,tfr);
+			DrumParser2 dp = new DrumParser2(tfr.getParsed());
+			xg = new xmlGen(dp);
 			// the following two lines should be outside the switch case, but bass and drums dont work yet
+			//System.out.println("XMLCONTENT"+xg.getXMLContent());
 			tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
 			break;
 		case "Bass":
-			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument() 
+			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument() 
 			+ "\nSystem is in prototype phase, unable to process Bass.");
-			BassParser bp = new BassParser(tfr.getParsed());
+			GuitarParser bp = new GuitarParser(tfr.getParsed());
 			xg = new xmlGen(bp,tfr);
 			tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
 			break;
 		default:
-			tabTextArea3.setText("Instrument Detected: "+ tfr.detectInstrument());
+			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument());
 			throw new Exception();
 			//give some error message saying instrument was not detected or something
 			

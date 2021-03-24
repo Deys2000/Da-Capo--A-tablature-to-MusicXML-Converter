@@ -16,9 +16,11 @@ public class TextFileReader {
 	private File inputFile;
 	public static int numOfLines;
 	boolean isDrum = false;
-	static String instrument;
+	private static String instrument;
 	static String lineStorage;
 	boolean isVertical;
+	
+	ArrayList<TFRAttribute> attributesPerMeasure;
 	
 	//Parsed text 
 	public ArrayList<String> parsedTab = new ArrayList<String>();
@@ -26,34 +28,56 @@ public class TextFileReader {
 	//Original text 
 	private ArrayList<String> originalTab = new ArrayList<String>();
 
-	//Read in the file
+	// STRING CONSTRUCTOR
 	public TextFileReader(String inputFile){
 		this.inputFile = new File(inputFile);
-		this.countLines();
-		this.createparsedTab();
-		this.detectInstrument();
+		this.coreMethods();
 	}
+	// FILE CONSTRUCTOR
 	public TextFileReader(File inputFile){
 		this.inputFile = inputFile;
-		this.countLines();
-		this.createparsedTab();
-		this.detectInstrument();
+		this.coreMethods();
 	}
+	
+	//--------------------------------------------------------------------------------------------//
+	
+	// EVERYTHING IN THIS CLASS RUNS FROM HERE, ITS BASICALLY THE PROXY CONSTRUCTOR
+	// TWO MAJOR THINGS HAPPEN HERE
+	// 1 - Error Detection
+	// 2 - Process Information to pass to Parsers (ie. parsedTab Variable and attributes );
+	// the methods should be arranged in an order so that error checking happens before any of the more sensitive methods are run
+	private void coreMethods() {
+		// Step x: Count the number of lines and figure out what the instrument is
+		this.countLinesAndDetectInstrument();
+		
+		// methods to check for errors
+		
+		// Step x: Create the Parsed Tab now that we know there are no fatal errors 
+		this.createparsedTab();
+		// Step x: Create an attributes list from the parsed tab created above
+		this.createAttributesList();
+	}
+	
+	//-------------------------------------------------------------------------------------------//
+	
+		
+	///////////////////////////////////////////
+	/// PROCESSING/EXTRACTION METHODS BELOW ///
+	///////////////////////////////////////////
 	
 	/**
 	 * counts the number of lines for Instrument Detection
 	 * also responsible for checking if the input provided is bad
 	 */
-	private void countLines(){
+	private void countLinesAndDetectInstrument(){
+		// COUNT LINES
 		Scanner sc = null;
 		try {
-			int counter = 0;
-			int loopcheck = -1;
+			int counter = 0; int loopcheck = -1;
 			sc = new Scanner(inputFile);
 			while(sc.hasNextLine()){			
 				//for line counting
-				String next = sc.nextLine();
-				
+				String next = sc.nextLine();				
 				//getting array for dash counting for time signature for guitar/bass (skips first line for padding)
 				//not done
 				char [] info  = next.toCharArray();
@@ -63,18 +87,14 @@ public class TextFileReader {
 						loopcheck++;
 						int trueCount = counter - 1;
 						System.out.println(trueCount);
-					}
-					
+					}					
 				}
 				//end of dash counting
-				
-				//drum check
-				if(next.contains("X") || next.contains("x") || next.contains("o") || next.contains("O"))  {
 
+				//drum check
+				if(next.contains("X") || next.contains("x") || next.contains("o") || next.contains("O"))
 					isDrum = true;
-				}
-				//end of drum tab check
-				
+
 				if (next.contains("-") && next.contains("|")) {
 					numOfLines++;
 					System.out.println(numOfLines);
@@ -85,8 +105,22 @@ public class TextFileReader {
 		}
 		catch(FileNotFoundException e) {e.printStackTrace();}
 		finally {sc.close();}
-	}
-	
+
+		// DETECT INSTRUMENT
+		instrument = "Unable to Identify";
+		int lines = numOfLines/2;
+		if(lines == 4 && isDrum == false ) {
+			instrument = "Bass";
+		}
+		else if (lines == 6 && isDrum == false) {
+			instrument = "Guitar";
+		}
+		else if( isDrum == true){
+			instrument = "Drum";
+
+		}
+	} // END OF METHOD
+
 	/**
 	 * Creates a parsedTab array of the file in parsedTabTab variable
 	 */
@@ -102,12 +136,9 @@ public class TextFileReader {
 			String holder;
 			while (sc.hasNextLine()) {
 				String line = sc.nextLine();
-				if (line.contains("-") && line.contains("|")) {
-			
-					if (index <= numOfLines) {
-						
-						if (key == false) {
-							
+				if (line.contains("-") && line.contains("|")) {			
+					if (index <= numOfLines) {						
+						if (key == false) {							
 							parsedTab.add(line);
 							index++;
 						}else if (key == true){
@@ -125,25 +156,6 @@ public class TextFileReader {
 					index = 0;
 				}			
 			}			
-//=======
-//			}
-//			for(int i = 0; i < extracted.size(); i++) 
-//			{
-//				// check if tab has base note here
-//				// if not set base note to default
-//				// default tuning EADGBE
-//				if(i >= 6) {
-//				StringBuilder sb = new StringBuilder();
-//				sb.append(parsedTab.get(i % 6));
-//				sb.append(extracted.get(i).substring(2));
-//				parsedTab.set(i%6, sb.toString());
-//				}
-//				else 
-//				{
-//					parsedTab.add(extracted.get(i));
-//				}
-//			}
-//>>>>>>> refs/heads/Ayub_Features
 		}
 		catch(FileNotFoundException e) {
 			e.printStackTrace();
@@ -153,66 +165,21 @@ public class TextFileReader {
 		}
 	}
 	
-	//checks number of dashes in first line
-//	public void checkDashes() {
-//		Scanner sc = null;
-//		try {
-//			
-//			sc = new Scanner(inputFile);
-//			lineStorage = sc.nextLine();
-//			
-//			
-//			char [] info  = lineStorage.toCharArray();
-//			for(int i = 0; i < info.length; i++) {
-//				System.out.println(info[i]);
-//			}		
-//		}
-//		
-//		catch(FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		finally {
-//			sc.close();
-//		}
-//		System.out.println(lineStorage);
-//	}
-	
-	
-
-	/**
-	 * determines the instrument based on the number of lines
-	 * still in progress
-	 */
-	public String detectInstrument(){	
-		instrument = "Unable to Identify";
-		int lines = numOfLines/2;
-		if(lines == 4 && isDrum == false ) {
-			instrument = "Bass";
-		}
-		else if (lines == 6 && isDrum == false) {
-			instrument = "Guitar";
-		}
-		else if( isDrum == true){
-			instrument = "Drum";
-		}
-		checkAlignedVerticals();
-		return instrument;
+	public void createAttributesList() {
+		// TODO 
+		
 	}
-	
-	public int numberOfLines() {
-		return numOfLines;
-	}
-	
 
-	public static java.lang.String staffLines(){
+	
+	
+	// somehow try to make 
+	public static String getStaffLines(){
 		Integer count = numOfLines/2;
 		java.lang.String lines = count.toString();
 		return lines;
-		}
-		
-	
-	public static java.lang.String sign(){
+	}
+			
+	public static String getSign(){
 		String sign = "tab";
 		if(instrument == "Guitar") {
 			//G for treble
@@ -230,43 +197,21 @@ public class TextFileReader {
 		return sign;
 	}
 	
-	public static java.lang.String line(){
+	public static String getLine(){
 		java.lang.String line = "";
 		if(instrument == "Guitar") {
-			//treble lies on 3rd string for guitar
-			line = "2";
+			line = "2"; //treble lies on 3rd string for guitar
 		}
 		else if (instrument == "Bass") {
-			//bass clef lies on 4th string for bass
-			line = "4";
+			line = "4"; //bass clef lies on 4th string for bass
 		}
 		else {
-			//2 for percussion tabs
-			line = "2";
+			line = "2";			//2 for percussion tabs
 		}
 		System.out.println(line);
 		return line;
 	}
-		
-	
-	/**
-	 * This is for printing purposes, it makes everything into one string
-	 * @return
-	 */
-	public String getParsedString() {
-		StringBuilder sb = new StringBuilder();
-		for(String s : parsedTab)
-			sb.append(s.toString()+"\n");
-		return sb.toString();
-	}
-	
-	/**
-	 * This is the MAIN output of this file that goes into the three parsers
-	 * @return
-	 */
-	public ArrayList<String> getParsed(){
-		return parsedTab;
-	}
+			
 
 	
 	/**
@@ -287,13 +232,11 @@ public class TextFileReader {
 		return sb.toString();	
 	}
 	
-	/**
-	 * just to get the file
-	 * @return
-	 */
-	public File getFile() {
-		return this.inputFile;
-	}
+
+	////////////////////////////////////
+	/// ERROR CHECKING METHODS BELOW ///
+	////////////////////////////////////
+	
 	
 	public boolean checkAlignedVerticals() {
 		//checks that the vertical lines are aligned
@@ -309,7 +252,7 @@ public class TextFileReader {
 			while(quickScan.hasNextLine()){
 				System.out.println("line"+lineCount);
 				lineCount++;
-				
+
 				//stores line as a string
 				String next = quickScan.nextLine();
 				System.out.println("next: ");
@@ -318,7 +261,7 @@ public class TextFileReader {
 				//converts string to character array to be looked through
 				char [] charCheck = next.toCharArray();
 
-//				check for whether verticals are aligned
+				//				check for whether verticals are aligned
 				for(int i = 0;i<(charCheck.length+1);i++) {
 					//during first loop
 					if ((loopCount < charCheck.length)) {
@@ -326,21 +269,20 @@ public class TextFileReader {
 						//to compare the other lines with
 						if (charCheck[i] == '|') {
 							indexHolder[instanceCount] = i;
-						
 							instanceCount++;
 						}
 					}
-				//after first loop
+					//after first loop
 					else if (loopCount == charCheck.length) {
 						for(int n = 0;n<charCheck.length;n++) {
-							
+
 							if (charCheck[n] == '|') {
 								indexHolder2[instanceCount2] = n;
 								System.out.println("indexHolder2: ");
 								System.out.println(Arrays.toString(indexHolder2));
 								System.out.println("indexHolder: ");
 								System.out.println(Arrays.toString(indexHolder));
-								
+
 								System.out.println("indexHolder2: ");
 								System.out.println(indexHolder2[instanceCount2]);
 								System.out.println("indexHolder: ");
@@ -358,16 +300,14 @@ public class TextFileReader {
 								instanceCount2++;
 								System.out.println("nextIteration: ");
 							}
-							
-						}	
-						
-						
 
-						}
-					loopCount++;
+						}													
+
 					}
-					
-				}					
+					loopCount++;
+				}
+
+			}					
 		}
 		catch(FileNotFoundException e) {e.printStackTrace();}
 		finally {quickScan.close();}
@@ -408,4 +348,91 @@ public class TextFileReader {
 		//checks that the symbols for a given instrument are in english
 		
 	}
+	
+	//////////////////////////////////////
+	/// GETTER AND SETTER METHODS BELOW///
+	//////////////////////////////////////
+	
+	/**
+	 * just to get the path of the file
+	 * @return
+	 */
+	public File getFile() {
+		return this.inputFile;
+	}
+	/**
+	 * This is for printing purposes, it makes everything into one string
+	 * @return
+	 */
+	public String getParsedString() {
+		StringBuilder sb = new StringBuilder();
+		for(String s : parsedTab)
+			sb.append(s.toString()+"\n");
+		return sb.toString();
+	}
+	
+	/**
+	 * This is the MAIN output of this file that goes into the three parsers
+	 * @return
+	 */
+	public ArrayList<String> getParsed(){
+		System.out.println(this.getParsedString());
+		return parsedTab;
+	}
+	//
+	public String getDetectedInstrument() {
+		return this.instrument;
+	}
+} // END OF TEXT FILE READER CLASS
+
+// CLASS MADE TO PASS ATTRIBUTES OF THE MEASURE OVER TO THE PARSERS
+class TFRAttribute{
+	// initializations with some default values
+	int divisions = 4;
+	int fifths = 0;
+	int beats = 4;
+	int beattype = 4;
+	String sign = "TAB";
+	int line = 2;
+	String staffLines = "6";
+	ArrayList<String> tuningSteps;
+	ArrayList<String> tuningOctaves;
+	
+	// Constructor
+	public TFRAttribute( int d, int f, int b, int bt, String s, int l) {
+		this.divisions = d;
+		this.fifths = f;
+		this.beats = b;
+		this.beattype = bt;
+		this.sign = s;
+		this.line = l;
+	}	
+//	// Guitar Attribute Constructor
+//	public TFRAttribute( int d, int f, int b, int bt, String s, int l, String sl, ArrayList<String> ts, ArrayList<String> to) {
+//		this.divisions = d;
+//		this.fifths = f;
+//		this.beats = b;
+//		this.beattype = bt;
+//		this.sign = s;
+//		this.line = l;
+//		this.staffLines = sl;
+//		this.tuningSteps = ts;
+//		this.tuningOctaves = to;
+//	}	
+	
+	// GETTERS
+	public int getDivisions() {return divisions;}
+	public int getFifths() {return fifths;}
+	public int getBeats() {return beats;}
+	public int getBeattype() {return beattype;}
+	public String getSign() {return sign;}
+	public int getLine() {return line;}
+	public String getStaffLines() { return staffLines; };
+	public ArrayList<String> getTuningOctaves() { return tuningOctaves; };
+	public ArrayList<String> getTuningSteps() { return tuningSteps; };
+		
+	// SETTERS
+	
+	//*add some setters maybe
+	
 }

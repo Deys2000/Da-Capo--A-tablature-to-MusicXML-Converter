@@ -33,7 +33,7 @@ public class Main extends Application {
 	
 	public static void sideTask() throws Exception {
 		
-		TextFileReader fileReader = new TextFileReader("DrumsTab2.txt");
+//		TextFileReader fileReader = new TextFileReader("DrumsTab.txt");
 //
 //		//An if statement should select which one to call based on the instrument detection
 //		GuitarParser gp = new GuitarParser(fileReader.getParsed());
@@ -61,8 +61,12 @@ public class Main extends Application {
 //		xmlGen gen10 = new xmlGen(gp);
 //		//gen10.createFile(new File("file.xml"));
 //		System.out.println(gen10.getXMLContent());
-		DrumParser dp = new DrumParser(fileReader.getParsed());
-		xmlGen xg = new xmlGen(dp, fileReader);
+		//DrumParser dp = new DrumParser(fileReader.getParsed());
+		//xmlGen xg = new xmlGen(dp, fileReader);
+		
+		//DrumParser2 dp2 = new DrumParser2();
+		//xmlGen xg = new xmlGen(dp2);
+		//System.out.println(xg.getXMLContent());
 		
 		System.exit(0);
 	}  
