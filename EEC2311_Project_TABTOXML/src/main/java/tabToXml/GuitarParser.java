@@ -410,7 +410,7 @@ public class GuitarParser {
 
     	// inserting into 2d array
     	//each row contains: duration, step, alter,octave,type,string,fret and CHORD in each row
-    	String [][] infoArray = new String[notes.size()][8]; // added one to account for NEW chord property
+    	String [][] infoArray = new String[notes.size()][9]; // added one to account for NEW chord property
     	
     	for(int i = 0; i < notes.size(); i++) {
     		if(notes.get(i).contains("|")){
@@ -422,6 +422,7 @@ public class GuitarParser {
         		infoArray[i][5] = null;
         		infoArray[i][6] = null; 
         		infoArray[i][7] = null;
+        		infoArray[i][8] = null;
     		}
     		else {    		
     			infoArray[i][0] = durationArr.get(i);   //duration
@@ -432,6 +433,7 @@ public class GuitarParser {
     			infoArray[i][5] = fretStrings.get(i); //string
     			infoArray[i][6] = fretNums.get(i); // fret 
     			infoArray[i][7] = chordArr.get(i); // "false" or "true" depending on if its a chord or not
+    			infoArray[i][8] = handp.get(i); // contains whether a note is hammer on and pull off
     		}
     	}
     	

@@ -129,6 +129,30 @@ public class xmlGen {
             note.setType(new Type(info[i][4]));
             Notations notations = new Notations();
             Technical technical = new Technical();
+            // ADDING HAMMER ONS AND PULL OFFS
+            if(info[i][8] == null) {
+            	// do nothing
+            }
+            else if( info[i][8].substring(0,1).equals("h")) {
+            	HammerOn ho = new HammerOn();
+            	ho.setType(info[i][8].substring(1));
+            	technical.setHammerOn(ho);
+            	Slur slur = new Slur();
+            	slur.setType(info[i][8].substring(1));
+            	notations.setSlur(slur);
+            }
+            else if( info[i][8].substring(0,1).equals("p")) {
+            	PullOff po = new PullOff();
+            	po.setType(info[i][8].substring(1));
+            	technical.setPullOff(po);
+            	Slur slur = new Slur();
+            	slur.setType(info[i][8].substring(1));
+            	notations.setSlur(slur);
+            }
+           	else {
+           		
+           	}
+           	
             technical.setString( new musicXML.String(new BigInteger(info[i][5])));
             technical.setFret(new Fret(new BigInteger(info[i][6])));
             notations.setTechnical(technical);
