@@ -149,6 +149,44 @@ public class xmlGen {
             	slur.setType(info[i][8].substring(1));
             	notations.setSlur(slur);
             }
+            else if(info[i][8].substring(0,1).equals("P") && info[i][8].substring(5,6).equals("H")) {
+            	PullOff po = new PullOff();
+            	po.setType(info[i][8].substring(1,5));
+            	technical.setPullOff(po);
+            	
+            	HammerOn ho = new HammerOn();
+            	ho.setType(info[i][8].substring(6));
+            	technical.setHammerOn(ho);
+            }   
+            else if(info[i][8].substring(0,1).equals("H") && info[i][8].substring(5,6).equals("P")) {
+            	HammerOn ho = new HammerOn();
+            	ho.setType(info[i][8].substring(1,5));
+            	technical.setHammerOn(ho);
+            	
+            	PullOff po = new PullOff();
+            	po.setType(info[i][8].substring(6));
+            	technical.setPullOff(po);
+            }
+            
+            else if(info[i][8].substring(0,1).equals("P") && info[i][8].substring(5,6).equals("P")) {
+            	PullOff po = new PullOff();
+            	po.setType(info[i][8].substring(1,5));
+            	technical.setPullOff(po);
+            	
+            	PullOff po1 = new PullOff();
+            	po1.setType(info[i][8].substring(6));
+            	technical.setPullOff(po1);
+            }
+            
+            else if(info[i][8].substring(0,1).equals("H") && info[i][8].substring(5,6).equals("H")) {
+            	HammerOn ho = new HammerOn();
+            	ho.setType(info[i][8].substring(1,5));
+            	technical.setHammerOn(ho);
+            	
+            	HammerOn ho1 = new HammerOn();
+            	ho1.setType(info[i][8].substring(6));
+            	technical.setHammerOn(ho1);
+            }
            	else {
            		
            	}
