@@ -18,3 +18,7 @@
 .comment {
 	-fx-fill: teal;
 }
+.detected
+{
+    -fx-fill: rgb(81, 211, 81);
+}

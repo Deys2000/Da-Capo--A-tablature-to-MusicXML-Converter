@@ -62,6 +62,7 @@ public class HomeController {
 	public static Stage currentStage; // acquired from Main when program starts
 
 	public HomeController() {
+		
 	}
 
 	@FXML
@@ -71,9 +72,9 @@ public class HomeController {
 	@FXML
 	private TextArea tabTextArea1, tabTextArea2, tabTextArea3;
 	@FXML
-	private CodeArea codeArea1;
+	public CodeArea codeArea1;
 	@FXML
-	private CodeArea codeArea2;
+	public CodeArea codeArea2;
 	@FXML
 	private HBox hBox;
 	@FXML
@@ -143,6 +144,10 @@ public class HomeController {
 	public void quit(MouseEvent event) throws Exception {
 		currentStage.close();
 	}
+
+	// public void initialize() {
+	// 	XMLView.Xmlsyntax(codeArea2);
+	// }
 
 	// for moveing of window assign to onMousePressed event
 	public void dragger(MouseEvent event) throws Exception {
@@ -219,7 +224,7 @@ public class HomeController {
 		System.out.println(vSP.getContent().toString());
 		codeArea2 = vSP.getContent();
 		codeArea2.replaceText(0, 0, "");
-		XMLView.Xmlsyntax(codeArea2);
+		
 		// saveButton.setDisable(true);
 
 		// read the contents of the Tablature Editor Window

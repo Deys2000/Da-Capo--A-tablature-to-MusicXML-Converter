@@ -9,22 +9,36 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.scene.Parent;
 import javafx.stage.StageStyle;
 
 
 public class Main extends Application {
+
+	private HomeController homeController; 
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
+
+		FXMLLoader loader  = new FXMLLoader(getClass().getResource("Home3.fxml")); 
+		Parent root = loader.load(); 
+
+		homeController = (HomeController) loader.getController();
+		HomeController.currentStage = primaryStage;
+
+		Scene scene = new Scene(root);
+    	primaryStage.setScene(scene);
 		primaryStage.setTitle("Da Capo : Text Tab to MusicXML Converter - version 1.0");
 		// keep scene equal or bigger than default in fxml - 800x500
-	    primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("Home3.fxml"))));
+	   // primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("Home3.fxml"))));
 	    primaryStage.getIcons().add(new Image("file:DaCapo.png"));
 		primaryStage.getScene().getStylesheets().add(test.class.getResource("xml-highlighting.css").toExternalForm());
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.show();
-		HomeController.currentStage = primaryStage;
+		System.out.println(homeController.codeArea1);
+		TabView.Xmlsyntax(homeController.codeArea1);
+		//XMLView.Xmlsyntax(homeController.codeArea1);
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -38,7 +52,6 @@ public class Main extends Application {
 	public static void sideTask() throws Exception {
 		
 		TextFileReader fileReader = new TextFileReader("DrumsTab2.txt");
-//
 //		//An if statement should select which one to call based on the instrument detection
 //		GuitarParser gp = new GuitarParser(fileReader.getParsed());
 //		BassParser gp = new BassParser();
