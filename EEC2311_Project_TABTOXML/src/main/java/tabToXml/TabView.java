@@ -21,7 +21,7 @@ public class TabView {
 
     private static final Pattern XML_TAG = Pattern.compile("(?<MeasureLine>([a-gA-G]?)(\\|)(-\\S+)(\\|))");
 
-    private static final Pattern ATTRIBUTES = Pattern.compile("(?<info>\\|?[\\-\\d]+\\|)");
+    private static final Pattern GUITAR_TAB = Pattern.compile("([hp^BbgGrR\\/\\\sS\\[\\]0-9])");
 
     private static final int BASE_NOTE = 2;
     private static final int MEASURE_START = 3;
@@ -50,8 +50,9 @@ public class TabView {
             if (matcher.group("MeasureLine") != null) {
 
                 String attributesText = matcher.group(MEASURE_INFO);
+                spansBuilder.add(Collections.emptyList(), matcher.start(BASE_NOTE) - lastKwEnd);
                 spansBuilder.add(Collections.singleton("detected"),
-                        matcher.end(MEASURE_START) - lastKwEnd );
+                        matcher.end(MEASURE_START) -  matcher.start(BASE_NOTE) );
                  if (!attributesText.isEmpty()) {
                 //     lastKwEnd = 0;
                 spansBuilder.add(Collections.singleton("mesureContent"),  matcher.start(MEASURE_END) - matcher.end(MEASURE_START));
@@ -65,8 +66,8 @@ public class TabView {
                 //     if (attributesText.length() > lastKwEnd)
                 //         spansBuilder.add(Collections.emptyList(), attributesText.length() - lastKwEnd);
                  }
-                lastKwEnd = matcher.end(MEASURE_END);
                 spansBuilder.add(Collections.singleton("detected"),1);
+                lastKwEnd = matcher.end(MEASURE_END);                
             }
 
             lastKwEnd = matcher.end();

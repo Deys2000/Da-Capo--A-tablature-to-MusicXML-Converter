@@ -101,7 +101,7 @@
                   <JFXDrawer fx:id="drawer1" defaultDrawerSize="1000.0" prefHeight="960.0" prefWidth="571.0" />
                  <VirtualizedScrollPane>
                  <content> 
-                  <CodeArea fx:id="codeArea1" maxHeight="1.7976931348623157E308" maxWidth="1393.0" onDragDropped="#dragDropped" onDragOver="#dragOver" prefHeight="650.0" prefWidth="523.0" style="-fx-background-color: #E0DFD5; -fx-background-radius: 2;">  
+                  <CodeArea fx:id="codeArea1" maxHeight="1.7976931348623157E308" maxWidth="1393.0" onDragDropped="#dragDropped" onDragOver="#dragOver" prefHeight="650.0" prefWidth="523.0" style="-fx-background-color: #E0DFD5; -fx-background-radius: 2; -fx-font-family: consolas; -fx-font-size: 11pt;">  
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
