@@ -13,6 +13,7 @@ public class GuitarParser {
     public ArrayList<String> durationArr = new ArrayList<String>();
     public ArrayList<String> typeArr = new ArrayList<String>();
     public ArrayList<String> chords = new ArrayList<String>();
+    public ArrayList<String> graceArr = new ArrayList<String>();
     
     // current tuning, from top line to bottom line
     public String[] tuning = {"E4", "B3", "G3", "D3", "A2", "E2"};
@@ -150,6 +151,10 @@ public class GuitarParser {
         
         boolean isDoubleDigit = false;
         
+        int graceNoteNum = 0; // number of tracked grace notes, for backtracking to note before the grace notes start
+        int graceNoteLength = 0; // note length of tracked grace notes, in 16th notes
+        boolean trackingGrace = false; // if we are tracking grace notes
+        
         while (counter < parsedTab.get(0).length() - 1) { 
             
             currentLine = 0;
@@ -172,9 +177,10 @@ public class GuitarParser {
                 
                 durationArr.add("|");
                 typeArr.add("|");
+                graceArr.add("|");
                 counter += padding; // skipping both '|' and padding '-', if padding exists
             }
-            
+                    
             // Should be run before encountering the first note/chord in a measure
             else if (prevChordNum == 0) {
             	
@@ -219,8 +225,8 @@ public class GuitarParser {
             
             // Should be run after encountering the first note/chord in a measure
             else{
-                
-            	// Assume Frets are Single Digit
+            	            	
+            	// Check for Single Digit Frets
                 while(currentLine < lines && !isDoubleDigit) {
                     
                 	// Adds all previous chord notes to arrays, then adds current notes to current chord
@@ -231,6 +237,7 @@ public class GuitarParser {
                     		isDoubleDigit = true;
                     	}
                     	
+                    	// Adding tracked notes to arrays
                     	while (prevChordNum > 0) {
 	                        durationArr.add("" + noteLength);
 	                        typeArr.add(durationToType(noteLength, divisions));
@@ -244,9 +251,9 @@ public class GuitarParser {
                     
                     currentLine++;
                 }
-                
+
                 // If DoubleDigit frets, recount using one's place
-                if (isDoubleDigit) {
+                if(isDoubleDigit) {
                 	int totalFretNum = 0;
                 	currentLine = 0;
                 	
@@ -259,21 +266,21 @@ public class GuitarParser {
                 	}
                 	
                 	prevChordNum = totalFretNum;
+                	
+                	// increment counter and reset isDoubleDigit
+                	counter++;
+                	isDoubleDigit = false;
                 }
-                
+ 
                 // if there are notes in the current chord, copy them to previous chord and empty current chord
                 if(curChordNum != 0) {
                 	prevChordNum = curChordNum;
                 	curChordNum = 0;
                 }
                 
+                // increase note length by 1
                 noteLength++; 
-            }
-            
-            // If Fret is double-digit, increment counter and reset isDoubleDigit
-            if (isDoubleDigit) {
-            	counter++;
-            	isDoubleDigit = false;
+
             }
             
             counter++;
@@ -287,13 +294,14 @@ public class GuitarParser {
         }
         durationArr.add("||");
         typeArr.add("||");
+        graceArr.add("||");
         
-//        // For debugging
-//        System.out.print("Duration Array: ");
-//        System.out.println(durationArr);
-//        System.out.print("Type Array: ");
-//        System.out.println(typeArr);
-
+//      // For debugging
+//      System.out.print("Duration Array: ");
+//      System.out.println(durationArr);
+//      System.out.print("Type Array: ");
+//      System.out.println(typeArr);
+        System.out.println("GraceArr: " + graceArr);
     }
     
     /**
@@ -336,6 +344,7 @@ public class GuitarParser {
         }
         else {
         	result = "16th"; //default, should be set to "unknown"
+        	// Should throw minor error
         }
         
         return result;

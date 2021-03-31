@@ -236,6 +236,34 @@ class GuitarParserTest {
 	
 	// Type Tests
 	@Test
+	void testDottedHalfNote() throws Exception {
+		ArrayList<String> test = new ArrayList<>();
+		test.add("E|-3-----------|");
+		test.add("B|-------------|");
+		test.add("G|-------------|");
+		test.add("D|-------------|");
+		test.add("A|-------------||");
+		test.add("E|-------------|");
+		
+		ArrayList<String> expected = new ArrayList<>();
+		String[] arr = {"|", "dotted half", "||"};
+		
+		for (int i = 0; i < arr.length; i++) {
+			expected.add(arr[i]);
+		}	
+		
+		System.out.println("expected type: \t" + expected);
+		
+		GuitarParser guitarParser = new GuitarParser(test);
+		
+		ArrayList<String> actual = guitarParser.getTypeArr();
+		
+		System.out.println("actual type: \t" + actual);
+		
+		assertEquals(expected,actual);
+	}
+	
+	@Test
 	void testType2() throws Exception {
 		ArrayList<String> test = new ArrayList<>();
 		test.add("E|-----------0-----|");

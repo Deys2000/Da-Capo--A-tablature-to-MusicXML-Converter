@@ -133,7 +133,14 @@ public class xmlGen {
             note.getDurationOrChordOrCue().add(pitch);
             note.getDurationOrChordOrCue().add(new BigDecimal(info[i][0])); // duration
             note.setVoice(info[i][2]);
-            note.setType(new Type(info[i][4]));
+            // RESOLVES BUG #22, for dotted notes
+            if (info[i][4].substring(0,6).compareTo("dotted") == 0) { // NEW
+            	note.setType(new Type(info[i][4].substring(7))); // NEW
+            	note.setDot(new Dot()); // NEW
+            } // NEW
+            else { // NEW
+            	note.setType(new Type(info[i][4]));
+            } // NEW
             Notations notations = new Notations();
             Technical technical = new Technical();
             technical.setString( new musicXML.String(new BigInteger(info[i][5])));
