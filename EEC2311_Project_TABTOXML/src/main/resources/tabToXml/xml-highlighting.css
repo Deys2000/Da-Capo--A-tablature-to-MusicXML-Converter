@@ -22,3 +22,7 @@
 {
     -fx-fill: rgb(81, 211, 81);
 }
+.mesureContent
+{
+    -fx-fill: blue; 
+}

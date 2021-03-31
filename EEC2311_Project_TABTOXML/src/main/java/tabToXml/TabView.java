@@ -51,29 +51,25 @@ public class TabView {
 
                 String attributesText = matcher.group(MEASURE_INFO);
                 spansBuilder.add(Collections.singleton("detected"),
-                        matcher.end(MEASURE_START) - matcher.start(MEASURE_START));
-                if (!attributesText.isEmpty()) {
-                    lastKwEnd = 0;
-
-                    Matcher amatcher = ATTRIBUTES.matcher(attributesText);
-                    while (amatcher.find()) {
-                        if (amatcher.group("info") != null) {
-                            spansBuilder.add(Collections.singleton("attribute"), amatcher.end() - amatcher.start());
-                        }
-                        lastKwEnd = amatcher.end();
-                    }
-                    if (attributesText.length() > lastKwEnd)
-                        spansBuilder.add(Collections.emptyList(), attributesText.length() - lastKwEnd);
-                }
-                lastKwEnd = matcher.end(GROUP_ATTRIBUTES_SECTION);
-                System.out.print("\nlastkwend: " + lastKwEnd + "\n");
-                spansBuilder.add(Collections.singleton("detected"), 1);
-                // spansBuilder.add(Collections.singleton("tagmark"), matcher.end() -
-                // lastKwEnd);
+                        matcher.end(MEASURE_START) - lastKwEnd );
+                 if (!attributesText.isEmpty()) {
+                //     lastKwEnd = 0;
+                spansBuilder.add(Collections.singleton("mesureContent"),  matcher.start(MEASURE_END) - matcher.end(MEASURE_START));
+                //     Matcher amatcher = ATTRIBUTES.matcher(attributesText);
+                //     while (amatcher.find()) {
+                //         if (amatcher.group("info") != null) {
+                //             spansBuilder.add(Collections.singleton("attribute"), amatcher.end() - amatcher.start());
+                //         }
+                //         lastKwEnd = amatcher.end();
+                //     }
+                //     if (attributesText.length() > lastKwEnd)
+                //         spansBuilder.add(Collections.emptyList(), attributesText.length() - lastKwEnd);
+                 }
+                lastKwEnd = matcher.end(MEASURE_END);
+                spansBuilder.add(Collections.singleton("detected"),1);
             }
 
             lastKwEnd = matcher.end();
-            System.out.print(lastKwEnd);
         }
         spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
         return spansBuilder.create();
