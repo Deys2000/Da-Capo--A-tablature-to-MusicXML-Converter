@@ -147,6 +147,9 @@ public class HomeController {
 			//System.out.println("XMLCONTENT"+xg.getXMLContent());
 			tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
+			  if(tfr.checkAlignedVerticals() == false) {
+			    	tabTextArea2.setText("tablature misaligned, please check spacing or input a different tab");
+			    }
 			break;
 		case "Bass":
 			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument() 
@@ -155,6 +158,9 @@ public class HomeController {
 			xg = new xmlGen(bp,tfr);
 			tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
+			  if(tfr.checkAlignedVerticals() == false) {
+			    	tabTextArea2.setText("tablature misaligned, please check spacing or input a different tab");
+			    }
 			break;
 		default:
 			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument());
