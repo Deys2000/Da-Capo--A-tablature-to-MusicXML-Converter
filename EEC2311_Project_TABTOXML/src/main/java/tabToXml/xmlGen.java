@@ -40,7 +40,7 @@ public class xmlGen {
    
     // GUITAR CONSTRUCTOR
     public xmlGen(GuitarParser gp, TextFileReader tfr) {
-    	guitarGenerator(gp.processor());
+    	guitarGenerator(gp.processor(),tfr);
        	//attributeVals[4][0] = tfr.staffLines();
     }    
     
@@ -91,8 +91,9 @@ public class xmlGen {
      * Guitar XML File Generator
      * @param gp
      */
-    public void guitarGenerator(java.lang.String[][] info){
-    	// creating the outermost tag "score-partwise"
+    public void guitarGenerator(java.lang.String[][] info, TextFileReader tfr){ 	
+    		// creating the outermost tag "score-partwise"
+    	
         this.scorePartwise = new ScorePartwise();
         scorePartwise.setMovementTitle("Guitar Music Piece"); // move to constuctor
         
@@ -114,9 +115,9 @@ public class xmlGen {
         attributes.setKey(key);
 
         attributes.setTime(new Time("4", "4")); // constructor takes beat and beat type
-        attributes.setClef(new Clef(TextFileReader.getSign(), new BigInteger(TextFileReader.getLine()))); // constuctor sets sign and line
+        attributes.setClef(new Clef(tfr.getSign(), new BigInteger(tfr.getLine()))); // constuctor sets sign and line
 
-        StaffDetails staffDetails = new StaffDetails(new BigInteger(TextFileReader.getStaffLines())); // constructor takes the number of lines
+        StaffDetails staffDetails = new StaffDetails(new BigInteger(java.lang.String.valueOf(tfr.getStaffLines()))); // constructor takes the number of lines
 
         //creating all the staff tunings that will go into the staff details tag above 
         ArrayList<StaffTuning> staffTunings = new ArrayList<>();        

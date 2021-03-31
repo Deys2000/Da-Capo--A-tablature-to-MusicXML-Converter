@@ -138,7 +138,7 @@ public class HomeController {
 			+ "\n\nSystem is in prototype phase, unable to process Drums completely."
 			+ "\nUse with caution."
 			+ "\nYou may find that rests and beams are not processed correctly.");
-			DrumParser2 dp = new DrumParser2(tfr.getParsed());
+			DrumParser2 dp = new DrumParser2(tfr);
 			xg = new xmlGen(dp);
 			// the following two lines should be outside the switch case, but bass and drums dont work yet
 			//System.out.println("XMLCONTENT"+xg.getXMLContent());

@@ -2,8 +2,6 @@ package tabToXml;
 
 import java.util.ArrayList;
 
-import musicXML.Measure;
-
 //NEEDS TO BE MODULAR SO THAT EVERYTHING IS NOT HAPPENING IN THE CONSTRUCTOR
 //ALSO NEEDS A COUPLE OF TAGS THAT ARE MISSING
 //NEED TO COMPLETE THE INSTRUMENT LIST AS WELL
@@ -12,13 +10,13 @@ import musicXML.Measure;
 public class DrumParser2 {
 	ArrayList<DrumMeasure> measures;
 	ArrayList<DrumStringInfo> tabStrings;
-	
+	ArrayList<String> instruments;
 	// we will pass 3 pieces of information when creating an object of this class
 	// they will all be contained within one object hopefully a MEASURE object of sorts 
 	// 1 - a list of measures
 	// 2 - a list of corresponding attributes for each measure
 	// 3 - additional meta-information
-	public DrumParser2(ArrayList<String> parsedTab ) throws Exception {
+	public DrumParser2(TextFileReader tfr ) throws Exception {
 		
 		// WE WILL ASSUME THE FOLLOWING IS THE FORMAT OF OUR INFORMATION (precondition is that all must be same length)
 		// THIS CODE IS DESIGNED FOR NO PADDING IN EACH MEASURE //
@@ -41,6 +39,7 @@ public class DrumParser2 {
 //		exampleInput.add(m1);
 //		exampleInput.add(m2);
 		// Method that breaks down the parsed tab into format required for drum parsing
+		ArrayList<String> parsedTab = tfr.getParsed();
 		ArrayList<ArrayList<String>> exampleInput = this.getMeasuresParsed(parsedTab);
 		
 		
@@ -52,14 +51,15 @@ public class DrumParser2 {
 		drumAttributes.add(da);
 		// 3 - additional meta info
 		// The strings
-		ArrayList<String> instruments = new ArrayList<>();
-		instruments.add("C");
-		instruments.add("HH");
-		instruments.add("S");
-		instruments.add("MT");
-		instruments.add("LT");
-		instruments.add("BD");
-		
+//		instruments = new ArrayList<String>();
+//		instruments.add("C");
+//		instruments.add("S");
+//		instruments.add("HH");
+//		instruments.add("MT");
+//		instruments.add("LT");
+//		instruments.add("BD");
+		this.instruments = tfr.getStringChars();
+		System.out.println("TFR Determined > "+this.instruments);
 		/////////////////////////////
 		// CONSTRUCTOR BEGINS HERE //
 		/////////////////////////////
@@ -80,7 +80,7 @@ public class DrumParser2 {
 		this.measures = new ArrayList<>();
 		
 		// setup the information for each string
-		this.setDrumStringInfo(instruments);
+		this.setDrumStringInfo(this.instruments);
 				
 		ArrayList<String> currentMeasure; // holds a single measure from the list of list of strings
 		DrumAttribute currentAttribute; // hold a single attributes object
@@ -106,13 +106,13 @@ public class DrumParser2 {
 				if(voice == 1) {
 					voice1Lines.add(currentMeasure.get(i)); // if it belongs to voice 1, then put in voice one list
 					voice1StringsInfo.add(this.tabStrings.get(i));
-					System.out.println(i +">>>>" + currentMeasure.get(i));
 				}
 				else {
 					voice2Lines.add(currentMeasure.get(i)); // otherwise put into voice two list
 					voice2StringsInfo.add(this.tabStrings.get(i));
-					System.out.println(i + ">>>>" + currentMeasure.get(i));
 				}
+				System.out.println("Line "+ i +">" + currentMeasure.get(i));
+
 			}			
 			//make temporary vertical array for voice 1 and voice 2 both
 			String[] verticalVoice1 = this.transpose(voice1Lines);
@@ -137,7 +137,7 @@ public class DrumParser2 {
 		//TESTER METHOD FOR THE PROCESS ABOVE		
 		System.out.println("\nPARSED INFORMATION BELOW \n");
 		for(int i = 0; i < measures.size(); i++ ) {
-			System.out.println(measures.get(i)+"\n");
+			System.out.println("Measure Printer in DP2:\n "+ measures.get(i)+"\n");
 		}
 		//there seems to be incorrect information with regards to the duration (and type since it is dependent)
 		// extra measure object is created but need not be used
@@ -308,21 +308,24 @@ public class DrumParser2 {
 		return this.measures;
 	}
 	
-	// exclusively for the drumparser2, will move it over to drumparser2 perhaps - Syed //
 	public ArrayList<ArrayList<String>> getMeasuresParsed(ArrayList<String> parsedTab){
+
+		
 		ArrayList<ArrayList<String>> tab = new ArrayList<ArrayList<String>>();
 		ArrayList<String[]> splitTab = new ArrayList<String[]>();
 		for(String s: parsedTab)
 			splitTab.add(s.split("\\|"));
 		// tab is split into lines and measures
 		ArrayList<String> currentMeasure;
-		for(int i = 1; i < splitTab.get(0).length; i++) {
+		for(int i = 0; i < splitTab.get(0).length; i++) {
 			currentMeasure = new ArrayList<String>();
-			for(int j = 0; j < splitTab.size(); j++) {
-				currentMeasure.add("|"+splitTab.get(j)[i]+"|");
+			for(int j = 0; j < splitTab.size(); j++) {					
+				if( !splitTab.get(j)[i].equals(""))
+					currentMeasure.add("|"+splitTab.get(j)[i]+"|");
 			}
-			tab.add(currentMeasure);
-			System.out.println(currentMeasure);
+			if( currentMeasure.size() != 0) // dont add if empty string
+				tab.add(currentMeasure);
+			System.out.println("Get Measures Parsed: " + currentMeasure);
 		}
 		return tab;
 	}
@@ -571,15 +574,17 @@ class DrumStringInfo{
 //			break;
 					
 		default:
-			throw new Exception("Unrecognizable Instrument");
-			//throw some incorrect stuff exception later
-//			name = "Closed Hi-Hat"; // High hat in doc
-//			id = "P1-I43";
-//			step = "G";
-//			octave = "5";
-//			stem = "up";		
-//			notehead = "x";
-			// the values above are just default to prevent crashing
+			//Choice 1: throw an exception
+			//throw new Exception("Unrecognizable Instrument");
+			
+			// Choice 2: Default to random instrument
+			name = "Bass Drum 1";
+			id = "P1-I36";
+			step = "F";
+			octave = "4";
+			stem = "down";	
+			notehead = "o";
+			voice = "2";
 	}
 		
 	}

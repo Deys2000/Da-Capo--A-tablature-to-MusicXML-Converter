@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+
 /**
  * This Class creates an object that has two String Lists, the original text  and the parsedTab text (it does more now - syed)
  * @author Group15
@@ -14,12 +16,13 @@ import java.util.Scanner;
 public class TextFileReader {
 	
 	private File inputFile;
-	public static int numOfLines;
+	int numOfLines;
 	boolean isDrum = false;
 	private static String instrument;
 	static String lineStorage;
 	boolean isVertical;
 	
+	ArrayList<String> stringChars;
 	ArrayList<TFRAttribute> attributesPerMeasure;
 	
 	//Parsed text 
@@ -27,7 +30,7 @@ public class TextFileReader {
 	
 	//Original text 
 	private ArrayList<String> originalTab = new ArrayList<String>();
-
+ 
 	// STRING CONSTRUCTOR
 	public TextFileReader(String inputFile){
 		this.inputFile = new File(inputFile);
@@ -55,7 +58,9 @@ public class TextFileReader {
 		// Step x: Create the Parsed Tab now that we know there are no fatal errors 
 		this.createparsedTab();
 		// Step x: Create an attributes list from the parsed tab created above
-		this.createAttributesList();
+		this.createAttributesList(this.parsedTab);
+		
+		System.out.println("Initial Characters" + stringChars.toString()); // delete this later
 	}
 	
 	//-------------------------------------------------------------------------------------------//
@@ -73,34 +78,47 @@ public class TextFileReader {
 		// COUNT LINES
 		Scanner sc = null;
 		try {
-			int counter = 0; int loopcheck = -1;
+			boolean loopcheck = false;
 			sc = new Scanner(inputFile);
+			String next;
 			while(sc.hasNextLine()){			
 				//for line counting
-				String next = sc.nextLine();				
-				//getting array for dash counting for time signature for guitar/bass (skips first line for padding)
-				//not done
-				char [] info  = next.toCharArray();
-				for(int i = 2; i < info.length; i++) {
-					counter ++;
-					if(loopcheck < 1 && info[i] == '|') {
-						loopcheck++;
-						int trueCount = counter - 1;
-						System.out.println(trueCount);
-					}					
+				next = sc.nextLine();		
+				if( next.contains("|") && next.contains("-")) { // only added if contain these two characters
+					numOfLines++; System.out.println("Number of Lines Counted: " + numOfLines);
+					if(next.contains("X") || next.contains("x") || next.contains("o") || next.contains("O"))
+						isDrum = true;
+					loopcheck = true;
 				}
-				//end of dash counting
-
-				//drum check
-				if(next.contains("X") || next.contains("x") || next.contains("o") || next.contains("O"))
-					isDrum = true;
-
-				if (next.contains("-") && next.contains("|")) {
-					numOfLines++;
-					System.out.println(numOfLines);
-				}
-				else if( 0 < numOfLines )  // modified this line to cater to prevent crashing with spacing at the start
+				else if(loopcheck == true) {
+					// exit, the lines have been counted
 					break;
+				}
+				
+		
+//				//getting array for dash counting for time signature for guitar/bass (skips first line for padding)
+//				//not done
+//				char [] info  = next.toCharArray();
+//				for(int i = 2; i < info.length; i++) {
+//					counter ++;
+//					if(loopcheck < 1 && info[i] == '|') {
+//						loopcheck++;
+//						int trueCount = counter - 1;
+//						System.out.println("truecount variable: "+ trueCount);
+//					}					
+//				}
+//				//end of dash counting
+//
+//				//drum check
+//				if(next.contains("X") || next.contains("x") || next.contains("o") || next.contains("O"))
+//					isDrum = true;
+//
+//				if (next.contains("-") && next.contains("|")) {
+//					numOfLines++;
+//					System.out.println("Number of Lines: "+ numOfLines);
+//				}
+//				else if( 0 < numOfLines )  // modified this line to cater to prevent crashing with spacing at the start
+//					break;
 			}					
 		}
 		catch(FileNotFoundException e) {e.printStackTrace();}
@@ -111,7 +129,7 @@ public class TextFileReader {
 
 		// DETECT INSTRUMENT
 		instrument = "Unable to Identify";
-		int lines = numOfLines/2;
+		int lines = numOfLines;
 		if(lines == 4 && isDrum == false ) {
 			instrument = "Bass";
 		}
@@ -143,14 +161,13 @@ public class TextFileReader {
 					if (index <= numOfLines) {						
 						if (key == false) {							
 							parsedTab.add(line);
-							index++;
 						}else if (key == true){
 							holder = parsedTab.get(index);
 							startFrom = line.indexOf('|') + 1;
 							holder = holder + line.substring(startFrom, line.length());
 							parsedTab.set(index, holder);
-							index++;
 						}
+						index++; 
 					}
 
 				}
@@ -166,24 +183,68 @@ public class TextFileReader {
 		finally {
 			sc.close();
 		}
-	}
-	
-	public void createAttributesList() {
-		// TODO 
 		
+		// separating the chars and rest of measure
+		System.out.println("COMPLETE TAB\n" + parsedTab.toString());
+		stringChars = new ArrayList<String>();
+		for( int i = 0; i < parsedTab.size(); i++) {
+			String currentLine = parsedTab.get(i);
+			if( -1 != currentLine.indexOf('|')){
+				String firstSection = currentLine.substring(0,currentLine.indexOf('|')); 
+				//if( firstSection.contains("\\-") && firstSection.length() != 0 ) {  // perhaps we don't need the conditional
+				stringChars.add(firstSection.replaceAll("[^a-zA-Z0-9]", ""));  // only keep alphanumeric values
+				parsedTab.set(i,currentLine.substring(currentLine.indexOf('|')));
+				//}
+			}
+			else {
+				stringChars.add(null); //Some default value
+			}
+			System.out.println("Current Line: " + parsedTab.get(i));
+		}
 	}
+	
+	public void createAttributesList(ArrayList<String> tab) {
+		// TODO
+		attributesPerMeasure = new ArrayList<TFRAttribute>();
+		// For now, i will assume that all measures are beats = 4, beatype = 4, division = 2 and fifths = 0
+		int divisions = 2;
+		int beats = 4;
+		int beattype = 4;
+		int fifths = 0;
+		int stafflines = this.numOfLines;
+		ArrayList<String> repeats = new ArrayList<>();
+		String sign = this.getSign();
+		String line = this.getLine();
 
-	
-	
-	// somehow try to make 
-	public static String getStaffLines(){
-		Integer count = numOfLines/2;
-		java.lang.String lines = count.toString();
-		return lines;
+		if(numOfLines > 1) { // only works if you have atleast 2 lines in your tablature
+			int repeat = 0;
+			String line1 = parsedTab.get(0);
+			String line2 = parsedTab.get(1);
+			
+			for(int i = 0; i < line1.length(); i++) {
+				if(line2.charAt(i) == '|' && line1.charAt(i) == '|') {
+					if( i-1 >= 0 && Character.isDigit( line1.charAt(i-1))) // character behind is a number
+						repeats.add(Character.toString(line1.charAt(i-1)));
+					else if( i-1 >= 0 && line1.charAt(i-1) != '|') // character behind should not be another barline
+						repeats.add(null);
+				}
+			} // end of loop			
+		}// end of conditional
+		
+		for(int i = 0; i < repeats.size(); i++) { // start at one to ignore the first bar that repeats has as that is not a measure			
+			attributesPerMeasure.add(new TFRAttribute(i+1,divisions,fifths, beats, beattype, sign, line, repeats.get(i)));			
+		}
+		System.out.println("ATTRIBUTES COLLECTED\n" + attributesPerMeasure);
+		
+		
+	}// end of create attributes list method
+ 
+	public int getStaffLines(){
+		return numOfLines;  
 	}
 			
-	public static String getSign(){
-		String sign = "tab";
+	public String getSign(){
+		String sign = "TAB";
 		if(instrument == "Guitar") {
 			//G for treble
 			sign = "G";
@@ -196,11 +257,11 @@ public class TextFileReader {
 			//percussion for drums
 			sign = "percussion";
 		}
-		System.out.println(sign);
+		System.out.println("SIGN FOR TAB: " + sign);
 		return sign;
 	}
 	
-	public static String getLine(){
+	public String getLine(){
 		java.lang.String line = "";
 		if(instrument == "Guitar") {
 			line = "2"; //treble lies on 3rd string for guitar
@@ -211,7 +272,7 @@ public class TextFileReader {
 		else {
 			line = "2";			//2 for percussion tabs
 		}
-		System.out.println(line);
+		System.out.println("LINE PLACEMENT FOR SIGN: " + line);
 		return line;
 	}
 			
@@ -229,7 +290,6 @@ public class TextFileReader {
 				sb.append(sc.nextLine()+"\n");
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return sb.toString();	
@@ -401,36 +461,45 @@ public class TextFileReader {
 	 * @return
 	 */
 	public ArrayList<String> getParsed(){
-		System.out.println(this.getParsedString());
+		System.out.println("Get parsed method\n"  + this.getParsedString());
 		return parsedTab;
 	}
 	//
 	public String getDetectedInstrument() {
 		return this.instrument;
 	}
+	public ArrayList<String> getStringChars(){
+		return this.stringChars;
+	}
 } // END OF TEXT FILE READER CLASS
 
 // CLASS MADE TO PASS ATTRIBUTES OF THE MEASURE OVER TO THE PARSERS
 class TFRAttribute{
 	// initializations with some default values
+	int measure;
 	int divisions = 4;
 	int fifths = 0;
 	int beats = 4;
 	int beattype = 4;
 	String sign = "TAB";
-	int line = 2;
+	String line = "2";
 	String staffLines = "6";
 	ArrayList<String> tuningSteps;
 	ArrayList<String> tuningOctaves;
 	
+	String repeat;
+	
+	
 	// Constructor
-	public TFRAttribute( int d, int f, int b, int bt, String s, int l) {
+	public TFRAttribute(int m, int d, int f, int b, int bt, String s, String l, String r) {
+		this.measure = m;
 		this.divisions = d;
 		this.fifths = f;
 		this.beats = b;
 		this.beattype = bt;
 		this.sign = s;
 		this.line = l;
+		this.repeat = r;
 	}	
 //	// Guitar Attribute Constructor
 //	public TFRAttribute( int d, int f, int b, int bt, String s, int l, String sl, ArrayList<String> ts, ArrayList<String> to) {
@@ -445,13 +514,24 @@ class TFRAttribute{
 //		this.tuningOctaves = to;
 //	}	
 	
+	public String toString() {
+		return ("Measure: "		+ measure + 
+				" Divisions: "	+ divisions +
+				" Fifths: "		+ fifths +
+				" Beats: "		+ beats +
+				" BeatType: "	+ beattype +
+				" Sign: "		+ sign +
+				" Line: "		+ line +
+				" Repeat: "		+ repeat );
+	}
+	
 	// GETTERS
 	public int getDivisions() {return divisions;}
 	public int getFifths() {return fifths;}
 	public int getBeats() {return beats;}
 	public int getBeattype() {return beattype;}
 	public String getSign() {return sign;}
-	public int getLine() {return line;}
+	public String getLine() {return line;}
 	public String getStaffLines() { return staffLines; };
 	public ArrayList<String> getTuningOctaves() { return tuningOctaves; };
 	public ArrayList<String> getTuningSteps() { return tuningSteps; };
