@@ -301,25 +301,9 @@ public class TextFileReader {
 					for(int i = 0;i<indexHolder.length;i++) {
 						if(indexHolder[i] == indexHolder2[i]) {
 							isVertical = true;
-//							
-//							System.out.println("initial array being compared to: ");
-//							System.out.println(Arrays.toString(indexHolder));
-//							
-//							System.out.println("array for line "+loopCount+": ");
-//							System.out.println(Arrays.toString(indexHolder2));
-//							
-//							System.out.println("isVertical has the value: "+isVertical);
 						}
 						else {
 							isVertical = false;
-//							
-//							System.out.println("initial array being compared to: ");
-//							System.out.println(Arrays.toString(indexHolder));
-//							
-//							System.out.println("array for line "+loopCount+": ");
-//							System.out.println(Arrays.toString(indexHolder2));
-//							
-//							System.out.println("isVertical has the value: "+isVertical);
 							break;
 						}
 					}
