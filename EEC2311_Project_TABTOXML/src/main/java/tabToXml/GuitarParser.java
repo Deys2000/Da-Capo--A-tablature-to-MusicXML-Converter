@@ -393,19 +393,19 @@ public class GuitarParser {
         double durOverDiv = (double) duration / divisions;
         String result = "";
         
-        if (durOverDiv == 4.0) {
+        if (durOverDiv >= 4.0) {
             result = "whole";
         }
-        else if (durOverDiv == 2.0) {
+        else if (durOverDiv >= 2.0) {
             result = "half";
         }
-        else if (durOverDiv == 1.0) {
+        else if (durOverDiv >= 1.0) {
             result = "quarter";
         }
-        else if (durOverDiv == 0.5) {
+        else if (durOverDiv >= 0.5) {
             result = "eighth";
         }
-        else if (durOverDiv == 0.25) {
+        else if (durOverDiv >= 0.25) {
             result = "16th";
         }
         else {

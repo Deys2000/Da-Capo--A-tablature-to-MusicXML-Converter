@@ -223,8 +223,11 @@ public class TextFileReader {
 			
 			for(int i = 0; i < line1.length(); i++) {
 				if(line2.charAt(i) == '|' && line1.charAt(i) == '|') {
-					if( i-1 >= 0 && Character.isDigit( line1.charAt(i-1))) // character behind is a number
+					if( i-1 >= 0 && Character.isDigit( line1.charAt(i-1))) { // character behind is a number
 						repeats.add(Character.toString(line1.charAt(i-1)));
+						for(int j = 0; j < parsedTab.size(); j++) // remove the vertical column with the number so it does not get interpreted as a note later
+							parsedTab.set(j, parsedTab.get(j).substring(0,i-1)+parsedTab.get(j).substring(i));
+					}
 					else if( i-1 >= 0 && line1.charAt(i-1) != '|') // character behind should not be another barline
 						repeats.add(null);
 				}
@@ -471,6 +474,9 @@ public class TextFileReader {
 	public ArrayList<String> getStringChars(){
 		return this.stringChars;
 	}
+	public ArrayList<TFRAttribute> getAttributesPerMeasure(){
+		return this.attributesPerMeasure;
+	}
 } // END OF TEXT FILE READER CLASS
 
 // CLASS MADE TO PASS ATTRIBUTES OF THE MEASURE OVER TO THE PARSERS
@@ -535,6 +541,8 @@ class TFRAttribute{
 	public String getStaffLines() { return staffLines; };
 	public ArrayList<String> getTuningOctaves() { return tuningOctaves; };
 	public ArrayList<String> getTuningSteps() { return tuningSteps; };
+
+	public String getRepeat() { return repeat; };
 		
 	// SETTERS
 	

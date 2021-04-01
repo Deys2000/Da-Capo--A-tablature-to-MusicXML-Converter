@@ -107,45 +107,163 @@ public class xmlGen {
         musicXML.Measure measure = new musicXML.Measure("1"); // constructor sets the measure number
            
         // creating the attributes section that goes into the first measure
-        Attributes attributes = new Attributes();
-        attributes.setDivisions(new BigDecimal(2));
-
-        Key key = new Key();
-        key.setFifths(new BigInteger("0"));
-        attributes.setKey(key);
-
-        attributes.setTime(new Time("4", "4")); // constructor takes beat and beat type
-        attributes.setClef(new Clef(tfr.getSign(), new BigInteger(tfr.getLine()))); // constuctor sets sign and line
-
-        StaffDetails staffDetails = new StaffDetails(new BigInteger(java.lang.String.valueOf(tfr.getStaffLines()))); // constructor takes the number of lines
-
-        //creating all the staff tunings that will go into the staff details tag above 
-        ArrayList<StaffTuning> staffTunings = new ArrayList<>();        
-    	for(int i = 0; i < attributeVals[5].length; i++)
-            staffTunings.add(new StaffTuning(new BigInteger(Integer.toString(i + 1)),attributeVals[5][i],new BigInteger(attributeVals[6][i])));       
-    		// loop above adds all information into a stafftuning object before inserting into stafftuning list
-    		// the constructor takes line, tuning step and tuning octave
-    	
-    	//insert the arraylist of staff tunings into the stffdetails object
-        staffDetails.setStaffTuning(staffTunings);
-        // insert staff details into attributes
-        attributes.setStaffDetails(staffDetails);
-        // At this point attributes contains all the requried information, it is added to the first measure
-        measure.setAttributes(attributes);
-
+     // set attributes for the measure
+        int measureNum = 1;
+		Attributes attributes;// = new Attributes();
+//        attributes.setDivisions(new BigDecimal(tfr.getAttributesPerMeasure().get(measureNum-1).getDivisions()));
+//
+//        Key key = new Key();
+//        key.setFifths(new BigInteger(""+tfr.getAttributesPerMeasure().get(measureNum-1).getFifths()));
+//        attributes.setKey(key);
+//
+//        attributes.setTime(new Time(""+tfr.getAttributesPerMeasure().get(measureNum-1).getBeats(), ""+tfr.getAttributesPerMeasure().get(measureNum-1).getBeattype())); // constructor takes beat and beat type
+//        attributes.setClef(new Clef(tfr.getAttributesPerMeasure().get(measureNum-1).getSign(), new BigInteger(tfr.getAttributesPerMeasure().get(measureNum-1).getLine()))); // constuctor sets sign and line
+//
+//        StaffDetails staffDetails = new StaffDetails(new BigInteger(java.lang.String.valueOf(tfr.getStaffLines()))); // constructor takes the number of lines
+//
+//        //creating all the staff tunings that will go into the staff details tag above 
+//        ArrayList<StaffTuning> staffTunings = new ArrayList<>();        
+//    	for(int j = 0; j < attributeVals[5].length; j++)
+//            staffTunings.add(new StaffTuning(new BigInteger(Integer.toString(j + 1)),attributeVals[5][j],new BigInteger(attributeVals[6][j])));       
+//    		// loop above adds all information into a stafftuning object before inserting into stafftuning list
+//    		// the constructor takes line, tuning step and tuning octave
+//    	
+//    	//insert the arraylist of staff tunings into the stffdetails object
+//        staffDetails.setStaffTuning(staffTunings);
+//        // insert staff details into attributes
+//        attributes.setStaffDetails(staffDetails);
+//        // At this point attributes contains all the requried information, it is added to the first measure
+//        measure.setAttributes(attributes);
+//        
+//        // setting REPEATS
+//    	System.out.println("<>"+ tfr.getAttributesPerMeasure().get(measureNum-1).getRepeat());
+//
+//        if( tfr.getAttributesPerMeasure().get(measureNum-1).getRepeat() != null ) {
+//        	musicXML.Barline barline1 = new Barline();
+//        	barline1.setLocation("left");
+//        	musicXML.BarStyle barstyle = new BarStyle();
+//        	barstyle.setValue("heavy-light");
+//        	barline1.setBarStyle(barstyle);
+//        	musicXML.Repeat repeat = new Repeat();
+//        	repeat.setDirection("forward");
+//        	barline1.setRepeat(repeat);
+//        	measure.setBarline1(barline1);
+//        	
+//        	musicXML.Direction direction = new Direction();
+//        	direction.setPlacement("above");
+//        	musicXML.DirectionType directiontype = new DirectionType();
+//        	musicXML.Words words = new Words();
+//        	words.setRelativeX(new BigDecimal("250"));
+//        	words.setRelativeY(new BigDecimal("20"));
+//        	words.setValue("Repeat "+tfr.getAttributesPerMeasure().get(measureNum-1).getRepeat()+" times" );
+//        			System.out.println("<><>"+ words.getValue());
+//        	directiontype.setWords(words);
+//        	direction.setDirectionType(directiontype);
+//        	measure.setDirection(direction);
+//        	
+//        	musicXML.Barline barline2 = new Barline();
+//        	barline2.setLocation("right");
+//        	musicXML.BarStyle barstyle2 = new BarStyle();
+//        	barstyle2.setValue("light-heavy");
+//        	barline2.setBarStyle(barstyle2);
+//        	musicXML.Repeat repeat2 = new Repeat();
+//        	repeat2.setDirection("backward");
+//        	barline2.setRepeat(repeat2);
+//        	measure.setBarline2(barline2);         
+//        	
+//			System.out.println("<><>"+ measure.getBarline1());
+//			System.out.println("<><>"+ measure.getBarline2());
+//
+//        }
         // creating a list of notes to put into each measure object
         ArrayList<musicXML.Note> notes = new ArrayList<>();
-        int measureNum = 1;
-        for(int i = 1; i < info.length; i++)
+
+        for(int i = 1; i < info.length; i++) // start at one since the first barline is not the end of measure
         {
         	// if you happen to be at a "|", then you create a new measure object and store the previous one
-        	if(info[i][0] == null ) {
-        		measure.setNote(notes);
-        		notes = new ArrayList<musicXML.Note>();
-        		measures.add(measure);
+        	if(info[i][0] == null ) {        		
         		measure = new musicXML.Measure();
-        		measureNum++;
         		measure.setNumber(""+measureNum);
+
+        		// set attributes for the measure
+        		attributes = new Attributes();
+                attributes.setDivisions(new BigDecimal(tfr.getAttributesPerMeasure().get(measureNum-1).getDivisions()));
+
+                Key key = new Key();
+                key.setFifths(new BigInteger(""+tfr.getAttributesPerMeasure().get(measureNum-1).getFifths()));
+                attributes.setKey(key);
+
+                attributes.setTime(new Time(""+tfr.getAttributesPerMeasure().get(measureNum-1).getBeats(), ""+tfr.getAttributesPerMeasure().get(measureNum-1).getBeattype())); // constructor takes beat and beat type
+                attributes.setClef(new Clef(tfr.getAttributesPerMeasure().get(measureNum-1).getSign(), new BigInteger(tfr.getAttributesPerMeasure().get(measureNum-1).getLine()))); // constuctor sets sign and line
+
+                StaffDetails staffDetails = new StaffDetails(new BigInteger(java.lang.String.valueOf(tfr.getStaffLines()))); // constructor takes the number of lines
+
+                //creating all the staff tunings that will go into the staff details tag above 
+                ArrayList<StaffTuning> staffTunings = new ArrayList<>();        
+            	for(int j = 0; j < attributeVals[5].length; j++)
+                    staffTunings.add(new StaffTuning(new BigInteger(Integer.toString(j + 1)),attributeVals[5][j],new BigInteger(attributeVals[6][j])));       
+            		// loop above adds all information into a stafftuning object before inserting into stafftuning list
+            		// the constructor takes line, tuning step and tuning octave
+            	
+            	//insert the arraylist of staff tunings into the stffdetails object
+                staffDetails.setStaffTuning(staffTunings);
+                // insert staff details into attributes
+                attributes.setStaffDetails(staffDetails);
+                // At this point attributes contains all the requried information, it is added to the first measure
+                measure.setAttributes(attributes);
+                
+                // setting REPEATS
+            	System.out.println("<><><>"+ tfr.getAttributesPerMeasure().get(measureNum-1).getRepeat());
+
+                if( tfr.getAttributesPerMeasure().get(measureNum-1).getRepeat() != null ) {
+                	musicXML.Barline barline1 = new Barline();
+                	barline1.setLocation("left");
+                	musicXML.BarStyle barstyle = new BarStyle();
+                	barstyle.setValue("heavy-light");
+                	barline1.setBarStyle(barstyle);
+                	musicXML.Repeat repeat = new Repeat();
+                	repeat.setDirection("forward");
+                	barline1.setRepeat(repeat);
+                	measure.setBarline1(barline1);
+                	
+                	musicXML.Direction direction = new Direction();
+                	direction.setPlacement("above");
+                	musicXML.DirectionType directiontype = new DirectionType();
+                	musicXML.Words words = new Words();
+                	words.setRelativeX(new BigDecimal("250.0"));
+                	words.setRelativeY(new BigDecimal("20.0"));
+                	words.setValue("Repeat "+tfr.getAttributesPerMeasure().get(measureNum-1).getRepeat()+" times" );
+                			System.out.println("<><>"+ words.getValue());
+                	directiontype.setWords(words);
+                	direction.setDirectionType(directiontype);
+                	measure.setDirection(direction);
+                	
+                	musicXML.Barline barline2 = new Barline();
+                	barline2.setLocation("right");
+                	musicXML.BarStyle barstyle2 = new BarStyle();
+                	barstyle2.setValue("light-heavy");
+                	barline2.setBarStyle(barstyle2);
+                	musicXML.Repeat repeat2 = new Repeat();
+                	repeat2.setDirection("backward");
+                	barline2.setRepeat(repeat2);
+                	measure.setBarline2(barline2);         
+                	
+        			System.out.println("<><>"+ measure.getBarline1());
+        			System.out.println("<><>"+ measure.getBarline2());
+        			System.out.println("<><>"+ measure.getBarline1().getBarStyle().getValue());
+        			System.out.println("<><>"+ measure.getBarline2().getBarStyle().getValue());
+        			System.out.println("<><>"+ measure.getDirection().getPlacement());
+        			System.out.println("<><>"+ measure.getDirection().getDirectionType().getWords());
+
+                }     
+                
+                measure.setNote(notes);
+        		measures.add(measure);
+
+        		measureNum++;
+
+        		notes = new ArrayList<musicXML.Note>();
+                
         	}
         	//if you happen to NOT get a "|", then you are at a note, so create a note and store it in the notes list
         	else {
@@ -166,8 +284,7 @@ public class xmlGen {
             note.setNotations(notations);
             notes.add(note);
         	}
-        }
-        measure.setNote(notes);        
+        }       
         part.setMeasure(measures);
         // at this point all the measures have been created along with all the notes inside them
         
