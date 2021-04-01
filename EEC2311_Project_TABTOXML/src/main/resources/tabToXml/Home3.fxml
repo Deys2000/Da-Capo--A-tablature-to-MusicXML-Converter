@@ -15,8 +15,8 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import org.fxmisc.richtext.CodeArea?>
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
+<?import org.fxmisc.richtext.CodeArea?>
 
 <StackPane style="-fx-background-radius: 100;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tabToXml.HomeController">
    <children>
@@ -70,7 +70,7 @@
                      <children>
                         <ImageView blendMode="MULTIPLY" fitHeight="39.0" fitWidth="205.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../DaCapo.png" />
+                              <Image url="@DaCapo.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -84,14 +84,6 @@
                         </Text>
                      </children>
                   </HBox>
-                  <JFXButton contentDisplay="GRAPHIC_ONLY" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseReleased="#quit" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #FF2D00;" text="Button">
-                     <graphic>
-                        <SVGPath content="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-                     </graphic>
-                     <effect>
-                        <DropShadow blurType="ONE_PASS_BOX" height="255.0" radius="127.0" spread="1.0" width="255.0" />
-                     </effect>
-                  </JFXButton>
                </children>
             </HBox>
          </top>
@@ -101,7 +93,7 @@
                   <JFXDrawer fx:id="drawer1" defaultDrawerSize="1000.0" prefHeight="960.0" prefWidth="571.0" />
                  <VirtualizedScrollPane>
                  <content> 
-                  <CodeArea fx:id="codeArea1" maxHeight="1.7976931348623157E308" maxWidth="1393.0" onDragDropped="#dragDropped" onDragOver="#dragOver" prefHeight="650.0" prefWidth="523.0" style="-fx-background-color: #E0DFD5; -fx-background-radius: 2; -fx-font-family: consolas; -fx-font-size: 11pt;">  
+                  <CodeArea fx:id="codeArea1" maxHeight="1.7976931348623157E308" maxWidth="1393.0" onDragDropped="#dragDropped" onDragOver="#dragOver" prefHeight="650.0" prefWidth="523.0" style="-fx-background-color: #E0DFD5; -fx-background-radius: 2; -fx-font-family: consolas; -fx-font-size: 13pt;">  
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>

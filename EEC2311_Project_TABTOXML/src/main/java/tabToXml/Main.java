@@ -26,7 +26,8 @@ public class Main extends Application {
 		homeController = (HomeController) loader.getController();
 		HomeController.currentStage = primaryStage;
 
-		Scene scene = new Scene(root, 1000, 800);
+		Scene scene = new Scene(root, 1000, 1000);
+		primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Da Capo : Text Tab to MusicXML Converter - version 1.0");
 		// keep scene equal or bigger than default in fxml - 800x500
@@ -34,7 +35,7 @@ public class Main extends Application {
 		// Scene(FXMLLoader.load(getClass().getResource("Home3.fxml"))));
 		primaryStage.getIcons().add(new Image("file:DaCapo.png"));
 		primaryStage.getScene().getStylesheets().add(test.class.getResource("xml-highlighting.css").toExternalForm());
-		 primaryStage.initStyle(StageStyle.UNDECORATED);
+		 primaryStage.initStyle(StageStyle.DECORATED);
 		// Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		// primaryStage.setX(primaryScreenBounds.getMinX());
 		// primaryStage.setY(primaryScreenBounds.getMinY());
