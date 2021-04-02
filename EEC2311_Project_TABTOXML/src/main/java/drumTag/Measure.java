@@ -61,16 +61,17 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "attributes",
+    "barline1",
+    "direction",
     "noteVoice1",
     "backup",
     "forward",
-    "direction",
     "noteVoice2",
     "harmony",
     "figuredBass",
     "print",
     "sound",
-    "barline",
+    "barline2",
     "grouping",
     "link",
     "bookmark"
@@ -98,8 +99,10 @@ public class Measure {
     protected Print print;
     @XmlElement(required = true)
     protected Sound sound;
-    @XmlElement(required = true)
-    protected Barline barline;
+    @XmlElement( name = "barline",  required = true)
+    protected Barline barline1;
+    @XmlElement( name = "barline", required = true)
+    protected Barline barline2;
     @XmlElement(required = true)
     protected Grouping grouping;
     @XmlElement(required = true)
@@ -376,8 +379,8 @@ public class Measure {
      *     {@link Barline }
      *     
      */
-    public Barline getBarline() {
-        return barline;
+    public Barline getBarline1() {
+        return barline1;
     }
 
     /**
@@ -388,10 +391,33 @@ public class Measure {
      *     {@link Barline }
      *     
      */
-    public void setBarline(Barline value) {
-        this.barline = value;
+    public void setBarline1(Barline value) {
+        this.barline1 = value;
     }
 
+    /**
+     * Gets the value of the barline property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Barline }
+     *     
+     */
+    public Barline getBarline2() {
+        return barline2;
+    }
+
+    /**
+     * Sets the value of the barline property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Barline }
+     *     
+     */
+    public void setBarline2(Barline value) {
+        this.barline2 = value;
+    }
     /**
      * Gets the value of the grouping property.
      * 

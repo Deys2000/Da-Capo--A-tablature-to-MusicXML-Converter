@@ -6,13 +6,18 @@ import java.util.List;
 public class GuitarParser {
 	
 	// all the arrays to contain information gathered by the notes
-	public ArrayList<String> notes = new ArrayList<>();
-	public ArrayList<String> fretString = new ArrayList<>();
-	public ArrayList<String> fretNum = new ArrayList<>();
+	public  ArrayList<String> notes = new ArrayList<>();
+	public  ArrayList<String> fretString = new ArrayList<>();
+	public  ArrayList<String> fretNum = new ArrayList<>();
     public ArrayList<String> durationArr = new ArrayList<String>();
     public ArrayList<String> typeArr = new ArrayList<String>();
-    public ArrayList<String> chords = new ArrayList<String>();
-
+    public  ArrayList<String> chords = new ArrayList<String>();
+    public  ArrayList<String> handp = new ArrayList<String>();
+  
+    
+    
+    // current tuning, from top line to bottom line
+    public String[] tuning = {"E4", "B3", "G3", "D3", "A2", "E2"};
     
     private int divisions = 4; //current default is 4
     private int padding = 1;
@@ -23,228 +28,162 @@ public class GuitarParser {
     	parseToRhythm(tfrparsed);
     }
     
+//    public static String removeCharAt(String str, int pos) {
+//    	return str.substring(0, pos) + str.substring(pos + 1);
+//    }
+    
+//    public int columnLength(ArrayList<String> parsedTab) {
+//    	String shortString = parsedTab.get(0);
+//    	
+//    	for (String elem : parsedTab) {
+//    		if (elem.length() < shortString.length()) {
+//    			shortString = elem;
+//    		}
+//    	}
+//    	
+//    	return shortString.length();
+//    }
+    
 	/*This method takes the input file and parses that into a 2d array. 
 	 *The result of that 2d array is used to obtain the fret and chord/note
-	 *using the translate() method above. */
-    
+	 *using the translate() method above. */    
 	public void translateParsed(ArrayList<String> parsedTab) throws Exception {
-		
-		//TextFileReader tabReader = new TextFileReader(inputfile);
-		
 
-		int row = parsedTab.size();
-//		int col = tabReader.printParsed().get(0).size();
-
+		int row = parsedTab.size();	
 		int next = parsedTab.get(0).length();
-
+//		int next = columnLength(parsedTab);
 		char fret2 = '\0';
 		String tmp = "";
+	
 		int cal = 0;
+		int j = 0;
 			// go through each column
-			for (int j = 0; j < next; j++) {
-				
+			for (j = 0; j < next; j++) {			
+				String fretStringValue = "";
 				String fretNumVar = "";   // reset the fret string checker on the iteration of each new column
 				String chord = ""; 		// clear value of note before every column
 				
 				// go through each row
 				for(int i = 0; i < row; i++) {
 
-
+					next = parsedTab.get(i).length(); //Adjust the lenght of the current line of the tablature
+					String fretStringVar = ""; //This is the number  of the current string for a Guitar the string are numbered from 1-6
 					
-					String fretStringVar = "";
-					
-					fret2 = parsedTab.get(i).charAt(j);
-
+					fret2 = parsedTab.get(i).charAt(j);					
 					int fret = Character.getNumericValue(fret2);
-					if (fret2 >= '0' && fret2 <= '9') {
-						if (i == 0) {
-							tmp = "";
-							// make regular note
-							if (chord.isEmpty() && fretNumVar.isEmpty() && fretStringVar.isEmpty()) {
-								chord = translate("E4", fret);
-								fretNumVar = fret + "";
-								cal = i + 1;
-								fretStringVar = cal + "";
-								
-							}else { // make a chord note
-								notes.remove(notes.size() - 1);
-								fretNum.remove(fretNum.size() - 1);
-								//fretString.remove(fretString.size()-1);
-								
-								notes.add(chord);
-								fretNum.add(fretNumVar);
-								//fretString.add(fretStringVar);
-								
-								chord = "+" + translate("E4", fret);
-								fretNumVar = fret + "";
-								fretStringVar = cal + "";
-								
-//								chord = translate("E4", fret) + "+" + chord;
-//								fretNumVar = fretNumVar + "+" + fret;
-//								fretStringVar = fretStringVar + "+" + cal;
-							}
-							notes.add(chord);
-							fretNum.add(fretNumVar);
-							fretString.add(String.valueOf(i+1));
-						}else if (i == 1) {
-							tmp = "";
-							if (chord.isEmpty()) {
-								chord = translate("B3", fret);
-								fretNumVar = fret + "";
-								cal = i + 1;
-								fretStringVar = cal + "";
-							}else {
-								notes.remove(notes.size() - 1);
-								fretNum.remove(fretNum.size() - 1);
-								//fretString.remove(fretString.size()-1);
-//								chord = translate("B3", fret) + "+" + chord;
-//								fretNumVar = fretNumVar + "+" + fret;
-//								fretStringVar = fretStringVar + "+" + cal;
-								
-								notes.add(chord);
-								fretNum.add(fretNumVar);
-								//fretString.add(fretStringVar);
-								
-								chord = "+" + translate("B3", fret);
-								fretNumVar = fret + "";
-								fretStringVar = cal + "";
-							}
-							notes.add(chord);
-							fretNum.add(fretNumVar);
-							fretString.add(String.valueOf(i+1));
-						}else if (i == 2) {
-							tmp = "";
-							if (chord.isEmpty()) {
-								chord = translate("G3", fret);
-								fretNumVar = fret + "";
-								cal = i + 1;
-								fretStringVar = cal + "";
-							}else {
-								notes.remove(notes.size() - 1);
-								fretNum.remove(fretNum.size() - 1);
-								//fretString.remove(fretString.size()-1);
-//								chord = translate("G3", fret)  + "+" + chord;
-//								fretNumVar = fretNumVar + "+" + fret;
-//								fretStringVar = fretStringVar + "+" + cal;
-								
-								notes.add(chord);
-								fretNum.add(fretNumVar);
-								//fretString.add(fretStringVar);
-								
-								chord = "+" + translate("G3", fret);
-								fretNumVar = fret + "";
-								fretStringVar = cal + "";
-								
-							}
-							notes.add(chord);
-							fretNum.add(fretNumVar);
-							fretString.add(String.valueOf(i+1));
-						}else if (i == 3) {
-							tmp = "";
-							if (chord.isEmpty()) {
-								chord = translate("D3", fret);
-								fretNumVar = fret + "";
-								cal = i + 1;
-								fretStringVar = cal + "";
-							}else {
-								notes.remove(notes.size() - 1);
-								fretNum.remove(fretNum.size() - 1);
-								//fretString.remove(fretString.size()-1);
-//								chord = translate("D3", fret)  + "+" +  chord;
-//								fretNumVar = fretNumVar + "+" + fret;
-//								fretStringVar = fretStringVar + "+" + cal;
-								
-								notes.add(chord);
-								fretNum.add(fretNumVar);
-								//fretString.add(fretStringVar);
-								
-								chord = "+" + translate("D3", fret);
-								fretNumVar = fret + "";
-								fretStringVar = cal + "";
-							}
-							notes.add(chord);
-							fretNum.add(fretNumVar);
-							fretString.add(String.valueOf(i+1));
-						}else if (i == 4) {
-							tmp = "";
-							if (chord.isEmpty()) {
-								chord = translate("A2", fret);
-								fretNumVar = fret + "";
-								cal = i + 1;
-								fretStringVar = cal + "";
-							}else {
-								notes.remove(notes.size() - 1);
-								fretNum.remove(fretNum.size() - 1);
-								//fretString.remove(fretString.size()-1);
-//								chord =  translate("A2", fret) + "+" +  chord;
-//								fretNumVar = fretNumVar + "+" + fret;
-//								fretStringVar = fretStringVar + "+" + cal;
-								
-								notes.add(chord);
-								fretNum.add(fretNumVar);
-								//fretString.add(fretStringVar);
-								
-								chord = "+" + translate("A2", fret);
-								fretNumVar = fret + "";
-								fretStringVar = cal + "";
-								
-							}
-							notes.add(chord);
-							fretNum.add(fretNumVar);
-							fretString.add(String.valueOf(i+1));
-						}else if (i == 5) {
-							tmp = "";
-							if (chord.isEmpty()) {
-								chord = translate("E2", fret);
-								fretNumVar = fret + "";
-								cal = i + 1;
-								fretStringVar = cal + "";
-							}else {
-								notes.remove(notes.size() - 1);
-								fretNum.remove(fretNum.size() - 1);
-								//fretString.remove(fretString.size()-1);
-//								chord = translate("E2", fret) + "+" +  chord;
-//								fretNumVar = fretNumVar + "+" + fret;
-//								fretStringVar = fretStringVar + "+" + cal;
-								
-								notes.add(chord);
-								fretNum.add(fretNumVar);
-								//fretString.add(fretStringVar);
-								
-								chord = "+" + translate("E2", fret);
-								fretNumVar = fret + "";
-								fretStringVar = cal + "";
-								
-							
-							}
-							notes.add(chord);
-							fretNum.add(fretNumVar);
-							fretString.add(String.valueOf(i+1));
-						}
-						
-					}else if (fret2 == '|') {
-						if (tmp.isEmpty()) {
-							tmp = fret2 + "";
-							notes.add(tmp);
-							fretNum.add(tmp);
-							fretString.add(tmp);
+					
+					if ((fret2 >= '0' && fret2 <= '9') && (j > 0 && j < next)) {
+						if (parsedTab.get(i).charAt(j+1) >= '0' && parsedTab.get(i).charAt(j+1) <= '9') {
+							continue;
 						}
 					}
 					
-					
-				}	
+					if (fret2 >= '0' && fret2 <= '9') {
+						fretStringValue = ""; //Used for concatenating two single numbers to make a double digit number
+						tmp = "";
+						
+						// make regular note 
+						if (chord.isEmpty() && fretNumVar.isEmpty() && fretStringVar.isEmpty()) {
+							
+							//fret is the number
+							if (parsedTab.get(i).charAt(j-1) >= '0' && parsedTab.get(i).charAt(j-1) <= '9') {
+								fretStringValue =  String.valueOf(parsedTab.get(i).charAt(j-1)) + String.valueOf(parsedTab.get(i).charAt(j));
+								fret = Integer.parseInt(fretStringValue);
+//								parsedTab.set(i, removeCharAt(parsedTab.get(i), j-1));							
+							}else {
+								fretStringValue = fret + "";
+							}
+						
+							if (fret <= 24) {
+								chord = translate(tuning[i], fret);
+								fretNumVar = fretStringValue;
+								if (parsedTab.get(i).charAt(j+1) == 'p' || parsedTab.get(i).charAt(j+1) == 'P') {
+									fretNumVar = fretNumVar + "p";
+								}
+								if (parsedTab.get(i).charAt(j-2) == 'p' || parsedTab.get(i).charAt(j-2) == 'P' || parsedTab.get(i).charAt(j-1) == 'p' || parsedTab.get(i).charAt(j-1) == 'P') {
+									fretNumVar = "p" + fretNumVar;
+								}
+								if (parsedTab.get(i).charAt(j+1) == 'h' || parsedTab.get(i).charAt(j+1) == 'H') {
+									fretNumVar = fretNumVar + "h";
+								}
+								if (parsedTab.get(i).charAt(j-2) == 'h' || parsedTab.get(i).charAt(j-2) == 'H' || parsedTab.get(i).charAt(j-1) == 'h' || parsedTab.get(i).charAt(j-1) == 'H') {
+									fretNumVar = "h" + fretNumVar;
+								}
+//								else {fretNumVar = fretStringValue;}	
+								cal = i + 1;
+								fretStringVar = cal + "";
+							}
+							
+						}else { // make a chord note
+//							notes.remove(notes.size() - 1);
+//							fretNum.remove(fretNum.size() - 1);
+							//fretString.remove(fretString.size()-1);
+							
+//							notes.add(chord);
+//							fretNum.add(fretNumVar);
+							//fretString.add(fretStringVar);
+							
+							if (parsedTab.get(i).charAt(j-1) >= '0' && parsedTab.get(i).charAt(j-1) <= '9') {
+								fretStringValue =  String.valueOf(parsedTab.get(i).charAt(j-1)) + String.valueOf(parsedTab.get(i).charAt(j));
+								fret = Integer.parseInt(fretStringValue);
+//								parsedTab.set(i, removeCharAt(parsedTab.get(i), j-1));
+							}else {
+								fretStringValue = fret + "";
+							}
+							
+							
+							
+							if (fret <= 24) {
+								chord = "+" + translate(tuning[i], fret);
+								fretNumVar = fretStringValue;
+								if (parsedTab.get(i).charAt(j+1) == 'p' || parsedTab.get(i).charAt(j+1) == 'P') {
+									fretNumVar = fretNumVar + "p";
+								}
+								if (parsedTab.get(i).charAt(j-2) == 'p' || parsedTab.get(i).charAt(j-2) == 'P' || parsedTab.get(i).charAt(j-1) == 'p' || parsedTab.get(i).charAt(j-1) == 'P') {
+									fretNumVar = "p" + fretNumVar;
+								}
+								if (parsedTab.get(i).charAt(j+1) == 'h' || parsedTab.get(i).charAt(j+1) == 'H') {
+									fretNumVar = fretNumVar + "h";
+								}
+						        if (parsedTab.get(i).charAt(j-2) == 'h' || parsedTab.get(i).charAt(j-2) == 'H' || parsedTab.get(i).charAt(j-1) == 'h' || parsedTab.get(i).charAt(j-1) == 'H') {
+									fretNumVar = "h" + fretNumVar;
+								}
+//						        else {fretNumVar = fretStringValue;}							
+								fretStringVar = cal + "";
+							}								
+						} 
+						
+//						if (!fretNumVar.isEmpty() && !chord.isEmpty() && !fretStringVar.isEmpty()) {
+//							if (parsedTab.get(i).charAt(j+1) == 'p' || parsedTab.get(i).charAt(j+1) == 'P') {
+//								fretNumVar = fretStringValue + "p";
+//							}else if (parsedTab.get(i).charAt(j-1) == 'p' || parsedTab.get(i).charAt(j-1) == 'P') {
+//								fretNumVar = "p" + fretStringValue;
+//							}else if (parsedTab.get(i).charAt(j+1) == 'h' || parsedTab.get(i).charAt(j+1) == 'H') {
+//								fretNumVar = fretStringValue + "h";
+//							}else if (parsedTab.get(i).charAt(j-1) == 'h' || parsedTab.get(i).charAt(j-1) == 'H') {
+//								fretNumVar = "h" + fretStringValue;
+//							}
+//						}
+										
+								
+						addToLists(chord, fretNumVar, String.valueOf(i+1));
+	
+					}
+					else if (fret2 == '|') {
+						if (tmp.isEmpty()) {
+							tmp = fret2 + "";
+							addToLists(tmp, tmp, tmp);
+
+						}
+					}
+
+				}
 			}
 		
-			notes.remove(notes.size() - 1);
-			fretNum.remove(fretNum.size() - 1);
-			fretString.remove(fretString.size()-1);
-			notes.add("||");
-			fretNum.add("||");
-			fretString.add("||");
-//		System.out.print("Fret String: " + fretString + " Fret size: " + fretString.size() + "\n");
-//		System.out.print("Fret Num: " + fretNum + " Fret size: " + fretNum.size() + "\n");
-//		System.out.print("\nNote size: " + note.size());
-    	
+			removeFromLists(notes.size() - 1, fretNum.size() - 1, fretString.size()-1);
+
+			addToLists("||", "||", "||");
+
 		//cleaning up the + in the chords and making a chords list
 		for( int i = 0; i < notes.size(); i++) {
 			if(notes.get(i).charAt(0) == '+'){
@@ -259,127 +198,245 @@ public class GuitarParser {
     		}
     	}
 		
+		for( int i = 0; i < fretNum.size(); i++) {
+			
+				if ((fretNum.get(i).charAt(0) >= '0' && fretNum.get(i).charAt(0) <= '9') ^ (fretNum.get(i).charAt(fretNum.get(i).length()-1) >= '0' && fretNum.get(i).charAt(fretNum.get(i).length()-1) <= '9')) {
+					if(fretNum.get(i).charAt(0) == 'p'){
+						fretNum.set(i, fretNum.get(i).substring(1));
+						handp.add("pstop");
+		    		}
+					else if(fretNum.get(i).charAt(0) == 'h'){
+						fretNum.set(i, fretNum.get(i).substring(1));
+						handp.add("hstop"); //h10
+		    		}
+					else if(fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'p'){
+						fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+						handp.add("pstart"); //11p
+		    		}
+					else if(fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'h'){
+						fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+						handp.add("hstart"); //11h
+		    		}
+				}
+//				else if (!((fretNum.get(i).charAt(0) >= '0' && fretNum.get(i).charAt(0) <= '9') ^ (fretNum.get(i).charAt(fretNum.get(i).length()-1) >= '0' && fretNum.get(i).charAt(fretNum.get(i).length()-1) <= '9'))) {
+				else if (fretNum.get(i).charAt(0) == 'p' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'h') {
+						fretNum.set(i, fretNum.get(i).substring(1));
+						fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+						handp.add("PstopHstart");
+						
+				}
+				else if (fretNum.get(i).charAt(0) == 'h' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'p') {
+					fretNum.set(i, fretNum.get(i).substring(1));
+					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+					handp.add("HstopPstart");
+				}
+				else if (fretNum.get(i).charAt(0) == 'h' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'h') {
+					fretNum.set(i, fretNum.get(i).substring(1));
+					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+					handp.add("HstopHstart");
+				}
+				else if (fretNum.get(i).charAt(0) == 'p' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'p') {
+					fretNum.set(i, fretNum.get(i).substring(1));
+					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+					handp.add("PstopPstart");
+				}
+
+	    		else if( fretNum.get(i).charAt(0) == '|') {
+	    			handp.add("|");
+	    		}
+	    		else {
+	    			handp.add("neutral");
+	    		}
+    	}
+			
 		// chords - add the double bars later
 	}
 	
+	public void addToLists(String note, String ft, String fs) {
+		notes.add(note);
+		fretNum.add(ft);
+		fretString.add(fs);
+		
+	}
+	
+	public void removeFromLists(int note, int ft, int fs) {
+		notes.remove(note);
+		fretNum.remove(ft);
+		fretString.remove(fs);
+		
+	}
+	
 	//CARRIED OVER FROM RHYTHMPARSER CLASS
-	/**
-     * Generates duration and type arrays from parsed array
-     * @param parsedTab - a formatted tab (arrayList of Strings)
-     */
-    public void parseToRhythm(ArrayList<String> parsedTab) {
-    	
-//    	// For Debugging
-//    	for(int i = 0; i < parsedTab.size(); i++) {
-//    		System.out.println(parsedTab.get(i));
-//    	}
-        
-        int counter = 0; // iterates horizontally
-        int noteLength = 0; // in 16th notes
-        int lines = parsedTab.size(); // number of lines in staff
-        int currentLine = 0;
-        int prevChordNum = 0; // number of notes in previous chord
-        int curChordNum = 0; // number of notes in current chord
+		/**
+	     * Generates duration and type arrays from parsed array
+	     * @param parsedTab - a formatted tab (arrayList of Strings)
+	     */
+	    public void parseToRhythm(ArrayList<String> parsedTab) {
+	    	
+//	    	// For Debugging
+//	    	for(int i = 0; i < parsedTab.size(); i++) {
+//	    		System.out.println(parsedTab.get(i));
+//	    	}
+	        
+	        int counter = 0; // iterates horizontally
+	        int noteLength = 0; // in 16th notes
+	        int lines = parsedTab.size(); // number of lines in staff
+	        int currentLine = 0;
+	        int prevChordNum = 0; // number of notes in previous chord
+	        int curChordNum = 0; // number of notes in current chord
+	        
+	        boolean isDoubleDigit = false;
+	        
+	        while (counter < parsedTab.get(0).length() - 1) { 
+	            
+	            currentLine = 0;
+	            
+	            // Skip "|" and padding "-"
+	            if (parsedTab.get(0).charAt(counter) == '|') {
+	                
+	                // Assuming note lengths end at barlines
+	                if(noteLength != 0) {
+	                	// Add all tracked notes to arrays
+	                	while (prevChordNum > 0) {
+		                    durationArr.add("" + noteLength);
+		                    typeArr.add(durationToType(noteLength, divisions));
+		                    prevChordNum--;
+	                	}
+	                	
+	                	// since we have reached end of measure, reset and stop counting noteLength
+	                    noteLength = 0;
+	                }
+	                
+	                durationArr.add("|");
+	                typeArr.add("|");
+	                counter += padding; // skipping both '|' and padding '-', if padding exists
+	            }
+	            
+	            // Should be run before encountering the first note/chord in a measure
+	            else if (prevChordNum == 0) {
+	            	
+	            	// Assume Frets are Single digit
+	                while(currentLine < lines && !isDoubleDigit) {
+	                	                  
+	                	// Add all notes to a chord
+	                    if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
+	                    	
+	                    	// check if fret is doubledigit
+	                    	if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
+	                    		isDoubleDigit = true;
+	                    	}
+	                    	
+	                    	// starts counting noteLength, should only be done once
+	                    	if (prevChordNum == 0) {
+	                    		noteLength++;
+	                    	}
+	                    	
+	                        prevChordNum++;
+	                    }
+	                    
+	                    currentLine++;
+	                }
+	                
+	                // If DoubleDigit frets, recount using one's place
+	                if (isDoubleDigit) {
+	                	int totalFretNum = 0;
+	                	currentLine = 0;
+	                	
+	                	while (currentLine < lines) {
+	                		if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
+	                			totalFretNum++;
+	                		}
+	                		
+	                		currentLine++;
+	                	}
+	                	
+	                	prevChordNum = totalFretNum;
+	                }
+	            }
+	            
+	            // Should be run after encountering the first note/chord in a measure
+	            else{
+	                
+	            	// Assume Frets are Single Digit
+	                while(currentLine < lines && !isDoubleDigit) {
+	                    
+	                	// Adds all previous chord notes to arrays, then adds current notes to current chord
+	                    if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
+	                    	
+	                    	// check if fret is doubledigit
+	                    	if(Character.isDigit(parsedTab.get(currentLine).charAt(counter+1))) {
+	                    		isDoubleDigit = true;
+	                    	}
+	                    	
+	                    	while (prevChordNum > 0) {
+		                        durationArr.add("" + noteLength);
+		                        typeArr.add(durationToType(noteLength, divisions));
+		                        prevChordNum--;
+	                    	}
+	                    	
+	                    	// reset note Length
+	                        noteLength = 0;
+	                        curChordNum++;
+	                    }
+	                    
+	                    currentLine++;
+	                }
+	                
+	                // If DoubleDigit frets, recount using one's place
+	                if (isDoubleDigit) {
+	                	int totalFretNum = 0;
+	                	currentLine = 0;
+	                	
+	                	while (currentLine < lines) {
+	                		if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
+	                			totalFretNum++;
+	                		}
+	                		
+	                		currentLine++;
+	                	}
+	                	
+	                	prevChordNum = totalFretNum;
+	                }
+	                
+	                // if there are notes in the current chord, copy them to previous chord and empty current chord
+	                if(curChordNum != 0) {
+	                	prevChordNum = curChordNum;
+	                	curChordNum = 0;
+	                }
+	                
+	                noteLength++; 
+	            }
+	            
+	            // If Fret is double-digit, increment counter and reset isDoubleDigit
+	            if (isDoubleDigit) {
+	            	counter++;
+	            	isDoubleDigit = false;
+	            }
+	            
+	            counter++;
+	        }
+	        
+	        // Last chord/note length and ending barline is added
+	        while (prevChordNum > 0) {
+		        durationArr.add("" + noteLength);
+		        typeArr.add(durationToType(noteLength, divisions));
+		        prevChordNum--;
+	        }
+	        
+	        /**Elijah added this might have been fixed before but was still getting and irregular size for durationArr and typeArr**/
+	        durationArr.remove(typeArr.size()-1);
+	        typeArr.remove(typeArr.size()-1);
+	        
+	        durationArr.add("||");
+	        typeArr.add("||");
+	        
+//	        // For debugging
+//	        System.out.print("Duration Array: ");
+//	        System.out.println(durationArr);
+//	        System.out.print("Type Array: ");
+//	        System.out.println(typeArr);
 
-        boolean isCounting = false; // if we're currently counting noteLength
-        
-        while (counter < parsedTab.get(0).length() - 1) { 
-            
-            currentLine = 0;
-            
-            // Skip "|" and padding "-"
-            if (parsedTab.get(0).charAt(counter) == '|') {
-                
-                // Assuming note lengths end at barlines
-                if(noteLength != 0) {
-                	// Add all tracked notes to arrays
-                	while (prevChordNum > 0) {
-	                    durationArr.add("" + noteLength);
-	                    typeArr.add(durationToType(noteLength, divisions));
-	                    prevChordNum--;
-                	}
-                	
-                	// since we have reached end of measure, reset and stop counting noteLength
-                    noteLength = 0;
-                    isCounting = false;
-                }
-                
-                durationArr.add("|");
-                typeArr.add("|");
-                counter += padding; // skipping both '|' and padding '-'
-            }
-            
-            // Should be run before encountering the first note/chord in a measure
-            else if (isCounting == false) {
-                
-                // Check when the next note starts 
-                while(currentLine < lines) {
-                    
-                	// Add all notes to a chord
-                    if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
-                    	
-                    	// should only be done once
-                    	if (isCounting == false) {
-                    		isCounting = true;
-                    		noteLength++;
-                    	}
-                    	
-                        prevChordNum++;
-                    }
-                    
-                    currentLine++;
-                }
-            }
-            
-            // Should be run after encountering the first note/chord in a measure
-            else if (isCounting == true) {
-                
-                while(currentLine < lines) {
-                    
-                	// Adds all previous chord notes to arrays, then adds current notes to current chord
-                    if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
-                    	while (prevChordNum > 0) {
-	                        durationArr.add("" + noteLength);
-	                        typeArr.add(durationToType(noteLength, divisions));
-	                        prevChordNum--;
-                    	}
-                    	
-                    	// reset note Length
-                        noteLength = 0;
-                        curChordNum++;
-                    }
-                    
-                    currentLine++;
-                }
-                
-                // if there are notes in the current chord, copy them to previous chord and empty current chord
-                if(curChordNum != 0) {
-                	prevChordNum = curChordNum;
-                	curChordNum = 0;
-                }
-                
-                noteLength++;
-            }
-            
-            counter++;
-        }
-        
-        // Last chord/note length and ending barline is added
-        while (prevChordNum > 0) {
-	        durationArr.add("" + noteLength);
-	        typeArr.add(durationToType(noteLength, divisions));
-	        prevChordNum--;
-        }
-        durationArr.add("||");
-        typeArr.add("||");
-        
-//        // For debugging
-//        System.out.print("Duration Array: ");
-//        System.out.println(durationArr);
-//        System.out.print("Type Array: ");
-//        System.out.println(typeArr);
-
-    }
+	    }
     
     /**
      * CARRIED OVER FROM RHYTHM PARSER CLASS
@@ -425,8 +482,8 @@ public class GuitarParser {
 	 * @throws Exception 
 	 */
 	public static String translate(String string, int fret) throws Exception{
-		if(fret > 12)
-			throw new Exception("The fret must be between 1 and 12 (inclusive)");
+		if(fret > 24)
+			throw new Exception("The fret must be between 1 and 24 (inclusive)");
 
 		String[] table = {"C","C","D","D","E","F","F","G","G","A","A","B"};			
 		//find location in table
@@ -462,23 +519,32 @@ public class GuitarParser {
 		ArrayList<String> durationArr = this.durationArr;
 		ArrayList<String> typeArr = this.typeArr;
 		ArrayList<String> chordArr = this.chords;
-
+		ArrayList<String> handpArr = this.handp;
+		
     	// inserting into 2d array
     	//each row contains: duration, step, alter,octave,type,string,fret and CHORD in each row
-    	String [][] infoArray = new String[notes.size()][8]; // added one to account for NEW chord property
+    	String [][] infoArray = new String[notes.size()][9]; // added one to account for NEW chord property
+    	
+		System.out.println("Notes: " + getNotes() + " size of array: " + getNotes().size());
+		System.out.println("Chord?: " + getChordArr() + " size of array: " + getChordArr().size() );
+		System.out.println("Frets: " + getFretNums() + " size of array: " + getFretNums().size());
+		System.out.println("Fret Strings: " + getFretStrings() + " size of array: " + getFretStrings().size());
+        System.out.println("duration: \t" + getDurationArr() + " Length of Array:" + getDurationArr().size() );
+	    System.out.println("type: \t" + getTypeArr() + " Length of Array:" + getTypeArr().size() );
     	
     	for(int i = 0; i < notes.size(); i++) {
-    		if(notes.get(i).contains("|")){
-    			infoArray[i][0] = null;
-        		infoArray[i][1] = null; 
-        		infoArray[i][2] = null;
-        		infoArray[i][3] = null;
-        		infoArray[i][4] = null;
-        		infoArray[i][5] = null;
-        		infoArray[i][6] = null; 
-        		infoArray[i][7] = null;
-    		}
-    		else {    		
+//    		if(notes.get(i).contains("\\|")){
+//    			infoArray[i][0] = null;
+//        		infoArray[i][1] = null; 
+//        		infoArray[i][2] = null;
+//        		infoArray[i][3] = null;
+//        		infoArray[i][4] = null;
+//        		infoArray[i][5] = null;
+//        		infoArray[i][6] = null; 
+//        		infoArray[i][7] = null;
+//        		infoArray[i][8] = null;
+//    		}
+//    		else {    		
     			infoArray[i][0] = durationArr.get(i);   //duration
     			infoArray[i][1] = notes.get(i).substring(0,1); // step 
     			infoArray[i][2] = "1"; //default4now // alter
@@ -487,7 +553,8 @@ public class GuitarParser {
     			infoArray[i][5] = fretStrings.get(i); //string
     			infoArray[i][6] = fretNums.get(i); // fret 
     			infoArray[i][7] = chordArr.get(i); // "false" or "true" depending on if its a chord or not
-    		}
+    			infoArray[i][8] = handpArr.get(i); // contains whether a note is hammer on and pull off
+//    		}
     	}
     	
 		return infoArray;
@@ -515,4 +582,8 @@ public class GuitarParser {
     public ArrayList<String> getChordArr(){
     	return this.chords;
     }
+    public ArrayList<String> getHandPArr(){
+    	return handp;
+    }
+    
 }

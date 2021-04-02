@@ -18,8 +18,8 @@ public class TextFileReader {
 	private File inputFile;
 	int numOfLines;
 	boolean isDrum = false;
-	private static String instrument;
-	static String lineStorage;
+	private String instrument;
+	// String lineStorage;
 	boolean isVertical;
 	
 	ArrayList<String> stringChars;
@@ -221,12 +221,14 @@ public class TextFileReader {
 			String line1 = parsedTab.get(0);
 			String line2 = parsedTab.get(1);
 			
-			for(int i = 0; i < line1.length(); i++) {
+			int accomodate = 0; // this variable accomodates for the decreasing size of the 
+			for(int i = 1; i < line1.length(); i++) { // START from 1 so that we dont check the first barline and a -1 index out of bounds error
 				if(line2.charAt(i) == '|' && line1.charAt(i) == '|') {
 					if( i-1 >= 0 && Character.isDigit( line1.charAt(i-1))) { // character behind is a number
 						repeats.add(Character.toString(line1.charAt(i-1)));
 						for(int j = 0; j < parsedTab.size(); j++) // remove the vertical column with the number so it does not get interpreted as a note later
-							parsedTab.set(j, parsedTab.get(j).substring(0,i-1)+parsedTab.get(j).substring(i));
+							parsedTab.set(j, parsedTab.get(j).substring(0,i-accomodate-1)+parsedTab.get(j).substring(i-accomodate));
+						accomodate++;
 					}
 					else if( i-1 >= 0 && line1.charAt(i-1) != '|') // character behind should not be another barline
 						repeats.add(null);

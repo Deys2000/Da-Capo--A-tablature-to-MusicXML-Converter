@@ -11,13 +11,14 @@ public class DrumParser2 {
 	ArrayList<DrumMeasure> measures;
 	ArrayList<DrumStringInfo> tabStrings;
 	ArrayList<String> instruments;
+	TextFileReader tfr;
 	// we will pass 3 pieces of information when creating an object of this class
 	// they will all be contained within one object hopefully a MEASURE object of sorts 
 	// 1 - a list of measures
 	// 2 - a list of corresponding attributes for each measure
 	// 3 - additional meta-information
-	public DrumParser2(TextFileReader tfr ) throws Exception {
-		
+	public DrumParser2(TextFileReader passedtfr ) throws Exception {
+		tfr = passedtfr;
 		// WE WILL ASSUME THE FOLLOWING IS THE FORMAT OF OUR INFORMATION (precondition is that all must be same length)
 		// THIS CODE IS DESIGNED FOR NO PADDING IN EACH MEASURE //
 		// 1 List of Measures
@@ -308,6 +309,10 @@ public class DrumParser2 {
 		return this.measures;
 	}
 	
+	public TextFileReader getTFR() {
+		return tfr;
+	}
+	
 	public ArrayList<ArrayList<String>> getMeasuresParsed(ArrayList<String> parsedTab){
 
 		
@@ -365,7 +370,15 @@ class DrumStringInfo{
 	String name, id, step, octave, stem, notehead, voice; // i have realized the notehad property is incorrect? perhaps not dunno
 	
 	public DrumStringInfo(String symbol) throws Exception {			
-	
+	// some overriding of instruments
+		// if it contains a "C", then its a crash cymbal
+		if(symbol.contains("C") || symbol.contains("c")) symbol = "C";
+		// if it contains a "S", then its a bass drum
+		if(symbol.contains("S") || symbol.contains("s")) symbol = "S";
+		// if its a High Tom, make it a low tom since we don't support it yet
+		if(symbol.equals("HT")) symbol = "LT";
+		
+		
 	switch(symbol) {
 		
 		case "BD":

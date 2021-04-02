@@ -20,7 +20,7 @@ public class Main extends Application {
 	    primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("Home.fxml")), 1000, 800));
 	    primaryStage.getIcons().add(new Image("file:DaCapo.png"));
 		primaryStage.show();
-		HomeController.currentStage = primaryStage;
+//		HomeController.currentStage = primaryStage;
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -33,18 +33,19 @@ public class Main extends Application {
 	
 	public static void sideTask() throws Exception {
 		
-//		TextFileReader fileReader = new TextFileReader("DrumsTab.txt");
+		TextFileReader fileReader = new TextFileReader("tab.txt");
 //
 //		//An if statement should select which one to call based on the instrument detection
-//		GuitarParser gp = new GuitarParser(fileReader.getParsed());
+		GuitarParser gp = new GuitarParser(fileReader.getParsed());
 //		BassParser gp = new BassParser();
-//
-//		System.out.println(fileReader.printOrginal());
-//		
-//		//gp.translateParsed("tab.txt");
-//		//RhythmParser rhythmParser = new RhythmParser(4);
+
+		System.out.println(fileReader.printOrginal());
+		
+		//gp.translateParsed("tab.txt");
+		//RhythmParser rhythmParser = new RhythmParser(4);
 //        gp.parseToRhythm(fileReader.getParsed());
 //        gp.translateParsed(fileReader.getParsed());
+
 //		
 //		System.out.println("Notes: " + gp.getNotes() + " size of array: " + gp.getNotes().size());
 //		System.out.println("Chord?: " + gp.getChordArr() + " size of array: " + gp.getChordArr().size() );
@@ -67,7 +68,14 @@ public class Main extends Application {
 		//DrumParser2 dp2 = new DrumParser2();
 		//xmlGen xg = new xmlGen(dp2);
 		//System.out.println(xg.getXMLContent());
+
+	    
+//		xmlGen gen10 = new xmlGen(gp);
+		//gen10.createFile(new File("file.xml"));
+//		System.out.println(gen10.getXMLContent());
+//		DrumParser dp = new DrumParser(fileReader.getParsed());
+//		xmlGen xg = new xmlGen(dp, fileReader);
 		
-		System.exit(0);
+//		System.exit(0);
 	}  
 }
