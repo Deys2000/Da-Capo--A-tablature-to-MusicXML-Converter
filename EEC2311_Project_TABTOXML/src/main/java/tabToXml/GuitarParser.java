@@ -318,28 +318,28 @@ public class GuitarParser {
         String result = "";
         
         // Can't use switch since durOverDiv is double type
-        if (durOverDiv == 4.0) {
+        if (durOverDiv >= 4.0) {
             result = "whole";
         }
-        else if (durOverDiv == 3.0) {	// note in musicXML needs <dot/> tag
+        else if (durOverDiv >= 3.0) {	// note in musicXML needs <dot/> tag
         	result = "dotted half";
         }
-        else if (durOverDiv == 2.0) {
+        else if (durOverDiv >= 2.0) {
             result = "half";
         }
-        else if (durOverDiv == 1.5) {	// note in musicXML needs <dot/> tag
+        else if (durOverDiv >= 1.5) {	// note in musicXML needs <dot/> tag
             result = "dotted quarter";
         }
-        else if (durOverDiv == 1.0) {
+        else if (durOverDiv >= 1.0) {
             result = "quarter";
         }
-        else if (durOverDiv == 0.75) {	// note in musicXML needs <dot/> tag
+        else if (durOverDiv >= 0.75) {	// note in musicXML needs <dot/> tag
             result = "dotted eighth";
         }
-        else if (durOverDiv == 0.5) {
+        else if (durOverDiv >= 0.5) {
             result = "eighth";
         }
-        else if (durOverDiv == 0.25) {
+        else if (durOverDiv >= 0.25) {
             result = "16th";
         }
         else {
@@ -409,6 +409,14 @@ public class GuitarParser {
     	// inserting into 2d array
     	//each row contains: duration, step, alter,octave,type,string,fret and CHORD in each row
     	String [][] infoArray = new String[notes.size()][8]; // added one to account for NEW chord property
+    	
+		System.out.println("Notes: " + getNotes() + " size of array: " + getNotes().size());
+		System.out.println("Alters: " + getAlters() + " size of array: " + getAlters().size());
+		System.out.println("Chord?: " + getChordArr() + " size of array: " + getChordArr().size() );
+		System.out.println("Frets: " + getFretNums() + " size of array: " + getFretNums().size());
+		System.out.println("Fret Strings: " + getFretStrings() + " size of array: " + getFretStrings().size());
+        System.out.println("duration: \t" + getDurationArr() + " Length of Array:" + getDurationArr().size() );
+	    System.out.println("type: \t" + getTypeArr() + " Length of Array:" + getTypeArr().size() );
     	
     	for(int i = 0; i < notes.size(); i++) {
     		if(notes.get(i).contains("|")){
