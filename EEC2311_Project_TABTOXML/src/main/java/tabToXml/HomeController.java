@@ -133,6 +133,9 @@ public class HomeController {
 			System.out.println("Fret Strings: " + gp.getFretStrings() + " size of array: " + gp.getFretStrings().size());
 	        System.out.println("duration: \t" + gp.getDurationArr() + " Length of Array:" + gp.getDurationArr().size() );
 		    System.out.println("type: \t" + gp.getTypeArr() + " Length of Array:" + gp.getTypeArr().size() );
+		    if(tfr.checkAlignedVerticals() == false) {
+		    	tabTextArea2.setText("tablature misaligned, please check spacing or input a different tab");
+		    }
 			break;
 		case "Drum":
 			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument() 
@@ -145,6 +148,9 @@ public class HomeController {
 			//System.out.println("XMLCONTENT"+xg.getXMLContent());
 			tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
+			  if(tfr.checkAlignedVerticals() == false) {
+			    	tabTextArea2.setText("tablature misaligned, please check spacing or input a different tab");
+			    }
 			break;
 		case "Bass":
 			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument() 
@@ -153,6 +159,9 @@ public class HomeController {
 			xg = new xmlGen(bp,tfr);
 			tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
+			  if(tfr.checkAlignedVerticals() == false) {
+			    	tabTextArea2.setText("tablature misaligned, please check spacing or input a different tab");
+			    }
 			break;
 		default:
 			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument());
