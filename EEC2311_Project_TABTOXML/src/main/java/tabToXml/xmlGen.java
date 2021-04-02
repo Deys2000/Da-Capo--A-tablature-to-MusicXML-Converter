@@ -32,25 +32,21 @@ public class xmlGen {
 			{"E","A","D","G","B","E"}, //tuning-step
 			{"2","2","3","3","3","4"} // tuning-octave
 	};
-
-	// DRUM CONSTRUCTOR
-	public xmlGen(DrumParser2 dp) {
-		drumGenerator(dp);
-	}
+   
 
 	// GUITAR CONSTRUCTOR
 	public xmlGen(GuitarParser gp, TextFileReader tfr) {
 		guitarGenerator(gp.processor(),tfr);
 		//attributeVals[4][0] = tfr.staffLines();
 	}    
+	// DRUM CONSTRUCTOR
+	public xmlGen(DrumParser2 dp) {
+		drumGenerator(dp);
+		//attributeVals[4][0] = tfr.staffLines();
+	}  
 
-
-
-	/**
-	 * This method gets the XML information as a string, its useful for printing on console or to GUI
-	 * @return String of the whole music XML
-	 */
-	@SuppressWarnings("finally")
+  
+    			
 	public java.lang.String getXMLContent() {
 		StringWriter xml =  new StringWriter();
 		try {    		
@@ -275,7 +271,15 @@ public class xmlGen {
 				note.getDurationOrChordOrCue().add(pitch);
 				note.getDurationOrChordOrCue().add(new BigDecimal(info[i][0])); // duration
 				note.setVoice(info[i][2]);
-				note.setType(new Type(info[i][4]));
+				 // RESOLVES BUG #22, for dotted notes
+	            if( info[i][4].contains("dotted") == true ) {
+	            //if (info[i][4].substring(0,6).compareTo("dotted") == 0) { // NEW
+	            	note.setType(new Type(info[i][4].substring(7))); // NEW
+	            	note.setDot(new Dot()); // NEW
+	            } // NEW
+	            else { // NEW
+	            	note.setType(new Type(info[i][4]));
+	            } // NEW
 				Notations notations = new Notations();
 				Technical technical = new Technical();
 				// ADDING HAMMER ONS AND PULL OFFS
