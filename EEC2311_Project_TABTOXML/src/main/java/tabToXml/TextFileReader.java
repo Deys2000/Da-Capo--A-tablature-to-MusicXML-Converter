@@ -18,8 +18,8 @@ public class TextFileReader {
 	private File inputFile;
 	int numOfLines;
 	boolean isDrum = false;
-	private static String instrument;
-	static String lineStorage;
+	private String instrument;
+	//String lineStorage;
 	
 	ArrayList<String> stringChars;
 	ArrayList<TFRAttribute> attributesPerMeasure;
@@ -475,9 +475,13 @@ public class TextFileReader {
 	public ArrayList<String> getStringChars(){
 		return this.stringChars;
 	}
-} // END OF TEXT FILE READER CLASS
+}
 
-// CLASS MADE TO PASS ATTRIBUTES OF THE MEASURE OVER TO THE PARSERS
+//_______________________________________END OF TEXT FILE READER CLASS______________________________________________//
+//------------------------------------------------------------------------------------------------------------------//
+
+
+// CLASS MADE TO PASS AN OBJECT OF ATTRIBUTES OF EACH MEASURE OVER TO THE PARSERS 
 class TFRAttribute{
 	// initializations with some default values
 	int measure;

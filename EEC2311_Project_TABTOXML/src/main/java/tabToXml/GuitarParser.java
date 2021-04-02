@@ -424,7 +424,7 @@ public class GuitarParser {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static String translate(String string, int fret) throws Exception{
+	public String translate(String string, int fret) throws Exception{
 		if(fret > 12)
 			throw new Exception("The fret must be between 1 and 12 (inclusive)");
 
