@@ -125,7 +125,7 @@ public class TextFileReader {
 		finally {sc.close();}
 		//test
 		this.UnderscoreCheck();
-		this.checkAlignedVerticals();
+		//this.checkAlignedVerticals(); // this fails for repeats with an index out of bounds exception , need to investigate
 		//end of test
 
 		// DETECT INSTRUMENT
@@ -208,7 +208,7 @@ public class TextFileReader {
 		// TODO
 		attributesPerMeasure = new ArrayList<TFRAttribute>();
 		// For now, i will assume that all measures are beats = 4, beatype = 4, division = 2 and fifths = 0
-		int divisions = 2;
+		int divisions = 4;
 		int beats = 4;
 		int beattype = 4;
 		int fifths = 0;

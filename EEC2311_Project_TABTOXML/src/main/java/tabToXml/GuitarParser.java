@@ -734,14 +734,8 @@ public class GuitarParser {
 		System.out.println("Fret Strings: " + getFretStrings() + " size of array: " + getFretStrings().size());
         System.out.println("duration: \t" + getDurationArr() + " Length of Array:" + getDurationArr().size() );
 	    System.out.println("type: \t" + getTypeArr() + " Length of Array:" + getTypeArr().size() );
-    	
-		System.out.println("Notes: " + getNotes() + " size of array: " + getNotes().size());
-		System.out.println("Alters: " + getAlters() + " size of array: " + getAlters().size());
-		System.out.println("Chord?: " + getChordArr() + " size of array: " + getChordArr().size() );
-		System.out.println("Frets: " + getFretNums() + " size of array: " + getFretNums().size());
-		System.out.println("Fret Strings: " + getFretStrings() + " size of array: " + getFretStrings().size());
-        System.out.println("duration: \t" + getDurationArr() + " Length of Array:" + getDurationArr().size() );
-	    System.out.println("type: \t" + getTypeArr() + " Length of Array:" + getTypeArr().size() );
+	    System.out.println("Alter: \t" + getAlters() + "Length of Array:"+ getAlters().size());
+	    System.out.println("H and P: \t" + this.getHandPArr() + "Length of Array:"+ getHandPArr().size());
     	
     	for(int i = 0; i < notes.size(); i++) {
 //    		if(notes.get(i).contains("\\|")){
@@ -755,10 +749,10 @@ public class GuitarParser {
 //        		infoArray[i][7] = null;
 //        		infoArray[i][8] = null;
 //    		}
-//    		else {    		
+//    		else {    												// NOTE, there is no voice array since everything is voice 1
     			infoArray[i][0] = durationArr.get(i);   //duration
     			infoArray[i][1] = notes.get(i).substring(0,1); // step 
-    			infoArray[i][2] = alterArr.get(i);
+    			infoArray[i][2] = alterArr.get(i); // alter
     			infoArray[i][3] = notes.get(i).substring(1); // octave
     			infoArray[i][4] = typeArr.get(i); //type
     			infoArray[i][5] = fretStrings.get(i); //string

@@ -268,9 +268,12 @@ public class xmlGen {
 				if( info[i][7].equals("true"))
 					note.getDurationOrChordOrCue().add(c); // chord
 				Pitch pitch = new Pitch(info[i][1],new BigInteger(info[i][3]));
+				if(info[i][2] != null)
+					pitch.setAlter(new BigDecimal(info[i][2]));
 				note.getDurationOrChordOrCue().add(pitch);
 				note.getDurationOrChordOrCue().add(new BigDecimal(info[i][0])); // duration
-				note.setVoice(info[i][2]);
+
+				note.setVoice("1"); // ---------------------------HARDCODED: we dont consider a second voice for drums
 				 // RESOLVES BUG #22, for dotted notes
 	            if( info[i][4].contains("dotted") == true ) {
 	            //if (info[i][4].substring(0,6).compareTo("dotted") == 0) { // NEW
