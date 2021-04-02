@@ -20,7 +20,6 @@ public class TextFileReader {
 	boolean isDrum = false;
 	private static String instrument;
 	static String lineStorage;
-	boolean isVertical;
 	
 	ArrayList<String> stringChars;
 	ArrayList<TFRAttribute> attributesPerMeasure;
@@ -125,6 +124,7 @@ public class TextFileReader {
 		finally {sc.close();}
 		//test
 		this.UnderscoreCheck();
+		this.checkAlignedVerticals();
 		//end of test
 
 		// DETECT INSTRUMENT
@@ -304,77 +304,81 @@ public class TextFileReader {
 	public boolean checkAlignedVerticals() {
 		//checks that the vertical lines are aligned
 		//not fully working yet
-//		int loopCount = 0;
-//		int lineCount = 0;
-//		int instanceCount = 0;
-//		int instanceCount2 = 0;
-//		int [] indexHolder = new int [5];
-//		int [] indexHolder2 = new int [5];
-//		Scanner quickScan = null;
-//		try {
-//			quickScan = new Scanner(inputFile);
-//			while(quickScan.hasNextLine()){
-//				System.out.println("line"+lineCount);
-//				lineCount++;
-//
-//				//stores line as a string
-//				String next = quickScan.nextLine();
-//				System.out.println("next: ");
-//				System.out.println(next);
-//
-//				//converts string to character array to be looked through
-//				char [] charCheck = next.toCharArray();
-//
-//				//				check for whether verticals are aligned
-//				for(int i = 0;i<(charCheck.length+1);i++) {
-//					//during first loop
-//					if ((loopCount < charCheck.length)) {
-//						//stores locations of vertical bars from scrolling array into a reference array 
-//						//to compare the other lines with
-//						if (charCheck[i] == '|') {
-//							indexHolder[instanceCount] = i;
-//							instanceCount++;
-//						}
-//					}
-//					//after first loop
-//					else if (loopCount == charCheck.length) {
-//						for(int n = 0;n<charCheck.length;n++) {
-//
-//							if (charCheck[n] == '|') {
-//								indexHolder2[instanceCount2] = n;
-//								System.out.println("indexHolder2: ");
-//								System.out.println(Arrays.toString(indexHolder2));
-//								System.out.println("indexHolder: ");
-//								System.out.println(Arrays.toString(indexHolder));
-//
-//								System.out.println("indexHolder2: ");
-//								System.out.println(indexHolder2[instanceCount2]);
-//								System.out.println("indexHolder: ");
-//								System.out.println(indexHolder[instanceCount2]);
-//
-//								if ((indexHolder2[instanceCount2] == indexHolder[instanceCount2])) {
-//									isVertical = true;
-//									System.out.println(isVertical);	
-//								}
-//								else{
-//									isVertical = false;
-//									System.out.println(isVertical);
-//									break;
-//								}
-//								instanceCount2++;
-//								System.out.println("nextIteration: ");
-//							}
-//
-//						}													
-//
-//					}
-//					loopCount++;
-//				}
-//
-//			}					
-//		}
-//		catch(FileNotFoundException e) {e.printStackTrace();}
-//		finally {quickScan.close();}
+		boolean isVertical = true;
+		int loopCount = 1;
+		int [] indexHolder = {};
+		int [] indexHolder2 = {};
+		int verticalsInLine = 0;
+
+		Scanner quickScan = null;
+		try {
+			quickScan = new Scanner(inputFile);
+			while((loopCount <= (numOfLines/2)) && (isVertical == true)) {
+				System.out.println("LOOP START");
+				
+				//making array out of the given line
+				String next = quickScan.nextLine();
+				char [] charCheck = next.toCharArray();
+				System.out.println("charCheck #"+loopCount+": ");
+				System.out.println(charCheck);
+				
+				//first loop determines locations of verticals
+				if(loopCount == 1) {
+					
+					for(int i = 0;i<(charCheck.length);i++) {
+						if (charCheck[i] == '|') {
+							verticalsInLine++;
+						}
+					}
+					
+					//make an array of the same size of the number of verticals in the first line
+					indexHolder = new int [verticalsInLine];
+					
+					//set array to have the location of each vertical as an element
+					int forCount = 0;
+					for(int i = 0;i<(charCheck.length);i++) {
+						if(charCheck[i] == '|') {
+							indexHolder[forCount] = i;
+							forCount++;
+						}	
+					}
+				}
+				// end of first loop only stuff
+				
+				//now creating temporary arrays out of the new lines
+				else if(loopCount > 1) {
+					int forCount2 = 0;
+					indexHolder2 = new int[indexHolder.length];
+					
+					for(int i = 0;i<(charCheck.length);i++) {
+						if(charCheck[i] == '|') {
+							indexHolder2[forCount2] = i;
+							forCount2++;
+						}
+					}
+					
+					//comparing the position of vertical bars in the arrays
+					for(int i = 0;i<indexHolder.length;i++) {
+						if(indexHolder[i] == indexHolder2[i]) {
+							isVertical = true;
+						}
+						else {
+							isVertical = false;
+							break;
+						}
+					}
+
+				}
+
+				System.out.println("LOOP END");
+				System.out.println("/////////////////////////////////////////////////////////////////////");
+				loopCount++;
+			}
+	
+		}
+		catch(FileNotFoundException e) {e.printStackTrace();}
+		finally {quickScan.close();}
+		System.out.println("isVertical has the FINAL value: "+isVertical);
 		return isVertical;
 	}
 	
