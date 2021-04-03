@@ -1,0 +1,108 @@
+package tabToXml;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.fxmisc.flowless.VirtualizedScrollPane;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.richtext.model.StyleSpans;
+import org.fxmisc.richtext.model.StyleSpansBuilder;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+public class TabView {
+
+    private static final Pattern XML_TAG = Pattern.compile("(?<MeasureLine>^((CC|HH|SD|HT|MT|BD)|([a-gA-G])?)(\\|)(\\S.+)(\\|)$)",Pattern.MULTILINE);
+
+    private static final Pattern GUITAR_TAB = Pattern.compile("(?<Guitar>(-)|([\\|hp^BbgGrR\\/sS\\[\\]\\*0-9])|([^\\|hp^BbgGrR\\/sS\\[\\]\\*0-9]))");
+
+    private static final int BASE_NOTE = 2;
+    private static final int DRUM_TAGS = 3;
+    private static final int MEASURE_START = 5;
+    private static final int MEASURE_INFO = 6;
+    private static final int MEASURE_END = 7;
+    private static final int MEASURE_DASH = 2; 
+    private static final int VALID_TAB = 3;
+    private static final int INVALID_TAB = 4;
+    // private static final int GROUP_ATTRIBUTE_NAME = 1;
+    // private static final int GROUP_EQUAL_SYMBOL = 2;
+    // private static final int GROUP_ATTRIBUTE_VALUE = 3;
+    private boolean drum = false; 
+
+    public static void Xmlsyntax(CodeArea codeArea, ChoiceBox choiceBox) {
+
+        // codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+        codeArea.textProperty().addListener((obs, oldText, newText) -> {
+            codeArea.setStyleSpans(0, computeHighlighting(newText,choiceBox));
+        });
+    }
+
+    private static StyleSpans<Collection<String>> computeHighlighting(String text, ChoiceBox choiceBox ) {
+
+        Matcher matcher = XML_TAG.matcher(text);
+        int lastKwEnd = 0;
+        StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
+
+        int drumTagCount = 0; 
+        int otherCount = 0 ; 
+        while(matcher.find())
+        {
+            if(matcher.group(DRUM_TAGS) != null)
+                drumTagCount++;
+            else
+            otherCount++;
+        }
+        System.out.println("drumTagCount: " + drumTagCount);
+        System.out.println("OtherCount: " + otherCount);
+        
+        if(drumTagCount > otherCount)
+            choiceBox.getSelectionModel().select(2);
+        else if(otherCount > drumTagCount)
+            choiceBox.getSelectionModel().select(1);
+        else
+        choiceBox.setValue(null);
+        matcher.reset();
+
+        while (matcher.find()) {
+            if (matcher.group("MeasureLine") != null) {
+
+                String attributesText = matcher.group(MEASURE_INFO);
+                spansBuilder.add(Collections.emptyList(), matcher.start(BASE_NOTE) - lastKwEnd);
+                spansBuilder.add(Collections.singleton("detected"),
+                        matcher.end(MEASURE_START) - matcher.start(BASE_NOTE));
+                if (!attributesText.isEmpty()) {
+                    Matcher iMatcher = GUITAR_TAB.matcher(attributesText);
+                    lastKwEnd = 0;
+
+                    while (iMatcher.find()) {
+
+                        //spansBuilder.add(Collections.singleton("anytag"), iMatcher.start() - lastKwEnd);
+                        spansBuilder.add(Collections.singleton("anytag"), iMatcher.end(INVALID_TAB) - iMatcher.start(INVALID_TAB));
+                        spansBuilder.add(Collections.singleton("dash"), iMatcher.end(MEASURE_DASH) - iMatcher.start(MEASURE_DASH));
+                        spansBuilder.add(Collections.singleton("guitar"), iMatcher.end(VALID_TAB) - iMatcher.start(VALID_TAB));
+                        // spansBuilder.add(Collections.emptyList(), iMatcher.end() - lastKwEnd);
+                        lastKwEnd = iMatcher.end();
+                    }
+
+                }
+                // spansBuilder.add(Collections.singleton("detected"), 1);
+                lastKwEnd = matcher.end(MEASURE_INFO);
+               // spansBuilder.add(Collections.singleton("anytag"), matcher.start(MEASURE_END) - lastKwEnd);
+                spansBuilder.add(Collections.singleton("detected"),
+                        matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
+            }
+
+            lastKwEnd = matcher.end();
+        }
+        spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
+        return spansBuilder.create();
+    }
+}

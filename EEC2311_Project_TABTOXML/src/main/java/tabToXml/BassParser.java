@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 
 public class BassParser {
-
+	
 	public ArrayList<String> notes = new ArrayList<>();
 	public ArrayList<String> fretString = new ArrayList<>();
 	public ArrayList<String> fretNum = new ArrayList<>();

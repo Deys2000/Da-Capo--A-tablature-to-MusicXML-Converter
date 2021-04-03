@@ -6,7 +6,11 @@ plugins {
 }
 
 repositories {
-    // mavenCentral()
+    mavenCentral()
+    maven
+    {
+      url "https://nexus.gluonhq.com/nexus/content/repositories/releases/"
+    }
     jcenter()
 }
 
@@ -14,12 +18,21 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-     implementation 'javax.xml.bind:jaxb-api:2.3.0'
-     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
-     implementation'org.eclipse.persistence:org.eclipse.persistence.moxy:2.7.3'
-     compile('javax.xml.bind:jaxb-api:2.3.0')
- compile('javax.activation:activation:1.1')
- compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
+    testCompile "org.testfx:testfx-core:4.0.16-alpha"
+    testCompile "org.testfx:testfx-junit5:4.0.16-alpha"
+    testCompile group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
+    
+    implementation 'javax.xml.bind:jaxb-api:2.3.0'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+    implementation'org.eclipse.persistence:org.eclipse.persistence.moxy:2.7.3'
+    compile 'com.gluonhq:charm:6.0.6'
+    compile 'com.jfoenix:jfoenix:9.0.10'
+    compile 'com.gluonhq.attach:display:4.0.6'
+    compile 'com.gluonhq.attach:util:4.0.6'
+    compile('javax.xml.bind:jaxb-api:2.3.0')
+    compile('javax.activation:activation:1.1')
+    compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
+    compile group: 'org.fxmisc.richtext', name: 'richtextfx', version: '0.10.5'
 }
 
 test {
@@ -40,8 +53,8 @@ jacocoTestReport {
 }
 
 javafx {
-    version = "15"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    version = "16"
+    modules = [ 'javafx.controls', 'javafx.fxml' , 'javafx.web' ]
 }
 
 run {
