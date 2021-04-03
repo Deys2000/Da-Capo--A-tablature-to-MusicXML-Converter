@@ -3,9 +3,11 @@ package tabToXml;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 import org.fxmisc.richtext.CodeArea;
@@ -27,24 +29,32 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
 
 import com.gluonhq.charm.glisten.control.Icon;
+import com.jfoenix.controls.JFXBadge;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXDrawer;
 
 import org.fxmisc.flowless.VirtualizedScrollPane;
 
-public class HomeController {
+public class HomeController implements Initializable {
 
 	// CLEAN UP, THERE IS A LOT OF EXTRA VARIABLES AND LINES HANGING AROUND
 	// ALSO LOOK INTO DEVELOPING GUI SO WE CAN SATISFY THE NEW REQUIREMENTS
@@ -62,11 +72,11 @@ public class HomeController {
 	public static Stage currentStage; // acquired from Main when program starts
 
 	public HomeController() {
-		
+
 	}
 
 	@FXML
-	private Button selectButton, convertButton, saveButton;
+	private Button selectButton, convertButton;
 	@FXML
 	private Label filePathLabel, statusLabel;
 	@FXML
@@ -81,6 +91,13 @@ public class HomeController {
 	private HBox parentContainer;
 	@FXML
 	private JFXDrawer drawer1;
+	@FXML
+	private JFXButton saveButton,editButton,uploadButton; 
+	@FXML
+	private ChoiceBox choiceBox;
+	@FXML
+	private StackPane stackPane;
+
 	private double xOffset = 0;
 	private double yOffset = 0;
 
@@ -90,11 +107,20 @@ public class HomeController {
 	 * @param event
 	 * @throws Exception
 	 */
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		if(codeArea1 != null)
+			TabView.Xmlsyntax(codeArea1,choiceBox);
+		if(codeArea2 != null)
+			XMLView.Xmlsyntax(codeArea2);
+		if (choiceBox != null)
+			choiceBox.getItems().addAll("Guitar", "Bass", "Drum");
+	}
 
 	public void fileChooser(MouseEvent event) throws Exception {
 		fc = new FileChooser();
 		fc.getExtensionFilters().add(new ExtensionFilter("text tab", "*.txt"));
-		selectedFile = fc.showOpenDialog(null);
+		selectedFile = fc.showOpenDialog(currentStage);
 		if (selectedFile == null)
 			// selectedFile = oldFile;
 			oldFile = selectedFile;
@@ -111,8 +137,8 @@ public class HomeController {
 		}
 
 		if (selectedFile == null) {
-			statusLabel.setTextFill(Color.RED);
-			statusLabel.setText("File Status: No file selected, pls select a .txt file");
+			//statusLabel.setTextFill(Color.RED);
+			//statusLabel.setText("File Status: No file selected, pls select a .txt file");
 			// convertButton.setDisable(true);
 		} else if (fileType.equals(".txt")) {
 			// statusLabel.setTextFill(Color.GREEN);
@@ -145,9 +171,6 @@ public class HomeController {
 		currentStage.close();
 	}
 
-	// public void initialize() {
-	// 	XMLView.Xmlsyntax(codeArea2);
-	// }
 
 	// for moveing of window assign to onMousePressed event
 	public void dragger(MouseEvent event) throws Exception {
@@ -189,30 +212,18 @@ public class HomeController {
 
 	@FXML
 	public void loadSecond(ActionEvent event) throws Exception {
-		// Parent root = FXMLLoader.load(getClass().getResource("Home4.fxml"));
-		// Scene scene = codeArea.getScene();
-
-		// root.translateXProperty().set(scene.getWidth());
-		// parentContainer.getChildren().add(root);
-
-		// Timeline timeline = new Timeline();
-		// KeyValue kv = new KeyValue(root.translateXProperty(), 0 ,
-		// Interpolator.EASE_IN);
-		// KeyFrame kf = new KeyFrame(Duration.millis(500), kv);
-		// timeline.getKeyFrames().add(kf);
-		// timeline.play();
-
 		VirtualizedScrollPane<CodeArea> vSP = FXMLLoader.load(getClass().getResource("Home4.fxml"));
 		System.out.println(drawer1.getSidePane());
 		if (drawer1.getSidePane().isEmpty())
 			drawer1.setSidePane(vSP);
-
 		if (drawer1.isOpened()) {
 			drawer1.close();
+			saveButton.setText("Save Tab");
 			codeArea1.requestFocus();
 		} else {
 			converter(event);
 			drawer1.open();
+			saveButton.setText("Save XML");
 			codeArea2.requestFocus();
 		}
 	}
@@ -224,7 +235,7 @@ public class HomeController {
 		System.out.println(vSP.getContent().toString());
 		codeArea2 = vSP.getContent();
 		codeArea2.replaceText(0, 0, "");
-		
+
 		// saveButton.setDisable(true);
 
 		// read the contents of the Tablature Editor Window
@@ -258,6 +269,9 @@ public class HomeController {
 
 				if (drawer1.isOpened()) {
 					drawer1.close();
+					saveButton.setText(" Save Tab");
+					editButton.setVisible(true);
+					uploadButton.setVisible(true);
 					codeArea1.requestFocus();
 					drawer1.toBack();
 					Timeline timeline = new Timeline();
@@ -270,6 +284,9 @@ public class HomeController {
 					codeArea2.replaceText(xg.getXMLContent());
 					codeArea2.position(0, 0);
 					drawer1.open();
+					saveButton.setText(" Save XML");
+					editButton.setVisible(false);
+					uploadButton.setVisible(false);
 					drawer1.toFront();
 					codeArea1.setOpacity(0);
 					codeArea1.setEditable(false);
@@ -296,7 +313,7 @@ public class HomeController {
 				// the following two lines should be outside the switch case, but bass and drums
 				// dont work yet
 				// tabTextArea2.setText(xg.getXMLContent());
-				saveButton.setDisable(false);
+				//saveButton.setDisable(false);
 				break;
 			case "Bass":
 				tabTextArea3.setText("Instrument Detected: " + tfr.detectInstrument()
@@ -304,7 +321,7 @@ public class HomeController {
 				BassParser bp = new BassParser(tfr.getParsed());
 				xg = new xmlGen(bp, tfr);
 				// tabTextArea2.setText(xg.getXMLContent());
-				saveButton.setDisable(false);
+				//saveButton.setDisable(false);
 				break;
 			default:
 				tabTextArea3.setText("Instrument Detected: " + tfr.detectInstrument());
@@ -337,7 +354,7 @@ public class HomeController {
 	 * @param event
 	 * @throws IOException
 	 */
-	public void save(ActionEvent event) throws IOException {
+	public void save(MouseEvent event) throws IOException {
 		saveFile(currentStage);
 	}
 
@@ -348,10 +365,18 @@ public class HomeController {
 	 */
 	public void saveFile(Stage stage) throws IOException {
 		// can put into users tmp file - good practice
-
 		fc = new FileChooser();
-		fc.setTitle("Save MusicXML Conversion");
-		fc.getExtensionFilters().add(new ExtensionFilter("MusicXML File", "*.musicxml", "*.xml"));
+		if(saveButton.getText().equals(" Save XML"))
+		{
+			fc.setTitle("Save MusicXML Conversion");
+			fc.getExtensionFilters().add(new ExtensionFilter("MusicXML File", "*.musicxml", "*.xml"));
+		}
+		else
+		{
+			fc.setTitle("Save Tab");
+			fc.getExtensionFilters().add(new ExtensionFilter("text tab", "*.txt"));
+		}
+		
 		File file = fc.showSaveDialog(stage);
 		String operationResult = "Successfully written to file.";
 
@@ -421,5 +446,4 @@ public class HomeController {
 		// instrument = guitarTab.detectInstrument();
 		// instrumentLabel.setText("Instrument Detection: " + instrument);
 	}
-
 }

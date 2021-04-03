@@ -26,25 +26,21 @@ public class Main extends Application {
 		homeController = (HomeController) loader.getController();
 		HomeController.currentStage = primaryStage;
 
-		Scene scene = new Scene(root, 1000, 1000);
+		Scene scene = new Scene(root, 900,600);
 		primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Da Capo : Text Tab to MusicXML Converter - version 1.0");
 		// keep scene equal or bigger than default in fxml - 800x500
-		// primaryStage.setScene(new
-		// Scene(FXMLLoader.load(getClass().getResource("Home3.fxml"))));
 		primaryStage.getIcons().add(new Image("file:DaCapo.png"));
 		primaryStage.getScene().getStylesheets().add(test.class.getResource("xml-highlighting.css").toExternalForm());
-		 primaryStage.initStyle(StageStyle.DECORATED);
-		// Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-		// primaryStage.setX(primaryScreenBounds.getMinX());
-		// primaryStage.setY(primaryScreenBounds.getMinY());
+		// primaryStage.initStyle(StageStyle.TRANSPARENT);
+		 Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+		 //primaryStage.setX(primaryScreenBounds.getMinX());
+		 //primaryStage.setY(primaryScreenBounds.getMinY());
 		// primaryStage.setWidth(primaryScreenBounds.getWidth());
-		// primaryStage.setHeight(primaryScreenBounds.getHeight());
+		primaryStage.setHeight((primaryScreenBounds.getHeight())/1.5);
 		primaryStage.show();
 		// System.out.println(homeController.codeArea1);
-		TabView.Xmlsyntax(homeController.codeArea1);
-		// XMLView.Xmlsyntax(homeController.codeArea1);
 	}
 
 	public static void main(String[] args) throws Exception {
