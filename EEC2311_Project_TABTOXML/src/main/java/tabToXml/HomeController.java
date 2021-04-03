@@ -243,7 +243,6 @@ public class HomeController implements Initializable {
 		// Once the contents are collected, they should be sent to the TextFileReader
 		// But the TextFileReader only takes file objects, so i need to make the
 		// contents of the text area back into a file to process
-
 		// making a file from the contants of the editor window
 		File newFile = new File("TabEditorContents");
 		FileWriter myWriter = null;
@@ -264,37 +263,8 @@ public class HomeController implements Initializable {
 				// the following two lines should be outside the switch case, but bass and drums
 				// dont work yet
 				// tabTextArea2.setText(xg.getXMLContent());
-				if (drawer1.getSidePane().isEmpty())
-					drawer1.setSidePane(vSP);
-
-				if (drawer1.isOpened()) {
-					drawer1.close();
-					saveButton.setText(" Save Tab");
-					editButton.setVisible(true);
-					uploadButton.setVisible(true);
-					codeArea1.requestFocus();
-					drawer1.toBack();
-					Timeline timeline = new Timeline();
-					KeyValue kv = new KeyValue(codeArea1.opacityProperty(), 1, Interpolator.EASE_IN);
-					KeyFrame kf = new KeyFrame(Duration.millis(500), kv);
-					timeline.getKeyFrames().add(kf);
-					timeline.play();
-					codeArea1.setEditable(true);
-				} else {
-					codeArea2.replaceText(xg.getXMLContent());
-					codeArea2.position(0, 0);
-					drawer1.open();
-					saveButton.setText(" Save XML");
-					editButton.setVisible(false);
-					uploadButton.setVisible(false);
-					drawer1.toFront();
-					codeArea1.setOpacity(0);
-					codeArea1.setEditable(false);
-					codeArea2.requestFocus();
-					codeArea2.displaceCaret(0);
-					codeArea2.scrollYToPixel(0);
-				}
 				// saveButton.setDisable(false);
+				sceneSwitcher(vSP,xg);
 				System.out.println("Notes: " + gp.getNotes() + " size of array: " + gp.getNotes().size());
 				System.out.println("Chord?: " + gp.getChordArr() + " size of array: " + gp.getChordArr().size());
 				System.out.println("Frets: " + gp.getFretNums() + " size of array: " + gp.getFretNums().size());
@@ -403,7 +373,39 @@ public class HomeController implements Initializable {
 			});
 		}
 	}
+	private void sceneSwitcher(VirtualizedScrollPane<CodeArea> vSP, xmlGen xg2)
+	{
+		if (drawer1.getSidePane().isEmpty())
+					drawer1.setSidePane(vSP);
 
+				if (drawer1.isOpened()) {
+					drawer1.close();
+					saveButton.setText(" Save Tab");
+					editButton.setVisible(true);
+					uploadButton.setVisible(true);
+					codeArea1.requestFocus();
+					drawer1.toBack();
+					Timeline timeline = new Timeline();
+					KeyValue kv = new KeyValue(codeArea1.opacityProperty(), 1, Interpolator.EASE_IN);
+					KeyFrame kf = new KeyFrame(Duration.millis(500), kv);
+					timeline.getKeyFrames().add(kf);
+					timeline.play();
+					codeArea1.setEditable(true);
+				} else {
+					codeArea2.replaceText(xg.getXMLContent());
+					codeArea2.position(0, 0);
+					drawer1.open();
+					saveButton.setText(" Save XML");
+					editButton.setVisible(false);
+					uploadButton.setVisible(false);
+					drawer1.toFront();
+					codeArea1.setOpacity(0);
+					codeArea1.setEditable(false);
+					codeArea2.requestFocus();
+					codeArea2.displaceCaret(0);
+					codeArea2.scrollYToPixel(0);
+				}
+	}
 	/**
 	 * Method to read a .txt file and displaying in the field window
 	 * 
