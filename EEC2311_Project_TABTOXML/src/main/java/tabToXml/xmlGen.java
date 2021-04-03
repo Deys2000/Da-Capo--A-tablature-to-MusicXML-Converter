@@ -187,6 +187,94 @@ public class xmlGen {
             	ho1.setType(info[i][8].substring(6));
             	technical.setHammerOn(ho1);
             }
+            //-------
+            else if( info[i][8].substring(0,1).equals("a")) {
+            	Slide sl = new Slide();
+            	sl.setType(info[i][8].substring(1));
+            	notations.setSlide(sl);
+//            	no.setHammerOn(ho);
+//            	Slur slur = new Slur();
+//            	slur.setType(info[i][8].substring(1));
+//            	notations.setSlur(slur);
+            }
+            else if( info[i][8].substring(0,1).equals("d")) {
+            	Slide sl = new Slide();
+            	sl.setType(info[i][8].substring(1));
+            	notations.setSlide(sl);
+//            	PullOff po = new PullOff();
+//            	po.setType(info[i][8].substring(1));
+//            	technical.setPullOff(po);
+//            	Slur slur = new Slur();
+//            	slur.setType(info[i][8].substring(1));
+//            	notations.setSlur(slur);
+            }
+            else if(info[i][8].substring(0,1).equals("A") && info[i][8].substring(5,6).equals("D")) {
+            	Slide sl = new Slide();
+            	sl.setType(info[i][8].substring(1,5));
+            	notations.setSlide(sl);
+            	
+            	Slide sl2 = new Slide();
+            	sl2.setType(info[i][8].substring(6));
+            	notations.setSlide(sl2);
+//            	PullOff po = new PullOff();
+//            	po.setType(info[i][8].substring(1,5));
+//            	technical.setPullOff(po);
+//            	
+//            	HammerOn ho = new HammerOn();
+//            	ho.setType(info[i][8].substring(6));
+//            	technical.setHammerOn(ho);
+            }   
+            else if(info[i][8].substring(0,1).equals("D") && info[i][8].substring(5,6).equals("A")) {
+            	Slide sl = new Slide();
+            	sl.setType(info[i][8].substring(1,5));
+            	notations.setSlide(sl);
+            	
+            	Slide sl2 = new Slide();
+            	sl2.setType(info[i][8].substring(6));
+            	notations.setSlide(sl2);
+//            	HammerOn ho = new HammerOn();
+//            	ho.setType(info[i][8].substring(1,5));
+//            	technical.setHammerOn(ho);
+//            	
+//            	PullOff po = new PullOff();
+//            	po.setType(info[i][8].substring(6));
+//            	technical.setPullOff(po);
+            }
+            
+            else if(info[i][8].substring(0,1).equals("A") && info[i][8].substring(5,6).equals("A")) {
+            	Slide sl = new Slide();
+            	sl.setType(info[i][8].substring(1,5));
+            	notations.setSlide(sl);
+            	
+            	Slide sl2 = new Slide();
+            	sl2.setType(info[i][8].substring(6));
+            	notations.setSlide(sl2);            	
+//            	PullOff po = new PullOff();
+//            	po.setType(info[i][8].substring(1,5));
+//            	technical.setPullOff(po);
+//            	
+//            	PullOff po1 = new PullOff();
+//            	po1.setType(info[i][8].substring(6));
+//            	technical.setPullOff(po1);
+            }
+            
+            else if(info[i][8].substring(0,1).equals("D") && info[i][8].substring(5,6).equals("D")) {
+            	Slide sl = new Slide();
+            	sl.setType(info[i][8].substring(1,5));
+            	notations.setSlide(sl);
+            	
+            	Slide sl2 = new Slide();
+            	sl2.setType(info[i][8].substring(6));
+            	notations.setSlide(sl2);
+//            	HammerOn ho = new HammerOn();
+//            	ho.setType(info[i][8].substring(1,5));
+//            	technical.setHammerOn(ho);
+//            	
+//            	HammerOn ho1 = new HammerOn();
+//            	ho1.setType(info[i][8].substring(6));
+//            	technical.setHammerOn(ho1);
+            }
+            //-------------
            	else {
            		
            	}

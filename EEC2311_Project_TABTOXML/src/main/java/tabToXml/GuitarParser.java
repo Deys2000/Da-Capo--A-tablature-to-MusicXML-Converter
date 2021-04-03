@@ -51,7 +51,7 @@ public class GuitarParser {
 
 		int row = parsedTab.size();	
 		int next = parsedTab.get(0).length();
-//		int next = columnLength(parsedTab);
+//		next = parsedTab.get(0).length(); //Adjust the lenght of the current line of the tablature
 		char fret2 = '\0';
 		String tmp = "";
 	
@@ -109,6 +109,18 @@ public class GuitarParser {
 								if (parsedTab.get(i).charAt(j-2) == 'h' || parsedTab.get(i).charAt(j-2) == 'H' || parsedTab.get(i).charAt(j-1) == 'h' || parsedTab.get(i).charAt(j-1) == 'H') {
 									fretNumVar = "h" + fretNumVar;
 								}
+								if (parsedTab.get(i).charAt(j+1) == '/') {
+									fretNumVar = fretNumVar + "/";
+								}
+								if (parsedTab.get(i).charAt(j-2) == '/' || parsedTab.get(i).charAt(j-1) == '/') {
+									fretNumVar = "/" + fretNumVar;
+								}
+								if (parsedTab.get(i).charAt(j+1) == '\\' || parsedTab.get(i).charAt(j+1) == '\\') {
+									fretNumVar = fretNumVar + "\\";
+								}
+								if (parsedTab.get(i).charAt(j-2) == '\\' || parsedTab.get(i).charAt(j-1) == '\\') {
+									fretNumVar = "\\" + fretNumVar;
+								}
 //								else {fretNumVar = fretStringValue;}	
 								cal = i + 1;
 								fretStringVar = cal + "";
@@ -147,6 +159,18 @@ public class GuitarParser {
 								}
 						        if (parsedTab.get(i).charAt(j-2) == 'h' || parsedTab.get(i).charAt(j-2) == 'H' || parsedTab.get(i).charAt(j-1) == 'h' || parsedTab.get(i).charAt(j-1) == 'H') {
 									fretNumVar = "h" + fretNumVar;
+								}
+								if (parsedTab.get(i).charAt(j+1) == '/') {
+									fretNumVar = fretNumVar + "/";
+								}
+								if (parsedTab.get(i).charAt(j-2) == '/' || parsedTab.get(i).charAt(j-1) == '/') {
+									fretNumVar = "/" + fretNumVar;
+								}
+								if (parsedTab.get(i).charAt(j+1) == '\\' || parsedTab.get(i).charAt(j+1) == '\\') {
+									fretNumVar = fretNumVar + "\\";
+								}
+								if (parsedTab.get(i).charAt(j-2) == '\\' || parsedTab.get(i).charAt(j-1) == '\\') {
+									fretNumVar = "\\" + fretNumVar;
 								}
 //						        else {fretNumVar = fretStringValue;}							
 								fretStringVar = cal + "";
@@ -217,6 +241,22 @@ public class GuitarParser {
 						fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
 						handp.add("hstart"); //11h
 		    		}
+					else if(fretNum.get(i).charAt(fretNum.get(i).length()-1) == '/'){
+						fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+						handp.add("astart"); //11h
+		    		}
+					else if(fretNum.get(i).charAt(fretNum.get(i).length()-1) == '\\'){
+						fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+						handp.add("dstart"); //11h
+		    		}
+					else if(fretNum.get(i).charAt(0) == '\\'){
+						fretNum.set(i, fretNum.get(i).substring(1));
+						handp.add("dstop"); //h10
+		    		}
+					else if(fretNum.get(i).charAt(0) == '/'){
+						fretNum.set(i, fretNum.get(i).substring(1));
+						handp.add("astop"); //h10
+		    		}
 				}
 //				else if (!((fretNum.get(i).charAt(0) >= '0' && fretNum.get(i).charAt(0) <= '9') ^ (fretNum.get(i).charAt(fretNum.get(i).length()-1) >= '0' && fretNum.get(i).charAt(fretNum.get(i).length()-1) <= '9'))) {
 				else if (fretNum.get(i).charAt(0) == 'p' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'h') {
@@ -239,14 +279,37 @@ public class GuitarParser {
 					fretNum.set(i, fretNum.get(i).substring(1));
 					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
 					handp.add("PstopPstart");
+				}		
+				//-------
+				else if (fretNum.get(i).charAt(0) == '/' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == '\\') {
+					fretNum.set(i, fretNum.get(i).substring(1));
+					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+					handp.add("AstopDstart");
+					
 				}
-
+				else if (fretNum.get(i).charAt(0) == '\\' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == '/') {
+					fretNum.set(i, fretNum.get(i).substring(1));
+					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+					handp.add("DstopAstart");
+				}
+				else if (fretNum.get(i).charAt(0) == '/' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == '/') {
+					fretNum.set(i, fretNum.get(i).substring(1));
+					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+					handp.add("AstopAstart");
+				}
+				else if (fretNum.get(i).charAt(0) == '\\' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == '\\') {
+					fretNum.set(i, fretNum.get(i).substring(1));
+					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+					handp.add("DstopDstart");
+				}
+				//----------
 	    		else if( fretNum.get(i).charAt(0) == '|') {
 	    			handp.add("|");
 	    		}
 	    		else {
 	    			handp.add("neutral");
 	    		}
+				
     	}
 			
 		// chords - add the double bars later
@@ -436,7 +499,7 @@ public class GuitarParser {
 //	        System.out.print("Type Array: ");
 //	        System.out.println(typeArr);
 
-	    }
+	}
     
     /**
      * CARRIED OVER FROM RHYTHM PARSER CLASS

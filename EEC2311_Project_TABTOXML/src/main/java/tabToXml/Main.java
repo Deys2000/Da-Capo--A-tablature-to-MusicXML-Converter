@@ -26,14 +26,14 @@ public class Main extends Application {
 	public static void main(String[] args) throws Exception {
 
 		System.out.print("Launching Application" + "\n");
-//		launch(args);
-		sideTask(); // what will launch this? 
+		launch(args);
+//		sideTask(); // what will launch this? 
 
 	}
 	
 	public static void sideTask() throws Exception {
 		
-		TextFileReader fileReader = new TextFileReader("dg2.txt");
+		TextFileReader fileReader = new TextFileReader("test2.txt");
 //
 //		//An if statement should select which one to call based on the instrument detection
 		GuitarParser gp = new GuitarParser(fileReader.getParsed());
@@ -47,7 +47,9 @@ public class Main extends Application {
 //        gp.translateParsed(fileReader.getParsed());
 		
 		System.out.println("Notes: " + gp.getNotes() + " size of array: " + gp.getNotes().size());
-//		System.out.println("Chord?: " + gp.getChordArr() + " size of array: " + gp.getChordArr().size() );
+		System.out.println("Chord?: " + gp.getChordArr() + " size of array: " + gp.getChordArr().size() );
+		System.out.println("HandP?: " + gp.getHandPArr() + " size of array: " + gp.getHandPArr().size() );
+//		System.out.println("Slide?: " + gp.getSlideArr() + " size of array: " + gp.getSlideArr().size() );
 		System.out.println("Frets: " + gp.getFretNums() + " size of array: " + gp.getFretNums().size());
 		System.out.println("Fret Strings: " + gp.getFretStrings() + " size of array: " + gp.getFretStrings().size());
         System.out.println("duration: \t" + gp.getDurationArr() + " Length of Array:" + gp.getDurationArr().size() );
