@@ -74,7 +74,6 @@ public class HomeController {
 		else if(fileType.equals(".txt")) {
 			statusLabel.setTextFill(Color.GREEN);
 			statusLabel.setText("File Status: A \".txt\" file, you may convert this");
-			reader();
 			convertButton.setDisable(false);
 		}else {
 			statusLabel.setTextFill(Color.RED);
@@ -121,8 +120,8 @@ public class HomeController {
 		switch(tfr.getDetectedInstrument()) {
 		case "Guitar":
 			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument());
-			GuitarParser gp = new GuitarParser(tfr.getParsed());
-			xg = new xmlGen(gp,tfr);
+			GuitarParser gp = new GuitarParser(tfr);
+			xg = new xmlGen(gp);
 			// the following two lines should be outside the switch case, but bass and drums dont work yet
 			tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
@@ -149,8 +148,8 @@ public class HomeController {
 		case "Bass":
 			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument() 
 			+ "\nSystem is in prototype phase, unable to process Bass.");
-			GuitarParser bp = new GuitarParser(tfr.getParsed());
-			xg = new xmlGen(bp,tfr);
+			GuitarParser bp = new GuitarParser(tfr);
+			xg = new xmlGen(bp);
 			tabTextArea2.setText(xg.getXMLContent());
 			saveButton.setDisable(false);
 //			  if(tfr.checkAlignedVerticals() == false) {
@@ -176,11 +175,8 @@ public class HomeController {
 			    if (rs == ButtonType.OK) {
 			        System.out.println("Pressed OK.");
 			    }
-			});
-			
+			});	
 		}
-		
-		
 	}
 	
 	
@@ -231,41 +227,5 @@ public class HomeController {
 		}		
 	}
 	
-	/**
-	 * Method to read a .txt file and displaying in the field window
-	 * @throws Exception 
-	 */
-	public void reader() throws Exception {
-		TextFileReader guitarTab = new TextFileReader(selectedFile.getAbsolutePath());		
-		//set area to be the text from the file
-		tabTextArea1.setText(guitarTab.printOrginal());	
-
-//		parsedInfo = new StringBuilder();
-//		//adding the parsed tab
-//		parsedInfo.append(guitarTab.printOrginal());		
-//	
-//		gp = new GuitarParser();
-//		gp.translateParsed(selectedFile.getAbsolutePath());
-//		
-//		parsedInfo.append("\nNotes: " + gp.getNotes() + " Length of array: " + gp.getNotes().size());
-//		parsedInfo.append("\nFrets: " + gp.getFretNums() + " Length of array: " + gp.getFretNums().size());
-//		parsedInfo.append("\nFret Strings: " + gp.getFretStrings() + " Length of array: " + gp.getFretStrings().size());
-//
-//		//RhythmParser rhythmParser = new RhythmParser(4);
-//        gp.parseToRhythm(guitarTab.getParsed());
-//		
-//        parsedInfo.append("\nDuration:" + gp.getDurationArr() + " Length of Array:" + gp.getDurationArr().size() );
-//	    parsedInfo.append("\nType:" + gp.getTypeArr() + " Length of Array:" + gp.getTypeArr().size() );
-//		
-//		//tabTextArea2.setText(parsedInfo.toString());
-//	    
-//		//new stuff
-//	    //information = gp.processor();
-//		tabTextArea2.setText(xg.getXMLContent());
-//		//System.exit(0);
-//
-//		instrument = guitarTab.detectInstrument();
-//		instrumentLabel.setText("Instrument Detection: " + instrument);
-	}
 	
 }

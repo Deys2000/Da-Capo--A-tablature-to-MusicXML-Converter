@@ -15,14 +15,14 @@ import java.util.regex.Pattern;
  */
 public class TextFileReader {
 	
-	private File inputFile;
-	int numOfLines;
-	boolean isDrum = false;
+	private File inputFile; // the file of the 
+	int numOfLines; // hold the number of rows in the tablature
+	boolean isDrum = false; // responsible for detecting if tab is a drums tab
 	private String instrument;
-	// String lineStorage;
+	// String lineStorage; <- not sure why this is here - syed
 	boolean isVertical;
 	
-	ArrayList<String> stringChars;
+	ArrayList<String> stringChars; // contains the instruments or starting octaves
 	ArrayList<TFRAttribute> attributesPerMeasure;
 	
 	//Parsed text 
@@ -54,6 +54,15 @@ public class TextFileReader {
 		this.countLinesAndDetectInstrument();
 		
 		// methods to check for errors
+		
+		//test
+		this.UnderscoreCheck();
+		//this.checkAlignedVerticals(); // this fails for repeats with an index out of bounds exception , need to investigate
+		//end of test
+		
+		
+		
+		// NO ERRORS WERE DETECTED
 		
 		// Step x: Create the Parsed Tab now that we know there are no fatal errors 
 		this.createparsedTab();
@@ -94,39 +103,11 @@ public class TextFileReader {
 					// exit, the lines have been counted
 					break;
 				}
-				
-		
-//				//getting array for dash counting for time signature for guitar/bass (skips first line for padding)
-//				//not done
-//				char [] info  = next.toCharArray();
-//				for(int i = 2; i < info.length; i++) {
-//					counter ++;
-//					if(loopcheck < 1 && info[i] == '|') {
-//						loopcheck++;
-//						int trueCount = counter - 1;
-//						System.out.println("truecount variable: "+ trueCount);
-//					}					
-//				}
-//				//end of dash counting
-//
-//				//drum check
-//				if(next.contains("X") || next.contains("x") || next.contains("o") || next.contains("O"))
-//					isDrum = true;
-//
-//				if (next.contains("-") && next.contains("|")) {
-//					numOfLines++;
-//					System.out.println("Number of Lines: "+ numOfLines);
-//				}
-//				else if( 0 < numOfLines )  // modified this line to cater to prevent crashing with spacing at the start
-//					break;
 			}					
 		}
 		catch(FileNotFoundException e) {e.printStackTrace();}
 		finally {sc.close();}
-		//test
-		this.UnderscoreCheck();
-		//this.checkAlignedVerticals(); // this fails for repeats with an index out of bounds exception , need to investigate
-		//end of test
+
 
 		// DETECT INSTRUMENT
 		instrument = "Unable to Identify";
@@ -492,6 +473,7 @@ public class TextFileReader {
 
 // CLASS MADE TO PASS AN OBJECT OF ATTRIBUTES OF EACH MEASURE OVER TO THE PARSERS 
 class TFRAttribute{
+	
 	// initializations with some default values
 	int measure;
 	int divisions = 4;
@@ -518,18 +500,6 @@ class TFRAttribute{
 		this.line = l;
 		this.repeat = r;
 	}	
-//	// Guitar Attribute Constructor
-//	public TFRAttribute( int d, int f, int b, int bt, String s, int l, String sl, ArrayList<String> ts, ArrayList<String> to) {
-//		this.divisions = d;
-//		this.fifths = f;
-//		this.beats = b;
-//		this.beattype = bt;
-//		this.sign = s;
-//		this.line = l;
-//		this.staffLines = sl;
-//		this.tuningSteps = ts;
-//		this.tuningOctaves = to;
-//	}	
 	
 	public String toString() {
 		return ("Measure: "		+ measure + 

@@ -61,6 +61,21 @@ public class DrumParser2 {
 //		instruments.add("BD");
 		this.instruments = tfr.getStringChars();
 		System.out.println("TFR Determined > "+this.instruments);
+		
+		for(int i = 0; i < instruments.size(); i++) {
+			// some overriding of instruments
+			// if it contains a "C", then its a crash cymbal
+			if(instruments.get(i).contains("C") || instruments.get(i).contains("c")) instruments.set(i,"C");
+			// if it contains a "S", then its a snare drum
+			if(instruments.get(i).contains("S") || instruments.get(i).contains("s")) instruments.set(i,"S");
+			// if its a High Tom, make it a low tom since we don't support it yet
+			if(instruments.get(i).equals("HT")) instruments.set(i,"LT");
+			// if it has a B, make it a Bass Drum
+			if(instruments.get(i).contains("B")) instruments.set(i,"BD");
+		}
+		
+		
+		
 		/////////////////////////////
 		// CONSTRUCTOR BEGINS HERE //
 		/////////////////////////////
@@ -369,15 +384,7 @@ class DrumStringInfo{
 	//name, id, step, octave, stem
 	String name, id, step, octave, stem, notehead, voice; // i have realized the notehad property is incorrect? perhaps not dunno
 	
-	public DrumStringInfo(String symbol) throws Exception {			
-	// some overriding of instruments
-		// if it contains a "C", then its a crash cymbal
-		if(symbol.contains("C") || symbol.contains("c")) symbol = "C";
-		// if it contains a "S", then its a bass drum
-		if(symbol.contains("S") || symbol.contains("s")) symbol = "S";
-		// if its a High Tom, make it a low tom since we don't support it yet
-		if(symbol.equals("HT")) symbol = "LT";
-		
+	public DrumStringInfo(String symbol) throws Exception {				
 		
 	switch(symbol) {
 		
