@@ -153,18 +153,6 @@ public class HomeController implements Initializable {
 			// tabTextArea2.setText("");
 			// instrumentLabel.setText("Instrument Detection: Unable to Identify");
 			// convertButton.setDisable(true);
-		}
-		else if(fileType.equals(".txt")) {
-			statusLabel.setTextFill(Color.GREEN);
-			statusLabel.setText("File Status: A \".txt\" file, you may convert this");
-			convertButton.setDisable(false);
-		}else {
-			statusLabel.setTextFill(Color.RED);
-			statusLabel.setText("File Status: NOT a \".txt\" file, pls select a .txt file");
-			tabTextArea1.setText("");
-			tabTextArea2.setText("");
-			//instrumentLabel.setText("Instrument Detection: Unable to Identify");
-			convertButton.setDisable(true);
 		}		
 	}
 
@@ -243,11 +231,6 @@ public class HomeController implements Initializable {
 	public void converter(ActionEvent event) throws Exception {
 		// empty the XMLArea before getting new info
 		// tabTextArea2.setText("");
-		VirtualizedScrollPane<CodeArea> vSP = FXMLLoader.load(getClass().getResource("Home4.fxml"));
-		System.out.println(vSP.getContent().toString());
-		codeArea2 = vSP.getContent();
-		codeArea2.replaceText(0, 0, "");
-
 		// saveButton.setDisable(true);
 
 		// read the contents of the Tablature Editor Window
@@ -270,45 +253,38 @@ public class HomeController implements Initializable {
 		// EVERYTHING ABOVE THIS LINE HAS BEEN TESTED, IT WORKS :)
 		switch(tfr.getDetectedInstrument()) {
 		case "Guitar":
-			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument());
+			//tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument());
 			GuitarParser gp = new GuitarParser(tfr);
 			xg = new xmlGen(gp);
+			sceneSwitcher(xg);
 			// the following two lines should be outside the switch case, but bass and drums dont work yet
-			tabTextArea2.setText(xg.getXMLContent());
-			saveButton.setDisable(false);
-
 //		    if(tfr.checkAlignedVerticals() == false) {
 //		    	tabTextArea2.setText("tablature misaligned, please check spacing or input a different tab");
 //		    }
 			break;
 		case "Drum":
-			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument() 
-			+ "\n\nSystem is in prototype phase, unable to process Drums completely."
-			+ "\nUse with caution."
-			+ "\nYou may find that rests and beams are not processed correctly.");
+			///tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument() 
+			//+ "\n\nSystem is in prototype phase, unable to process Drums completely."
+			//+ "\nUse with caution."
+			//+ "\nYou may find that rests and beams are not processed correctly.");
 			DrumParser2 dp = new DrumParser2(tfr);
 			xg = new xmlGen(dp);
+			sceneSwitcher(xg);
 			// the following two lines should be outside the switch case, but bass and drums dont work yet
 			//System.out.println("XMLCONTENT"+xg.getXMLContent());
-			tabTextArea2.setText(xg.getXMLContent());
-			saveButton.setDisable(false);
 //			  if(tfr.checkAlignedVerticals() == false) {
 //			    	tabTextArea2.setText("tablature misaligned, please check spacing or input a different tab");
 //			    }
 			break;
 		case "Bass":
-			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument() 
-			+ "\nSystem is in prototype phase, unable to process Bass.");
+			//tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument() 
+			//+ "\nSystem is in prototype phase, unable to process Bass.");
 			GuitarParser bp = new GuitarParser(tfr);
 			xg = new xmlGen(bp);
-			tabTextArea2.setText(xg.getXMLContent());
-			saveButton.setDisable(false);
-//			  if(tfr.checkAlignedVerticals() == false) {
-//			    	tabTextArea2.setText("tablature misaligned, please check spacing or input a different tab");
-//			    }
+			sceneSwitcher(xg);
 			break;
 		default:
-			tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument());
+			//tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument());
 			throw new Exception();
 			//give some error message saying instrument was not detected or something
 			
@@ -340,6 +316,13 @@ public class HomeController implements Initializable {
 	public void save(MouseEvent event) throws IOException {
 		saveFile(currentStage);
 	}
+	public void edit(MouseEvent event) throws IOException {
+		JFXDialogLayout content = new JFXDialogLayout();
+		content.setHeading(new Text("Edit Tab"));
+		content.setBody(new Text("Not Yet Implemented"));
+		JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+		dialog.show();
+	}
 
 	/**
 	 * Method for saving a file
@@ -349,14 +332,17 @@ public class HomeController implements Initializable {
 	public void saveFile(Stage stage) throws IOException {
 		// can put into users tmp file - good practice
 		fc = new FileChooser();
+		String contenttoSave;
 		if(saveButton.getText().equals(" Save XML"))
 		{
 			fc.setTitle("Save MusicXML Conversion");
+			contenttoSave = xg.getXMLContent();
 			fc.getExtensionFilters().add(new ExtensionFilter("MusicXML File", "*.musicxml", "*.xml"));
 		}
 		else
 		{
 			fc.setTitle("Save Tab");
+			contenttoSave = codeArea1.getText();
 			fc.getExtensionFilters().add(new ExtensionFilter("text tab", "*.txt"));
 		}
 		
@@ -368,7 +354,7 @@ public class HomeController implements Initializable {
 			FileWriter myWriter = new FileWriter(file);
 			// xmlGen gen10 = new xmlGen(gp.processor());
 			// gen10.createFile(file);
-			myWriter.write(xg.getXMLContent());
+			myWriter.write(contenttoSave);
 			myWriter.close();
 
 		} catch (Exception e) {
@@ -386,8 +372,13 @@ public class HomeController implements Initializable {
 			});
 		}
 	}
-	private void sceneSwitcher(VirtualizedScrollPane<CodeArea> vSP, xmlGen xg2)
+	private void sceneSwitcher(xmlGen xg2) throws IOException
 	{
+		VirtualizedScrollPane<CodeArea> vSP = FXMLLoader.load(getClass().getResource("Home4.fxml"));
+		System.out.println(vSP.getContent().toString());
+		if(codeArea2 == null)
+			codeArea2 = vSP.getContent();
+
 		if (drawer1.getSidePane().isEmpty())
 					drawer1.setSidePane(vSP);
 
@@ -405,6 +396,7 @@ public class HomeController implements Initializable {
 					timeline.play();
 					codeArea1.setEditable(true);
 				} else {
+					codeArea2.replaceText(" ");
 					codeArea2.replaceText(xg.getXMLContent());
 					codeArea2.position(0, 0);
 					drawer1.open();
