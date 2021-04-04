@@ -1,7 +1,10 @@
 package tabToXml;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,7 +25,7 @@ import javafx.stage.Stage;
 public class TabView {
 
     private static final Pattern XML_TAG = Pattern
-            .compile("(?<MeasureLine>^((CC|HH|SD|HT|MT|BD)|([a-gA-G])?)(\\|)(\\S.+)(\\|)$)", Pattern.MULTILINE);
+            .compile("(?<MeasureLine>^((CC|HH|SD|HT|MT|BD)|([a-gA-G])?)(\\|)(\\S+)(\\|))", Pattern.MULTILINE);
 
     private static final Pattern GUITAR_TAB = Pattern
             .compile("(?<Guitar>(-)|([\\|hp^BbgGrR\\/sS\\[\\]\\*0-9])|([^\\|hp^BbgGrR\\/sS\\[\\]\\*0-9]))");
@@ -42,6 +45,8 @@ public class TabView {
     // private static final int GROUP_ATTRIBUTE_VALUE = 3;
     private static boolean drum = false;
     private static boolean guitar = false;
+    private static HashMap<Integer, Integer> measureLineEnd;
+    private static Integer maxLine; 
 
     public static void Xmlsyntax(CodeArea codeArea, ChoiceBox choiceBox) {
 
@@ -59,15 +64,32 @@ public class TabView {
 
         int drumTagCount = 0;
         int otherCount = 0;
+        measureLineEnd = new HashMap<>();
         while (matcher.find()) {
+            int tempEnd = matcher.end(MEASURE_END) - matcher.start(MEASURE_START);
+            if(measureLineEnd.get(tempEnd) == null)
+                measureLineEnd.put(tempEnd, 1);
+            else
+                measureLineEnd.put(tempEnd,measureLineEnd.get(tempEnd)+1);
+                
             if (matcher.group(DRUM_TAGS) != null)
                 drumTagCount++;
             else
                 otherCount++;
         }
+        int maxCount = Integer.MIN_VALUE;
+        for(Map.Entry<Integer,Integer> e: measureLineEnd.entrySet())
+        {
+            if( e.getValue() > maxCount)
+            {
+                maxCount = e.getValue();
+                maxLine = e.getKey();
+            }
+                
+        }
         System.out.println("drumTagCount: " + drumTagCount);
         System.out.println("OtherCount: " + otherCount);
-
+        
         if (drumTagCount > otherCount) {
             drum = true;
             guitar = false;
@@ -79,7 +101,7 @@ public class TabView {
         } else {
             drum = false;
             guitar = false;
-            choiceBox.setValue(null);
+            choiceBox.setValue("Unknown");
         }
 
         matcher.reset();
@@ -111,7 +133,7 @@ public class TabView {
 
                         // spansBuilder.add(Collections.singleton("anytag"), iMatcher.start() -
                         // lastKwEnd);
-                        spansBuilder.add(Collections.singleton("anytag"),
+                        spansBuilder.add(Collections.singleton("minorError"),
                                 iMatcher.end(INVALID_TAB) - iMatcher.start(INVALID_TAB));
                         spansBuilder.add(Collections.singleton("dash"),
                                 iMatcher.end(MEASURE_DASH) - iMatcher.start(MEASURE_DASH));
@@ -132,7 +154,11 @@ public class TabView {
                 } else if (guitar == true && matcher.group(DRUM_TAGS) != null) {
                     spansBuilder.add(Collections.singleton("anytag"),
                         matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
-                } else {
+                } else if(matcher.end(MEASURE_END) - matcher.start(MEASURE_START) != maxLine) {
+                    spansBuilder.add(Collections.singleton("anytag"),
+                    matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
+                }
+                else{
                     spansBuilder.add(Collections.singleton("detected"),
                     matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
                 }

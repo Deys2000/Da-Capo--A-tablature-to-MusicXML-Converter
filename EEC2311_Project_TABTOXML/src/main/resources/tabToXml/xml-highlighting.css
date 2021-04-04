@@ -20,7 +20,7 @@
 }
 .detected
 {
-    -fx-fill: rgb(81, 211, 81);
+    -fx-fill: rgb(62, 209, 62);
 }
 .mesureContent
 {
@@ -29,4 +29,8 @@
 .guitar
 {
     -fx-fill: #55D6BE ; 
+}
+.minorError
+{
+    -fx-fill: #eeff00 ; 
 }
