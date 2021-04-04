@@ -20,7 +20,7 @@
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import org.fxmisc.richtext.CodeArea?>
 
-<StackPane fx:id="stackPane" stylesheets="@xml-highlighting.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tabToXml.HomeController">
+<StackPane fx:id="stackPane" onMouseDragged="#dragger2" onMousePressed="#dragger" stylesheets="@xml-highlighting.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tabToXml.HomeController">
    <children>
       <View style="-fx-background-color: #4A525A;">
          <right>

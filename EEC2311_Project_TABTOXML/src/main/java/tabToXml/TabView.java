@@ -46,7 +46,7 @@ public class TabView {
     private static boolean drum = false;
     private static boolean guitar = false;
     private static HashMap<Integer, Integer> measureLineEnd;
-    private static Integer maxLine; 
+    private static Integer maxLine;
 
     public static void Xmlsyntax(CodeArea codeArea, ChoiceBox choiceBox) {
 
@@ -67,29 +67,27 @@ public class TabView {
         measureLineEnd = new HashMap<>();
         while (matcher.find()) {
             int tempEnd = matcher.end(MEASURE_END) - matcher.start(MEASURE_START);
-            if(measureLineEnd.get(tempEnd) == null)
+            if (measureLineEnd.get(tempEnd) == null)
                 measureLineEnd.put(tempEnd, 1);
             else
-                measureLineEnd.put(tempEnd,measureLineEnd.get(tempEnd)+1);
-                
+                measureLineEnd.put(tempEnd, measureLineEnd.get(tempEnd) + 1);
+
             if (matcher.group(DRUM_TAGS) != null)
                 drumTagCount++;
             else
                 otherCount++;
         }
         int maxCount = Integer.MIN_VALUE;
-        for(Map.Entry<Integer,Integer> e: measureLineEnd.entrySet())
-        {
-            if( e.getValue() > maxCount)
-            {
+        for (Map.Entry<Integer, Integer> e : measureLineEnd.entrySet()) {
+            if (e.getValue() > maxCount) {
                 maxCount = e.getValue();
                 maxLine = e.getKey();
             }
-                
+
         }
         System.out.println("drumTagCount: " + drumTagCount);
         System.out.println("OtherCount: " + otherCount);
-        
+
         if (drumTagCount > otherCount) {
             drum = true;
             guitar = false;
@@ -115,6 +113,9 @@ public class TabView {
                     spansBuilder.add(Collections.singleton("anytag"),
                             matcher.end(MEASURE_START) - matcher.start(BASE_NOTE));
                 } else if (guitar == true && matcher.group(DRUM_TAGS) != null) {
+                    spansBuilder.add(Collections.singleton("anytag"),
+                            matcher.end(MEASURE_START) - matcher.start(BASE_NOTE));
+                } else if (drum == true && (matcher.group(GUITAR_TAGS) == null && matcher.group(DRUM_TAGS) == null)) {
                     spansBuilder.add(Collections.singleton("anytag"),
                             matcher.end(MEASURE_START) - matcher.start(BASE_NOTE));
                 } else {
@@ -150,17 +151,19 @@ public class TabView {
                 // - lastKwEnd);
                 if (drum == true && matcher.group(GUITAR_TAGS) != null) {
                     spansBuilder.add(Collections.singleton("anytag"),
-                        matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
+                            matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
                 } else if (guitar == true && matcher.group(DRUM_TAGS) != null) {
                     spansBuilder.add(Collections.singleton("anytag"),
-                        matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
-                } else if(matcher.end(MEASURE_END) - matcher.start(MEASURE_START) != maxLine) {
+                            matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
+                } else if (drum == true && (matcher.group(GUITAR_TAGS) == null && matcher.group(DRUM_TAGS) == null)) {
                     spansBuilder.add(Collections.singleton("anytag"),
-                    matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
-                }
-                else{
+                            matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
+                } else if (matcher.end(MEASURE_END) - matcher.start(MEASURE_START) != maxLine) {
+                    spansBuilder.add(Collections.singleton("anytag"),
+                            matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
+                } else {
                     spansBuilder.add(Collections.singleton("detected"),
-                    matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
+                            matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
                 }
             }
 
