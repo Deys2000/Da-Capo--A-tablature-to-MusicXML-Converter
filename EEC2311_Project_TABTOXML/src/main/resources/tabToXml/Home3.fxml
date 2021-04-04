@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -19,13 +20,13 @@
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import org.fxmisc.richtext.CodeArea?>
 
-<StackPane fx:id='stackPane' style="-fx-background-radius: 100;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tabToXml.HomeController">
+<StackPane fx:id="stackPane" stylesheets="@xml-highlighting.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tabToXml.HomeController">
    <children>
       <View style="-fx-background-color: #4A525A;">
          <right>
             <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton fx:id="editButton" contentDisplay="GRAPHIC_ONLY" ellipsisString="" onMouseReleased="#edit" focusTraversable="false" prefHeight="219.0" prefWidth="54.0" style="-fx-background-color: #55D6BE; -fx-background-radius: 10 0 0 0;" text="Button" textOverrun="CLIP" VBox.vgrow="ALWAYS">
+                  <JFXButton fx:id="editButton" contentDisplay="GRAPHIC_ONLY" ellipsisString="" focusTraversable="false" onMouseReleased="#edit" prefHeight="219.0" prefWidth="54.0" style="-fx-background-color: #55D6BE; -fx-background-radius: 10 10 0 0; -fx-border-width: 0 0 1 0; -fx-border-color: #acfcd9;" text="Button" textOverrun="CLIP" VBox.vgrow="ALWAYS">
                      <graphic>
                         <SVGPath content="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
                      </graphic>
@@ -36,8 +37,11 @@
                            </color>
                         </DropShadow>
                      </effect>
+                     <tooltip>
+                        <Tooltip styleClass="Tooltip" text="Edit Tab" />
+                     </tooltip>
                   </JFXButton>
-                  <JFXButton fx:id="uploadButton" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" minHeight="100.0" onMouseReleased="#fileChooser" prefHeight="194.0" prefWidth="54.0" style="-fx-background-color: #55D6BE; -fx-background-radius: 0;" text="Button" VBox.vgrow="ALWAYS">
+                  <JFXButton fx:id="uploadButton" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" minHeight="100.0" onMouseReleased="#fileChooser" prefHeight="194.0" prefWidth="54.0" style="-fx-background-color: #55D6BE; -fx-background-radius: 0 0 0 0; -fx-border-color: #acfcd9; -fx-border-width: 0 0 0 0;" text="Button" VBox.vgrow="ALWAYS">
                      <graphic>
                         <SVGPath content="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
                      </graphic>
@@ -48,8 +52,11 @@
                            </color>
                         </DropShadow>
                      </effect>
+                     <tooltip>
+                        <Tooltip styleClass="Tooltip" text="Upload Tab" />
+                     </tooltip>
                   </JFXButton>
-                  <JFXButton contentDisplay="GRAPHIC_ONLY" focusTraversable="false" minHeight="100.0" onAction="#converter" prefHeight="211.0" prefWidth="54.0" style="-fx-background-color: #55D6BE; -fx-background-radius: 0 0 0 10;" text="Button" VBox.vgrow="ALWAYS">
+                  <JFXButton contentDisplay="GRAPHIC_ONLY" focusTraversable="false" minHeight="100.0" onAction="#converter" prefHeight="211.0" prefWidth="54.0" style="-fx-background-color: #55D6BE; -fx-background-radius: 0 0 10 10; -fx-border-color: #acfcd9; -fx-border-width: 1 0 0 0;" text="Button" VBox.vgrow="ALWAYS">
                      <graphic>
                         <SVGPath content="M0 0h24M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
                      </graphic>
@@ -60,6 +67,9 @@
                            </color>
                         </DropShadow>
                      </effect>
+                     <tooltip>
+                        <Tooltip styleClass="Tooltip" text="Convert Tab" />
+                     </tooltip>
                   </JFXButton>
                </children>
                <padding>
@@ -68,54 +78,74 @@
             </VBox>
          </right>
          <top>
-            <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#dragger2" onMousePressed="#dragger" style="-fx-background-radius: 10;" BorderPane.alignment="CENTER">
+            <StackPane alignment="TOP_RIGHT" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="799.0" style="-fx-background-color: #55D6BE; -fx-background-radius: 10 10 10 10;" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
+                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#dragger2" onMousePressed="#dragger" style="-fx-background-radius: 10;">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="375.0" spacing="1.0" HBox.hgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="799.0" style="-fx-background-color: #55D6BE; -fx-background-radius: 10 10 10 10;" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets left="30.0" />
+                              <Insets />
                            </HBox.margin>
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Detected Instrument:   ">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
+                              <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="375.0" spacing="1.0" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
-                                    <Insets />
+                                    <Insets left="30.0" />
                                  </HBox.margin>
-                              </Text>
-                              <ChoiceBox fx:id="choiceBox" focusTraversable="false" prefHeight="28.0" prefWidth="138.0" style="-fx-background-color: #acfcd9;">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Detected Instrument:   ">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Text>
+                                    <ChoiceBox fx:id="choiceBox" focusTraversable="false" prefHeight="28.0" prefWidth="138.0" style="-fx-background-color: #acfcd9;">
+                                       <HBox.margin>
+                                          <Insets right="300.0" />
+                                       </HBox.margin>
+                                       <tooltip>
+                                          <Tooltip styleClass="Tooltip" text="Select Tab Insrument" />
+                                       </tooltip>
+                                    </ChoiceBox>
+                                    <JFXButton fx:id="saveButton" buttonType="FLAT" focusTraversable="false" onMouseReleased="#save" prefHeight="32.0" prefWidth="126.0" style="-fx-background-color: #acfcd9; -jfx-button-type: RAISED; -fx-background-radius: 5;" text=" Save Tab">
+                                       <graphic>
+                                          <SVGPath content="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z" />
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                       <tooltip>
+                                          <Tooltip styleClass="Tooltip" text="Save Tab/MusicXml" />
+                                       </tooltip>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                              <ImageView blendMode="COLOR_BURN" fitHeight="43.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/DaCapo.png" />
+                                 </image>
                                  <HBox.margin>
-                                    <Insets right="300.0" />
-                                 </HBox.margin></ChoiceBox>
-                              <JFXButton fx:id="saveButton" buttonType="FLAT" focusTraversable="false" onMouseReleased="#save" prefHeight="32.0" prefWidth="126.0" style="-fx-background-color: #acfcd9; -jfx-button-type: RAISED; -fx-background-radius: 5;" text=" Save Tab">
-                                 <graphic>
-                                    <SVGPath content="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z" />
-                                 </graphic>
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin></JFXButton>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
                            </children>
                         </HBox>
-                        <ImageView blendMode="COLOR_BURN" fitHeight="43.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@/DaCapo.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </ImageView>
                      </children>
+                     <padding>
+                        <Insets left="25.0" right="80.0" top="25.0" />
+                     </padding>
                   </HBox>
+                  <JFXButton alignment="CENTER" contentDisplay="GRAPHIC_ONLY" onMouseReleased="#quit" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: red;">
+                     <graphic>
+                        <SVGPath content="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                     </graphic>
+                     <tooltip>
+                        <Tooltip styleClass="Tooltip" text="Close Program" />
+                     </tooltip>
+                  </JFXButton>
                </children>
-               <padding>
-                  <Insets left="25.0" right="80.0" top="25.0" />
-               </padding>
-            </HBox>
+            </StackPane>
          </top>
          <center>
             <StackPane fx:id="StackPane">

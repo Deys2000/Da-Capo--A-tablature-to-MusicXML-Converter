@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -25,19 +26,20 @@ public class Main extends Application {
 
 		homeController = (HomeController) loader.getController();
 		HomeController.currentStage = primaryStage;
-
-		Scene scene = new Scene(root, 900,600);
-		primaryStage.setResizable(false);
+		Scene scene = new Scene(root, 920,600);
+		root.setStyle("-fx-hgap: 5;-fx-padding: 5; -fx-background-color: #4A525A;-fx-background-radius: 15;-fx-border-radius: 10;-fx-border-width: 5px;-fx-border-color:#55D6BE;");
+		scene.setFill(Color.TRANSPARENT);
+		//primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Da Capo : Text Tab to MusicXML Converter - version 1.0");
 		// keep scene equal or bigger than default in fxml - 800x500
 		primaryStage.getIcons().add(new Image("file:DaCapo.png"));
 		primaryStage.getScene().getStylesheets().add(test.class.getResource("xml-highlighting.css").toExternalForm());
-		// primaryStage.initStyle(StageStyle.TRANSPARENT);
+		primaryStage.initStyle(StageStyle.TRANSPARENT);
 		 Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		 //primaryStage.setX(primaryScreenBounds.getMinX());
 		 //primaryStage.setY(primaryScreenBounds.getMinY());
-		// primaryStage.setWidth(primaryScreenBounds.getWidth());
+		//primaryStage.setWidth(primaryScreenBounds.getWidth());
 		primaryStage.setHeight((primaryScreenBounds.getHeight())/1.5);
 		primaryStage.show();
 		// System.out.println(homeController.codeArea1);

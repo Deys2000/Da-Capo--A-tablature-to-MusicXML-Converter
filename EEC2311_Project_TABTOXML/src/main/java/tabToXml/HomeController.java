@@ -28,6 +28,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -210,24 +211,6 @@ public class HomeController implements Initializable {
 		event.consume();
 	}
 
-	@FXML
-	public void loadSecond(ActionEvent event) throws Exception {
-		VirtualizedScrollPane<CodeArea> vSP = FXMLLoader.load(getClass().getResource("Home4.fxml"));
-		System.out.println(drawer1.getSidePane());
-		if (drawer1.getSidePane().isEmpty())
-			drawer1.setSidePane(vSP);
-		if (drawer1.isOpened()) {
-			drawer1.close();
-			saveButton.setText("Save Tab");
-			codeArea1.requestFocus();
-		} else {
-			converter(event);
-			drawer1.open();
-			saveButton.setText("Save XML");
-			codeArea2.requestFocus();
-		}
-	}
-
 	public void converter(ActionEvent event) throws Exception {
 		// empty the XMLArea before getting new info
 		// tabTextArea2.setText("");
@@ -317,10 +300,13 @@ public class HomeController implements Initializable {
 		saveFile(currentStage);
 	}
 	public void edit(MouseEvent event) throws IOException {
-		JFXDialogLayout content = new JFXDialogLayout();
-		content.setHeading(new Text("Edit Tab"));
-		content.setBody(new Text("Not Yet Implemented"));
-		JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+
+		GridPane grid = FXMLLoader.load(getClass().getResource("Home5.fxml"));
+
+		// JFXDialogLayout content = new JFXDialogLayout();
+		// content.setHeading(new Text("Edit Tab"));
+		// content.setBody(grid);
+		JFXDialog dialog = new JFXDialog(stackPane, grid, JFXDialog.DialogTransition.LEFT);
 		dialog.show();
 	}
 
@@ -381,7 +367,6 @@ public class HomeController implements Initializable {
 
 		if (drawer1.getSidePane().isEmpty())
 					drawer1.setSidePane(vSP);
-
 				if (drawer1.isOpened()) {
 					drawer1.close();
 					saveButton.setText(" Save Tab");

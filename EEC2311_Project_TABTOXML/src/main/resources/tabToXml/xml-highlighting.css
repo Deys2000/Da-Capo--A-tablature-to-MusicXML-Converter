@@ -34,3 +34,7 @@
 {
     -fx-fill: #eeff00 ; 
 }
+.Tooltip
+{
+    -fx-background-color:#55D6BE;
+}
