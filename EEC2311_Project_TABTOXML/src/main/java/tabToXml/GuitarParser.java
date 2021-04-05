@@ -121,7 +121,7 @@ public class GuitarParser {
 							}
 						
 							if (fret <= 24) {
-								chord = translate(tuning[i], fret);
+								chord = translate(tuning.get(i), fret);
 								fretNumVar = fretStringValue;
 								if (parsedTab.get(i).charAt(j+1) == 'p' || parsedTab.get(i).charAt(j+1) == 'P') {
 									fretNumVar = fretNumVar + "p";
@@ -172,7 +172,7 @@ public class GuitarParser {
 							
 							
 							if (fret <= 24) {
-								chord = "+" + translate(tuning[i], fret);
+								chord = "+" + translate(tuning.get(i), fret);
 								fretNumVar = fretStringValue;
 								if (parsedTab.get(i).charAt(j+1) == 'p' || parsedTab.get(i).charAt(j+1) == 'P') {
 									fretNumVar = fretNumVar + "p";
