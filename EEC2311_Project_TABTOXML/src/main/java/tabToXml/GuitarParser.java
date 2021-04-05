@@ -77,207 +77,267 @@ public class GuitarParser {
 
 		int row = parsedTab.size();	
 		int next = parsedTab.get(0).length();
-		//		int next = columnLength(parsedTab);
+//		next = parsedTab.get(0).length(); //Adjust the lenght of the current line of the tablature
 		char fret2 = '\0';
 		String tmp = "";
-
+	
 		int cal = 0;
 		int j = 0;
-		// go through each column
-		for (j = 0; j < next; j++) {			
-			String fretStringValue = "";
-			String fretNumVar = "";   // reset the fret string checker on the iteration of each new column
-			String chord = ""; 		// clear value of note before every column
+			// go through each column
+			for (j = 0; j < next; j++) {			
+				String fretStringValue = "";
+				String fretNumVar = "";   // reset the fret string checker on the iteration of each new column
+				String chord = ""; 		// clear value of note before every column
+				
+				// go through each row
+				for(int i = 0; i < row; i++) {
 
-			// go through each row
-			for(int i = 0; i < row; i++) {
-
-				next = parsedTab.get(i).length(); //Adjust the lenght of the current line of the tablature
-				String fretStringVar = ""; //This is the number  of the current string for a Guitar the string are numbered from 1-6
-
-				fret2 = parsedTab.get(i).charAt(j);					
-				int fret = Character.getNumericValue(fret2);
-
-				if ((fret2 >= '0' && fret2 <= '9') && (j > 0 && j < next)) {
-					if (parsedTab.get(i).charAt(j+1) >= '0' && parsedTab.get(i).charAt(j+1) <= '9') {
-						continue;
+					next = parsedTab.get(i).length(); //Adjust the lenght of the current line of the tablature
+					String fretStringVar = ""; //This is the number  of the current string for a Guitar the string are numbered from 1-6
+					
+					fret2 = parsedTab.get(i).charAt(j);					
+					int fret = Character.getNumericValue(fret2);
+					
+					if ((fret2 >= '0' && fret2 <= '9') && (j > 0 && j < next)) {
+						if (parsedTab.get(i).charAt(j+1) >= '0' && parsedTab.get(i).charAt(j+1) <= '9') {
+							continue;
+						}
 					}
-				}
-
-				if (fret2 >= '0' && fret2 <= '9') {
-					fretStringValue = ""; //Used for concatenating two single numbers to make a double digit number
-					tmp = "";
-
-					// make regular note 
-					if (chord.isEmpty() && fretNumVar.isEmpty() && fretStringVar.isEmpty()) {
-
-						//fret is the number
-						if (parsedTab.get(i).charAt(j-1) >= '0' && parsedTab.get(i).charAt(j-1) <= '9') {
-							fretStringValue =  String.valueOf(parsedTab.get(i).charAt(j-1)) + String.valueOf(parsedTab.get(i).charAt(j));
-							fret = Integer.parseInt(fretStringValue);
-							//								parsedTab.set(i, removeCharAt(parsedTab.get(i), j-1));							
-						}else {
-							fretStringValue = fret + "";
-						}
-
-						if (fret <= 24) {
-							chord = translate(tuning.get(i), fret);
-							fretNumVar = fretStringValue;
-							if (parsedTab.get(i).charAt(j+1) == 'p' || parsedTab.get(i).charAt(j+1) == 'P') {
-								fretNumVar = fretNumVar + "p";
+					
+					if (fret2 >= '0' && fret2 <= '9') {
+						fretStringValue = ""; //Used for concatenating two single numbers to make a double digit number
+						tmp = "";
+						
+						// make regular note 
+						if (chord.isEmpty() && fretNumVar.isEmpty() && fretStringVar.isEmpty()) {
+							
+							//fret is the number
+							if (parsedTab.get(i).charAt(j-1) >= '0' && parsedTab.get(i).charAt(j-1) <= '9') {
+								fretStringValue =  String.valueOf(parsedTab.get(i).charAt(j-1)) + String.valueOf(parsedTab.get(i).charAt(j));
+								fret = Integer.parseInt(fretStringValue);
+//								parsedTab.set(i, removeCharAt(parsedTab.get(i), j-1));							
+							}else {
+								fretStringValue = fret + "";
 							}
-							if (parsedTab.get(i).charAt(j-2) == 'p' || parsedTab.get(i).charAt(j-2) == 'P' || parsedTab.get(i).charAt(j-1) == 'p' || parsedTab.get(i).charAt(j-1) == 'P') {
-								fretNumVar = "p" + fretNumVar;
+						
+							if (fret <= 24) {
+								chord = translate(tuning[i], fret);
+								fretNumVar = fretStringValue;
+								if (parsedTab.get(i).charAt(j+1) == 'p' || parsedTab.get(i).charAt(j+1) == 'P') {
+									fretNumVar = fretNumVar + "p";
+								}
+								if (parsedTab.get(i).charAt(j-2) == 'p' || parsedTab.get(i).charAt(j-2) == 'P' || parsedTab.get(i).charAt(j-1) == 'p' || parsedTab.get(i).charAt(j-1) == 'P') {
+									fretNumVar = "p" + fretNumVar;
+								}
+								if (parsedTab.get(i).charAt(j+1) == 'h' || parsedTab.get(i).charAt(j+1) == 'H') {
+									fretNumVar = fretNumVar + "h";
+								}
+								if (parsedTab.get(i).charAt(j-2) == 'h' || parsedTab.get(i).charAt(j-2) == 'H' || parsedTab.get(i).charAt(j-1) == 'h' || parsedTab.get(i).charAt(j-1) == 'H') {
+									fretNumVar = "h" + fretNumVar;
+								}
+								if (parsedTab.get(i).charAt(j+1) == '/') {
+									fretNumVar = fretNumVar + "/";
+								}
+								if (parsedTab.get(i).charAt(j-2) == '/' || parsedTab.get(i).charAt(j-1) == '/') {
+									fretNumVar = "/" + fretNumVar;
+								}
+								if (parsedTab.get(i).charAt(j+1) == '\\' || parsedTab.get(i).charAt(j+1) == '\\') {
+									fretNumVar = fretNumVar + "\\";
+								}
+								if (parsedTab.get(i).charAt(j-2) == '\\' || parsedTab.get(i).charAt(j-1) == '\\') {
+									fretNumVar = "\\" + fretNumVar;
+								}
+//								else {fretNumVar = fretStringValue;}	
+								cal = i + 1;
+								fretStringVar = cal + "";
 							}
-							if (parsedTab.get(i).charAt(j+1) == 'h' || parsedTab.get(i).charAt(j+1) == 'H') {
-								fretNumVar = fretNumVar + "h";
+							
+						}else { // make a chord note
+//							notes.remove(notes.size() - 1);
+//							fretNum.remove(fretNum.size() - 1);
+							//fretString.remove(fretString.size()-1);
+							
+//							notes.add(chord);
+//							fretNum.add(fretNumVar);
+							//fretString.add(fretStringVar);
+							
+							if (parsedTab.get(i).charAt(j-1) >= '0' && parsedTab.get(i).charAt(j-1) <= '9') {
+								fretStringValue =  String.valueOf(parsedTab.get(i).charAt(j-1)) + String.valueOf(parsedTab.get(i).charAt(j));
+								fret = Integer.parseInt(fretStringValue);
+//								parsedTab.set(i, removeCharAt(parsedTab.get(i), j-1));
+							}else {
+								fretStringValue = fret + "";
 							}
-							if (parsedTab.get(i).charAt(j-2) == 'h' || parsedTab.get(i).charAt(j-2) == 'H' || parsedTab.get(i).charAt(j-1) == 'h' || parsedTab.get(i).charAt(j-1) == 'H') {
-								fretNumVar = "h" + fretNumVar;
-							}
-							//								else {fretNumVar = fretStringValue;}	
-							cal = i + 1;
-							fretStringVar = cal + "";
-						}
-
-					}else { // make a chord note
-						//							notes.remove(notes.size() - 1);
-						//							fretNum.remove(fretNum.size() - 1);
-						//fretString.remove(fretString.size()-1);
-
-						//							notes.add(chord);
-						//							fretNum.add(fretNumVar);
-						//fretString.add(fretStringVar);
-
-						if (parsedTab.get(i).charAt(j-1) >= '0' && parsedTab.get(i).charAt(j-1) <= '9') {
-							fretStringValue =  String.valueOf(parsedTab.get(i).charAt(j-1)) + String.valueOf(parsedTab.get(i).charAt(j));
-							fret = Integer.parseInt(fretStringValue);
-							//								parsedTab.set(i, removeCharAt(parsedTab.get(i), j-1));
-						}else {
-							fretStringValue = fret + "";
-						}
-
-
-
-						if (fret <= 24) {
-							chord = "+" + translate(tuning.get(i), fret);
-							fretNumVar = fretStringValue;
-							if (parsedTab.get(i).charAt(j+1) == 'p' || parsedTab.get(i).charAt(j+1) == 'P') {
-								fretNumVar = fretNumVar + "p";
-							}
-							if (parsedTab.get(i).charAt(j-2) == 'p' || parsedTab.get(i).charAt(j-2) == 'P' || parsedTab.get(i).charAt(j-1) == 'p' || parsedTab.get(i).charAt(j-1) == 'P') {
-								fretNumVar = "p" + fretNumVar;
-							}
-							if (parsedTab.get(i).charAt(j+1) == 'h' || parsedTab.get(i).charAt(j+1) == 'H') {
-								fretNumVar = fretNumVar + "h";
-							}
-							if (parsedTab.get(i).charAt(j-2) == 'h' || parsedTab.get(i).charAt(j-2) == 'H' || parsedTab.get(i).charAt(j-1) == 'h' || parsedTab.get(i).charAt(j-1) == 'H') {
-								fretNumVar = "h" + fretNumVar;
-							}
-							//						        else {fretNumVar = fretStringValue;}							
-							fretStringVar = cal + "";
-						}								
-					} 
-
-					//						if (!fretNumVar.isEmpty() && !chord.isEmpty() && !fretStringVar.isEmpty()) {
-					//							if (parsedTab.get(i).charAt(j+1) == 'p' || parsedTab.get(i).charAt(j+1) == 'P') {
-					//								fretNumVar = fretStringValue + "p";
-					//							}else if (parsedTab.get(i).charAt(j-1) == 'p' || parsedTab.get(i).charAt(j-1) == 'P') {
-					//								fretNumVar = "p" + fretStringValue;
-					//							}else if (parsedTab.get(i).charAt(j+1) == 'h' || parsedTab.get(i).charAt(j+1) == 'H') {
-					//								fretNumVar = fretStringValue + "h";
-					//							}else if (parsedTab.get(i).charAt(j-1) == 'h' || parsedTab.get(i).charAt(j-1) == 'H') {
-					//								fretNumVar = "h" + fretStringValue;
-					//							}
-					//						}
-
-
-					addToLists(chord, fretNumVar, String.valueOf(i+1));
-
-				}
-				else if (fret2 == '|') {
-					if (tmp.isEmpty()) {
-						tmp = fret2 + "";
-						notes.add(tmp);
-						alterArr.add(tmp);
-						fretNum.add(tmp);
-						fretString.add(tmp);
+							
+							
+							
+							if (fret <= 24) {
+								chord = "+" + translate(tuning[i], fret);
+								fretNumVar = fretStringValue;
+								if (parsedTab.get(i).charAt(j+1) == 'p' || parsedTab.get(i).charAt(j+1) == 'P') {
+									fretNumVar = fretNumVar + "p";
+								}
+								if (parsedTab.get(i).charAt(j-2) == 'p' || parsedTab.get(i).charAt(j-2) == 'P' || parsedTab.get(i).charAt(j-1) == 'p' || parsedTab.get(i).charAt(j-1) == 'P') {
+									fretNumVar = "p" + fretNumVar;
+								}
+								if (parsedTab.get(i).charAt(j+1) == 'h' || parsedTab.get(i).charAt(j+1) == 'H') {
+									fretNumVar = fretNumVar + "h";
+								}
+						        if (parsedTab.get(i).charAt(j-2) == 'h' || parsedTab.get(i).charAt(j-2) == 'H' || parsedTab.get(i).charAt(j-1) == 'h' || parsedTab.get(i).charAt(j-1) == 'H') {
+									fretNumVar = "h" + fretNumVar;
+								}
+								if (parsedTab.get(i).charAt(j+1) == '/') {
+									fretNumVar = fretNumVar + "/";
+								}
+								if (parsedTab.get(i).charAt(j-2) == '/' || parsedTab.get(i).charAt(j-1) == '/') {
+									fretNumVar = "/" + fretNumVar;
+								}
+								if (parsedTab.get(i).charAt(j+1) == '\\' || parsedTab.get(i).charAt(j+1) == '\\') {
+									fretNumVar = fretNumVar + "\\";
+								}
+								if (parsedTab.get(i).charAt(j-2) == '\\' || parsedTab.get(i).charAt(j-1) == '\\') {
+									fretNumVar = "\\" + fretNumVar;
+								}
+//						        else {fretNumVar = fretStringValue;}							
+								fretStringVar = cal + "";
+							}								
+						} 
+						
+//						if (!fretNumVar.isEmpty() && !chord.isEmpty() && !fretStringVar.isEmpty()) {
+//							if (parsedTab.get(i).charAt(j+1) == 'p' || parsedTab.get(i).charAt(j+1) == 'P') {
+//								fretNumVar = fretStringValue + "p";
+//							}else if (parsedTab.get(i).charAt(j-1) == 'p' || parsedTab.get(i).charAt(j-1) == 'P') {
+//								fretNumVar = "p" + fretStringValue;
+//							}else if (parsedTab.get(i).charAt(j+1) == 'h' || parsedTab.get(i).charAt(j+1) == 'H') {
+//								fretNumVar = fretStringValue + "h";
+//							}else if (parsedTab.get(i).charAt(j-1) == 'h' || parsedTab.get(i).charAt(j-1) == 'H') {
+//								fretNumVar = "h" + fretStringValue;
+//							}
+//						}
+										
+								
+						addToLists(chord, fretNumVar, String.valueOf(i+1));
+	
 					}
-				}
+					else if (fret2 == '|') {
+						if (tmp.isEmpty()) {
+							tmp = fret2 + "";
+							addToLists(tmp, tmp, tmp);
 
+						}
+					}
+
+				}
 			}
-		}
-
-		notes.remove(notes.size() - 1);		alterArr.remove(alterArr.size()-1);
-		fretNum.remove(fretNum.size() - 1);		fretString.remove(fretString.size()-1);
 		
-		notes.add("||"); alterArr.add("||"); fretNum.add("||");	fretString.add("||");
+			removeFromLists(notes.size() - 1, fretNum.size() - 1, fretString.size()-1);
+
+			addToLists("||", "||", "||");
 
 		//cleaning up the + in the chords and making a chords list
 		for( int i = 0; i < notes.size(); i++) {
 			if(notes.get(i).charAt(0) == '+'){
-				notes.set(i, notes.get(i).substring(1));
+    			notes.set(i, notes.get(i).substring(1));
 				chords.add("true");
-			}
-			else if( notes.get(i).charAt(0) == '|') {
-				chords.add("|");
-			}
-			else {
-				chords.add("false");
-			}
-		}
-
+    		}
+    		else if( notes.get(i).charAt(0) == '|') {
+    			chords.add("|");
+    		}
+    		else {
+    			chords.add("false");
+    		}
+    	}
+		
 		for( int i = 0; i < fretNum.size(); i++) {
-
-			if ((fretNum.get(i).charAt(0) >= '0' && fretNum.get(i).charAt(0) <= '9') ^ (fretNum.get(i).charAt(fretNum.get(i).length()-1) >= '0' && fretNum.get(i).charAt(fretNum.get(i).length()-1) <= '9')) {
-				if(fretNum.get(i).charAt(0) == 'p'){
+			
+				if ((fretNum.get(i).charAt(0) >= '0' && fretNum.get(i).charAt(0) <= '9') ^ (fretNum.get(i).charAt(fretNum.get(i).length()-1) >= '0' && fretNum.get(i).charAt(fretNum.get(i).length()-1) <= '9')) {
+					if(fretNum.get(i).charAt(0) == 'p'){
+						fretNum.set(i, fretNum.get(i).substring(1));
+						handp.add("pstop");
+		    		}
+					else if(fretNum.get(i).charAt(0) == 'h'){
+						fretNum.set(i, fretNum.get(i).substring(1));
+						handp.add("hstop"); //h10
+		    		}
+					else if(fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'p'){
+						fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+						handp.add("pstart"); //11p
+		    		}
+					else if(fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'h'){
+						fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+						handp.add("hstart"); //11h
+		    		}
+					else if(fretNum.get(i).charAt(fretNum.get(i).length()-1) == '/'){
+						fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+						handp.add("astart"); //11h
+		    		}
+					else if(fretNum.get(i).charAt(fretNum.get(i).length()-1) == '\\'){
+						fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+						handp.add("dstart"); //11h
+		    		}
+					else if(fretNum.get(i).charAt(0) == '\\'){
+						fretNum.set(i, fretNum.get(i).substring(1));
+						handp.add("dstop"); //h10
+		    		}
+					else if(fretNum.get(i).charAt(0) == '/'){
+						fretNum.set(i, fretNum.get(i).substring(1));
+						handp.add("astop"); //h10
+		    		}
+				}
+//				else if (!((fretNum.get(i).charAt(0) >= '0' && fretNum.get(i).charAt(0) <= '9') ^ (fretNum.get(i).charAt(fretNum.get(i).length()-1) >= '0' && fretNum.get(i).charAt(fretNum.get(i).length()-1) <= '9'))) {
+				else if (fretNum.get(i).charAt(0) == 'p' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'h') {
+						fretNum.set(i, fretNum.get(i).substring(1));
+						fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+						handp.add("PstopHstart");
+						
+				}
+				else if (fretNum.get(i).charAt(0) == 'h' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'p') {
 					fretNum.set(i, fretNum.get(i).substring(1));
-					handp.add("pstop");
+					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+					handp.add("HstopPstart");
 				}
-				else if(fretNum.get(i).charAt(0) == 'h'){
+				else if (fretNum.get(i).charAt(0) == 'h' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'h') {
 					fretNum.set(i, fretNum.get(i).substring(1));
-					handp.add("hstop"); //h10
-				}
-				else if(fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'p'){
 					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
-					handp.add("pstart"); //11p
+					handp.add("HstopHstart");
 				}
-				else if(fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'h'){
+				else if (fretNum.get(i).charAt(0) == 'p' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'p') {
+					fretNum.set(i, fretNum.get(i).substring(1));
 					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
-					handp.add("hstart"); //11h
+					handp.add("PstopPstart");
+				}		
+				//-------
+				else if (fretNum.get(i).charAt(0) == '/' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == '\\') {
+					fretNum.set(i, fretNum.get(i).substring(1));
+					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+					handp.add("AstopDstart");
+					
 				}
-			}
-			//				else if (!((fretNum.get(i).charAt(0) >= '0' && fretNum.get(i).charAt(0) <= '9') ^ (fretNum.get(i).charAt(fretNum.get(i).length()-1) >= '0' && fretNum.get(i).charAt(fretNum.get(i).length()-1) <= '9'))) {
-			else if (fretNum.get(i).charAt(0) == 'p' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'h') {
-				fretNum.set(i, fretNum.get(i).substring(1));
-				fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
-				handp.add("PstopHstart");
-
-			}
-			else if (fretNum.get(i).charAt(0) == 'h' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'p') {
-				fretNum.set(i, fretNum.get(i).substring(1));
-				fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
-				handp.add("HstopPstart");
-			}
-			else if (fretNum.get(i).charAt(0) == 'h' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'h') {
-				fretNum.set(i, fretNum.get(i).substring(1));
-				fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
-				handp.add("HstopHstart");
-			}
-			else if (fretNum.get(i).charAt(0) == 'p' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'p') {
-				fretNum.set(i, fretNum.get(i).substring(1));
-				fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
-				handp.add("PstopPstart");
-			}
-
-			else if( fretNum.get(i).charAt(0) == '|') {
-				handp.add("|");
-			}
-			else {
-				handp.add("neutral");
-			}
-		}
-
+				else if (fretNum.get(i).charAt(0) == '\\' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == '/') {
+					fretNum.set(i, fretNum.get(i).substring(1));
+					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+					handp.add("DstopAstart");
+				}
+				else if (fretNum.get(i).charAt(0) == '/' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == '/') {
+					fretNum.set(i, fretNum.get(i).substring(1));
+					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+					handp.add("AstopAstart");
+				}
+				else if (fretNum.get(i).charAt(0) == '\\' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == '\\') {
+					fretNum.set(i, fretNum.get(i).substring(1));
+					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+					handp.add("DstopDstart");
+				}
+				//----------
+	    		else if( fretNum.get(i).charAt(0) == '|') {
+	    			handp.add("|");
+	    		}
+	    		else {
+	    			handp.add("neutral");
+	    		}
+				
+    	}
+			
 		// chords - add the double bars later
 	}
 
