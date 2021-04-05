@@ -37,7 +37,6 @@ public class xmlGen {
 	 * This method returns the xml content as a string and returns it, it is useful for printing to console or a text area
 	 * @return String containing xml information
 	 */
-
 	public java.lang.String getXMLContent() {
 		StringWriter xml =  new StringWriter();
 		try {    		
@@ -236,64 +235,208 @@ public class xmlGen {
 				} // NEW
 				Notations notations = new Notations();
 				Technical technical = new Technical();
-				// ADDING HAMMER ONS AND PULL OFFS
+//				// ADDING HAMMER ONS AND PULL OFFS
+//				if(gp.getHandPArr().get(i) == null) {
+//					// do nothing
+//				}
+//				else if( gp.getHandPArr().get(i).substring(0,1).equals("h")) {
+//					HammerOn ho = new HammerOn();
+//					ho.setType(gp.getHandPArr().get(i).substring(1));
+//					technical.setHammerOn(ho);
+//					Slur slur = new Slur();
+//					slur.setType(gp.getHandPArr().get(i).substring(1));
+//					notations.setSlur(slur);
+//				}
+//				else if( gp.getHandPArr().get(i).substring(0,1).equals("p")) {
+//					PullOff po = new PullOff();
+//					po.setType(gp.getHandPArr().get(i).substring(1));
+//					technical.setPullOff(po);
+//					Slur slur = new Slur();
+//					slur.setType(gp.getHandPArr().get(i).substring(1));
+//					notations.setSlur(slur);
+//				}
+//				else if(gp.getHandPArr().get(i).substring(0,1).equals("P") && gp.getHandPArr().get(i).substring(5,6).equals("H")) {
+//					PullOff po = new PullOff();
+//					po.setType(gp.getHandPArr().get(i).substring(1,5));
+//					technical.setPullOff(po);
+//
+//					HammerOn ho = new HammerOn();
+//					ho.setType(gp.getHandPArr().get(i).substring(6));
+//					technical.setHammerOn(ho);
+//				}   
+//				else if(gp.getHandPArr().get(i).substring(0,1).equals("H") && gp.getHandPArr().get(i).substring(5,6).equals("P")) {
+//					HammerOn ho = new HammerOn();
+//					ho.setType(gp.getHandPArr().get(i).substring(1,5));
+//					technical.setHammerOn(ho);
+//
+//					PullOff po = new PullOff();
+//					po.setType(gp.getHandPArr().get(i).substring(6));
+//					technical.setPullOff(po);
+//				}
+//
+//				else if(gp.getHandPArr().get(i).substring(0,1).equals("P") && gp.getHandPArr().get(i).substring(5,6).equals("P")) {
+//					PullOff po = new PullOff();
+//					po.setType(gp.getHandPArr().get(i).substring(1,5));
+//					technical.setPullOff(po);
+//
+//					PullOff po1 = new PullOff();
+//					po1.setType(gp.getHandPArr().get(i).substring(6));
+//					technical.setPullOff(po1);
+//				}
+//
+//				else if(gp.getHandPArr().get(i).substring(0,1).equals("H") && gp.getHandPArr().get(i).substring(5,6).equals("H")) {
+//					HammerOn ho = new HammerOn();
+//					ho.setType(gp.getHandPArr().get(i).substring(1,5));
+//					technical.setHammerOn(ho);
+//
+//					HammerOn ho1 = new HammerOn();
+//					ho1.setType(gp.getHandPArr().get(i).substring(6));
+//					technical.setHammerOn(ho1);
+//				}
 				if(gp.getHandPArr().get(i) == null) {
-					// do nothing
-				}
-				else if( gp.getHandPArr().get(i).substring(0,1).equals("h")) {
-					HammerOn ho = new HammerOn();
-					ho.setType(gp.getHandPArr().get(i).substring(1));
-					technical.setHammerOn(ho);
-					Slur slur = new Slur();
-					slur.setType(gp.getHandPArr().get(i).substring(1));
-					notations.setSlur(slur);
-				}
-				else if( gp.getHandPArr().get(i).substring(0,1).equals("p")) {
-					PullOff po = new PullOff();
-					po.setType(gp.getHandPArr().get(i).substring(1));
-					technical.setPullOff(po);
-					Slur slur = new Slur();
-					slur.setType(gp.getHandPArr().get(i).substring(1));
-					notations.setSlur(slur);
-				}
-				else if(gp.getHandPArr().get(i).substring(0,1).equals("P") && gp.getHandPArr().get(i).substring(5,6).equals("H")) {
-					PullOff po = new PullOff();
-					po.setType(gp.getHandPArr().get(i).substring(1,5));
-					technical.setPullOff(po);
-
-					HammerOn ho = new HammerOn();
-					ho.setType(gp.getHandPArr().get(i).substring(6));
-					technical.setHammerOn(ho);
-				}   
-				else if(gp.getHandPArr().get(i).substring(0,1).equals("H") && gp.getHandPArr().get(i).substring(5,6).equals("P")) {
-					HammerOn ho = new HammerOn();
-					ho.setType(gp.getHandPArr().get(i).substring(1,5));
-					technical.setHammerOn(ho);
-
-					PullOff po = new PullOff();
-					po.setType(gp.getHandPArr().get(i).substring(6));
-					technical.setPullOff(po);
-				}
-
-				else if(gp.getHandPArr().get(i).substring(0,1).equals("P") && gp.getHandPArr().get(i).substring(5,6).equals("P")) {
-					PullOff po = new PullOff();
-					po.setType(gp.getHandPArr().get(i).substring(1,5));
-					technical.setPullOff(po);
-
-					PullOff po1 = new PullOff();
-					po1.setType(gp.getHandPArr().get(i).substring(6));
-					technical.setPullOff(po1);
-				}
-
-				else if(gp.getHandPArr().get(i).substring(0,1).equals("H") && gp.getHandPArr().get(i).substring(5,6).equals("H")) {
-					HammerOn ho = new HammerOn();
-					ho.setType(gp.getHandPArr().get(i).substring(1,5));
-					technical.setHammerOn(ho);
-
-					HammerOn ho1 = new HammerOn();
-					ho1.setType(gp.getHandPArr().get(i).substring(6));
-					technical.setHammerOn(ho1);
-				}
+	            	// do nothing
+	            }
+	            else if( gp.getHandPArr().get(i).substring(0,1).equals("h")) {
+	            	HammerOn ho = new HammerOn();
+	            	ho.setType(gp.getHandPArr().get(i).substring(1));
+	            	technical.setHammerOn(ho);
+	            	Slur slur = new Slur();
+	            	slur.setType(gp.getHandPArr().get(i).substring(1));
+	            	notations.setSlur(slur);
+	            }
+	            else if( gp.getHandPArr().get(i).substring(0,1).equals("p")) {
+	            	PullOff po = new PullOff();
+	            	po.setType(gp.getHandPArr().get(i).substring(1));
+	            	technical.setPullOff(po);
+	            	Slur slur = new Slur();
+	            	slur.setType(gp.getHandPArr().get(i).substring(1));
+	            	notations.setSlur(slur);
+	            }
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("P") && gp.getHandPArr().get(i).substring(5,6).equals("H")) {
+	            	PullOff po = new PullOff();
+	            	po.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	technical.setPullOff(po);
+	            	
+	            	HammerOn ho = new HammerOn();
+	            	ho.setType(gp.getHandPArr().get(i).substring(6));
+	            	technical.setHammerOn(ho);
+	            }   
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("H") && gp.getHandPArr().get(i).substring(5,6).equals("P")) {
+	            	HammerOn ho = new HammerOn();
+	            	ho.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	technical.setHammerOn(ho);
+	            	
+	            	PullOff po = new PullOff();
+	            	po.setType(gp.getHandPArr().get(i).substring(6));
+	            	technical.setPullOff(po);
+	            }
+	            
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("P") && gp.getHandPArr().get(i).substring(5,6).equals("P")) {
+	            	PullOff po = new PullOff();
+	            	po.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	technical.setPullOff(po);
+	            	
+	            	PullOff po1 = new PullOff();
+	            	po1.setType(gp.getHandPArr().get(i).substring(6));
+	            	technical.setPullOff(po1);
+	            }
+	            
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("H") && gp.getHandPArr().get(i).substring(5,6).equals("H")) {
+	            	HammerOn ho = new HammerOn();
+	            	ho.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	technical.setHammerOn(ho);
+	            	
+	            	HammerOn ho1 = new HammerOn();
+	            	ho1.setType(gp.getHandPArr().get(i).substring(6));
+	            	technical.setHammerOn(ho1);
+	            }
+	            //-------
+	            else if( gp.getHandPArr().get(i).substring(0,1).equals("a")) {
+	            	Slide sl = new Slide();
+	            	sl.setType(gp.getHandPArr().get(i).substring(1));
+	            	notations.setSlide(sl);
+//	            	no.setHammerOn(ho);
+//	            	Slur slur = new Slur();
+//	            	slur.setType(gp.getHandPArr().get(i).substring(1));
+//	            	notations.setSlur(slur);
+	            }
+	            else if( gp.getHandPArr().get(i).substring(0,1).equals("d")) {
+	            	Slide sl = new Slide();
+	            	sl.setType(gp.getHandPArr().get(i).substring(1));
+	            	notations.setSlide(sl);
+//	            	PullOff po = new PullOff();
+//	            	po.setType(gp.getHandPArr().get(i).substring(1));
+//	            	technical.setPullOff(po);
+//	            	Slur slur = new Slur();
+//	            	slur.setType(gp.getHandPArr().get(i).substring(1));
+//	            	notations.setSlur(slur);
+	            }
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("A") && gp.getHandPArr().get(i).substring(5,6).equals("D")) {
+	            	Slide sl = new Slide();
+	            	sl.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	notations.setSlide(sl);
+	            	
+	            	Slide sl2 = new Slide();
+	            	sl2.setType(gp.getHandPArr().get(i).substring(6));
+	            	notations.setSlide(sl2);
+//	            	PullOff po = new PullOff();
+//	            	po.setType(gp.getHandPArr().get(i).substring(1,5));
+//	            	technical.setPullOff(po);
+//	            	
+//	            	HammerOn ho = new HammerOn();
+//	            	ho.setType(gp.getHandPArr().get(i).substring(6));
+//	            	technical.setHammerOn(ho);
+	            }   
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("D") && gp.getHandPArr().get(i).substring(5,6).equals("A")) {
+	            	Slide sl = new Slide();
+	            	sl.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	notations.setSlide(sl);
+	            	
+	            	Slide sl2 = new Slide();
+	            	sl2.setType(gp.getHandPArr().get(i).substring(6));
+	            	notations.setSlide(sl2);
+//	            	HammerOn ho = new HammerOn();
+//	            	ho.setType(gp.getHandPArr().get(i).substring(1,5));
+//	            	technical.setHammerOn(ho);
+//	            	
+//	            	PullOff po = new PullOff();
+//	            	po.setType(gp.getHandPArr().get(i).substring(6));
+//	            	technical.setPullOff(po);
+	            }
+	            
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("A") && gp.getHandPArr().get(i).substring(5,6).equals("A")) {
+	            	Slide sl = new Slide();
+	            	sl.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	notations.setSlide(sl);
+	            	
+	            	Slide sl2 = new Slide();
+	            	sl2.setType(gp.getHandPArr().get(i).substring(6));
+	            	notations.setSlide(sl2);            	
+//	            	PullOff po = new PullOff();
+//	            	po.setType(gp.getHandPArr().get(i).substring(1,5));
+//	            	technical.setPullOff(po);
+//	            	
+//	            	PullOff po1 = new PullOff();
+//	            	po1.setType(gp.getHandPArr().get(i).substring(6));
+//	            	technical.setPullOff(po1);
+	            }
+	            
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("D") && gp.getHandPArr().get(i).substring(5,6).equals("D")) {
+	            	Slide sl = new Slide();
+	            	sl.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	notations.setSlide(sl);
+	            	
+	            	Slide sl2 = new Slide();
+	            	sl2.setType(gp.getHandPArr().get(i).substring(6));
+	            	notations.setSlide(sl2);
+//	            	HammerOn ho = new HammerOn();
+//	            	ho.setType(gp.getHandPArr().get(i).substring(1,5));
+//	            	technical.setHammerOn(ho);
+//	            	
+//	            	HammerOn ho1 = new HammerOn();
+//	            	ho1.setType(gp.getHandPArr().get(i).substring(6));
+//	            	technical.setHammerOn(ho1);
+	            }
 				else {
 
 				}

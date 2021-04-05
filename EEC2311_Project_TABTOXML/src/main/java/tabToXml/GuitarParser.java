@@ -295,7 +295,8 @@ public class GuitarParser {
 
 	}
 
-	/*
+
+	/**
      * Generates duration and type arrays from parsed array
      * @param parsedTab - a formatted tab (arrayList of Strings)
      */
@@ -457,6 +458,7 @@ public class GuitarParser {
                 
                 // increase note length by 1
                 noteLength++; 
+
             }
             
             counter++;
