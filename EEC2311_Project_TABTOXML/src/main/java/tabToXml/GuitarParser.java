@@ -295,389 +295,237 @@ public class GuitarParser {
 
 	}
 
-	// I HAD CONFLICTS WHEN I MERGED ELIJAH AND GONGFAN FEATURE, I COMMENTED OUT ONE PARSETORHYTHM AND PUT IN THE OTHER, BUT I KEPT BOTH IN CASE YOU NEED IT - SYED
-	
-	/**
-	 * Generates duration and type arrays from parsed array
-	 * @param parsedTab - a formatted tab (arrayList of Strings)
-	 */
-	//	    public void parseToRhythm(ArrayList<String> parsedTab) {
-	//	    	
-	////	    	// For Debugging
-	////	    	for(int i = 0; i < parsedTab.size(); i++) {
-	////	    		System.out.println(parsedTab.get(i));
-	////	    	}
-	//	        
-	//	        int counter = 0; // iterates horizontally
-	//	        int noteLength = 0; // in 16th notes
-	//	        int lines = parsedTab.size(); // number of lines in staff
-	//	        int currentLine = 0;
-	//	        int prevChordNum = 0; // number of notes in previous chord
-	//	        int curChordNum = 0; // number of notes in current chord
-	//	        
-	//	        boolean isDoubleDigit = false;
-	//	        
-	//	        while (counter < parsedTab.get(0).length() - 1) { 
-	//	            
-	//	            currentLine = 0;
-	//	            
-	//	            // Skip "|" and padding "-"
-	//	            if (parsedTab.get(0).charAt(counter) == '|') {
-	//	                
-	//	                // Assuming note lengths end at barlines
-	//	                if(noteLength != 0) {
-	//	                	// Add all tracked notes to arrays
-	//	                	while (prevChordNum > 0) {
-	//		                    durationArr.add("" + noteLength);
-	//		                    typeArr.add(durationToType(noteLength, divisions));
-	//		                    prevChordNum--;
-	//	                	}
-	//	                	
-	//	                	// since we have reached end of measure, reset and stop counting noteLength
-	//	                    noteLength = 0;
-	//	                }
-	//	                
-	//	                durationArr.add("|");
-	//	                typeArr.add("|");
-	//	                counter += padding; // skipping both '|' and padding '-', if padding exists
-	//	            }
-	//	            
-	//	            // Should be run before encountering the first note/chord in a measure
-	//	            else if (prevChordNum == 0) {
-	//	            	
-	//	            	// Assume Frets are Single digit
-	//	                while(currentLine < lines && !isDoubleDigit) {
-	//	                	                  
-	//	                	// Add all notes to a chord
-	//	                    if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
-	//	                    	
-	//	                    	// check if fret is doubledigit
-	//	                    	if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
-	//	                    		isDoubleDigit = true;
-	//	                    	}
-	//	                    	
-	//	                    	// starts counting noteLength, should only be done once
-	//	                    	if (prevChordNum == 0) {
-	//	                    		noteLength++;
-	//	                    	}
-	//	                    	
-	//	                        prevChordNum++;
-	//	                    }
-	//	                    
-	//	                    currentLine++;
-	//	                }
-	//	                
-	//	                // If DoubleDigit frets, recount using one's place
-	//	                if (isDoubleDigit) {
-	//	                	int totalFretNum = 0;
-	//	                	currentLine = 0;
-	//	                	
-	//	                	while (currentLine < lines) {
-	//	                		if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
-	//	                			totalFretNum++;
-	//	                		}
-	//	                		
-	//	                		currentLine++;
-	//	                	}
-	//	                	
-	//	                	prevChordNum = totalFretNum;
-	//	                }
-	//	            }
-	//	            
-	//	            // Should be run after encountering the first note/chord in a measure
-	//	            else{
-	//	                
-	//	            	// Assume Frets are Single Digit
-	//	                while(currentLine < lines && !isDoubleDigit) {
-	//	                    
-	//	                	// Adds all previous chord notes to arrays, then adds current notes to current chord
-	//	                    if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
-	//	                    	
-	//	                    	// check if fret is doubledigit
-	//	                    	if(Character.isDigit(parsedTab.get(currentLine).charAt(counter+1))) {
-	//	                    		isDoubleDigit = true;
-	//	                    	}
-	//	                    	
-	//	                    	while (prevChordNum > 0) {
-	//		                        durationArr.add("" + noteLength);
-	//		                        typeArr.add(durationToType(noteLength, divisions));
-	//		                        prevChordNum--;
-	//	                    	}
-	//	                    	
-	//	                    	// reset note Length
-	//	                        noteLength = 0;
-	//	                        curChordNum++;
-	//	                    }
-	//	                    
-	//	                    currentLine++;
-	//	                }
-	//	                
-	//	                // If DoubleDigit frets, recount using one's place
-	//	                if (isDoubleDigit) {
-	//	                	int totalFretNum = 0;
-	//	                	currentLine = 0;
-	//	                	
-	//	                	while (currentLine < lines) {
-	//	                		if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
-	//	                			totalFretNum++;
-	//	                		}
-	//	                		
-	//	                		currentLine++;
-	//	                	}
-	//	                	
-	//	                	prevChordNum = totalFretNum;
-	//	                }
-	//	                
-	//	                // if there are notes in the current chord, copy them to previous chord and empty current chord
-	//	                if(curChordNum != 0) {
-	//	                	prevChordNum = curChordNum;
-	//	                	curChordNum = 0;
-	//	                }
-	//	                
-	//	                noteLength++; 
-	//	            }
-	//	            
-	//	            // If Fret is double-digit, increment counter and reset isDoubleDigit
-	//	            if (isDoubleDigit) {
-	//	            	counter++;
-	//	            	isDoubleDigit = false;
-	//	            }
-	//	            
-	//	            counter++;
-	//	        }
-	//	        
-	//	        // Last chord/note length and ending barline is added
-	//	        while (prevChordNum > 0) {
-	//		        durationArr.add("" + noteLength);
-	//		        typeArr.add(durationToType(noteLength, divisions));
-	//		        prevChordNum--;
-	//	        }
-	//	        
-	//	        /**Elijah added this might have been fixed before but was still getting and irregular size for durationArr and typeArr**/
-	//	        durationArr.remove(typeArr.size()-1);
-	//	        typeArr.remove(typeArr.size()-1);
-	//	        
-	//	        durationArr.add("||");
-	//	        typeArr.add("||");
-	//	        
-	////	        // For debugging
-	////	        System.out.print("Duration Array: ");
-	////	        System.out.println(durationArr);
-	////	        System.out.print("Type Array: ");
-	////	        System.out.println(typeArr);
-	//
-	//	    }
-	/**
-	 * Generates duration and type arrays from parsed array
-	 * @param parsedTab - a formatted tab (arrayList of Strings)
-	 */
-	public void parseToRhythm(ArrayList<String> parsedTab) {
+	/*
+     * Generates duration and type arrays from parsed array
+     * @param parsedTab - a formatted tab (arrayList of Strings)
+     */
+    public void parseToRhythm(ArrayList<String> parsedTab) {
+    	
+//    	// For Debugging
+//    	for(int i = 0; i < parsedTab.size(); i++) {
+//    		System.out.println(parsedTab.get(i));
+//    	}
+        
+        int counter = 0; // iterates horizontally
+        int noteLength = 0; // in 16th notes
+        int lines = parsedTab.size(); // number of lines in staff
+        int currentLine = 0;
+        int prevChordNum = 0; // number of notes in previous chord
+        int curChordNum = 0; // number of notes in current chord
+        
+        boolean isDoubleDigit = false;
+        
+        int graceNoteNum = 0; // number of tracked grace notes, for backtracking to note before the grace notes start
+        int graceNoteLength = 0; // note length of tracked grace notes, in 16th notes
+        boolean trackingGrace = false; // if we are tracking grace notes
+        
+        while (counter < parsedTab.get(0).length()) { 
+            
+            currentLine = 0;
+            
+            // Skip "|" and padding "-"
+            if (parsedTab.get(0).charAt(counter) == '|') {
+                
+                // Assuming note lengths end at barlines
+                if(noteLength != 0) {
+                	// Add all tracked notes to arrays
+                	while (prevChordNum > 0) {
+	                    durationArr.add("" + noteLength);
+	                    typeArr.add(durationToType(noteLength, divisions));
+	                    prevChordNum--;
+                	}
+                	
+                	// since we have reached end of measure, reset and stop counting noteLength
+                    noteLength = 0;
+                }
+                
+                // Check for Double Barlines
+                if(counter + 1 < parsedTab.get(0).length() && parsedTab.get(0).charAt(counter + 1) == '|') {
+                	durationArr.add("||");
+                    typeArr.add("||");
+                    graceArr.add("||");
+                    counter++;
+                }
+                else {
+	                durationArr.add("|");
+	                typeArr.add("|");
+	                graceArr.add("|");
+                }
+                counter += padding; // skipping both '|' and padding '-', if padding exists
+            }
+                    
+            // Should be run before encountering the first note/chord in a measure
+            else if (prevChordNum == 0) {
+            	
+            	// Assume Frets are Single digit
+                while(currentLine < lines) {
+                	                  
+                	// Add all notes to a chord
+                    if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
+                    	
+                    	// check if fret is doubledigit
+                    	if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
+                    		isDoubleDigit = true;
+                    	}
+                    	
+                    	// starts counting noteLength, should only be done once
+                    	if (prevChordNum == 0) {
+                    		noteLength++;
+                    	}
+                    	
+                        prevChordNum++;
+                    }
+                    
+                    currentLine++;
+                }
+                
+                // If DoubleDigit frets, recount using one's place
+                if (isDoubleDigit) {
+                	int totalFretNum = 0;
+                	currentLine = 0;
+                	
+                	while (currentLine < lines) {
+                		if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
+                			totalFretNum++;
+                		}
+                		
+                		currentLine++;
+                	}
+                	
+                	prevChordNum = totalFretNum;
+                	
+                	counter++;
+                	isDoubleDigit = false;
+                }
+            }
+            
+            // Should be run after encountering the first note/chord in a measure
+            else{
+            	            	
+            	// Check for Single Digit Frets
+                while(currentLine < lines) {
+                    
+                	// Adds all previous chord notes to arrays, then adds current notes to current chord
+                    if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
+                    	
+                    	// check if fret is doubledigit
+                    	if(Character.isDigit(parsedTab.get(currentLine).charAt(counter+1))) {
+                    		isDoubleDigit = true;
+                    	}
+                    	
+                    	// Adding tracked notes to arrays
+                    	while (prevChordNum > 0) {
+	                        durationArr.add("" + noteLength);
+	                        typeArr.add(durationToType(noteLength, divisions));
+	                        prevChordNum--;
+                    	}
+                    	
+                    	// reset note Length
+                        noteLength = 0;
+                        curChordNum++;
+                    }
+                    
+                    currentLine++;
+                }
 
-		//    	// For Debugging
-		//    	for(int i = 0; i < parsedTab.size(); i++) {
-		//    		System.out.println(parsedTab.get(i));
-		//    	}
-
-		int counter = 0; // iterates horizontally
-		int noteLength = 0; // in 16th notes
-		int lines = parsedTab.size(); // number of lines in staff
-		int currentLine = 0;
-		int prevChordNum = 0; // number of notes in previous chord
-		int curChordNum = 0; // number of notes in current chord
-
-		boolean isDoubleDigit = false;
-
-		int graceNoteNum = 0; // number of tracked grace notes, for backtracking to note before the grace notes start
-		int graceNoteLength = 0; // note length of tracked grace notes, in 16th notes
-		boolean trackingGrace = false; // if we are tracking grace notes
-
-		while (counter < parsedTab.get(0).length() - 1) { 
-
-			currentLine = 0;
-
-			// Skip "|" and padding "-"
-			if (parsedTab.get(0).charAt(counter) == '|') {
-
-				// Assuming note lengths end at barlines
-				if(noteLength != 0) {
-					// Add all tracked notes to arrays
-					while (prevChordNum > 0) {
-						durationArr.add("" + noteLength);
-						typeArr.add(durationToType(noteLength, divisions));
-						prevChordNum--;
-					}
-
-					// since we have reached end of measure, reset and stop counting noteLength
-					noteLength = 0;
-				}
-
-				durationArr.add("|");
-				typeArr.add("|");
-				graceArr.add("|");
-				counter += padding; // skipping both '|' and padding '-', if padding exists
-			}
-
-			// Should be run before encountering the first note/chord in a measure
-			else if (prevChordNum == 0) {
-
-				// Assume Frets are Single digit
-				while(currentLine < lines && !isDoubleDigit) {
-
-					// Add all notes to a chord
-					if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
-
-						// check if fret is doubledigit
-						if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
-							isDoubleDigit = true;
-						}
-
-						// starts counting noteLength, should only be done once
-						if (prevChordNum == 0) {
-							noteLength++;
-						}
-
-						prevChordNum++;
-					}
-
-					currentLine++;
-				}
-
-				// If DoubleDigit frets, recount using one's place
-				if (isDoubleDigit) {
-					int totalFretNum = 0;
-					currentLine = 0;
-
-					while (currentLine < lines) {
-						if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
-							totalFretNum++;
-						}
-
-						currentLine++;
-					}
-
-					prevChordNum = totalFretNum;
-				}
-			}
-
-			// Should be run after encountering the first note/chord in a measure
-			else{
-
-				// Check for Single Digit Frets
-				while(currentLine < lines && !isDoubleDigit) {
-
-					// Adds all previous chord notes to arrays, then adds current notes to current chord
-					if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
-
-						// check if fret is doubledigit
-						if(Character.isDigit(parsedTab.get(currentLine).charAt(counter+1))) {
-							isDoubleDigit = true;
-						}
-
-						// Adding tracked notes to arrays
-						while (prevChordNum > 0) {
-							durationArr.add("" + noteLength);
-							typeArr.add(durationToType(noteLength, divisions));
-							prevChordNum--;
-						}
-
-						// reset note Length
-						noteLength = 0;
-						curChordNum++;
-					}
-
-					currentLine++;
-				}
-
-				// If DoubleDigit frets, recount using one's place
-				if(isDoubleDigit) {
-					int totalFretNum = 0;
-					currentLine = 0;
-
-					while (currentLine < lines) {
-						if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
-							totalFretNum++;
-						}
-
-						currentLine++;
-					}
-
-					prevChordNum = totalFretNum;
-
-					// increment counter and reset isDoubleDigit
-					counter++;
-					isDoubleDigit = false;
-				}
-
-				// if there are notes in the current chord, copy them to previous chord and empty current chord
-				if(curChordNum != 0) {
-					prevChordNum = curChordNum;
-					curChordNum = 0;
-				}
-
-				// increase note length by 1
-				noteLength++; 
-
-			}
-
-			counter++;
-		}
-
-		// Last chord/note length and ending barline is added
-		while (prevChordNum > 0) {
-			durationArr.add("" + noteLength);
-			typeArr.add(durationToType(noteLength, divisions));
-			prevChordNum--;
-		}
-		durationArr.add("||");
-		typeArr.add("||");
-		graceArr.add("||");
-	}
-
-	/**
-	 * CARRIED OVER FROM RHYTHM PARSER CLASS
-	 * returns the word representation of the duration amount
-	 * The method that calls this should throw an error if result is "unknown"
-	 * @param duration
-	 * @param divisions
-	 * @return
-	 */
-	private String durationToType(int duration, int divisions) {
-
-		double durOverDiv = (double) duration / divisions;
-		String result = "";
-
-		if (durOverDiv >= 4.0) {
-			result = "whole";
-		}
-		else if (durOverDiv >= 3.0) {	// note in musicXML needs <dot/> tag
-			result = "dotted half";
-		}
-		else if (durOverDiv >= 2.0) {
-			result = "half";
-		}
-		else if (durOverDiv >= 1.5) {	// note in musicXML needs <dot/> tag
-			result = "dotted quarter";
-		}
-		else if (durOverDiv >= 1.0) {
-			result = "quarter";
-		}
-		else if (durOverDiv >= 0.75) {	// note in musicXML needs <dot/> tag
-			result = "dotted eighth";
-		}
-		else if (durOverDiv >= 0.5) {
-			result = "eighth";
-		}
-		else if (durOverDiv >= 0.25) {
-			result = "16th";
-		}
-		else {
-			result = "16th"; //default, should be set to "unknown"
-			// Should throw minor error
-		}
-
-		return result;
-	}    
-
+                // If DoubleDigit frets, recount using one's place
+                if(isDoubleDigit) {
+                                	
+                	int totalFretNum = 0;
+                	currentLine = 0;
+                	
+                	while (currentLine < lines) {
+                		if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
+                			totalFretNum++;
+                		}
+                		
+                		currentLine++;
+                	}
+                	
+                	prevChordNum = totalFretNum;
+                	
+                	// increment counter and reset isDoubleDigit
+                	counter++;
+                	isDoubleDigit = false;
+                }
+ 
+                // if there are notes in the current chord, copy them to previous chord and empty current chord
+                if(curChordNum != 0) {
+                	prevChordNum = curChordNum;
+                	curChordNum = 0;
+                }
+                
+                // increase note length by 1
+                noteLength++; 
+            }
+            
+            counter++;
+        }
+        
+        // Last chord/note length and ending barline is added
+        /*while (prevChordNum > 0) {
+	        durationArr.add("" + noteLength);
+	        typeArr.add(durationToType(noteLength, divisions));
+	        prevChordNum--;
+        }
+        durationArr.add("||");
+        typeArr.add("||");
+        graceArr.add("||"); */
+        
+//      // For debugging
+//      System.out.print("Duration Array: ");
+//      System.out.println(durationArr);
+//      System.out.print("Type Array: ");
+//      System.out.println(typeArr);
+        System.out.println("GraceArr: " + graceArr);
+    }
+    
+    /**
+     * CARRIED OVER FROM RHYTHM PARSER CLASS
+     * returns the word representation of the duration amount
+     * The method that calls this should throw an error if result is "unknown"
+     * @param duration
+     * @param divisions
+     * @return
+     */
+    private String durationToType(int duration, int divisions) {
+        
+        double durOverDiv = (double) duration / divisions;
+        String result = "";
+        
+        // Can't use switch since durOverDiv is double type
+        if (durOverDiv >= 4.0) {
+            result = "whole";
+        }
+        else if (durOverDiv >= 3.0) {	// note in musicXML needs <dot/> tag
+        	result = "dotted half";
+        }
+        else if (durOverDiv >= 2.0) {
+            result = "half";
+        }
+        else if (durOverDiv >= 1.5) {	// note in musicXML needs <dot/> tag
+            result = "dotted quarter";
+        }
+        else if (durOverDiv >= 1.0) {
+            result = "quarter";
+        }
+        else if (durOverDiv >= 0.75) {	// note in musicXML needs <dot/> tag
+            result = "dotted eighth";
+        }
+        else if (durOverDiv >= 0.5) {
+            result = "eighth";
+        }
+        else if (durOverDiv >= 0.25) {
+            result = "16th";
+        }
+        else {
+        	result = "16th"; //default, should be set to "unknown"
+        	// Should throw minor error
+        }
+        
+        return result;
+    }    
+    
 	/**
 	 * Converts a Note
 	 * C > C#/Db > D > D#/Eb > E > F > F#/Gb > G > G#/Ab > A > A#/Bb > B > Loops back to C
