@@ -21,18 +21,18 @@ At the moment, Da Capo can only translate a basic formatted guitar tablature, wi
 
 1. Import project via git - using this link ([https://github.com/Deys2000/actual-EECS2311Group15](https://github.com/Deys2000/actual-EECS2311Group15)).
 
-1. Make sure to select _ **Import existing Eclipse projects** _ while importing. ![ImportAsEclpseProjexcts](importAs.png)
+1. Make sure to select _ **Import existing Eclipse projects** _ while importing. ![ImportAsEclpseProjexcts](Images/importAs.png)
 2. Once imported, navigate to the Window tab at the top, then Show View, and click on Other...
 
-   ![windowToOther](windowToOther.png)
+   ![windowToOther](Images/windowToOther.png)
 
 1. A new window called Show View will pop up. Scroll down to the Gradle folder, open it, select Gradle Tasks, then click Open.
 
-   ![showViewToGradle](showViewToGradle.png)
+   ![showViewToGradle](Images/showViewToGradle.png)
 
 1. A new view called Gradle Tasks should be visible in the main screen of Eclipse. In that view, navigate to the project, open the application folder, then double click &quot;run&quot; to run the program!
 
-   ![buildToRunSmall](buildToRunSmall.png)
+   ![buildToRunSmall](Images/buildToRunSmall.png)
 
 ## **2.2 Setting Up Using Visual Studio Code**
 
@@ -40,7 +40,7 @@ At the moment, Da Capo can only translate a basic formatted guitar tablature, wi
 
 2. Open the directory in **VSC** and navigate to the terminal.
 
-   ![vscTerminal](vscTerminal.PNG) 
+   ![vscTerminal](Images/vscTerminal.PNG) 
 3. Next you want to change your working **PWD** using this command ``**cd EEC2311\_Project\_TABTOXMl**``
 
 4. Now, to actually build and run the project. Execute the following command in the same terminal ``_ **./gradlew run** _``
