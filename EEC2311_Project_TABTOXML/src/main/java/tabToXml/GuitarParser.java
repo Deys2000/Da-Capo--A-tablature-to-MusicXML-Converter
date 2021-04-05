@@ -155,7 +155,7 @@ public class GuitarParser {
         int graceNoteLength = 0; // note length of tracked grace notes, in 16th notes
         boolean trackingGrace = false; // if we are tracking grace notes
         
-        while (counter < parsedTab.get(0).length() - 1) { 
+        while (counter < parsedTab.get(0).length()) { 
             
             currentLine = 0;
             
@@ -175,9 +175,17 @@ public class GuitarParser {
                     noteLength = 0;
                 }
                 
-                durationArr.add("|");
-                typeArr.add("|");
-                graceArr.add("|");
+                // Check for Double Barlines
+                if(counter + 1 < parsedTab.get(0).length() && parsedTab.get(0).charAt(counter + 1) == '|') {
+                	durationArr.add("||");
+                    typeArr.add("||");
+                    graceArr.add("||");
+                }
+                else {
+	                durationArr.add("|");
+	                typeArr.add("|");
+	                graceArr.add("|");
+                }
                 counter += padding; // skipping both '|' and padding '-', if padding exists
             }
                     
@@ -185,7 +193,7 @@ public class GuitarParser {
             else if (prevChordNum == 0) {
             	
             	// Assume Frets are Single digit
-                while(currentLine < lines && !isDoubleDigit) {
+                while(currentLine < lines) {
                 	                  
                 	// Add all notes to a chord
                     if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
@@ -220,6 +228,9 @@ public class GuitarParser {
                 	}
                 	
                 	prevChordNum = totalFretNum;
+                	
+                	counter++;
+                	isDoubleDigit = false;
                 }
             }
             
@@ -227,7 +238,7 @@ public class GuitarParser {
             else{
             	            	
             	// Check for Single Digit Frets
-                while(currentLine < lines && !isDoubleDigit) {
+                while(currentLine < lines) {
                     
                 	// Adds all previous chord notes to arrays, then adds current notes to current chord
                     if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
@@ -254,6 +265,7 @@ public class GuitarParser {
 
                 // If DoubleDigit frets, recount using one's place
                 if(isDoubleDigit) {
+                                	
                 	int totalFretNum = 0;
                 	currentLine = 0;
                 	
@@ -287,14 +299,14 @@ public class GuitarParser {
         }
         
         // Last chord/note length and ending barline is added
-        while (prevChordNum > 0) {
+        /*while (prevChordNum > 0) {
 	        durationArr.add("" + noteLength);
 	        typeArr.add(durationToType(noteLength, divisions));
 	        prevChordNum--;
         }
         durationArr.add("||");
         typeArr.add("||");
-        graceArr.add("||");
+        graceArr.add("||"); */
         
 //      // For debugging
 //      System.out.print("Duration Array: ");
