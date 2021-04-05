@@ -380,7 +380,7 @@ public class GuitarParser {
         int graceNoteLength = 0; // note length of tracked grace notes, in 16th notes
         boolean trackingGrace = false; // if we are tracking grace notes
         
-        while (counter < parsedTab.get(0).length()) { 
+        while (counter < parsedTab.get(0).length()-1) { 
             
             currentLine = 0;
             
