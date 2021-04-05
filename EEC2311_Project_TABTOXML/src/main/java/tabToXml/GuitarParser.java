@@ -180,6 +180,7 @@ public class GuitarParser {
                 	durationArr.add("||");
                     typeArr.add("||");
                     graceArr.add("||");
+                    counter++;
                 }
                 else {
 	                durationArr.add("|");
