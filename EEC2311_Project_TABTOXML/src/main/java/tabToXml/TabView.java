@@ -110,13 +110,13 @@ public class TabView {
                 String attributesText = matcher.group(MEASURE_INFO);
                 spansBuilder.add(Collections.emptyList(), matcher.start(BASE_NOTE) - lastKwEnd);
                 if (drum == true && matcher.group(GUITAR_TAGS) != null) {
-                    spansBuilder.add(Collections.singleton("anytag"),
+                    spansBuilder.add(Collections.singleton("majorError"),
                             matcher.end(MEASURE_START) - matcher.start(BASE_NOTE));
                 } else if (guitar == true && matcher.group(DRUM_TAGS) != null) {
-                    spansBuilder.add(Collections.singleton("anytag"),
+                    spansBuilder.add(Collections.singleton("majorError"),
                             matcher.end(MEASURE_START) - matcher.start(BASE_NOTE));
                 } else if (drum == true && (matcher.group(GUITAR_TAGS) == null && matcher.group(DRUM_TAGS) == null)) {
-                    spansBuilder.add(Collections.singleton("anytag"),
+                    spansBuilder.add(Collections.singleton("majorError"),
                             matcher.end(MEASURE_START) - matcher.start(BASE_NOTE));
                 } else {
                     spansBuilder.add(Collections.singleton("detected"),
@@ -132,7 +132,7 @@ public class TabView {
 
                     while (iMatcher.find()) {
 
-                        // spansBuilder.add(Collections.singleton("anytag"), iMatcher.start() -
+                        // spansBuilder.add(Collections.singleton("majorError"), iMatcher.start() -
                         // lastKwEnd);
                         spansBuilder.add(Collections.singleton("minorError"),
                                 iMatcher.end(INVALID_TAB) - iMatcher.start(INVALID_TAB));
@@ -147,19 +147,19 @@ public class TabView {
                 }
                 // spansBuilder.add(Collections.singleton("detected"), 1);
                 lastKwEnd = matcher.end(MEASURE_INFO);
-                // spansBuilder.add(Collections.singleton("anytag"), matcher.start(MEASURE_END)
+                // spansBuilder.add(Collections.singleton("majorError"), matcher.start(MEASURE_END)
                 // - lastKwEnd);
                 if (drum == true && matcher.group(GUITAR_TAGS) != null) {
-                    spansBuilder.add(Collections.singleton("anytag"),
+                    spansBuilder.add(Collections.singleton("majorError"),
                             matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
                 } else if (guitar == true && matcher.group(DRUM_TAGS) != null) {
-                    spansBuilder.add(Collections.singleton("anytag"),
+                    spansBuilder.add(Collections.singleton("majorError"),
                             matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
                 } else if (drum == true && (matcher.group(GUITAR_TAGS) == null && matcher.group(DRUM_TAGS) == null)) {
-                    spansBuilder.add(Collections.singleton("anytag"),
+                    spansBuilder.add(Collections.singleton("majorError"),
                             matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
                 } else if (matcher.end(MEASURE_END) - matcher.start(MEASURE_START) != maxLine) {
-                    spansBuilder.add(Collections.singleton("anytag"),
+                    spansBuilder.add(Collections.singleton("majorError"),
                             matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
                 } else {
                     spansBuilder.add(Collections.singleton("detected"),

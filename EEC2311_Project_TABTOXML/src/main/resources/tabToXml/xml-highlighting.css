@@ -32,7 +32,11 @@
 }
 .minorError
 {
-    -fx-fill: #eeff00 ; 
+    -fx-fill: #f3ff4e ; 
+}
+.majorError
+{
+    -fx-fill: #ff5555 ; 
 }
 .Tooltip
 {
