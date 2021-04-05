@@ -1,0 +1,44 @@
+.tagmark {
+    -fx-fill: gray;
+}
+.anytag {
+    -fx-fill: crimson;
+}
+.paren {
+    -fx-fill: firebrick;
+    -fx-font-weight: bold;
+}
+.attribute {
+    -fx-fill: darkviolet;
+}
+.avalue {
+    -fx-fill: black;
+}
+
+.comment {
+	-fx-fill: teal;
+}
+.detected
+{
+    -fx-fill: #55D6BE;
+}
+.mesureContent
+{
+    -fx-fill: blue; 
+}
+.guitar
+{
+    -fx-fill: #55D6BE ; 
+}
+.minorError
+{
+    -fx-fill: #f3ff4e ; 
+}
+.majorError
+{
+    -fx-fill: #ff5555 ; 
+}
+.Tooltip
+{
+    -fx-background-color:#55D6BE;
+}

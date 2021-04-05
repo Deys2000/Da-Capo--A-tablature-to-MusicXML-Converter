@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -16,6 +17,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import org.fxmisc.richtext.CodeArea?>
+<?import org.fxmisc.flowless.VirtualizedScrollPane?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tabToXml.HomeController">
    <top>
@@ -113,11 +116,12 @@
                <children>
                   <TitledPane animated="false" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="MusicXML Preview" VBox.vgrow="ALWAYS">
                      <content>
-                        <TextArea fx:id="tabTextArea2" editable="false" prefHeight="200.0" prefWidth="600.0">
-                           <font>
-                              <Font name="Lucida Console" size="12.0" />
-                           </font>
-                        </TextArea>
+                        <VirtualizedScrollPane>
+                           <content>
+                              <CodeArea fx:id="codeArea" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="541.0" prefWidth="467.0">
+                           </CodeArea>
+                           </content>
+                      </VirtualizedScrollPane>
                      </content>
                   </TitledPane>
                   <Accordion>

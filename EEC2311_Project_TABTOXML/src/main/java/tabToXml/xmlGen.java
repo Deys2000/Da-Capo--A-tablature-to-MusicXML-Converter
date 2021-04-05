@@ -13,344 +13,626 @@ import musicXML.*;
 
 
 // NEEDS TO ADAPT TO CHANGES AS THEY SHOW UP, MORE OF A RESPONSIVE TYPE OF CLASS
-// ORGANIZE THE SCHEMAS AND EVENTUALLY GET RID OF THE ONES WE DONT NEED
 // IDEALLY THIS CLASS HAS 3 MAJOR METHODS FOR THE CREATION OF AN XML FOR EACH OF THE INSTRUMENTS ( subject to improvement )
 
 public class xmlGen {
+
+	Marshaller jaxbMarshaller; // what compiles the set of nested objects into an xml file
 	
-	Marshaller jaxbMarshaller;
-    private ScorePartwise scorePartwise;
-    
-    // This section below needs work on automatic value entry
-    
-    private java.lang.String[][] attributeVals = {
-        {"4"}, // divisions
-        {"0"}, // fifths
-        {"4","4"}, // beats and beat-type
-        {"tab","5"}, // sign and line
-        {"6"}, // staff lines
-        {"E","A","D","G","B","E"}, //tuning-step
-        {"2","2","3","3","3","4"} // tuning-octave
-    };
+	private musicXML.ScorePartwise scorePartwise; //to store a guitar or bass XML 
+	private drumTag.ScorePartwise drumScorePartwise;    // to store a drum XML
 
-    
-    public xmlGen(DrumParser dp, TextFileReader tfr) {
-    	drumGenerator(dp);
-        attributeVals[4][0] = tfr.staffLines();
-    }
-    
-    public xmlGen(BassParser bp, TextFileReader tfr) {
-    	guitarGenerator(bp.processor());
-        attributeVals[4][0] = tfr.staffLines();
 
-    }
-    
-    /**
-     * this one is for guitar obviously
-     * @param instrument
-     * @param parserObject
-     */
-    public xmlGen(GuitarParser gp, TextFileReader tfr) {
-    	guitarGenerator(gp.processor());
-       	//attributeVals[4][0] = tfr.staffLines();
-    }    
 
-    /**
-     * previously a constructor, this has now become a method the constructor call if the instrument is a guitar
-     * @param gp
-     */
-    public void guitarGenerator(java.lang.String[][] info)
-    {
+	// GUITAR CONSTRUCTOR
+	public xmlGen(GuitarParser gp) {
+		guitarGenerator(gp);
+	}    
+	// DRUM CONSTRUCTOR
+	public xmlGen(DrumParser2 dp) {
+		drumGenerator(dp);
+	}  
 
-    	// creating the outermost tag "score-partwise"
-        this.scorePartwise = new ScorePartwise();
-        scorePartwise.setMovementTitle("Guitar Music Piece"); // move to constuctor
-        
-        scorePartwise.setPartList( new PartList(new ScorePart("P1", "Classical Guitar"))); // constructor sets ID and part-name
-        Part part = new Part("P1"); // constructer sets ID
-        
-
-        // creating measure list that will hold all the measures which will each contain all the notes
-        ArrayList<musicXML.Measure> measures = new ArrayList<musicXML.Measure>();
-        // initializing the first measure
-        musicXML.Measure measure = new musicXML.Measure("1"); // constructor sets the measure number
-           
-        // creating the attributes section that goes into the first measure
-        Attributes attributes = new Attributes();
-        attributes.setDivisions(new BigDecimal(2));
-
-        Key key = new Key();
-        key.setFifths(new BigInteger("0"));
-        attributes.setKey(key);
-
-        attributes.setTime(new Time("4", "4")); // constructor takes beat and beat type
-        attributes.setClef(new Clef(TextFileReader.sign(), new BigInteger(TextFileReader.line()))); // constuctor sets sign and line
-
-        StaffDetails staffDetails = new StaffDetails(new BigInteger(TextFileReader.staffLines())); // constructor takes the number of lines
-
-        //creating all the staff tunings that will go into the staff details tag above 
-        ArrayList<StaffTuning> staffTunings = new ArrayList<>();        
-    	for(int i = 0; i < attributeVals[5].length; i++)
-            staffTunings.add(new StaffTuning(new BigInteger(Integer.toString(i + 1)),attributeVals[5][i],new BigInteger(attributeVals[6][i])));       
-    		// loop above adds all information into a stafftuning object before inserting into stafftuning list
-    		// the constructor takes line, tuning step and tuning octave
-    	
-    	//insert the arraylist of staff tunings into the stffdetails object
-        staffDetails.setStaffTuning(staffTunings);
-        // insert staff details into attributes
-        attributes.setStaffDetails(staffDetails);
-        // At this point attributes contains all the requried information, it is added to the first measure
-        measure.setAttributes(attributes);
-
-        // creating a list of notes to put into each measure object
-        ArrayList<musicXML.Note> notes = new ArrayList<>();
-        int measureNum = 1;
-        for(int i = 1; i < info.length; i++)
-        {
-        	// if you happen to be at a "|", then you create a new measure object and store the previous one
-        	if(info[i][0] == null ) {
-        		measure.setNote(notes);
-        		notes = new ArrayList<musicXML.Note>();
-        		measures.add(measure);
-        		measure = new musicXML.Measure();
-        		measureNum++;
-        		measure.setNumber(""+measureNum);
-        	}
-        	//if you happen to NOT get a "|", then you are at a note, so create a note and store it in the notes list
-        	else {
-        		musicXML.Note note = new musicXML.Note();
-        		Chord c = new Chord();
-        		if( info[i][7].equals("true"))
-        			note.getDurationOrChordOrCue().add(c); // chord
-            Pitch pitch = new Pitch(info[i][1],new BigInteger(info[i][3]));
-            note.getDurationOrChordOrCue().add(pitch);
-            note.getDurationOrChordOrCue().add(new BigDecimal(info[i][0])); // duration
-            note.setVoice(info[i][2]);
-            note.setType(new Type(info[i][4]));
-            Notations notations = new Notations();
-            Technical technical = new Technical();
-            technical.setString( new musicXML.String(new BigInteger(info[i][5])));
-            technical.setFret(new Fret(new BigInteger(info[i][6])));
-            notations.setTechnical(technical);
-            note.setNotations(notations);
-            notes.add(note);
-        	}
-        }
-        measure.setNote(notes);        
-        part.setMeasure(measures);
-        // at this point all the measures have been created along with all the notes inside them
-        
-        scorePartwise.setPart(part);
-        // add the part and our process of creating objects is complete
-        // now we just need to marshall
-        
-        // ADDED TO CONSTRUCTOR
-        try {
-
-            JAXBContext jaxbContext = JAXBContext.newInstance(ScorePartwise.class);
-            jaxbMarshaller = jaxbContext.createMarshaller();
-
-            // output pretty printed
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            
-
-            //jaxbMarshaller.marshal(scorePartwise, System.out); //prints to console
-
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-        
-        
-    }
-
-    /**
-     * This method replaces the contents of a file with the XML of a tablature, its used for creating a file to put on a music player
-     * @param file
-     * @return
-     */
-    @SuppressWarnings("finally")
-	public File createFile(File file)
-    {
-    	try {
-    		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-    		jaxbMarshaller.marshal(scorePartwise, file); // return as a string???
-    	}
-    	catch(JAXBException e) {
-    		e.printStackTrace();
-    	}finally {
-    		return file;
-    	}
-    }
-    
-
-    /**
-     * This method gets the XML information as a string, its useful for printing on console or to GUI
-     * @return
-     */
-    @SuppressWarnings("finally")
+	/**
+	 * This method returns the xml content as a string and returns it, it is useful for printing to console or a text area
+	 * @return String containing xml information
+	 */
 	public java.lang.String getXMLContent() {
-    	StringWriter xml =  new StringWriter();
-    	try {    		
-            jaxbMarshaller.marshal(scorePartwise, xml); // return as a string???
-        }
-        catch(JAXBException e) {
-        	e.printStackTrace();
-        }finally {
-        	return xml.toString();
-        }
-    }
-    
-    /**
-     * WORKING ON GETTING DRUMS TO WORK
-     * @param gp
-     */
-    public void drumGenerator(DrumParser dp)
-    {
+		StringWriter xml =  new StringWriter();
+		try {    		
+			if( drumScorePartwise == null)
+				jaxbMarshaller.marshal(this.scorePartwise, xml); // return as a string???
+			else
+				jaxbMarshaller.marshal(this.drumScorePartwise, xml); // return as a string???
+		}
+		catch(JAXBException e) {e.printStackTrace(); }
+		finally {
+			return xml.toString();
+		}
+	}
 
-    	// creating the outermost tag "score-partwise"
-        this.scorePartwise = new ScorePartwise();
-       // scorePartwise.setMovementTitle("test"); // move to constuctor
-        //PartList partlist = new PartList();
-        
-        ScorePart scorepart = new ScorePart();//"P1","Drumset");
-        scorepart.setId("P1");
-        PartName partname = new PartName();
-        partname.setValue("Drumset");
-        scorepart.setPartName(partname);
-        //adding the list of insturments and their ID's
-        for(StringInfo stringinfo: dp.getTabStrings()) {
-        	ScoreInstrument si = new ScoreInstrument();
-        	si.setId(stringinfo.getInstrumentId());
-        	si.setInstrumentName(stringinfo.getInstrumentName());
-    		System.out.println(si.getInstrumentName());
-    		System.out.println(si.getId());
-        	try {
-        	scorepart.addScoreInstrument(si);
-        	}
-        	catch(NullPointerException e) {
-        		System.out.println(">>>>>>>>>>>>>>>>ISSUE");
-        		System.out.println(scorepart.getPartName().getValue());
-        		System.out.println(stringinfo.getInstrumentName());
+	/**
+	 * This method replaces the contents of a file with the XML of a tablature, its used for creating a file to put on a music player
+	 * @param file
+	 * @return
+	 */
+	@SuppressWarnings("finally")
+	public File createFile(File file){
+		try {
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(scorePartwise, file); // return as a string???
+		}
+		catch(JAXBException e) {e.printStackTrace();}
+		finally {
+			return file;
+		}
+	}
 
-        	}
-        	finally {
-        		
-        	}
-        }
-        scorePartwise.setPartList( new PartList(scorepart) ); // constructor sets ID and part-name
-        
-        
-        
-        Part part = new Part("P1"); // constructer sets ID
-        
 
-        // creating measure list that will hold all the measures which will each contain all the notes
-        ArrayList<musicXML.Measure> measures = new ArrayList<musicXML.Measure>();
-        // initializing the first measure
-        musicXML.Measure measure = new musicXML.Measure("1"); // constructor sets the measure number
-           
-        // creating the attributes section that goes into the first measure
-        Attributes attributes = new Attributes();
-        attributes.setDivisions(new BigDecimal(4));
-        Key key = new Key();
-        key.setFifths(new BigInteger("0"));
-        attributes.setKey(key);
-        attributes.setTime(new Time("4", "4")); // constructor takes beat and beat type
-        attributes.setClef(new Clef("percussion", new BigInteger("2"))); // constuctor sets sign and line
+	/////////////////////////////
+	//// XML GENERATORS BELOW ///
+	/////////////////////////////
 
-        // ADDING THE NOTES IN THE FIRST MEASURE
-       measure.setAttributes(attributes);
-       // adding all the notes of the first measure
-	   ArrayList<musicXML.Note> notes = new ArrayList<musicXML.Note>();
-	   musicXML.Note n;
-       for(tabToXml.Note note: dp.getMeasures().get(0).getNotes()) {
-    	   n = new musicXML.Note();
-    	   // if the note is not a rest note give it the following values as well
-    	   if( note.getUnpitchedOrRest().equals("unpitched")) {        	   
-        	   n.getDurationOrChordOrCue().add(new Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));        	   
-        	   //if(note.getChord())
-        		//   n.getDurationOrChordOrCue().add(new Chord());
-        	   Instrument instrument = new Instrument();
-        	   instrument.setId(note.getInstrumentID());
-        	   n.setInstrument(instrument);        	   
-        	   n.setStem(new Stem(note.getStem()));
-        	   Notehead notehead = new Notehead();
-        	   notehead.setValue(note.getNotehead());
-        	   n.setNotehead(notehead);
-    	   }   
-    	   // the else statement takes the rest notes
-    	   else {
-    		   n.getDurationOrChordOrCue().add(new Rest());
-    	   }    		   
-    	   // duration, voice and type are for all notes regardless
-    	   n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));
-    	   n.setVoice(java.lang.String.valueOf(note.getVoice()));
-    	   n.setType(new Type(note.getType()));    	       	   
-    	   notes.add(n);
-       }
-       //adding the first batch of notes to the first measure
-       measure.setNote(notes);  
-       measures.add(measure);
-    	 
-       // Making all the measures after the first one
-       int measureNum = 1;
-       for(int i = 1; i < dp.getMeasures().size(); i++) {
-    	   notes = new ArrayList<musicXML.Note>();
-    	   measureNum++;
-           measure = new musicXML.Measure(java.lang.String.valueOf(measureNum));
+	/**
+	 * Guitar XML File Generator
+	 * @param gp
+	 */
+	public void guitarGenerator(GuitarParser gp){ 	
+		
+		// FOR CONSOLE VIEWING PURPOSES
+		System.out.println("Length: "+ gp.getNotes().size()			+ "> Notes: \t" 	+ gp.getNotes() );
+		System.out.println("Length: "+ gp.getChordArr().size() 		+ "> Chord?: \t" 	+ gp.getChordArr()  );
+		System.out.println("Length: "+ gp.getFretNums().size()		+ "> Frets Nums: \t"+ gp.getFretNums()  );
+		System.out.println("Length: "+ gp.getFretStrings().size()	+ "> Fret Strings:\t"+ gp.getFretStrings());
+		System.out.println("Length: "+ gp.getDurationArr().size()	+ "> Duration: \t" 	+ gp.getDurationArr());
+		System.out.println("Length: "+ gp.getTypeArr().size() 		+ "> Type: \t" 		+ gp.getTypeArr() );
+		System.out.println("Length: "+ gp.getAlters().size()		+ "> Alter: \t" 	+ gp.getAlters() );
+		System.out.println("Length: "+ gp.getHandPArr().size() 		+ "> H and P: \t" 	+ gp.getHandPArr());
+		System.out.println("Length: "+ gp.getGraceArr().size()		+ "> Grace: \t" 	+ gp.getGraceArr() );
+		
+		
+		// creating the outermost tag "score-partwise"
+		TextFileReader tfr = gp.tfr;
 
-    	   for(tabToXml.Note note: dp.getMeasures().get(i).getNotes()) {
-        	   n = new musicXML.Note();
-        	   // if the note is not a rest note give it the following values as well
-        	   if(note.getUnpitchedOrRest().equals("unpitched")) {
-        		   n.getDurationOrChordOrCue().add(new Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
-        		   //if(note.getChord())
-        			//   n.getDurationOrChordOrCue().add(new Chord());
-        		   Instrument instrument = new Instrument();
-            	   instrument.setId(note.getInstrumentID());
-            	   n.setInstrument(instrument);
-            	   n.setStem(new Stem(note.getStem()));
-            	   Notehead notehead = new Notehead();
-            	   notehead.setValue(note.getNotehead());
-            	   n.setNotehead(notehead);
-        	   }else {     	   // the else statement takes the rest notes
+		this.scorePartwise = new ScorePartwise();
+		scorePartwise.setMovementTitle("Guitar Music Piece"); // move to constuctor
 
-        		   n.getDurationOrChordOrCue().add(new Rest());
-        	   }        	   
-        	   n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   
-        	   n.setVoice(java.lang.String.valueOf(note.getVoice()));
-        	   n.setType(new Type(note.getType()));
-        	   notes.add(n);
-           }
-           //adding the first batch of notes to the first measure
-           measure.setNote(notes); 
-           measures.add(measure);
-       	}
-       
-       	// At this point, we should have all the measures containing all the notes;
-       //we also have an extra empty measure created at the end so we remove it
-       measures.remove(measures.size()-1);
-       part.setMeasure(measures);
-        scorePartwise.setPart(part);
-        // add the part and our process of creating objects is complete
-        // now we just need to marshall
-        
-        // ADDED TO CONSTRUCTOR
-        try {
+		scorePartwise.setPartList( new PartList(new ScorePart("P1", "Classical Guitar"))); // constructor sets ID and part-name
+		Part part = new Part("P1"); // constructer sets ID
 
-            JAXBContext jaxbContext = JAXBContext.newInstance(ScorePartwise.class);
-            jaxbMarshaller = jaxbContext.createMarshaller();
 
-            // output pretty printed
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            
+		// creating measure list that will hold all the measures which will each contain all the notes
+		ArrayList<musicXML.Measure> measures = new ArrayList<musicXML.Measure>();
+		// initializing the first measure
+		int measureNum = 0;
+		musicXML.Measure measure; // = new musicXML.Measure("1"); // constructor sets the measure number
 
-            jaxbMarshaller.marshal(scorePartwise, System.out); //prints to console
+		// creating the attributes section that goes into the first measure
+		// set attributes for the measure
+		Attributes attributes;
+		// creating a list of notes to put into each measure object
+		ArrayList<musicXML.Note> notes = new ArrayList<>();
 
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-        
-        
-    }
-}
+		for(int i = 1; i < gp.getNotes().size(); i++) // start at one since the first barline is not the end of measure
+		{
+			// if you happen to be at a "|", then you create a new measure object and store the previous one
+			if(gp.getDurationArr().get(i).contains("|")) {        		
+				measure = new musicXML.Measure();
+				measure.setNumber(""+measureNum+1);
+
+				// set attributes for the measure
+				attributes = new Attributes();
+				attributes.setDivisions(new BigDecimal(tfr.getAttributesPerMeasure().get(measureNum).getDivisions()));
+
+				Key key = new Key();
+				key.setFifths(new BigInteger(""+tfr.getAttributesPerMeasure().get(measureNum).getFifths()));
+				attributes.setKey(key);
+
+				attributes.setTime(new Time(""+tfr.getAttributesPerMeasure().get(measureNum).getBeats(), ""+tfr.getAttributesPerMeasure().get(measureNum).getBeattype())); // constructor takes beat and beat type
+				attributes.setClef(new Clef(tfr.getAttributesPerMeasure().get(measureNum).getSign(), new BigInteger(tfr.getAttributesPerMeasure().get(measureNum).getLine()))); // constuctor sets sign and line
+
+				StaffDetails staffDetails = new StaffDetails(new BigInteger(java.lang.String.valueOf(tfr.getStaffLines()))); // constructor takes the number of lines
+
+				//creating all the staff tunings that will go into the staff details tag above 
+				
+				// HARDCODED CHANGE LATER // TODO TODO TODO TODO TODO TODO TODO TODO //
+				
+				java.lang.String[][] attributeVals = {
+						{"4"}, // divisions
+						{"0"}, // fifths
+						{"4","4"}, // beats and beat-type
+						{"tab","5"}, // sign and line
+						{"6"}, // staff lines
+						{"E","A","D","G","B","E"}, //tuning-step
+						{"2","2","3","3","3","4"} // tuning-octave
+				};
+				
+				ArrayList<StaffTuning> staffTunings = new ArrayList<>();        
+				//for(int j = 0; j < attributeVals.length; j++)
+				//	staffTunings.add(new StaffTuning(new BigInteger(Integer.toString(j + 1)),attributeVals[5][j],new BigInteger(attributeVals[6][j])));       
+				// loop above adds all information into a staff tuning object before inserting into staff tuning list
+				
+				for(int j = 0; j < gp.tuning.size(); j++) {
+					staffTunings.add(new StaffTuning(new BigInteger(Integer.toString(j + 1)),gp.tuning.get(j).substring(0,1),new BigInteger(gp.tuning.get(j).substring(1))));       
+				}
+				
+				
+				// TODO  TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO//
+				
+				// the constructor takes line, tuning step and tuning octave
+
+				//insert the arraylist of staff tunings into the stffdetails object
+				staffDetails.setStaffTuning(staffTunings);
+				// insert staff details into attributes
+				attributes.setStaffDetails(staffDetails);
+				// At this point attributes contains all the requried information, it is added to the first measure
+				measure.setAttributes(attributes);
+
+				// setting REPEATS
+				System.out.println(measureNum+">>>"+ tfr.getAttributesPerMeasure().get(measureNum).getRepeat());
+				if( tfr.getAttributesPerMeasure().get(measureNum).getRepeat() != null ) {
+					musicXML.Barline barline1 = new Barline();
+					barline1.setLocation("left");
+					musicXML.BarStyle barstyle = new BarStyle();
+					barstyle.setValue("heavy-light");
+					barline1.setBarStyle(barstyle);
+					musicXML.Repeat repeat = new Repeat();
+					repeat.setDirection("forward");
+					barline1.setRepeat(repeat);
+					measure.setBarline1(barline1);
+
+					musicXML.Direction direction = new Direction();
+					direction.setPlacement("above");
+					musicXML.DirectionType directiontype = new DirectionType();
+					musicXML.Words words = new Words();
+					words.setRelativeX(new BigDecimal("250.0"));
+					words.setRelativeY(new BigDecimal("20.0"));
+					words.setValue("Repeat "+tfr.getAttributesPerMeasure().get(measureNum).getRepeat()+" times" );
+					System.out.println("<><>"+ words.getValue());
+					directiontype.setWords(words);
+					direction.setDirectionType(directiontype);
+					measure.setDirection(direction);
+
+					musicXML.Barline barline2 = new Barline();
+					barline2.setLocation("right");
+					musicXML.BarStyle barstyle2 = new BarStyle();
+					barstyle2.setValue("light-heavy");
+					barline2.setBarStyle(barstyle2);
+					musicXML.Repeat repeat2 = new Repeat();
+					repeat2.setDirection("backward");
+					barline2.setRepeat(repeat2);
+					measure.setBarline2(barline2);         
+
+				}     
+
+				measureNum++;
+				measure.setNote(notes);
+				measures.add(measure);
+				notes = new ArrayList<musicXML.Note>();
+
+			}
+			//if you happen to NOT get a "|", then you are at a note, so create a note and store it in the notes list
+			else {
+				musicXML.Note note = new musicXML.Note();
+				Chord c = new Chord();
+				if( gp.getChordArr().get(i).equals("true"))
+					note.getDurationOrChordOrCue().add(c); // chord
+				Pitch pitch = new Pitch(gp.getNotes().get(i).substring(0,1),new BigInteger(gp.getNotes().get(i).substring(1)));
+				if(gp.getAlters().get(i) != null)
+					pitch.setAlter(new BigDecimal(gp.getAlters().get(i)));
+				note.getDurationOrChordOrCue().add(pitch);
+				note.getDurationOrChordOrCue().add(new BigDecimal(gp.getDurationArr().get(i))); // duration
+
+				note.setVoice("1"); // ---------------------------HARDCODED: we dont consider a second voice for drums
+				// RESOLVES BUG #22, for dotted notes
+				if( gp.getTypeArr().get(i).contains("dotted") == true ) {
+					//if (info[i][4].substring(0,6).compareTo("dotted") == 0) { // NEW
+					note.setType(new Type(gp.getTypeArr().get(i).substring(7))); // NEW
+					note.setDot(new Dot()); // NEW
+				} // NEW
+				else { // NEW
+					note.setType(new Type(gp.getTypeArr().get(i)));
+				} // NEW
+				Notations notations = new Notations();
+				Technical technical = new Technical();
+//				// ADDING HAMMER ONS AND PULL OFFS
+//				if(gp.getHandPArr().get(i) == null) {
+//					// do nothing
+//				}
+//				else if( gp.getHandPArr().get(i).substring(0,1).equals("h")) {
+//					HammerOn ho = new HammerOn();
+//					ho.setType(gp.getHandPArr().get(i).substring(1));
+//					technical.setHammerOn(ho);
+//					Slur slur = new Slur();
+//					slur.setType(gp.getHandPArr().get(i).substring(1));
+//					notations.setSlur(slur);
+//				}
+//				else if( gp.getHandPArr().get(i).substring(0,1).equals("p")) {
+//					PullOff po = new PullOff();
+//					po.setType(gp.getHandPArr().get(i).substring(1));
+//					technical.setPullOff(po);
+//					Slur slur = new Slur();
+//					slur.setType(gp.getHandPArr().get(i).substring(1));
+//					notations.setSlur(slur);
+//				}
+//				else if(gp.getHandPArr().get(i).substring(0,1).equals("P") && gp.getHandPArr().get(i).substring(5,6).equals("H")) {
+//					PullOff po = new PullOff();
+//					po.setType(gp.getHandPArr().get(i).substring(1,5));
+//					technical.setPullOff(po);
+//
+//					HammerOn ho = new HammerOn();
+//					ho.setType(gp.getHandPArr().get(i).substring(6));
+//					technical.setHammerOn(ho);
+//				}   
+//				else if(gp.getHandPArr().get(i).substring(0,1).equals("H") && gp.getHandPArr().get(i).substring(5,6).equals("P")) {
+//					HammerOn ho = new HammerOn();
+//					ho.setType(gp.getHandPArr().get(i).substring(1,5));
+//					technical.setHammerOn(ho);
+//
+//					PullOff po = new PullOff();
+//					po.setType(gp.getHandPArr().get(i).substring(6));
+//					technical.setPullOff(po);
+//				}
+//
+//				else if(gp.getHandPArr().get(i).substring(0,1).equals("P") && gp.getHandPArr().get(i).substring(5,6).equals("P")) {
+//					PullOff po = new PullOff();
+//					po.setType(gp.getHandPArr().get(i).substring(1,5));
+//					technical.setPullOff(po);
+//
+//					PullOff po1 = new PullOff();
+//					po1.setType(gp.getHandPArr().get(i).substring(6));
+//					technical.setPullOff(po1);
+//				}
+//
+//				else if(gp.getHandPArr().get(i).substring(0,1).equals("H") && gp.getHandPArr().get(i).substring(5,6).equals("H")) {
+//					HammerOn ho = new HammerOn();
+//					ho.setType(gp.getHandPArr().get(i).substring(1,5));
+//					technical.setHammerOn(ho);
+//
+//					HammerOn ho1 = new HammerOn();
+//					ho1.setType(gp.getHandPArr().get(i).substring(6));
+//					technical.setHammerOn(ho1);
+//				}
+				if(gp.getHandPArr().get(i) == null) {
+	            	// do nothing
+	            }
+	            else if( gp.getHandPArr().get(i).substring(0,1).equals("h")) {
+	            	HammerOn ho = new HammerOn();
+	            	ho.setType(gp.getHandPArr().get(i).substring(1));
+	            	technical.setHammerOn(ho);
+	            	Slur slur = new Slur();
+	            	slur.setType(gp.getHandPArr().get(i).substring(1));
+	            	notations.setSlur(slur);
+	            }
+	            else if( gp.getHandPArr().get(i).substring(0,1).equals("p")) {
+	            	PullOff po = new PullOff();
+	            	po.setType(gp.getHandPArr().get(i).substring(1));
+	            	technical.setPullOff(po);
+	            	Slur slur = new Slur();
+	            	slur.setType(gp.getHandPArr().get(i).substring(1));
+	            	notations.setSlur(slur);
+	            }
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("P") && gp.getHandPArr().get(i).substring(5,6).equals("H")) {
+	            	PullOff po = new PullOff();
+	            	po.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	technical.setPullOff(po);
+	            	
+	            	HammerOn ho = new HammerOn();
+	            	ho.setType(gp.getHandPArr().get(i).substring(6));
+	            	technical.setHammerOn(ho);
+	            }   
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("H") && gp.getHandPArr().get(i).substring(5,6).equals("P")) {
+	            	HammerOn ho = new HammerOn();
+	            	ho.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	technical.setHammerOn(ho);
+	            	
+	            	PullOff po = new PullOff();
+	            	po.setType(gp.getHandPArr().get(i).substring(6));
+	            	technical.setPullOff(po);
+	            }
+	            
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("P") && gp.getHandPArr().get(i).substring(5,6).equals("P")) {
+	            	PullOff po = new PullOff();
+	            	po.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	technical.setPullOff(po);
+	            	
+	            	PullOff po1 = new PullOff();
+	            	po1.setType(gp.getHandPArr().get(i).substring(6));
+	            	technical.setPullOff(po1);
+	            }
+	            
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("H") && gp.getHandPArr().get(i).substring(5,6).equals("H")) {
+	            	HammerOn ho = new HammerOn();
+	            	ho.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	technical.setHammerOn(ho);
+	            	
+	            	HammerOn ho1 = new HammerOn();
+	            	ho1.setType(gp.getHandPArr().get(i).substring(6));
+	            	technical.setHammerOn(ho1);
+	            }
+	            //-------
+	            else if( gp.getHandPArr().get(i).substring(0,1).equals("a")) {
+	            	Slide sl = new Slide();
+	            	sl.setType(gp.getHandPArr().get(i).substring(1));
+	            	notations.setSlide(sl);
+//	            	no.setHammerOn(ho);
+//	            	Slur slur = new Slur();
+//	            	slur.setType(gp.getHandPArr().get(i).substring(1));
+//	            	notations.setSlur(slur);
+	            }
+	            else if( gp.getHandPArr().get(i).substring(0,1).equals("d")) {
+	            	Slide sl = new Slide();
+	            	sl.setType(gp.getHandPArr().get(i).substring(1));
+	            	notations.setSlide(sl);
+//	            	PullOff po = new PullOff();
+//	            	po.setType(gp.getHandPArr().get(i).substring(1));
+//	            	technical.setPullOff(po);
+//	            	Slur slur = new Slur();
+//	            	slur.setType(gp.getHandPArr().get(i).substring(1));
+//	            	notations.setSlur(slur);
+	            }
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("A") && gp.getHandPArr().get(i).substring(5,6).equals("D")) {
+	            	Slide sl = new Slide();
+	            	sl.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	notations.setSlide(sl);
+	            	
+	            	Slide sl2 = new Slide();
+	            	sl2.setType(gp.getHandPArr().get(i).substring(6));
+	            	notations.setSlide(sl2);
+//	            	PullOff po = new PullOff();
+//	            	po.setType(gp.getHandPArr().get(i).substring(1,5));
+//	            	technical.setPullOff(po);
+//	            	
+//	            	HammerOn ho = new HammerOn();
+//	            	ho.setType(gp.getHandPArr().get(i).substring(6));
+//	            	technical.setHammerOn(ho);
+	            }   
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("D") && gp.getHandPArr().get(i).substring(5,6).equals("A")) {
+	            	Slide sl = new Slide();
+	            	sl.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	notations.setSlide(sl);
+	            	
+	            	Slide sl2 = new Slide();
+	            	sl2.setType(gp.getHandPArr().get(i).substring(6));
+	            	notations.setSlide(sl2);
+//	            	HammerOn ho = new HammerOn();
+//	            	ho.setType(gp.getHandPArr().get(i).substring(1,5));
+//	            	technical.setHammerOn(ho);
+//	            	
+//	            	PullOff po = new PullOff();
+//	            	po.setType(gp.getHandPArr().get(i).substring(6));
+//	            	technical.setPullOff(po);
+	            }
+	            
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("A") && gp.getHandPArr().get(i).substring(5,6).equals("A")) {
+	            	Slide sl = new Slide();
+	            	sl.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	notations.setSlide(sl);
+	            	
+	            	Slide sl2 = new Slide();
+	            	sl2.setType(gp.getHandPArr().get(i).substring(6));
+	            	notations.setSlide(sl2);            	
+//	            	PullOff po = new PullOff();
+//	            	po.setType(gp.getHandPArr().get(i).substring(1,5));
+//	            	technical.setPullOff(po);
+//	            	
+//	            	PullOff po1 = new PullOff();
+//	            	po1.setType(gp.getHandPArr().get(i).substring(6));
+//	            	technical.setPullOff(po1);
+	            }
+	            
+	            else if(gp.getHandPArr().get(i).substring(0,1).equals("D") && gp.getHandPArr().get(i).substring(5,6).equals("D")) {
+	            	Slide sl = new Slide();
+	            	sl.setType(gp.getHandPArr().get(i).substring(1,5));
+	            	notations.setSlide(sl);
+	            	
+	            	Slide sl2 = new Slide();
+	            	sl2.setType(gp.getHandPArr().get(i).substring(6));
+	            	notations.setSlide(sl2);
+//	            	HammerOn ho = new HammerOn();
+//	            	ho.setType(gp.getHandPArr().get(i).substring(1,5));
+//	            	technical.setHammerOn(ho);
+//	            	
+//	            	HammerOn ho1 = new HammerOn();
+//	            	ho1.setType(gp.getHandPArr().get(i).substring(6));
+//	            	technical.setHammerOn(ho1);
+	            }
+				else {
+
+				}
+
+				technical.setString( new musicXML.String(new BigInteger(gp.getFretStrings().get(i))));
+				technical.setFret(new Fret(new BigInteger(gp.getFretNums().get(i))));
+				notations.setTechnical(technical);
+				note.setNotations(notations);
+				notes.add(note);
+			}
+		}       
+		part.setMeasure(measures);
+		// at this point all the measures have been created along with all the notes inside them
+
+		scorePartwise.setPart(part); //add the part and our process of creating objects is complete
+
+		// now we just need to marshall
+		try {
+
+			JAXBContext jaxbContext = JAXBContext.newInstance(ScorePartwise.class);
+			jaxbMarshaller = jaxbContext.createMarshaller();
+			// output becomes tab indented
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			//jaxbMarshaller.marshal(scorePartwise, System.out); //prints to console
+
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}        
+	} // END OF GUITAR GENERATOR
+
+	/**
+	 * Drum XML File Generator
+	 * @param dp
+	 */
+	public void drumGenerator(DrumParser2 dp){
+		TextFileReader tfr = dp.getTFR();
+
+		// creating the outermost tag "score-partwise"
+		this.drumScorePartwise = new drumTag.ScorePartwise();
+
+		drumTag.ScorePart scorepart = new drumTag.ScorePart();
+		scorepart.setId("P1");
+		drumTag.PartName partname = new drumTag.PartName();
+		partname.setValue("Drumset");
+		scorepart.setPartName(partname);
+		//adding the list of instruments and their ID's
+		for(DrumStringInfo stringinfo: dp.getDrumTabStrings()) {
+			drumTag.ScoreInstrument si = new drumTag.ScoreInstrument();
+			si.setId(stringinfo.getInstrumentId());
+			si.setInstrumentName(stringinfo.getInstrumentName());
+			scorepart.addScoreInstrument(si);
+		}
+		drumScorePartwise.setPartList( new drumTag.PartList(scorepart) ); // constructor sets ID and part-name
+
+		drumTag.Part part = new drumTag.Part("P1"); // constructer sets ID
+
+		ArrayList<drumTag.Measure> measures = new ArrayList<drumTag.Measure>();
+		// initializing the measure object
+		drumTag.Measure measure;                
+
+		for(int i = 0; i < dp.getDrumMeasures().size(); i++) {
+			ArrayList<drumTag.Note> notesVoice1 = new ArrayList<drumTag.Note>();
+			ArrayList<drumTag.Note> notesVoice2 = new ArrayList<drumTag.Note>();
+			int measureNum = i + 1;
+			measure = new drumTag.Measure(java.lang.String.valueOf(measureNum)); // constructor sets the measure number
+			// creating the attributes section that goes into the first measure
+			drumTag.Attributes attributes = new drumTag.Attributes();
+			attributes.setDivisions(new BigDecimal(4));
+			drumTag.Key key = new drumTag.Key();
+			key.setFifths(new BigInteger("0"));
+			attributes.setKey(key);
+			attributes.setTime(new drumTag.Time("4", "4")); // constructor takes beat and beat type
+			attributes.setClef(new drumTag.Clef("percussion", new BigInteger("2"))); // constuctor sets sign and line
+
+			// ADDING THE ATTRIBUTES TO THE MEASURE
+			measure.setAttributes(attributes);
+
+			// ADDING THE REPEATS
+			if( tfr.getAttributesPerMeasure().get(measureNum-1).getRepeat() != null ) { // minus one since the repeats array is on a 0 index basis
+				drumTag.Barline barline1 = new drumTag.Barline();
+				barline1.setLocation("left");
+				drumTag.BarStyle barstyle = new drumTag.BarStyle();
+				barstyle.setValue("heavy-light");
+				barline1.setBarStyle(barstyle);
+				drumTag.Repeat repeat = new drumTag.Repeat();
+				repeat.setDirection("forward");
+				barline1.setRepeat(repeat);
+				measure.setBarline1(barline1);
+
+				drumTag.Direction direction = new drumTag.Direction();
+				direction.setPlacement("above");
+				drumTag.DirectionType directiontype = new drumTag.DirectionType();
+				drumTag.Words words = new drumTag.Words();
+				words.setRelativeX(new BigDecimal("250.0"));
+				words.setRelativeY(new BigDecimal("20.0"));
+				words.setValue("Repeat "+tfr.getAttributesPerMeasure().get(measureNum-1).getRepeat()+" times" );
+				System.out.println("<><>"+ words.getValue());
+				directiontype.setWords(words);
+				direction.setDirectionType(directiontype);
+				measure.setDirection(direction);
+
+				drumTag.Barline barline2 = new drumTag.Barline();
+				barline2.setLocation("right");
+				drumTag.BarStyle barstyle2 = new drumTag.BarStyle();
+				barstyle2.setValue("light-heavy");
+				barline2.setBarStyle(barstyle2);
+				drumTag.Repeat repeat2 = new drumTag.Repeat();
+				repeat2.setDirection("backward");
+				barline2.setRepeat(repeat2);
+				measure.setBarline2(barline2);         
+			} 
+
+			drumTag.Backup b = null;
+			drumTag.Note n;
+
+			for(tabToXml.DrumNote note: dp.getDrumMeasures().get(i).getNotes()) {
+				n = new drumTag.Note();
+				// if the note is not a rest note give it the following values as well
+
+				if(note.getUnpitchedOrRest().equals("unpitched")) {
+					n.getDurationOrChordOrCue().add(new drumTag.Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
+					if(note.getChord())
+						n.getDurationOrChordOrCue().add(new drumTag.Chord());
+					drumTag.Instrument instrument = new drumTag.Instrument();
+					instrument.setId(note.getInstrumentID());
+					n.setInstrument(instrument);
+					n.setStem(new drumTag.Stem(note.getStem()));
+					drumTag.Notehead notehead = new drumTag.Notehead();
+					notehead.setValue(note.getNotehead());
+					n.setNotehead(notehead);
+					n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   
+					n.setVoice(java.lang.String.valueOf(note.getVoice()));
+					n.setType(new drumTag.Type(note.getType()));
+					// set values for all three of the beams	
+					drumTag.Beam beam;
+					beam = new drumTag.Beam();
+					beam.setNumber(new BigInteger("1")); beam.setValue(note.getBeam1());
+					n.addBeam(beam);
+					beam = new drumTag.Beam();
+					beam.setNumber(new BigInteger("2")); beam.setValue(note.getBeam2());
+					n.addBeam(beam);
+					beam = new drumTag.Beam();
+					beam.setNumber(new BigInteger("3")); beam.setValue(note.getBeam3());
+					n.addBeam(beam);
+
+					if(n.getVoice().equals("1"))  
+						notesVoice1.add(n);
+					else
+						notesVoice2.add(n);
+				}
+				// the else statement takes the rest notes
+				else if( note.getUnpitchedOrRest().equals("backup")) {
+					b = new drumTag.Backup();
+					b.setDuration(new BigDecimal(note.getDuration()));
+					//b.setLevel(new drumTag.Level());        		   
+				}        	   
+				else {     	   // the else statement takes the rest notes
+
+					n.getDurationOrChordOrCue().add(new drumTag.Rest());
+					n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   
+					n.setVoice(java.lang.String.valueOf(note.getVoice()));
+					n.setType(new drumTag.Type(note.getType()));
+					if(n.getVoice().equals("1"))  
+						notesVoice1.add(n);
+					else
+						notesVoice2.add(n);
+				}        	           	   
+			}
+			//adding the first batch of notes to the first measure
+			measure.setVoice1Note(notesVoice1);
+			measure.setVoice2Note(notesVoice2);
+			if (b != null) measure.setBackup(b);
+			measures.add(measure);
+		}
+
+		part.setMeasure(measures);
+		drumScorePartwise.setPart(part);
+		// add the 'part' object and our process of creating objects is complete
+		// now we just need to marshall
+
+		// ADDED TO CONSTRUCTOR
+		try {
+
+			JAXBContext jaxbContext = JAXBContext.newInstance(drumTag.ScorePartwise.class);
+			jaxbMarshaller = jaxbContext.createMarshaller();
+			// output pretty printed
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);            
+
+			//jaxbMarshaller.marshal(drumScorePartwise, System.out); //prints to console
+
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+
+
+	} // END OF DRUM GENERATOR
+
+
+} // END OF CLASS

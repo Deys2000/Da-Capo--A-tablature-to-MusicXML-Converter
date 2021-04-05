@@ -2,22 +2,37 @@ plugins {
   id 'java-library'
   id 'application'
   id 'org.openjfx.javafxplugin' version '0.0.8'
+  id 'jacoco'
 }
 
 repositories {
     mavenCentral()
+    maven
+    {
+      url "https://nexus.gluonhq.com/nexus/content/repositories/releases/"
+    }
+    jcenter()
 }
 
 dependencies {
     // Use JUnit test framework
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-     implementation 'javax.xml.bind:jaxb-api:2.3.0'
-     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
-     implementation'org.eclipse.persistence:org.eclipse.persistence.moxy:2.7.3'
-     compile('javax.xml.bind:jaxb-api:2.3.0')
- compile('javax.activation:activation:1.1')
- compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
+    testCompile "org.testfx:testfx-core:4.0.16-alpha"
+    testCompile "org.testfx:testfx-junit5:4.0.16-alpha"
+    testCompile group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
+    
+    implementation 'javax.xml.bind:jaxb-api:2.3.0'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+    implementation'org.eclipse.persistence:org.eclipse.persistence.moxy:2.7.3'
+    compile 'com.gluonhq:charm:6.0.6'
+    compile 'com.jfoenix:jfoenix:9.0.10'
+    compile 'com.gluonhq.attach:display:4.0.6'
+    compile 'com.gluonhq.attach:util:4.0.6'
+    compile('javax.xml.bind:jaxb-api:2.3.0')
+    compile('javax.activation:activation:1.1')
+    compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
+    compile group: 'org.fxmisc.richtext', name: 'richtextfx', version: '0.10.5'
 }
 
 test {
@@ -25,11 +40,21 @@ test {
   testLogging {
     events 'passed', 'skipped', 'failed'
   }
+  finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacoco {
+	toolVersion = "0.8.6"
+    reportsDir = file("$buildDir/customJacocoReportDir") // reportsDirectory causes an error?
+}
+
+jacocoTestReport {
+	dependsOn test // tests are required to run before generating the report
 }
 
 javafx {
-    version = "15"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    version = "16"
+    modules = [ 'javafx.controls', 'javafx.fxml' , 'javafx.web' ]
 }
 
 run {
@@ -40,3 +65,30 @@ run {
 }
 
 mainClassName = 'tabToXml.Main'
+
+
+task uberJar(type: Jar) {
+	manifest {
+    	attributes 'Main-Class': 'tabToXml.Main'
+  	}
+    archiveClassifier = 'uber'
+
+    from sourceSets.main.output
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+}
+
+task debug {
+    group = "application"
+    description = "Runs this project in debug mode on port 2311"
+	doFirst {
+		application {
+    		applicationDefaultJvmArgs = ['-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=2311']
+		}
+	}
+}
+
+debug.finalizedBy run

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import org.fxmisc.richtext.CodeArea?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="184.0" prefWidth="600.0" style="-fx-background-color: #55D6BE; -fx-border-color: black;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15.0.1">
+  <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.4000244140625" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="458.40000000000003" minWidth="10.0" prefWidth="458.40000000000003" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.199951171875" minWidth="10.0" prefWidth="183.2" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="128.6000198364258" minHeight="0.0" prefHeight="93.8" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="281.59996337890624" minHeight="10.0" prefHeight="207.4" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <VBox prefHeight="310.0" prefWidth="331.0" GridPane.columnIndex="1" GridPane.rowSpan="2">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+               <children>
+                  <HBox alignment="CENTER" spacing="5.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="From" />
+                        <Spinner editable="true" prefHeight="26.0" prefWidth="60.0" style="-fx-background-color: #acfcd9; -fx-border-color: #acfcd9;">
+                           <tooltip>
+                              <Tooltip  styleClass="Tooltip" text="Select Starting Measure" />
+                           </tooltip>
+                        </Spinner>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" spacing="5.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To" />
+                        <Spinner prefHeight="26.0" prefWidth="60.0" style="-fx-border-color: #acfcd9;">
+                           <tooltip>
+                              <Tooltip  styleClass="Tooltip" text="Select Ending Measure" />
+                           </tooltip>
+                        </Spinner>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <CodeArea prefHeight="194.0" prefWidth="340.0" style="-fx-border-color: black; -fx-background-color: #E0DFD5;" />
+         </children>
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" />
+         </GridPane.margin>
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="233.0" spacing="10.0" GridPane.columnIndex="2" GridPane.rowSpan="2147483647">
+         <children>
+            <HBox alignment="CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time Signature" wrappingWidth="82.04052695631981" />
+                  <ChoiceBox prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #acfcd9;">
+                     <tooltip>
+                        <Tooltip  styleClass="Tooltip" text="Select the measure's time signature" />
+                     </tooltip>
+                  </ChoiceBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Division" wrappingWidth="82.04052695631981" />
+                  <ChoiceBox prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #acfcd9;">
+                     <tooltip>
+                        <Tooltip  styleClass="Tooltip" text="Select the measure's Division" />
+                     </tooltip>
+                  </ChoiceBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Clef" wrappingWidth="82.04052695631981" />
+                  <ChoiceBox prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #acfcd9;">
+                     <tooltip>
+                        <Tooltip  styleClass="Tooltip" text="select the measure's Clef" />
+                     </tooltip>
+                  </ChoiceBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <JFXButton style="-fx-background-color: #acfcd9;" text="Save Changes">
+                     <tooltip>
+                        <Tooltip  styleClass="Tooltip" text="Commit these changes" />
+                     </tooltip>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</GridPane>

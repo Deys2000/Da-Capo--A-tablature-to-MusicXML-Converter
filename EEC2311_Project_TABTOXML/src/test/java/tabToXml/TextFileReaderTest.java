@@ -85,19 +85,19 @@ class TextFileReaderTest {
 		assertNotNull(fileReader);
 	}
 	
-	@Test
-	public void testReader2() {
-		TextFileReader fileReader = new TextFileReader("tab.txt");
-		
-		assertEquals(fileReader.detectInstrument(), "Guitar");
-	}
+//	@Test
+//	public void testReader2() {
+//		TextFileReader fileReader = new TextFileReader("tab.txt");
+//		
+//		assertEquals(fileReader.detectInstrument(), "Guitar");
+//	}
 	
-	@Test
-	public void testReader3() {
-		TextFileReader fileReader = new TextFileReader("tab.txt");
-		
-		assertEquals(fileReader.numberOfLines(), 6);
-	}
+//	@Test
+//	public void testReader3() {
+//		TextFileReader fileReader = new TextFileReader("tab.txt");
+//		
+//		assertEquals(fileReader.numberOfLines(), 6);
+//	}
 	
 	@Test
 	public void testReader4() {
