@@ -216,13 +216,13 @@ public class GuitarParser {
 //						}
 										
 								
-						addToLists(chord, fretNumVar, String.valueOf(i+1));
+						addToLists(chord, fretNumVar, String.valueOf(i+1), null);
 	
 					}
 					else if (fret2 == '|') {
 						if (tmp.isEmpty()) {
 							tmp = fret2 + "";
-							addToLists(tmp, tmp, tmp);
+							addToLists(tmp, tmp, tmp, tmp);
 
 						}
 					}
@@ -230,9 +230,9 @@ public class GuitarParser {
 				}
 			}
 		
-			removeFromLists(notes.size() - 1, fretNum.size() - 1, fretString.size()-1);
+			removeFromLists(notes.size() - 1, fretNum.size() - 1, fretString.size()-1, alterArr.size()-1);
 
-			addToLists("||", "||", "||");
+			addToLists("||", "||", "||", "||");
 
 		//cleaning up the + in the chords and making a chords list
 		for( int i = 0; i < notes.size(); i++) {
@@ -341,18 +341,22 @@ public class GuitarParser {
 		// chords - add the double bars later
 	}
 
-	public void addToLists(String note, String ft, String fs) {
+	public void addToLists(String note, String ft, String fs, String al) {
 		notes.add(note);
 		fretNum.add(ft);
 		fretString.add(fs);
+		
+		if (al != null) {
+			alterArr.add(al);
+		}
 
 	}
 
-	public void removeFromLists(int note, int ft, int fs) {
+	public void removeFromLists(int note, int ft, int fs, int al) {
 		notes.remove(note);
 		fretNum.remove(ft);
 		fretString.remove(fs);
-
+		alterArr.remove(al);
 	}
 
 
@@ -380,7 +384,7 @@ public class GuitarParser {
         int graceNoteLength = 0; // note length of tracked grace notes, in 16th notes
         boolean trackingGrace = false; // if we are tracking grace notes
         
-        while (counter < parsedTab.get(0).length()-1) { 
+        while (counter < parsedTab.get(0).length()) { 
             
             currentLine = 0;
             
