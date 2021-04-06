@@ -29,8 +29,8 @@ public class TabView {
             .compile("(?<MeasureLine>^((CC|HH|SD|HT|MT|BD)|([a-gA-G])?)(\\|)(\\S+)(\\|$))", Pattern.MULTILINE);
 
     private static final Pattern GUITAR_TAB = Pattern
-            .compile("(?<Guitar>(-)|(\\|)|([hp^BbgGrR\\/sS\\[\\]\\*0-9])|([^\\|hp^BbgGrR\\/sS\\[\\]\\*0-9]))");
-    private static final Pattern DRUM_TAB = Pattern.compile("(?<Drum>(-)|(\\|)|([oOgdxX#])|([^\\|oOgdxX#]))");
+            .compile("(?<Guitar>(-)|(\\|\\|?)|([hp^BbgGrR\\/sS\\[\\]\\*0-9])|([^\\|hp^BbgGrR\\/sS\\[\\]\\*0-9]))");
+    private static final Pattern DRUM_TAB = Pattern.compile("(?<Drum>(-)|(\\|\\|?)|([oOgdxX#])|([^\\|oOgdxX#]))");
 
     private static final int BASE_NOTE = 2;
     private static final int DRUM_TAGS = 3;
@@ -185,7 +185,7 @@ public class TabView {
                                 iMatcher.end(INVALID_TAB) - iMatcher.start(INVALID_TAB));
                         spansBuilder.add(Collections.singleton("dash"),
                                 iMatcher.end(MEASURE_DASH) - iMatcher.start(MEASURE_DASH));
-                        if (measureLinePOS.get(iMatcher.end(MEASURE_BAR)) != null && measureLinePOS.get(iMatcher.end(MEASURE_BAR)) == lineCount )
+                        if (measureLinePOS.get(iMatcher.end(MEASURE_BAR)) != null && measureLinePOS.get(iMatcher.end(MEASURE_BAR)) >= lineCount-1 )
                             spansBuilder.add(Collections.singleton("barLine"),
                                     iMatcher.end(MEASURE_BAR) - iMatcher.start(MEASURE_BAR));
                         else{                            
