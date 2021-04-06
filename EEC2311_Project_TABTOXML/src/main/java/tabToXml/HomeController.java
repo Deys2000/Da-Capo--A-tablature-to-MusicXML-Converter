@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
+import org.fxmisc.richtext.model.StyleSpansBuilder;
 
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -216,7 +217,20 @@ public class HomeController implements Initializable {
 		// empty the XMLArea before getting new info
 		// tabTextArea2.setText("");
 		// saveButton.setDisable(true);
-
+		if(TabView.majorError)
+		{
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("MAJOR ERROR");
+			alert.setHeaderText("FIX THE ERROR'S HIGHLIGTED IN RED!");
+			alert.setContentText("bar's are either missaligned or tab type cannot be determained.");
+			alert.showAndWait().ifPresent(rs -> {
+			    if (rs == ButtonType.OK) {
+			        System.out.println("Pressed OK.");
+			    }
+			});	
+		
+			return;
+		}
 		// read the contents of the Tablature Editor Window
 		String textAreaContents = codeArea1.getText();
 		// Once the contents are collected, they should be sent to the TextFileReader
