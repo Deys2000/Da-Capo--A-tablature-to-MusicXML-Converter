@@ -30,6 +30,10 @@
 {
     -fx-fill: #55D6BE ; 
 }
+.barLine
+{
+    -fx-fill: #55D6BE ; 
+}
 .minorError
 {
     -fx-fill: #f3ff4e ; 
