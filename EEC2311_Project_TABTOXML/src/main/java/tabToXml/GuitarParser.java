@@ -465,7 +465,7 @@ public class GuitarParser {
             }
             
             // Should be run after encountering the first note/chord in a measure
-            else{
+            else {
             	            	
             	// Check for Single Digit Frets
                 while(currentLine < lines) {
@@ -507,7 +507,7 @@ public class GuitarParser {
                 		currentLine++;
                 	}
                 	
-                	prevChordNum = totalFretNum;
+                	curChordNum = totalFretNum;
                 	
                 	// increment counter and reset isDoubleDigit
                 	counter++;
@@ -543,7 +543,7 @@ public class GuitarParser {
 //      System.out.println(durationArr);
 //      System.out.print("Type Array: ");
 //      System.out.println(typeArr);
-        System.out.println("GraceArr: " + graceArr);
+//      System.out.println("GraceArr: " + graceArr);
     }
     
     /**
