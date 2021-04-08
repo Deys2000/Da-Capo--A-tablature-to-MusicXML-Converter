@@ -20,7 +20,7 @@
 }
 .detected
 {
-    -fx-fill: #55D6BE;
+    -fx-fill: #349e9a; /* default: 55D6BE, dark: 24827e , medium: 349e9a */
 }
 .mesureContent
 {
@@ -28,7 +28,11 @@
 }
 .guitar
 {
-    -fx-fill: #55D6BE ; 
+    -fx-fill: #349e9a ; 
+}
+.barLine
+{
+    -fx-fill: #349e9a ; 
 }
 .minorError
 {
