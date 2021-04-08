@@ -700,7 +700,6 @@ class DrumNote {
 		this.displayStep = stringInfo.getDisplayStep();
 		this.instrumentID = stringInfo.getInstrumentId();
 		this.voice = stringInfo.getVoice();
-		this.type = getType(beat*beattype/duration);
 		this.stem = stringInfo.getStem();
 		this.notehead = stringInfo.getNotehead();
 		this.grace = grace;

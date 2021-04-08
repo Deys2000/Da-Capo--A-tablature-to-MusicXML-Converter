@@ -558,13 +558,14 @@ public class xmlGen {
 				
 				// if the note is a grace note, create it accordingly
 				if(note.getGrace() == true) {
+					n.setGrace(new drumTag.Grace()); // GRACE
+					
 					n.getDurationOrChordOrCue().add(new drumTag.Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
 					drumTag.Instrument instrument = new drumTag.Instrument();
 					instrument.setId(note.getInstrumentID());
 					n.setInstrument(instrument);
 					n.setStem(new drumTag.Stem(note.getStem()));
 					n.setVoice(java.lang.String.valueOf(note.getVoice()));
-					n.setType(new drumTag.Type(note.getType()));
 					
 					drumTag.Notations notations = new drumTag.Notations();
 					drumTag.Slur slur = new drumTag.Slur();
@@ -574,6 +575,12 @@ public class xmlGen {
 					notations.setSlur(slur);
 					n.setNotations(notations);
 					
+					if(n.getVoice().equals("1"))  
+						notesVoice1.add(n);
+					else
+						notesVoice2.add(n);
+					
+					previous_note_is_grace_note = true; // make the accompanying slur for next note
 				}		
 				
 				// if the note is not a rest note give it the following values as well				
@@ -593,21 +600,22 @@ public class xmlGen {
 					n.setType(new drumTag.Type(note.getType()));
 					// set values for all three of the beams	
 					drumTag.Beam beam;
-					beam = new drumTag.Beam();
-					beam.setNumber(new BigInteger("1")); beam.setValue(note.getBeam1());
-					n.addBeam(beam);
+					if(note.getBeam1() != null) {	
+						beam = new drumTag.Beam();
+						beam.setNumber(new BigInteger("1")); beam.setValue(note.getBeam1());
+						n.addBeam(beam);
+					}
+					if(note.getBeam2() != null) {	
 					beam = new drumTag.Beam();
 					beam.setNumber(new BigInteger("2")); beam.setValue(note.getBeam2());
 					n.addBeam(beam);
+					}
+					if(note.getBeam3() != null) {	
 					beam = new drumTag.Beam();
 					beam.setNumber(new BigInteger("3")); beam.setValue(note.getBeam3());
 					n.addBeam(beam);
+					}
 
-					if(n.getVoice().equals("1"))  
-						notesVoice1.add(n);
-					else
-						notesVoice2.add(n);
-					
 					if(previous_note_is_grace_note == true) {
 						drumTag.Notations notations = new drumTag.Notations();
 						drumTag.Slur slur = new drumTag.Slur();
@@ -618,6 +626,11 @@ public class xmlGen {
 						n.setNotations(notations);
 					}
 					previous_note_is_grace_note = false; // we have made the accompanying note
+					
+					if(n.getVoice().equals("1"))  
+						notesVoice1.add(n);
+					else
+						notesVoice2.add(n);
 					
 				}
 				// the elseif statement takes the backup notes
