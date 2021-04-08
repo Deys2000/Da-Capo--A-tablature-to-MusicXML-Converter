@@ -11,6 +11,7 @@ public class DrumParser2 {
 	ArrayList<DrumMeasure> measures;
 	ArrayList<DrumStringInfo> tabStrings;
 	ArrayList<String> instruments;
+	ArrayList<DrumAttribute> drumAttributes;
 	TextFileReader tfr;
 	// we will pass 3 pieces of information when creating an object of this class
 	// they will all be contained within one object hopefully a MEASURE object of sorts 
@@ -45,11 +46,14 @@ public class DrumParser2 {
 		
 		
 		// 2 - List of corresponding attributes
-		ArrayList<DrumAttribute> drumAttributes = new ArrayList<>();
-		// divisions, fifths, beats, beat-type, sign, line
-		DrumAttribute da = new DrumAttribute(4,0,4,4,"percussion", 2);
-		drumAttributes.add(da);
-		drumAttributes.add(da);
+		drumAttributes = new ArrayList<>();
+		for(TFRAttribute a: tfr.getAttributesPerMeasure()) {
+			// divisions, fifths, beats, beat-type, sign, line
+			drumAttributes.add(new DrumAttribute(a.getDivisions(),a.getFifths(),a.getBeats(),a.getBeattype(),"percussion",a.getLine()));
+		}
+		
+		
+
 		// 3 - additional meta info
 		// The strings
 //		instruments = new ArrayList<String>();
@@ -106,7 +110,7 @@ public class DrumParser2 {
 		//go through every measure
 		for(int m = 0; m < exampleInput.size(); m++) {
 			currentMeasure = exampleInput.get(m); // getting the measure
-			currentAttribute = drumAttributes.get(0); // getting the attributes for the measure above CHANGE TO BE DYNAMIC
+			currentAttribute = drumAttributes.get(m); // getting the attributes for the measure above // - DONE->CHANGE TO BE DYNAMIC
 			int voice;
 			
 			//decide which instruments are voice 1 and voice 2
@@ -325,14 +329,6 @@ public class DrumParser2 {
 		default: return 1;
 		}
 	}
-
-	public ArrayList<DrumMeasure> getDrumMeasures() {
-		return this.measures;
-	}
-	
-	public TextFileReader getTFR() {
-		return tfr;
-	}
 	
 	public ArrayList<ArrayList<String>> getMeasuresParsed(ArrayList<String> parsedTab){
 
@@ -355,6 +351,21 @@ public class DrumParser2 {
 		}
 		return tab;
 	}
+	
+	// GETTER METHODS
+	
+	public ArrayList<DrumMeasure> getDrumMeasures() {
+		return this.measures;
+	}
+	
+	public TextFileReader getTFR() {
+		return this.tfr;
+	}
+	
+	public ArrayList<DrumAttribute> getDrumAttributesPerMeasure(){
+		return this.drumAttributes;
+	}
+	
 
 } // END OF DRUMPARSER2 CLASS
 
@@ -365,7 +376,7 @@ class DrumAttribute{
 	public int getBeats() {return beats;}
 	public int getBeattype() {return beattype;}
 	public String getSign() {return sign;}
-	public int getLine() {return line;}
+	public String getLine() {return line;}
 
 	// perhaps set default values
 	int divisions = 4;
@@ -373,15 +384,15 @@ class DrumAttribute{
 	int beats = 4;
 	int beattype = 4;
 	String sign = "percussion";
-	int line = 2;
+	String line = "2";
 	
-	public DrumAttribute( int d, int f, int b, int bt, String s, int l) {
+	public DrumAttribute( int d, int f, int b, int bt, String s, String line) {
 		this.divisions = d;
 		this.fifths = f;
 		this.beats = b;
 		this.beattype = bt;
 		this.sign = s;
-		this.line = l;
+		this.line = line;
 	}
 }
 

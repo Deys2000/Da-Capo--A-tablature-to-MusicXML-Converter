@@ -467,8 +467,24 @@ public class TextFileReader {
 	public ArrayList<TFRAttribute> getAttributesPerMeasure(){
 		return this.attributesPerMeasure;
 	}
+	
+	// NEW METHOD
+	public void setRangeOfAttributes( int from, int to, int beat, int beattype, String sign, String line) {
+		
+		// only make changes if valid input is given, valid meaning "from" is before or equal to "to"
+		for(int i = from; i <= to; i++) { // inclusive from and two
+			// we will use -1 throughout the loop since the array is on a index base of 0 and not 1
+			// so measure 1 is actually at position 0
+			this.attributesPerMeasure.get(i).setBeats(beat);
+			this.attributesPerMeasure.get(i).setBeattype(beattype);
+			this.attributesPerMeasure.get(i).setSign(sign);
+			this.attributesPerMeasure.get(i).setLine(line);			
+		}		
+	}
+	
+	
+	
 }
-
 //_______________________________________END OF TEXT FILE READER CLASS______________________________________________//
 //------------------------------------------------------------------------------------------------------------------//
 
@@ -511,7 +527,7 @@ class TFRAttribute{
 				" BeatType: "	+ beattype +
 				" Sign: "		+ sign +
 				" Line: "		+ line +
-				" Repeat: "		+ repeat );
+				" Repeat: "		+ repeat+ "\n");
 	}
 	
 	// GETTERS
@@ -530,4 +546,12 @@ class TFRAttribute{
 	// SETTERS
 	
 	//*add some setters maybe
+	public void setDivisions(int divisions) {this.divisions= divisions;}
+	public void setFifths(int fifths) {this.fifths = fifths;}
+	public void setBeats(int beats) {this.beats =  beats;}
+	public void setBeattype(int beattype) {this.beattype = beattype;}
+	public void setSign(String sign) {this.sign = sign;}
+	public void setLine(String sign) {this.line = line;}
+
+	
 }

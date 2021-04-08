@@ -502,15 +502,20 @@ public class xmlGen {
 			ArrayList<drumTag.Note> notesVoice2 = new ArrayList<drumTag.Note>();
 			int measureNum = i + 1;
 			measure = new drumTag.Measure(java.lang.String.valueOf(measureNum)); // constructor sets the measure number
-			// creating the attributes section that goes into the first measure
+			
+			
+			
+			// creating the attributes section
 			drumTag.Attributes attributes = new drumTag.Attributes();
-			attributes.setDivisions(new BigDecimal(4));
+			attributes.setDivisions(new BigDecimal(dp.getDrumAttributesPerMeasure().get(measureNum-1).getDivisions()));
 			drumTag.Key key = new drumTag.Key();
-			key.setFifths(new BigInteger("0"));
+			key.setFifths(new BigInteger(Integer.toString(dp.getDrumAttributesPerMeasure().get(measureNum-1).getFifths())));
 			attributes.setKey(key);
-			attributes.setTime(new drumTag.Time("4", "4")); // constructor takes beat and beat type
-			attributes.setClef(new drumTag.Clef("percussion", new BigInteger("2"))); // constuctor sets sign and line
-
+			attributes.setTime(new drumTag.Time(Integer.toString(dp.getDrumAttributesPerMeasure().get(measureNum-1).getBeats()),
+												Integer.toString(dp.getDrumAttributesPerMeasure().get(measureNum-1).getBeattype() ))); // constructor takes beat and beat type
+			attributes.setClef(new drumTag.Clef(dp.getDrumAttributesPerMeasure().get(measureNum-1).getSign(),
+											new BigInteger(dp.getDrumAttributesPerMeasure().get(measureNum-1).getLine()))); // constuctor sets sign and line
+			
 			// ADDING THE ATTRIBUTES TO THE MEASURE
 			measure.setAttributes(attributes);
 
