@@ -168,6 +168,7 @@ public class TextFileReader {
 		}
 		
 		// separating the chars and rest of measure
+		String extractedChar;
 		System.out.println("COMPLETE TAB\n" + parsedTab.toString());
 		stringChars = new ArrayList<String>();
 		for( int i = 0; i < parsedTab.size(); i++) {
@@ -175,7 +176,11 @@ public class TextFileReader {
 			if( -1 != currentLine.indexOf('|')){
 				String firstSection = currentLine.substring(0,currentLine.indexOf('|')); 
 				//if( firstSection.contains("\\-") && firstSection.length() != 0 ) {  // perhaps we don't need the conditional
-				stringChars.add(firstSection.replaceAll("[^a-zA-Z0-9]", ""));  // only keep alphanumeric values
+				extractedChar = firstSection.replaceAll("[^a-zA-Z0-9]", "");  // only keep alphanumeric values
+				if(extractedChar.length() == 0)
+					stringChars.add(null); 
+				else
+					stringChars.add(extractedChar);  // no instrument found 
 				parsedTab.set(i,currentLine.substring(currentLine.indexOf('|')));
 				//}
 			}

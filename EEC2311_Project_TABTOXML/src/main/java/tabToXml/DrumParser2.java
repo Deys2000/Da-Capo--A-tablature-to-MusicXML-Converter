@@ -8,6 +8,9 @@ import java.util.ArrayList;
 //LOOK INTO MAKING THE NOTE AND MEASURE CLASS PRIVATE
 
 public class DrumParser2 {
+	
+	final String[] defaultInstruments = {"C","S","HH","MT","LT","BD"};
+	
 	ArrayList<DrumMeasure> measures;
 	ArrayList<DrumStringInfo> tabStrings;
 	ArrayList<String> instruments;
@@ -56,14 +59,17 @@ public class DrumParser2 {
 
 		// 3 - additional meta info
 		// The strings
-//		instruments = new ArrayList<String>();
-//		instruments.add("C");
-//		instruments.add("S");
-//		instruments.add("HH");
-//		instruments.add("MT");
-//		instruments.add("LT");
-//		instruments.add("BD");
+		
+		// if any instruments are empty, fill it in
 		this.instruments = tfr.getStringChars();
+		int tempIterator = 0;
+		for(int i = 0; i < tfr.getStringChars().size(); i++) {
+			if( tfr.getStringChars().get(i) == null) {
+				this.instruments.set(i, this.defaultInstruments[tempIterator%6]);
+				tempIterator++;
+				System.out.println("Added " + defaultInstruments[(tempIterator-1)%6] + " at line " + i );
+			}
+		}
 		System.out.println("TFR Determined > "+this.instruments);
 		
 		for(int i = 0; i < instruments.size(); i++) {
