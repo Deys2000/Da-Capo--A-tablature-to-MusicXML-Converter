@@ -551,12 +551,33 @@ public class xmlGen {
 
 			drumTag.Backup b = null;
 			drumTag.Note n;
+			boolean previous_note_is_grace_note = false;
 
 			for(tabToXml.DrumNote note: dp.getDrumMeasures().get(i).getNotes()) {
 				n = new drumTag.Note();
-				// if the note is not a rest note give it the following values as well
-
-				if(note.getUnpitchedOrRest().equals("unpitched")) {
+				
+				// if the note is a grace note, create it accordingly
+				if(note.getGrace() == true) {
+					n.getDurationOrChordOrCue().add(new drumTag.Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
+					drumTag.Instrument instrument = new drumTag.Instrument();
+					instrument.setId(note.getInstrumentID());
+					n.setInstrument(instrument);
+					n.setStem(new drumTag.Stem(note.getStem()));
+					n.setVoice(java.lang.String.valueOf(note.getVoice()));
+					n.setType(new drumTag.Type(note.getType()));
+					
+					drumTag.Notations notations = new drumTag.Notations();
+					drumTag.Slur slur = new drumTag.Slur();
+					slur.setNumber(new BigInteger("1"));
+					slur.setPlacement("above");
+					slur.setType("start");
+					notations.setSlur(slur);
+					n.setNotations(notations);
+					
+				}		
+				
+				// if the note is not a rest note give it the following values as well				
+				else if(note.getUnpitchedOrRest().equals("unpitched")) {
 					n.getDurationOrChordOrCue().add(new drumTag.Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
 					if(note.getChord())
 						n.getDurationOrChordOrCue().add(new drumTag.Chord());
@@ -586,14 +607,25 @@ public class xmlGen {
 						notesVoice1.add(n);
 					else
 						notesVoice2.add(n);
+					
+					if(previous_note_is_grace_note == true) {
+						drumTag.Notations notations = new drumTag.Notations();
+						drumTag.Slur slur = new drumTag.Slur();
+						slur.setNumber(new BigInteger("1"));
+						slur.setPlacement("above");
+						slur.setType("stop");
+						notations.setSlur(slur);
+						n.setNotations(notations);
+					}
+					previous_note_is_grace_note = false; // we have made the accompanying note
+					
 				}
-				// the else statement takes the rest notes
+				// the elseif statement takes the backup notes
 				else if( note.getUnpitchedOrRest().equals("backup")) {
 					b = new drumTag.Backup();
 					b.setDuration(new BigDecimal(note.getDuration()));
-					//b.setLevel(new drumTag.Level());        		   
 				}        	   
-				else {     	   // the else statement takes the rest notes
+				else {     	   // the else statement takes the REST NOTES
 
 					n.getDurationOrChordOrCue().add(new drumTag.Rest());
 					n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   

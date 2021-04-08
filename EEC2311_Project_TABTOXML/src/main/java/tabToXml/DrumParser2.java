@@ -218,14 +218,14 @@ public class DrumParser2 {
 		currentMeasureObject.addNote(new DrumNote(duration)); 
 	}
 	
-	
+	//creates all the notes for a voice
 	private void setNotes (String[] tab, DrumAttribute da, ArrayList<DrumStringInfo> dsi, DrumMeasure current) {
 		int beat = da.getBeats(); int beattype = da.getBeattype(); // some default declarations for now
 		int position = -1; // start at -1 to account for the first barline column
 			
 		for(int i = 0; i < tab.length;  i++) {
 			String pruneBars = tab[i].replaceAll("\\|", "");
-			String pruneDash  = tab[i].replaceAll("\\-", "");
+			String pruneDash  = tab[i].replaceAll("[^xXoOf]", "");
 			System.out.println("PRUNED:" + pruneBars + " ~ " + pruneDash);
 			if( pruneBars.length()==0) // skip the whole process because we are at the the vertical barlines				
 				; // DO NOTHING
@@ -263,6 +263,12 @@ public class DrumParser2 {
 					if(tab[i].charAt(j) != '-') {
 						// create unpitched note, parameters are stringInfo ,duration, voice, beat,beattype and whether its a chord or not
 						String notehead = ""+tab[i].charAt(j);
+						// if this notehead is an f, then create a grace note
+
+						if( notehead.equals("f")) {
+							current.addNote( new DrumNote(dsi.get(j), notehead, beat, beattype, true)); // make a flam note
+							notehead = dsi.get(j).getNotehead(); // replace the f with the desired note head for the instrument on the string
+						}
 						current.addNote(new DrumNote(dsi.get(j),duration,notehead, beat, beattype, chord));
 						chord = true;
 					}
@@ -643,7 +649,7 @@ class DrumMeasure{
 
 
 class DrumNote {
-	String unpitchedOrRestOrBackup = null;
+	String unpitchedOrRestOrBackup = null; // or grace as well
 	String displayStep = null;
 	String displayOctave = null;
 	int duration = 0;
@@ -653,6 +659,7 @@ class DrumNote {
 	String stem = null;
 	String notehead = null;
 	boolean chord = false;
+	boolean grace = false;;
 	// attributes for beams
 	String beam1 = null;
 	String beam2 = null;
@@ -685,6 +692,20 @@ class DrumNote {
 		this.notehead = notehead; //stringInfo.getNotehead();
 		this.chord = chord;
 	}	
+	
+	// constructor for a flam, aka a grace note
+	public DrumNote(DrumStringInfo stringInfo, String notehead, int beat, int beattype, boolean grace ) {
+		this.unpitchedOrRestOrBackup = "grace";
+		this.displayOctave = stringInfo.getDisplayOctave();
+		this.displayStep = stringInfo.getDisplayStep();
+		this.instrumentID = stringInfo.getInstrumentId();
+		this.voice = stringInfo.getVoice();
+		this.type = getType(beat*beattype/duration);
+		this.stem = stringInfo.getStem();
+		this.notehead = stringInfo.getNotehead();
+		this.grace = grace;
+	}
+	
 	private String getType(int val) {
 		if( val <= 1)
 			return "whole";
@@ -716,6 +737,7 @@ class DrumNote {
 		sb.append(", Stem: " + this.stem);
 		sb.append(", Notehead: " + this.notehead);
 		sb.append(", Chord: " + this.chord);
+		sb.append(", Grace: " + this.grace);
 		sb.append(", Beam1: " + this.beam1);
 		sb.append(", Beam2: " + this.beam2);
 		sb.append(", Beam3: " + this.beam3);
@@ -732,6 +754,7 @@ class DrumNote {
 	public String getStem() {return stem;}
 	public String getNotehead() {return notehead;}
 	public boolean getChord() {	return chord;}
+	public boolean getGrace() {	return grace;}
 	public String getBeam1() {	return beam1;}
 	public String getBeam2() {	return beam2;}
 	public String getBeam3() {	return beam3;}
