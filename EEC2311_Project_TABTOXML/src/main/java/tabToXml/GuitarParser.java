@@ -45,11 +45,11 @@ public class GuitarParser {
 		}		
 		//assign numbers to Letters only tunings given by user (E -> E4 for example)
 		String tempString;
-		for(String s: this.tuning) {
-			tempString = s;
+		for(int i = 0; i < this.tuning.size(); i++){
+			tempString = this.tuning.get(i);
 			if(tempString.replaceAll("[a-zA-Z]","").length() == 0) { // there is no number
 				// add a random number between 2 and 6 - (perhaps modify later)
-				s.concat(""+ (int)(Math.random()*5) + 2 );
+				this.tuning.set(i, this.tuning.get(i) + ( (int)(Math.random()*5) + 2 ) );
 			}
 		}		
 		System.out.println("TFR Determined > "+this.tuning);
