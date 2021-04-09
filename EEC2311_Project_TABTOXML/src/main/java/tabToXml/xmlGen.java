@@ -29,7 +29,7 @@ public class xmlGen {
 		guitarGenerator(gp);
 	}    
 	// DRUM CONSTRUCTOR
-	public xmlGen(DrumParser2 dp) {
+	public xmlGen(DrumParser dp) {
 		drumGenerator(dp);
 	}  
 
@@ -456,7 +456,7 @@ public class xmlGen {
 	 * Drum XML File Generator
 	 * @param dp
 	 */
-	public void drumGenerator(DrumParser2 dp){
+	public void drumGenerator(DrumParser dp){
 		TextFileReader tfr = dp.getTFR();
 
 		// creating the outermost tag "score-partwise"
