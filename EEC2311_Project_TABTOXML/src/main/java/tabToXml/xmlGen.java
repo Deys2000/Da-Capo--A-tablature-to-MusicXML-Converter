@@ -23,7 +23,6 @@ public class xmlGen {
 	private drumTag.ScorePartwise drumScorePartwise;    // to store a drum XML
 
 
-
 	// GUITAR CONSTRUCTOR
 	public xmlGen(GuitarParser gp) {
 		guitarGenerator(gp);
@@ -524,7 +523,7 @@ public class xmlGen {
 			measure.setAttributes(attributes);
 
 			// ADDING THE REPEATS
-			if( tfr.getAttributesPerMeasure().get(measureNum-1).getRepeatTimes() != null ) { // minus one since the repeats array is on a 0 index basis
+			if( tfr.getAttributesPerMeasure().get(measureNum-1).getLeftBar() != null ) {
 				drumTag.Barline barline1 = new drumTag.Barline();
 				barline1.setLocation("left");
 				drumTag.BarStyle barstyle = new drumTag.BarStyle();
@@ -534,6 +533,8 @@ public class xmlGen {
 				repeat.setDirection("forward");
 				barline1.setRepeat(repeat);
 				measure.setBarline1(barline1);
+			}
+			if( tfr.getAttributesPerMeasure().get(measureNum-1).getRepeatTimes() != null ) {
 
 				drumTag.Direction direction = new drumTag.Direction();
 				direction.setPlacement("above");
@@ -546,6 +547,8 @@ public class xmlGen {
 				directiontype.setWords(words);
 				direction.setDirectionType(directiontype);
 				measure.setDirection(direction);
+			}
+			if( tfr.getAttributesPerMeasure().get(measureNum-1).getRightBar() != null ) {
 
 				drumTag.Barline barline2 = new drumTag.Barline();
 				barline2.setLocation("right");
@@ -558,6 +561,7 @@ public class xmlGen {
 				measure.setBarline2(barline2);         
 			} 
 
+			
 			drumTag.Backup b = null;
 			drumTag.Note n;
 			boolean previous_note_is_grace_note = false;
@@ -693,6 +697,18 @@ public class xmlGen {
 		else							notesVoice2.add(n);			
 	}
 
+	
+	
+	 
+	public musicXML.ScorePartwise getGuitarScorePartwise(){
+		return this.scorePartwise;
+	}
+	public drumTag.ScorePartwise getDrumScorePartwise(){
+		return this.drumScorePartwise;
+	}
+	
+	
+	
 	
 	
 	
