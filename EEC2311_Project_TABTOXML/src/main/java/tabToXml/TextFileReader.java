@@ -113,10 +113,10 @@ public class TextFileReader {
 		// DETECT INSTRUMENT
 		instrument = "Unable to Identify";
 		int lines = numOfLines;
-		if(lines == 4 && isDrum == false ) {
+		if(lines <= 4 && isDrum == false ) {
 			instrument = "Bass";
 		}
-		else if (lines == 6 && isDrum == false) {
+		else if (lines < 8 && isDrum == false) {
 			instrument = "Guitar";
 		}
 		else if( isDrum == true){
