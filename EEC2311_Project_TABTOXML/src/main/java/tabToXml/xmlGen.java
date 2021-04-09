@@ -460,6 +460,7 @@ public class xmlGen {
 		TextFileReader tfr = dp.getTFR();
 
 		// creating the outermost tag "score-partwise"
+		drumScorePartwise = new drumTag.ScorePartwise();
 		if(dp.tfr.getMusicPieceTitle() == null)
 			drumScorePartwise.setMovementTitle("Drum Music Piece"); 
 		else
