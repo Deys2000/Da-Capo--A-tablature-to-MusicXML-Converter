@@ -122,7 +122,7 @@ public class xmlGen {
 			// if you happen to be at a "|", then you create a new measure object and store the previous one
 			if(gp.getDurationArr().get(i).contains("|")) {        		
 				measure = new musicXML.Measure();
-				measure.setNumber(""+measureNum+1);
+				measure.setNumber(""+(measureNum+1));
 
 				// set attributes for the measure
 				attributes = new Attributes();
@@ -152,10 +152,11 @@ public class xmlGen {
 				attributes.setStaffDetails(staffDetails);
 				// At this point attributes contains all the requried information, it is added to the first measure
 				measure.setAttributes(attributes);
-
+				
+				System.out.println(measureNum+">>>"+ tfr.getAttributesPerMeasure().get(measureNum).getRepeatTimes());
+				
 				// setting REPEATS
-				System.out.println(measureNum+">>>"+ tfr.getAttributesPerMeasure().get(measureNum).getRepeat());
-				if( tfr.getAttributesPerMeasure().get(measureNum).getRepeat() != null ) {
+				if( tfr.getAttributesPerMeasure().get(measureNum).getLeftBar() != null ) {
 					musicXML.Barline barline1 = new Barline();
 					barline1.setLocation("left");
 					musicXML.BarStyle barstyle = new BarStyle();
@@ -165,19 +166,21 @@ public class xmlGen {
 					repeat.setDirection("forward");
 					barline1.setRepeat(repeat);
 					measure.setBarline1(barline1);
-
+				}
+				if( tfr.getAttributesPerMeasure().get(measureNum).getRepeatTimes() != null ) {
 					musicXML.Direction direction = new Direction();
 					direction.setPlacement("above");
 					musicXML.DirectionType directiontype = new DirectionType();
 					musicXML.Words words = new Words();
 					words.setRelativeX(new BigDecimal("250.0"));
 					words.setRelativeY(new BigDecimal("20.0"));
-					words.setValue("Repeat "+tfr.getAttributesPerMeasure().get(measureNum).getRepeat()+" times" );
+					words.setValue("Repeat "+tfr.getAttributesPerMeasure().get(measureNum).getRepeatTimes()+" times" );
 					System.out.println("<><>"+ words.getValue());
 					directiontype.setWords(words);
 					direction.setDirectionType(directiontype);
 					measure.setDirection(direction);
-
+				}
+				if( tfr.getAttributesPerMeasure().get(measureNum).getRightBar() != null ) {
 					musicXML.Barline barline2 = new Barline();
 					barline2.setLocation("right");
 					musicXML.BarStyle barstyle2 = new BarStyle();
@@ -451,7 +454,19 @@ public class xmlGen {
 			e.printStackTrace();
 		}        
 	} // END OF GUITAR GENERATOR
+	
+	
 
+	
+	
+	///////////////////////////////////////////
+	///     DRUMS BELOW THIS POINT      ///////
+	///////////////////////////////////////////
+	
+	
+	
+	
+	
 	/**
 	 * Drum XML File Generator
 	 * @param dp
@@ -509,7 +524,7 @@ public class xmlGen {
 			measure.setAttributes(attributes);
 
 			// ADDING THE REPEATS
-			if( tfr.getAttributesPerMeasure().get(measureNum-1).getRepeat() != null ) { // minus one since the repeats array is on a 0 index basis
+			if( tfr.getAttributesPerMeasure().get(measureNum-1).getRepeatTimes() != null ) { // minus one since the repeats array is on a 0 index basis
 				drumTag.Barline barline1 = new drumTag.Barline();
 				barline1.setLocation("left");
 				drumTag.BarStyle barstyle = new drumTag.BarStyle();
@@ -526,7 +541,7 @@ public class xmlGen {
 				drumTag.Words words = new drumTag.Words();
 				words.setRelativeX(new BigDecimal("250.0"));
 				words.setRelativeY(new BigDecimal("20.0"));
-				words.setValue("Repeat "+tfr.getAttributesPerMeasure().get(measureNum-1).getRepeat()+" times" );
+				words.setValue("Repeat "+tfr.getAttributesPerMeasure().get(measureNum-1).getRepeatTimes()+" times" );
 				System.out.println("<><>"+ words.getValue());
 				directiontype.setWords(words);
 				direction.setDirectionType(directiontype);
@@ -550,66 +565,15 @@ public class xmlGen {
 			for(tabToXml.DrumNote note: dp.getDrumMeasures().get(i).getNotes()) {
 				n = new drumTag.Note();
 				
-				// if the note is a grace note, create it accordingly
-				if(note.getGrace() == true) {
-					n.setGrace(new drumTag.Grace()); // GRACE
-					
-					n.getDurationOrChordOrCue().add(new drumTag.Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
-					drumTag.Instrument instrument = new drumTag.Instrument();
-					instrument.setId(note.getInstrumentID());
-					n.setInstrument(instrument);
-					n.setStem(new drumTag.Stem(note.getStem()));
-					n.setVoice(java.lang.String.valueOf(note.getVoice()));
-					
-					drumTag.Notations notations = new drumTag.Notations();
-					drumTag.Slur slur = new drumTag.Slur();
-					slur.setNumber(new BigInteger("1"));
-					slur.setPlacement("above");
-					slur.setType("start");
-					notations.setSlur(slur);
-					n.setNotations(notations);
-					
-					if(n.getVoice().equals("1"))  
-						notesVoice1.add(n);
-					else
-						notesVoice2.add(n);
-					
+				// CASE 1 - GRACE (FLAM) NOTE
+				if(note.getGrace() == true) {				
+					makeGraceNote(note, n);									
+					addToRespectiveVoice(notesVoice1, notesVoice2, n);
 					previous_note_is_grace_note = true; // make the accompanying slur for next note
-				}		
-				
-				// if the note is not a rest note give it the following values as well				
-				else if(note.getUnpitchedOrRest().equals("unpitched")) {
-					n.getDurationOrChordOrCue().add(new drumTag.Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
-					if(note.getChord())
-						n.getDurationOrChordOrCue().add(new drumTag.Chord());
-					drumTag.Instrument instrument = new drumTag.Instrument();
-					instrument.setId(note.getInstrumentID());
-					n.setInstrument(instrument);
-					n.setStem(new drumTag.Stem(note.getStem()));
-					drumTag.Notehead notehead = new drumTag.Notehead();
-					notehead.setValue(note.getNotehead());
-					n.setNotehead(notehead);
-					n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   
-					n.setVoice(java.lang.String.valueOf(note.getVoice()));
-					n.setType(new drumTag.Type(note.getType()));
-					// set values for all three of the beams	
-					drumTag.Beam beam;
-					if(note.getBeam1() != null) {	
-						beam = new drumTag.Beam();
-						beam.setNumber(new BigInteger("1")); beam.setValue(note.getBeam1());
-						n.addBeam(beam);
-					}
-					if(note.getBeam2() != null) {	
-					beam = new drumTag.Beam();
-					beam.setNumber(new BigInteger("2")); beam.setValue(note.getBeam2());
-					n.addBeam(beam);
-					}
-					if(note.getBeam3() != null) {	
-					beam = new drumTag.Beam();
-					beam.setNumber(new BigInteger("3")); beam.setValue(note.getBeam3());
-					n.addBeam(beam);
-					}
-
+				}						
+				// CASE 2 - UNPITCHED NOTE				
+				else if(note.getUnpitchedOrRest().equals("unpitched")) {					
+					makeUnpitchedNote(note,n);
 					if(previous_note_is_grace_note == true) {
 						drumTag.Notations notations = new drumTag.Notations();
 						drumTag.Slur slur = new drumTag.Slur();
@@ -620,28 +584,18 @@ public class xmlGen {
 						n.setNotations(notations);
 					}
 					previous_note_is_grace_note = false; // we have made the accompanying note
-					
-					if(n.getVoice().equals("1"))  
-						notesVoice1.add(n);
-					else
-						notesVoice2.add(n);
-					
-				}
-				// the elseif statement takes the backup notes
-				else if( note.getUnpitchedOrRest().equals("backup")) {
-					b = new drumTag.Backup();
-					b.setDuration(new BigDecimal(note.getDuration()));
-				}        	   
-				else {     	   // the else statement takes the REST NOTES
+					addToRespectiveVoice(notesVoice1, notesVoice2, n);
 
-					n.getDurationOrChordOrCue().add(new drumTag.Rest());
-					n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   
-					n.setVoice(java.lang.String.valueOf(note.getVoice()));
-					n.setType(new drumTag.Type(note.getType()));
-					if(n.getVoice().equals("1"))  
-						notesVoice1.add(n);
-					else
-						notesVoice2.add(n);
+				}
+				// CASE 3 - BACKUPS
+				else if( note.getUnpitchedOrRest().equals("backup")) {
+					makeBackup(note, b);
+				}        
+				// CASE 4 - REST NOTES
+				else {    
+					makeRestNote(note,n);
+					addToRespectiveVoice(notesVoice1, notesVoice2, n);
+
 				}        	           	   
 			}
 			//adding the first batch of notes to the first measure
@@ -673,5 +627,73 @@ public class xmlGen {
 
 	} // END OF DRUM GENERATOR
 
+	public void makeGraceNote(tabToXml.DrumNote note, drumTag.Note n){
+		n.setGrace(new drumTag.Grace()); // GRACE
+		
+		n.getDurationOrChordOrCue().add(new drumTag.Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
+		drumTag.Instrument instrument = new drumTag.Instrument();
+		instrument.setId(note.getInstrumentID());
+		n.setInstrument(instrument);
+		n.setStem(new drumTag.Stem(note.getStem()));
+		n.setVoice(java.lang.String.valueOf(note.getVoice()));
+		
+		drumTag.Notations notations = new drumTag.Notations();
+		drumTag.Slur slur = new drumTag.Slur();
+		slur.setNumber(new BigInteger("1"));
+		slur.setPlacement("above");
+		slur.setType("start");
+		notations.setSlur(slur);
+		n.setNotations(notations);
+	}
+	
+	public void makeUnpitchedNote(tabToXml.DrumNote note, drumTag.Note n) {
+		n.getDurationOrChordOrCue().add(new drumTag.Unpitched(new BigInteger(note.getDisplayOctave()),note.getDisplayStep()));
+		if(note.getChord())
+			n.getDurationOrChordOrCue().add(new drumTag.Chord());
+		drumTag.Instrument instrument = new drumTag.Instrument();
+		instrument.setId(note.getInstrumentID());
+		n.setInstrument(instrument);
+		n.setStem(new drumTag.Stem(note.getStem()));
+		drumTag.Notehead notehead = new drumTag.Notehead();
+		notehead.setValue(note.getNotehead());
+		n.setNotehead(notehead);
+		n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   
+		n.setVoice(java.lang.String.valueOf(note.getVoice()));
+		n.setType(new drumTag.Type(note.getType()));
+		// set values for all three of the beams	
+		drumTag.Beam beam;
+		if(note.getBeam1() != null) {	
+			beam = new drumTag.Beam();
+			beam.setNumber(new BigInteger("1")); beam.setValue(note.getBeam1());
+			n.addBeam(beam);
+		}
+		if(note.getBeam2() != null) {	
+		beam = new drumTag.Beam();
+		beam.setNumber(new BigInteger("2")); beam.setValue(note.getBeam2());
+		n.addBeam(beam);
+		}
+		if(note.getBeam3() != null) {	
+		beam = new drumTag.Beam();
+		beam.setNumber(new BigInteger("3")); beam.setValue(note.getBeam3());
+		n.addBeam(beam);
+		}
+	}
+	public void makeBackup(tabToXml.DrumNote note, drumTag.Backup b) {
+		b = new drumTag.Backup();
+		b.setDuration(new BigDecimal(note.getDuration()));
+	}
+	public void makeRestNote(tabToXml.DrumNote note, drumTag.Note n) {
+		n.getDurationOrChordOrCue().add(new drumTag.Rest());
+		n.getDurationOrChordOrCue().add(new BigDecimal(note.getDuration()));        	   
+		n.setVoice(java.lang.String.valueOf(note.getVoice()));
+		n.setType(new drumTag.Type(note.getType()));
+	}
+	public void addToRespectiveVoice(ArrayList<drumTag.Note >notesVoice1,ArrayList<drumTag.Note> notesVoice2, drumTag.Note n) {
+		if(n.getVoice().equals("1")) 	notesVoice1.add(n);
+		else							notesVoice2.add(n);			
+	}
 
+	
+	
+	
 } // END OF CLASS

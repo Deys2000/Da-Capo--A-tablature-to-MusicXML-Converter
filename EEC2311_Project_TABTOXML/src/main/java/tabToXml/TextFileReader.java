@@ -203,31 +203,69 @@ public class TextFileReader {
 		int fifths = 0;
 		int stafflines = this.numOfLines;
 		ArrayList<String> repeats = new ArrayList<>();
+		ArrayList<Boolean> repeatLB = new ArrayList<>();
+		ArrayList<Boolean> repeatRB = new ArrayList<>();
 		String sign = this.getSign();
 		String line = this.getLine();
 
 		if(numOfLines > 1) { // only works if you have atleast 2 lines in your tablature
 			int repeat = 0;
+			
 			String line1 = parsedTab.get(0);
 			String line2 = parsedTab.get(1);
+			repeatLB.add(null);
+			repeatRB.add(null);			
 			
-			int accomodate = 0; // this variable accomodates for the decreasing size of the 
+			int accomodate = 0; // this variable accomodates for the decreasing size of the parsed tab as we remove columns
 			for(int i = 1; i < line1.length(); i++) { // START from 1 so that we dont check the first barline and a -1 index out of bounds error
+
+				//CHECK COLUMNS FOR ASTERISKS
+				for(int j = 0; j < parsedTab.size(); j++) {					
+					if(parsedTab.get(j).charAt(i-accomodate) == '*') { // ASTERISK EXISTS
+						if(parsedTab.get(j).charAt(i-accomodate-1) == '|')  // ITS A FORWARD BARLINE LOCATION
+							repeatLB.set(repeats.size(), true);													
+						else if(parsedTab.get(j).charAt(i-accomodate+1) == '|')  // ITS A BACKWARD BARLINE LOCATION
+							repeatRB.set(repeats.size(), true);
+						break;
+					}
+				}				
+				// REPEAT NUMBERS
 				if(line2.charAt(i) == '|' && line1.charAt(i) == '|') {
 					if( i-1 >= 0 && Character.isDigit( line1.charAt(i-1))) { // character behind is a number
 						repeats.add(Character.toString(line1.charAt(i-1)));
+						repeatLB.add(null);
+						repeatRB.add(null);
 						for(int j = 0; j < parsedTab.size(); j++) // remove the vertical column with the number so it does not get interpreted as a note later
 							parsedTab.set(j, parsedTab.get(j).substring(0,i-accomodate-1)+parsedTab.get(j).substring(i-accomodate));
 						accomodate++;
 					}
-					else if( i-1 >= 0 && line1.charAt(i-1) != '|') // character behind should not be another barline
+					else if( i-1 >= 0 && line1.charAt(i-1) != '|') { // character behind should not be another barline
 						repeats.add(null);
+						repeatLB.add(null);
+						repeatRB.add(null);
+					}
 				}
 			} // end of loop			
 		}// end of conditional
 		
+		// remove asterisk columns
+		for(int i = parsedTab.get(0).length()-1; i >= 0; i--) {
+			for(int j = 0; j < parsedTab.size(); j++) {
+				if(parsedTab.get(j).charAt(i)=='*') {
+					for(int k = 0; k < parsedTab.size(); k++) {
+						parsedTab.set(k,  parsedTab.get(k).substring(0,i)+parsedTab.get(k).substring(i+1));
+					}
+					break;
+				}
+			}
+		}
+		
+		System.out.println(repeats + "L:"+repeats.size());
+		System.out.println(repeatLB  + "L:"+  repeatLB.size());
+		System.out.println(repeatRB +"L:"+ repeatRB.size());
+		
 		for(int i = 0; i < repeats.size(); i++) { // start at one to ignore the first bar that repeats has as that is not a measure			
-			attributesPerMeasure.add(new TFRAttribute(i+1,divisions,fifths, beats, beattype, sign, line, repeats.get(i)));			
+			attributesPerMeasure.add(new TFRAttribute(i+1,divisions,fifths, beats, beattype, sign, line, repeats.get(i), repeatLB.get(i), repeatRB.get(i)));			
 		}
 		System.out.println("ATTRIBUTES COLLECTED\n" + attributesPerMeasure);
 		
@@ -518,11 +556,13 @@ class TFRAttribute{
 	ArrayList<String> tuningSteps;
 	ArrayList<String> tuningOctaves;
 	
-	String repeat;
+	String repeatTimes;
+	Boolean repeatLeftBar;
+	Boolean repeatRightBar;
 	
 	
 	// Constructor
-	public TFRAttribute(int m, int d, int f, int b, int bt, String s, String l, String r) {
+	public TFRAttribute(int m, int d, int f, int b, int bt, String s, String l, String rT, Boolean rLB, Boolean rRB) {
 		this.measure = m;
 		this.divisions = d;
 		this.fifths = f;
@@ -530,7 +570,10 @@ class TFRAttribute{
 		this.beattype = bt;
 		this.sign = s;
 		this.line = l;
-		this.repeat = r;
+		this.repeatTimes = rT;
+		this.repeatLeftBar = rLB;
+		this.repeatRightBar = rRB;
+		
 	}	
 	
 	public String toString() {
@@ -541,7 +584,9 @@ class TFRAttribute{
 				" BeatType: "	+ beattype +
 				" Sign: "		+ sign +
 				" Line: "		+ line +
-				" Repeat: "		+ repeat+ "\n");
+				" Repeats: "	+ repeatTimes+
+				" LeftBar?: "	+ repeatLeftBar+
+				" RightBar?: "	+ repeatRightBar +"\n");
 	}
 	
 	// GETTERS
@@ -555,7 +600,9 @@ class TFRAttribute{
 	public ArrayList<String> getTuningOctaves() { return tuningOctaves; };
 	public ArrayList<String> getTuningSteps() { return tuningSteps; };
 
-	public String getRepeat() { return repeat; };
+	public String getRepeatTimes() { return repeatTimes; };
+	public Boolean getLeftBar() { return repeatLeftBar; };
+	public Boolean getRightBar() { return repeatRightBar; };
 		
 	// SETTERS
 	
