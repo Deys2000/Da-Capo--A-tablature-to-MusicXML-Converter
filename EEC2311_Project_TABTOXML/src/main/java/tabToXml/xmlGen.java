@@ -95,9 +95,13 @@ public class xmlGen {
 		TextFileReader tfr = gp.tfr;
 
 		this.scorePartwise = new ScorePartwise();
-		scorePartwise.setMovementTitle("Guitar Music Piece"); // move to constuctor
-
-		scorePartwise.setPartList( new PartList(new ScorePart("P1", "Classical Guitar"))); // constructor sets ID and part-name
+		if(gp.tfr.getMusicPieceTitle() == null)
+			if(gp.tfr.getDetectedInstrument().equals("Guitar"))	scorePartwise.setMovementTitle("Guitar Music Piece");
+			else												scorePartwise.setMovementTitle("Bass Music Piece");
+		else
+			scorePartwise.setMovementTitle(gp.tfr.getMusicPieceTitle()); 
+		
+		scorePartwise.setPartList( new PartList(new ScorePart("P1", "Classical Guitar/Bass"))); // constructor sets ID and part-name
 		Part part = new Part("P1"); // constructer sets ID
 
 
@@ -135,30 +139,11 @@ public class xmlGen {
 
 				//creating all the staff tunings that will go into the staff details tag above 
 				
-				// HARDCODED CHANGE LATER // TODO TODO TODO TODO TODO TODO TODO TODO //
-				
-				java.lang.String[][] attributeVals = {
-						{"4"}, // divisions
-						{"0"}, // fifths
-						{"4","4"}, // beats and beat-type
-						{"tab","5"}, // sign and line
-						{"6"}, // staff lines
-						{"E","A","D","G","B","E"}, //tuning-step
-						{"2","2","3","3","3","4"} // tuning-octave
-				};
-				
 				ArrayList<StaffTuning> staffTunings = new ArrayList<>();        
-				//for(int j = 0; j < attributeVals.length; j++)
-				//	staffTunings.add(new StaffTuning(new BigInteger(Integer.toString(j + 1)),attributeVals[5][j],new BigInteger(attributeVals[6][j])));       
-				// loop above adds all information into a staff tuning object before inserting into staff tuning list
-				
 				for(int j = 0; j < gp.tuning.size(); j++) {
 					staffTunings.add(new StaffTuning(new BigInteger(Integer.toString(j + 1)),gp.tuning.get(j).substring(0,1),new BigInteger(gp.tuning.get(j).substring(1))));       
 				}
-				
-				
-				// TODO  TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO//
-				
+	
 				// the constructor takes line, tuning step and tuning octave
 
 				//insert the arraylist of staff tunings into the stffdetails object
@@ -475,7 +460,10 @@ public class xmlGen {
 		TextFileReader tfr = dp.getTFR();
 
 		// creating the outermost tag "score-partwise"
-		this.drumScorePartwise = new drumTag.ScorePartwise();
+		if(dp.tfr.getMusicPieceTitle() == null)
+			drumScorePartwise.setMovementTitle("Drum Music Piece"); 
+		else
+			drumScorePartwise.setMovementTitle(dp.tfr.getMusicPieceTitle()); 
 
 		drumTag.ScorePart scorepart = new drumTag.ScorePart();
 		scorepart.setId("P1");

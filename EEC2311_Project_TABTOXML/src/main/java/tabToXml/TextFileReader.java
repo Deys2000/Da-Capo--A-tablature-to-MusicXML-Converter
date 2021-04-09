@@ -15,6 +15,8 @@ import java.util.regex.Pattern;
  */
 public class TextFileReader {
 	
+	private String musicPieceTitle = null; // Name of the music piece
+	
 	private File inputFile; // the file of the 
 	int numOfLines; // hold the number of rows in the tablature
 	boolean isDrum = false; // responsible for detecting if tab is a drums tab
@@ -473,7 +475,7 @@ public class TextFileReader {
 		return this.attributesPerMeasure;
 	}
 	
-	// NEW METHOD
+	// NEW METHOD FOR GUI
 	public void setRangeOfAttributes( int from, int to, int beat, int beattype, String sign, String line) {
 		
 		// only make changes if valid input is given, valid meaning "from" is before or equal to "to"
@@ -486,7 +488,14 @@ public class TextFileReader {
 			this.attributesPerMeasure.get(i).setLine(line);			
 		}		
 	}
-	
+	// NEW METHOD FOR GUI
+	public void setMusicPieceTitle(String title) {
+		this.musicPieceTitle = title;
+	}
+	// NEW METHOD FOR GUI
+	public String getMusicPieceTitle() {
+		return this.musicPieceTitle;
+	}
 	
 	
 }
