@@ -36,7 +36,6 @@ public class GuitarParser {
 		tuning.add("G3");
 		tuning.add("B3");
 		tuning.add("E4");
-
 		
 		tfr = tfrPassed;
 		translateParsed(tfr.getParsed());
@@ -382,6 +381,7 @@ public class GuitarParser {
         
         int graceNoteNum = 0; // number of tracked grace notes, for backtracking to note before the grace notes start
         int graceNoteLength = 0; // note length of tracked grace notes, in 16th notes
+        int graceNoteCounter = 0; // counter of previously tracked grace note
         boolean trackingGrace = false; // if we are tracking grace notes
         
         while (counter < parsedTab.get(0).length()) { 
@@ -433,6 +433,15 @@ public class GuitarParser {
                     		isDoubleDigit = true;
                     	}
                     	
+                    	// check if fret is grace note (start)
+                    	if(parsedTab.get(currentLine).charAt(counter - 1) == 'g') {
+                    		trackingGrace = true;
+                    		graceNoteCounter = counter;
+                    	}
+                    	else {
+                    		graceArr.add(null);
+                    	}
+                    	
                     	// starts counting noteLength, should only be done once
                     	if (prevChordNum == 0) {
                     		noteLength++;
@@ -476,6 +485,24 @@ public class GuitarParser {
                     	// check if fret is doubledigit
                     	if(Character.isDigit(parsedTab.get(currentLine).charAt(counter+1))) {
                     		isDoubleDigit = true;
+                    	}
+                    	
+                    	// check if fret is grace note (continue)
+                    	if(trackingGrace) {
+                    		// if fret continues grace note
+                    		if (checkGraceContinue(parsedTab.get(currentLine).charAt(counter - 1)) && (counter - graceNoteCounter == 2)) {
+                    			graceNoteNum++;
+                    			graceNoteLength += 2;
+                    		}
+                    		// end grace note and add to arrays
+                    		else {
+                    			
+                    			
+                    			trackingGrace = false;
+                    		}
+                    	}
+                    	else {
+                    		graceArr.add(null);
                     	}
                     	
                     	// Adding tracked notes to arrays
@@ -544,6 +571,17 @@ public class GuitarParser {
 //      System.out.print("Type Array: ");
 //      System.out.println(typeArr);
 //      System.out.println("GraceArr: " + graceArr);
+    }
+    
+    private boolean checkGraceContinue(char c) {
+    	
+    	boolean result = false;
+    	
+    	if (c == 'h' || c == 'p' || c == '/' || c == '/') {
+    		result = true;
+    	}
+    	
+    	return result;
     }
     
     /**
