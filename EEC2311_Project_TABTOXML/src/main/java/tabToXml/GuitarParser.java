@@ -436,11 +436,12 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                     	
                     	// check if fret is grace note (start)
                     	if(parsedTab.get(currentLine).charAt(counter - 1) == 'g') {
+                    		// System.out.println("Starting to Track Grace Notes Now"); // For Debugging
                     		trackingGrace = true;
                     		graceNoteCounter = counter;
                     	}
                     	else {
-                    		graceArr.add(null);
+                    		graceArr.add("false");
                     	}
                     	
                     	// starts counting noteLength, should only be done once
@@ -489,7 +490,13 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                     	}
                     	
                     	// check if fret is grace note (continue)
-                    	if(trackingGrace) {
+                    	// check if fret is grace note (start)
+                    	if(parsedTab.get(currentLine).charAt(counter - 1) == 'g') {
+                    		// System.out.println("Starting to Track Grace Notes Now"); // For Debugging
+                    		trackingGrace = true;
+                    		graceNoteCounter = counter;
+                    	}
+                    	else if(trackingGrace) {
                     		// if fret continues grace note
                     		if (checkGraceContinue(parsedTab.get(currentLine).charAt(counter - 1)) && (counter - graceNoteCounter == 2)) {
                     			graceNoteNum++;
@@ -498,12 +505,23 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                     		// end grace note and add to arrays
                     		else {
                     			
+                    			// Add grace note length to note before grace note start
+                    			int replaceIndex = durationArr.size() - graceNoteNum - 1;
+                    			durationArr.set(replaceIndex, "" + (Integer.parseInt(durationArr.get(replaceIndex)) + graceNoteLength));
+                    			
+                    			// replace all grace note durations with null and set grace tag
+                    			while (graceNoteNum > 0) {
+                    				replaceIndex = durationArr.size() - graceNoteNum;
+                    				durationArr.set(replaceIndex, null);
+                    				graceArr.add("true");
+                    				graceNoteNum--;
+                    			}
                     			
                     			trackingGrace = false;
                     		}
                     	}
                     	else {
-                    		graceArr.add(null);
+                    		graceArr.add("false");
                     	}
                     	
                     	// Adding tracked notes to arrays
