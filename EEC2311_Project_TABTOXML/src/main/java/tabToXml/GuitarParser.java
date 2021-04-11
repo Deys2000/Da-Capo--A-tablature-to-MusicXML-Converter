@@ -506,8 +506,7 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                     		isDoubleDigit = true;
                     	}
                     	
-                    	// check if fret is grace note (continue)
-                    	// check if fret is grace note (start)
+                    	// check if fret is grace note (start and continue)
                     	if(parsedTab.get(currentLine).charAt(counter - 1) == 'g') {
                     		// System.out.println("Starting to Track Grace Notes Now"); // For Debugging
                     		trackingGrace = true;
@@ -518,6 +517,7 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                     		if (checkGraceContinue(parsedTab.get(currentLine).charAt(counter - 1)) && (counter - graceNoteCounter == 2)) {
                     			graceNoteNum++;
                     			graceNoteLength += 2;
+                    			graceNoteCounter = counter;
                     		}
                     		// end grace note and add to arrays
                     		else {
@@ -529,11 +529,18 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                     			// replace all grace note durations with null and set grace tag
                     			while (graceNoteNum > 0) {
                     				replaceIndex = durationArr.size() - graceNoteNum;
-                    				durationArr.set(replaceIndex, null);
-                    				graceArr.add("true");
+                    				durationArr.set(replaceIndex, "-1");
+                    				graceArr.add("true");	
                     				graceNoteNum--;
                     			}
                     			
+                    			// Add tag for current note (which is not a grace note)
+                    			graceArr.add("false");
+                    			
+                    			// TODO - NEED TO FIX, THIS EXTRA TAG ADDED, CANT FIGURE OUT WHY ITS NEEDED
+                    			graceArr.add("false");
+                    			
+                    			// Stop tracking grace notes
                     			trackingGrace = false;
                     		}
                     	}
