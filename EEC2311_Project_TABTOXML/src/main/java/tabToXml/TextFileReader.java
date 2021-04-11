@@ -15,6 +15,8 @@ import java.util.regex.Pattern;
  */
 public class TextFileReader {
 	
+	private String musicPieceTitle = null; // Name of the music piece
+	
 	private File inputFile; // the file of the 
 	int numOfLines; // hold the number of rows in the tablature
 	boolean isDrum = false; // responsible for detecting if tab is a drums tab
@@ -113,10 +115,10 @@ public class TextFileReader {
 		// DETECT INSTRUMENT
 		instrument = "Unable to Identify";
 		int lines = numOfLines;
-		if(lines == 4 && isDrum == false ) {
+		if(lines <= 4 && isDrum == false ) {
 			instrument = "Bass";
 		}
-		else if (lines == 6 && isDrum == false) {
+		else if (lines < 8 && isDrum == false) {
 			instrument = "Guitar";
 		}
 		else if( isDrum == true){
@@ -168,6 +170,7 @@ public class TextFileReader {
 		}
 		
 		// separating the chars and rest of measure
+		String extractedChar;
 		System.out.println("COMPLETE TAB\n" + parsedTab.toString());
 		stringChars = new ArrayList<String>();
 		for( int i = 0; i < parsedTab.size(); i++) {
@@ -175,7 +178,11 @@ public class TextFileReader {
 			if( -1 != currentLine.indexOf('|')){
 				String firstSection = currentLine.substring(0,currentLine.indexOf('|')); 
 				//if( firstSection.contains("\\-") && firstSection.length() != 0 ) {  // perhaps we don't need the conditional
-				stringChars.add(firstSection.replaceAll("[^a-zA-Z0-9]", ""));  // only keep alphanumeric values
+				extractedChar = firstSection.replaceAll("[^a-zA-Z0-9]", "");  // only keep alphanumeric values
+				if(extractedChar.length() == 0)
+					stringChars.add(null); 
+				else
+					stringChars.add(extractedChar);  // no instrument found 
 				parsedTab.set(i,currentLine.substring(currentLine.indexOf('|')));
 				//}
 			}
@@ -196,31 +203,69 @@ public class TextFileReader {
 		int fifths = 0;
 		int stafflines = this.numOfLines;
 		ArrayList<String> repeats = new ArrayList<>();
+		ArrayList<Boolean> repeatLB = new ArrayList<>();
+		ArrayList<Boolean> repeatRB = new ArrayList<>();
 		String sign = this.getSign();
 		String line = this.getLine();
 
 		if(numOfLines > 1) { // only works if you have atleast 2 lines in your tablature
 			int repeat = 0;
+			
 			String line1 = parsedTab.get(0);
 			String line2 = parsedTab.get(1);
+			repeatLB.add(null);
+			repeatRB.add(null);			
 			
-			int accomodate = 0; // this variable accomodates for the decreasing size of the 
+			int accomodate = 0; // this variable accomodates for the decreasing size of the parsed tab as we remove columns
 			for(int i = 1; i < line1.length(); i++) { // START from 1 so that we dont check the first barline and a -1 index out of bounds error
+
+				//CHECK COLUMNS FOR ASTERISKS
+				for(int j = 0; j < parsedTab.size(); j++) {					
+					if(parsedTab.get(j).charAt(i-accomodate) == '*') { // ASTERISK EXISTS
+						if(parsedTab.get(j).charAt(i-accomodate-1) == '|')  // ITS A FORWARD BARLINE LOCATION
+							repeatLB.set(repeats.size(), true);													
+						else if(parsedTab.get(j).charAt(i-accomodate+1) == '|')  // ITS A BACKWARD BARLINE LOCATION
+							repeatRB.set(repeats.size(), true);
+						break;
+					}
+				}				
+				// REPEAT NUMBERS
 				if(line2.charAt(i) == '|' && line1.charAt(i) == '|') {
 					if( i-1 >= 0 && Character.isDigit( line1.charAt(i-1))) { // character behind is a number
 						repeats.add(Character.toString(line1.charAt(i-1)));
+						repeatLB.add(null);
+						repeatRB.add(null);
 						for(int j = 0; j < parsedTab.size(); j++) // remove the vertical column with the number so it does not get interpreted as a note later
 							parsedTab.set(j, parsedTab.get(j).substring(0,i-accomodate-1)+parsedTab.get(j).substring(i-accomodate));
 						accomodate++;
 					}
-					else if( i-1 >= 0 && line1.charAt(i-1) != '|') // character behind should not be another barline
+					else if( i-1 >= 0 && line1.charAt(i-1) != '|') { // character behind should not be another barline
 						repeats.add(null);
+						repeatLB.add(null);
+						repeatRB.add(null);
+					}
 				}
 			} // end of loop			
 		}// end of conditional
 		
+		// remove asterisk columns
+		for(int i = parsedTab.get(0).length()-1; i >= 0; i--) {
+			for(int j = 0; j < parsedTab.size(); j++) {
+				if(parsedTab.get(j).charAt(i)=='*') {
+					for(int k = 0; k < parsedTab.size(); k++) {
+						parsedTab.set(k,  parsedTab.get(k).substring(0,i)+parsedTab.get(k).substring(i+1));
+					}
+					break;
+				}
+			}
+		}
+		
+		System.out.println(repeats + "L:"+repeats.size());
+		System.out.println(repeatLB  + "L:"+  repeatLB.size());
+		System.out.println(repeatRB +"L:"+ repeatRB.size());
+		
 		for(int i = 0; i < repeats.size(); i++) { // start at one to ignore the first bar that repeats has as that is not a measure			
-			attributesPerMeasure.add(new TFRAttribute(i+1,divisions,fifths, beats, beattype, sign, line, repeats.get(i)));			
+			attributesPerMeasure.add(new TFRAttribute(i+1,divisions,fifths, beats, beattype, sign, line, repeats.get(i), repeatLB.get(i), repeatRB.get(i)));			
 		}
 		System.out.println("ATTRIBUTES COLLECTED\n" + attributesPerMeasure);
 		
@@ -467,8 +512,31 @@ public class TextFileReader {
 	public ArrayList<TFRAttribute> getAttributesPerMeasure(){
 		return this.attributesPerMeasure;
 	}
+	
+	// NEW METHOD FOR GUI
+	public void setRangeOfAttributes( int from, int to, int beat, int beattype, String sign, String line) {
+		
+		// only make changes if valid input is given, valid meaning "from" is before or equal to "to"
+		for(int i = from; i <= to; i++) { // inclusive from and two
+			// we will use -1 throughout the loop since the array is on a index base of 0 and not 1
+			// so measure 1 is actually at position 0
+			this.attributesPerMeasure.get(i).setBeats(beat);
+			this.attributesPerMeasure.get(i).setBeattype(beattype);
+			this.attributesPerMeasure.get(i).setSign(sign);
+			this.attributesPerMeasure.get(i).setLine(line);			
+		}		
+	}
+	// NEW METHOD FOR GUI
+	public void setMusicPieceTitle(String title) {
+		this.musicPieceTitle = title;
+	}
+	// NEW METHOD FOR GUI
+	public String getMusicPieceTitle() {
+		return this.musicPieceTitle;
+	}
+	
+	
 }
-
 //_______________________________________END OF TEXT FILE READER CLASS______________________________________________//
 //------------------------------------------------------------------------------------------------------------------//
 
@@ -488,11 +556,13 @@ class TFRAttribute{
 	ArrayList<String> tuningSteps;
 	ArrayList<String> tuningOctaves;
 	
-	String repeat;
+	String repeatTimes;
+	Boolean repeatLeftBar;
+	Boolean repeatRightBar;
 	
 	
 	// Constructor
-	public TFRAttribute(int m, int d, int f, int b, int bt, String s, String l, String r) {
+	public TFRAttribute(int m, int d, int f, int b, int bt, String s, String l, String rT, Boolean rLB, Boolean rRB) {
 		this.measure = m;
 		this.divisions = d;
 		this.fifths = f;
@@ -500,7 +570,10 @@ class TFRAttribute{
 		this.beattype = bt;
 		this.sign = s;
 		this.line = l;
-		this.repeat = r;
+		this.repeatTimes = rT;
+		this.repeatLeftBar = rLB;
+		this.repeatRightBar = rRB;
+		
 	}	
 	
 	public String toString() {
@@ -511,7 +584,9 @@ class TFRAttribute{
 				" BeatType: "	+ beattype +
 				" Sign: "		+ sign +
 				" Line: "		+ line +
-				" Repeat: "		+ repeat );
+				" Repeats: "	+ repeatTimes+
+				" LeftBar?: "	+ repeatLeftBar+
+				" RightBar?: "	+ repeatRightBar +"\n");
 	}
 	
 	// GETTERS
@@ -525,9 +600,19 @@ class TFRAttribute{
 	public ArrayList<String> getTuningOctaves() { return tuningOctaves; };
 	public ArrayList<String> getTuningSteps() { return tuningSteps; };
 
-	public String getRepeat() { return repeat; };
+	public String getRepeatTimes() { return repeatTimes; };
+	public Boolean getLeftBar() { return repeatLeftBar; };
+	public Boolean getRightBar() { return repeatRightBar; };
 		
 	// SETTERS
 	
 	//*add some setters maybe
+	public void setDivisions(int divisions) {this.divisions= divisions;}
+	public void setFifths(int fifths) {this.fifths = fifths;}
+	public void setBeats(int beats) {this.beats =  beats;}
+	public void setBeattype(int beattype) {this.beattype = beattype;}
+	public void setSign(String sign) {this.sign = sign;}
+	public void setLine(String sign) {this.line = line;}
+
+	
 }

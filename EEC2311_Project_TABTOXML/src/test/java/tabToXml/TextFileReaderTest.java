@@ -9,106 +9,106 @@ import org.junit.jupiter.api.Test;
 class TextFileReaderTest {
 
 	@Test
-	void testTextFileReaderString() {
-		
-		String expectedfile = "GuitarTab.txt";
+	void test_TextFileReaderString() {
+		String expectedfile = "src/test/java/tabToXml/GuitarTab.txt";
 		
 		TextFileReader tfr = new TextFileReader(expectedfile);	
 		
 		String actualfile = tfr.getFile().getName();
+		expectedfile = expectedfile.substring(expectedfile.lastIndexOf('/')+1);
 		
 		assertEquals(expectedfile,actualfile);
 	}
 
 	@Test
-	void testTextFileReaderFile() {
-		String expectedfile = "DrumsTab.txt";
-		
+	void test_TextFileReaderFile() {
+		String expectedfile = "src/test/java/tabToXml/DrumsTab.txt";
+			
 		TextFileReader tfr = new TextFileReader(expectedfile);	
 		
 		String actualfile = tfr.getFile().getName();
+		expectedfile = expectedfile.substring(expectedfile.lastIndexOf('/')+1);
 		
 		assertEquals(expectedfile,actualfile);
 	}
 
 	@Test
-	void testCreateparsedTab() {
+	void test_CreateparsedTab() {
 		ArrayList<String> expected = new ArrayList<String>();
-		expected.add("E|-----------0-----|-0---------------||");
-		expected.add("D|---------0---0---|-0---------------||");
-		expected.add("G|-------1-------1-|-1---------------||");
-		expected.add("B|-----2-----------|-2---------------||");
-		expected.add("A|---2-------------|-2---------------||");
-		expected.add("E|-0---------------|-0---------------||");
+		expected.add("|-----------0-----|-0---------------||");
+		expected.add("|---------0---0---|-0---------------||");
+		expected.add("|-------1-------1-|-1---------------||");
+		expected.add("|-----2-----------|-2---------------||");
+		expected.add("|---2-------------|-2---------------||");
+		expected.add("|-0---------------|-0---------------||");
 				
-		TextFileReader tfr = new TextFileReader("GuitarTab.txt");
+		TextFileReader tfr = new TextFileReader("src/test/java/tabToXml/GuitarTab.txt");
 		
 		ArrayList<String> actual = tfr.getParsed();
 		
 		assertEquals(actual, expected);			
 	}
 
+//	@Test
+//	void testDetectInstrument() {
+//		fail("Not yet implemented"); // TODO
+//	}
+//
+//	@Test
+//	void testNumberOfLines() {
+//		fail("Not yet implemented"); // TODO
+//	}
+//
+//	@Test
+//	void testStaffLines() {
+//		fail("Not yet implemented"); // TODO
+//	}
+//
+//	@Test
+//	void testGetParsedString() {
+//		fail("Not yet implemented"); // TODO
+//	}
+//
+//	@Test
+//	void testGetParsed() {
+//		fail("Not yet implemented"); // TODO
+//	}
+//
+//	@Test
+//	void testPrintOrginal() {
+//		fail("Not yet implemented"); // TODO
+//	}
+	
 	@Test
-	void testDetectInstrument() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	void testNumberOfLines() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	void testStaffLines() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	void testGetParsedString() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	void testGetParsed() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	void testPrintOrginal() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	public void testReader1() {
-		TextFileReader fileReader = new TextFileReader("tab.txt");
+	public void testReader2() {
+		TextFileReader fileReader = new TextFileReader("src/test/java/tabToXml/DrumsTab.txt");
+		String expected = "Drum";
+		String actual = fileReader.getDetectedInstrument();
 		
-		assertNotNull(fileReader);
+		assertEquals(expected, actual);
 	}
 	
-//	@Test
-//	public void testReader2() {
-//		TextFileReader fileReader = new TextFileReader("tab.txt");
-//		
-//		assertEquals(fileReader.detectInstrument(), "Guitar");
-//	}
-	
-//	@Test
-//	public void testReader3() {
-//		TextFileReader fileReader = new TextFileReader("tab.txt");
-//		
-//		assertEquals(fileReader.numberOfLines(), 6);
-//	}
+	@Test
+	public void testReader3() {
+		TextFileReader fileReader = new TextFileReader("src/test/java/tabToXml/GuitarTab.txt");
+		String expected = "Guitar";
+		String actual = fileReader.getDetectedInstrument();
+		
+		assertEquals(expected, actual);
+	}
 	
 	@Test
-	public void testReader4() {
-		TextFileReader fileReader = new TextFileReader("tab.txt");
+	public void test_TuningLetterDetection() {
+		TextFileReader fileReader = new TextFileReader("src/test/java/tabToXml/GuitarTab.txt");
 		
 		assertAll("", 
-				() -> assertEquals(fileReader.getParsed().get(0).charAt(0), 'E'),
-				() -> assertEquals(fileReader.getParsed().get(1).charAt(0), 'D'),
-				() -> assertEquals(fileReader.getParsed().get(2).charAt(0), 'G'),
-				() -> assertEquals(fileReader.getParsed().get(3).charAt(0), 'B'),
-				() -> assertEquals(fileReader.getParsed().get(4).charAt(0), 'A')
+				() -> assertEquals(fileReader.getStringChars().get(0).charAt(0), 'E'),
+				() -> assertEquals(fileReader.getStringChars().get(1).charAt(0), 'D'),
+				() -> assertEquals(fileReader.getStringChars().get(2).charAt(0), 'G'),
+				() -> assertEquals(fileReader.getStringChars().get(3).charAt(0), 'B'),
+				() -> assertEquals(fileReader.getStringChars().get(4).charAt(0), 'A'),
+				() -> assertEquals(fileReader.getStringChars().get(5).charAt(0), 'E')
+
 				);
 	}
 }

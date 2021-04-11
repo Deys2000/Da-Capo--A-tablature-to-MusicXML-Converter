@@ -5,6 +5,8 @@ import java.util.List;
 
 public class GuitarParser {
 
+	final String[] defaultTunings = {"E2","A2","D3","G3","B3","E4"};
+	
 	// all the arrays to contain information gathered by the notes
 
 	public ArrayList<String> notes = new ArrayList<>();
@@ -19,7 +21,7 @@ public class GuitarParser {
 
 	public TextFileReader tfr;
 	
-	public ArrayList<String> tuning = new ArrayList<String>(); // changed from static array to dynamic, it will be passed the instruments by textfilereader
+	public ArrayList<String> tuning = new ArrayList<String>(); // DONE-> changed from static array to dynamic, it will be passed the instruments by textfilereader
 
 	
 	private int divisions = 4; //current default is 4
@@ -27,18 +29,33 @@ public class GuitarParser {
 	
 	
 	public GuitarParser(TextFileReader tfrPassed) throws Exception {
-		
-		//tuning = tfr.getStringChars(); // End goal is to do this
-		// currently doing this tho, is it backwards?
-		tuning.add("E2");
-		tuning.add("A2");
-		tuning.add("D3");
-		tuning.add("G3");
-		tuning.add("B3");
-		tuning.add("E4");
-
-		
 		tfr = tfrPassed;
+		
+		// GETTING TUNINGS // <- NEW - Syed-------------------------------------------
+		
+		// Dynamic Setting of Tunings from TextFileReader
+		this.tuning = tfr.getStringChars();
+		int tempIterator = 0;
+		for(int i = 0; i < tfr.getStringChars().size(); i++) {
+			if( tfr.getStringChars().get(i) == null) {
+				this.tuning.set(i, this.defaultTunings[tempIterator%6]);
+				tempIterator++;
+				System.out.println("Added " + defaultTunings[(tempIterator-1)%6] + " at line " + i+1 );
+			}
+		}		
+		//assign numbers to Letters only tunings given by user (E -> E4 for example)
+		String tempString;
+		for(int i = 0; i < this.tuning.size(); i++){
+			tempString = this.tuning.get(i);
+			if(tempString.replaceAll("[a-zA-Z]","").length() == 0) { // there is no number
+				// add a random number between 2 and 6 - (perhaps modify later)
+				this.tuning.set(i, this.tuning.get(i) + ( (int)(Math.random()*5) + 2 ) );
+			}
+		}		
+		System.out.println("TFR Determined > "+this.tuning);
+		
+		// FINISHED GETTING TUNINGS ----------------------------------------------
+		
 		translateParsed(tfr.getParsed());
 		parseToRhythm(tfr.getParsed());
 
