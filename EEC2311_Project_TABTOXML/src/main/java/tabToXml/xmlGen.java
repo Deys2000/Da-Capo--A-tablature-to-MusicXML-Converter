@@ -296,6 +296,37 @@ public class xmlGen {
 				if(gp.getHandPArr().get(i) == null) {
 	            	// do nothing
 	            }
+				//----------------
+	            else if( gp.getHandPArr().get(i).substring(0,1).equals("s")) {
+	            	Slide sl = new Slide();
+	            	sl.setType(gp.getHandPArr().get(i).substring(1));
+	            	notations.setSlide(sl);
+	            	
+	            	Slur slur = new Slur();
+	            	slur.setType(gp.getHandPArr().get(i).substring(1));
+	            	notations.setSlur(slur);
+	            }
+				//-----------------
+				
+				//-----
+	            else if( gp.getHandPArr().get(i).substring(0,1).equals("b")) {
+	            	BigDecimal tmp = new BigDecimal (gp.getHandPArr().get(i).substring(1));
+	            	BigDecimal tmp2 = new BigDecimal ("0");
+	            	if (tmp.compareTo(tmp2) == 1) {
+	            		Bend bd = new Bend();
+		            	bd.setBendAlter(new BigDecimal (gp.getHandPArr().get(i).substring(1)));
+		            	technical.setBend(bd);
+	            	}else if (tmp.compareTo(tmp2) == -1) {
+	            		Bend bd = new Bend();
+		            	bd.setBendAlter(new BigDecimal (gp.getHandPArr().get(i).substring(1)));
+		            	Release rel =  new Release();
+		            	bd.setRelease(rel);
+		            	technical.setBend(bd);
+	            	}
+	            	
+	            	
+	            }
+				//-----
 	            else if( gp.getHandPArr().get(i).substring(0,1).equals("h")) {
 	            	HammerOn ho = new HammerOn();
 	            	ho.setType(gp.getHandPArr().get(i).substring(1));
@@ -304,6 +335,7 @@ public class xmlGen {
 	            	slur.setType(gp.getHandPArr().get(i).substring(1));
 	            	notations.setSlur(slur);
 	            }
+				
 	            else if( gp.getHandPArr().get(i).substring(0,1).equals("p")) {
 	            	PullOff po = new PullOff();
 	            	po.setType(gp.getHandPArr().get(i).substring(1));
@@ -350,26 +382,23 @@ public class xmlGen {
 	            	ho1.setType(gp.getHandPArr().get(i).substring(6));
 	            	technical.setHammerOn(ho1);
 	            }
+				
+	            else if( gp.getHandPArr().get(i).substring(0,1).equals("N")) {
+	            	Harmonic nh = new Harmonic();
+	            	Natural nat = new Natural();
+	            	nh.setNatural(nat);
+	            	technical.setHarmonic(nh);
+	            }
 	            //-------
 	            else if( gp.getHandPArr().get(i).substring(0,1).equals("a")) {
 	            	Slide sl = new Slide();
 	            	sl.setType(gp.getHandPArr().get(i).substring(1));
 	            	notations.setSlide(sl);
-//	            	no.setHammerOn(ho);
-//	            	Slur slur = new Slur();
-//	            	slur.setType(gp.getHandPArr().get(i).substring(1));
-//	            	notations.setSlur(slur);
 	            }
 	            else if( gp.getHandPArr().get(i).substring(0,1).equals("d")) {
 	            	Slide sl = new Slide();
 	            	sl.setType(gp.getHandPArr().get(i).substring(1));
 	            	notations.setSlide(sl);
-//	            	PullOff po = new PullOff();
-//	            	po.setType(gp.getHandPArr().get(i).substring(1));
-//	            	technical.setPullOff(po);
-//	            	Slur slur = new Slur();
-//	            	slur.setType(gp.getHandPArr().get(i).substring(1));
-//	            	notations.setSlur(slur);
 	            }
 	            else if(gp.getHandPArr().get(i).substring(0,1).equals("A") && gp.getHandPArr().get(i).substring(5,6).equals("D")) {
 	            	Slide sl = new Slide();
@@ -379,13 +408,6 @@ public class xmlGen {
 	            	Slide sl2 = new Slide();
 	            	sl2.setType(gp.getHandPArr().get(i).substring(6));
 	            	notations.setSlide(sl2);
-//	            	PullOff po = new PullOff();
-//	            	po.setType(gp.getHandPArr().get(i).substring(1,5));
-//	            	technical.setPullOff(po);
-//	            	
-//	            	HammerOn ho = new HammerOn();
-//	            	ho.setType(gp.getHandPArr().get(i).substring(6));
-//	            	technical.setHammerOn(ho);
 	            }   
 	            else if(gp.getHandPArr().get(i).substring(0,1).equals("D") && gp.getHandPArr().get(i).substring(5,6).equals("A")) {
 	            	Slide sl = new Slide();
@@ -395,13 +417,6 @@ public class xmlGen {
 	            	Slide sl2 = new Slide();
 	            	sl2.setType(gp.getHandPArr().get(i).substring(6));
 	            	notations.setSlide(sl2);
-//	            	HammerOn ho = new HammerOn();
-//	            	ho.setType(gp.getHandPArr().get(i).substring(1,5));
-//	            	technical.setHammerOn(ho);
-//	            	
-//	            	PullOff po = new PullOff();
-//	            	po.setType(gp.getHandPArr().get(i).substring(6));
-//	            	technical.setPullOff(po);
 	            }
 	            
 	            else if(gp.getHandPArr().get(i).substring(0,1).equals("A") && gp.getHandPArr().get(i).substring(5,6).equals("A")) {
@@ -412,13 +427,6 @@ public class xmlGen {
 	            	Slide sl2 = new Slide();
 	            	sl2.setType(gp.getHandPArr().get(i).substring(6));
 	            	notations.setSlide(sl2);            	
-//	            	PullOff po = new PullOff();
-//	            	po.setType(gp.getHandPArr().get(i).substring(1,5));
-//	            	technical.setPullOff(po);
-//	            	
-//	            	PullOff po1 = new PullOff();
-//	            	po1.setType(gp.getHandPArr().get(i).substring(6));
-//	            	technical.setPullOff(po1);
 	            }
 	            
 	            else if(gp.getHandPArr().get(i).substring(0,1).equals("D") && gp.getHandPArr().get(i).substring(5,6).equals("D")) {
@@ -429,13 +437,7 @@ public class xmlGen {
 	            	Slide sl2 = new Slide();
 	            	sl2.setType(gp.getHandPArr().get(i).substring(6));
 	            	notations.setSlide(sl2);
-//	            	HammerOn ho = new HammerOn();
-//	            	ho.setType(gp.getHandPArr().get(i).substring(1,5));
-//	            	technical.setHammerOn(ho);
-//	            	
-//	            	HammerOn ho1 = new HammerOn();
-//	            	ho1.setType(gp.getHandPArr().get(i).substring(6));
-//	            	technical.setHammerOn(ho1);
+
 	            }
 				else {
 
