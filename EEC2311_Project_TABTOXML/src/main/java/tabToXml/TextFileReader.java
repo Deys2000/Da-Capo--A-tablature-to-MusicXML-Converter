@@ -123,8 +123,11 @@ public class TextFileReader {
 		catch(FileNotFoundException e) {e.printStackTrace();}
 		finally {sc.close();}
 		//test
+
+		this.getParsed();
 		this.UnderscoreCheck();
 		this.checkAlignedVerticals();
+		
 		//end of test
 
 		// DETECT INSTRUMENT
@@ -201,6 +204,7 @@ public class TextFileReader {
 			}
 			System.out.println("Current Line: " + parsedTab.get(i));
 		}
+		this.dashCount();
 	}
 	
 	public void createAttributesList(ArrayList<String> tab) {
@@ -397,9 +401,70 @@ public class TextFileReader {
 		
 	}
 	
-	public void ExtraDashCheck() {
+	public int dashCount() {
 		//checks that there's extra dashes in certain rows of a tab
+
+		int dashCount = 0;
+		int firstBorder = 0;
+		int secondBorder = 0;
+		int [] indexHolder = {};
+		int vertCount = 0;
+		int forCount = 0;
 		
+		
+		
+		Scanner dashScan = null;
+		
+		try {
+
+			
+			dashScan = new Scanner(inputFile);
+			
+				//making array out of the given line
+				String next = dashScan.nextLine();
+				ArrayList<String> parsed = this.getParsed();
+				
+				System.out.println("TESTING PARSED TAB BANANA123: ");
+				System.out.println(parsed);
+				char [] charCheck = parsed.get(1).toCharArray();
+				System.out.println(charCheck);
+				
+				//first loop determines locations of borders
+					for(int i = 0;i<charCheck.length;i++) {
+						if (charCheck[i] == '|') {
+							vertCount++;
+						}
+					}
+					indexHolder = new int[vertCount];		
+					
+					for(int i = 0;i<charCheck.length;i++) {
+						if(charCheck[i] == '|') {
+							indexHolder[forCount] = i;
+							forCount++;
+						}	
+					}
+
+					firstBorder = indexHolder[0];
+					System.out.println(firstBorder);
+					secondBorder = indexHolder[1];
+					System.out.println(secondBorder);
+
+				// end of first loop only stuff
+					for(int i = firstBorder;i<secondBorder;i++) {
+						if (charCheck[i] != '|') {
+							dashCount++;
+						}
+					}
+		}
+		catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		finally {
+			dashScan.close();
+		}
+
+		System.out.println("dash count yields: "+dashCount);
+		return dashCount;
 	}
 	
 	public boolean UnderscoreCheck() {
