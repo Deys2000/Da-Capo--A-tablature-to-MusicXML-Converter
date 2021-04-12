@@ -152,6 +152,14 @@ public class GuitarParser {
 								if (parsedTab.get(i).charAt(j-2) == 'h' || parsedTab.get(i).charAt(j-2) == 'H' || parsedTab.get(i).charAt(j-1) == 'h' || parsedTab.get(i).charAt(j-1) == 'H') {
 									fretNumVar = "h" + fretNumVar;
 								}
+								//---
+								if (parsedTab.get(i).charAt(j+1) == 's' || parsedTab.get(i).charAt(j+1) == 'S') {
+									fretNumVar = fretNumVar + "s";
+								}
+								if (parsedTab.get(i).charAt(j-2) == 's' || parsedTab.get(i).charAt(j-2) == 's' || parsedTab.get(i).charAt(j-1) == 's' || parsedTab.get(i).charAt(j-1) == 's') {
+									fretNumVar = "s" + fretNumVar;
+								}
+								//---
 								if (parsedTab.get(i).charAt(j+1) == '/') {
 									fretNumVar = fretNumVar + "/";
 								}
@@ -174,7 +182,21 @@ public class GuitarParser {
 								if ((parsedTab.get(i).charAt(j-2) == '(' || parsedTab.get(i).charAt(j-1) == '(') && parsedTab.get(i).charAt(j+1) == ')') {
 									fretNumVar = "[" + fretNumVar + "]";
 								}							
-								//-------
+
+								if (((parsedTab.get(i).charAt(j+1) == 'b') || (parsedTab.get(i).charAt(j+1) == 'r')) && ((parsedTab.get(i).charAt(j+2) >= '0') && (parsedTab.get(i).charAt(j+2) <= '9')) && (j < next)) {
+									String var2;
+									if ((parsedTab.get(i).charAt(j+3) >= '0') && (parsedTab.get(i).charAt(j+3) <= '9')) {
+										var2 = "" + parsedTab.get(i).charAt(j+2) + parsedTab.get(i).charAt(j+3);
+									}
+									else {
+										var2 =  "" + parsedTab.get(i).charAt(j+2);
+									}
+									int var1 =  Character.getNumericValue(fret2);
+									int n = Integer.parseInt(var2) - var1;
+									fretNumVar = fretNumVar + "b" + n;
+//									fretNumVar = "[" + fretNumVar + "]";
+								}
+								
 //								else {fretNumVar = fretStringValue;}	
 								cal = i + 1;
 								fretStringVar = cal + "";
@@ -214,6 +236,16 @@ public class GuitarParser {
 						        if (parsedTab.get(i).charAt(j-2) == 'h' || parsedTab.get(i).charAt(j-2) == 'H' || parsedTab.get(i).charAt(j-1) == 'h' || parsedTab.get(i).charAt(j-1) == 'H') {
 									fretNumVar = "h" + fretNumVar;
 								}
+						        
+						        //---
+								if (parsedTab.get(i).charAt(j+1) == 's' || parsedTab.get(i).charAt(j+1) == 'S') {
+									fretNumVar = fretNumVar + "s";
+								}
+								if (parsedTab.get(i).charAt(j-2) == 's' || parsedTab.get(i).charAt(j-2) == 's' || parsedTab.get(i).charAt(j-1) == 's' || parsedTab.get(i).charAt(j-1) == 's') {
+									fretNumVar = "s" + fretNumVar;
+								}
+								//---
+			
 								if (parsedTab.get(i).charAt(j+1) == '/') {
 									fretNumVar = fretNumVar + "/";
 								}
@@ -236,8 +268,21 @@ public class GuitarParser {
 								if ((parsedTab.get(i).charAt(j-2) == '(' || parsedTab.get(i).charAt(j-1) == '(') && parsedTab.get(i).charAt(j+1) == ')') {
 									fretNumVar = "[" + fretNumVar + "]";
 								}
+
+								if (((parsedTab.get(i).charAt(j+1) == 'b') || (parsedTab.get(i).charAt(j+1) == 'r')) && ((parsedTab.get(i).charAt(j+2) >= '0') && (parsedTab.get(i).charAt(j+2) <= '9')) && (j < next)) {
+									String var2;
+									if ((parsedTab.get(i).charAt(j+3) >= '0') && (parsedTab.get(i).charAt(j+3) <= '9')) {
+										var2 = "" + parsedTab.get(i).charAt(j+2) + parsedTab.get(i).charAt(j+3);
+									}
+									else {
+										var2 =  "" + parsedTab.get(i).charAt(j+2);
+									}
+									int var1 =  Character.getNumericValue(fret2);
+									int n = Integer.parseInt(var2) - var1;
+									fretNumVar = fretNumVar + "b" + n;
+//									fretNumVar = "[" + fretNumVar + "]";
+								}
 								
-								//-------
 //						        else {fretNumVar = fretStringValue;}							
 								fretStringVar = cal + "";
 							}								
@@ -323,6 +368,17 @@ public class GuitarParser {
 						fretNum.set(i, fretNum.get(i).substring(1));
 						handp.add("astop"); //h10
 		    		}
+					
+					//----------
+					else if(fretNum.get(i).charAt(0) == 's'){
+						fretNum.set(i, fretNum.get(i).substring(1));
+						handp.add("sstop"); 
+		    		}
+					else if(fretNum.get(i).charAt(fretNum.get(i).length()-1) == 's'){
+						fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+						handp.add("sstart"); 
+		    		}
+					//---------
 				}
 //				else if (!((fretNum.get(i).charAt(0) >= '0' && fretNum.get(i).charAt(0) <= '9') ^ (fretNum.get(i).charAt(fretNum.get(i).length()-1) >= '0' && fretNum.get(i).charAt(fretNum.get(i).length()-1) <= '9'))) {
 				else if (fretNum.get(i).charAt(0) == 'p' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == 'h') {
@@ -376,9 +432,18 @@ public class GuitarParser {
 					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
 					handp.add("Nharmonics");	
 				}
-				//-----------
+				//----
+//				else if ((fretNum.get(i).charAt(0) >= '0') && (fretNum.get(i).charAt(0) <= '9') && (fretNum.get(i).charAt(fretNum.get(i).length()-1) >= '0') && (fretNum.get(i).charAt(fretNum.get(i).length()-1) <= '9') ) {
+				else if (fretNum.get(i).contains("b")){
+					int findIndex = fretNum.get(i).indexOf("b") + 1;
+					
+					String useIndex = fretNum.get(i).substring(findIndex);
+					handp.add("b"+useIndex);
+					fretNum.set(i,fretNum.get(i).substring(0,findIndex-1));
+				}
+				//----
 				
-	    		else if( fretNum.get(i).charAt(0) == '|') {
+				else if( fretNum.get(i).charAt(0) == '|') {
 	    			handp.add("|");
 	    		}
 	    		else {
