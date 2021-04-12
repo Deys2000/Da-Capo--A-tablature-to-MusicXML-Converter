@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 class GuitarParserTest {
 
-	// Duration Tests
+//	// Duration Tests
 	@Test
 	void testDuration2() throws Exception {
 		ArrayList<String> test = new ArrayList<>();
@@ -20,7 +20,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "2", "2", "2", "2", "2", "2", "2", "2", "||"};
+		String[] arr = {"|", "2", "2", "2", "2", "2", "2", "2", "2", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -48,7 +48,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "4", "4", "4", "4", "||"};
+		String[] arr = {"|", "4", "4", "4", "4", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -76,7 +76,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "8", "8", "||"};
+		String[] arr = {"|", "8", "8", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -104,7 +104,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		   
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "16", "||"};
+		String[] arr = {"|", "16", "|"};
 		   
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -132,7 +132,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		   
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "8", "4", "2", "2", "||"};
+		String[] arr = {"|", "8", "4", "2", "2", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -160,7 +160,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		   
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "16", "16", "16", "16", "16", "16", "||"};
+		String[] arr = {"|", "16", "16", "16", "16", "16", "16", "|"};
 		   
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -188,7 +188,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		   
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "8", "8", "4", "4", "2", "2", "2", "2", "||"};
+		String[] arr = {"|", "8", "8", "4", "4", "2", "2", "2", "2", "|"};
 		   
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -217,7 +217,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		   
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "3", "5", "7", "1", "||"};
+		String[] arr = {"|", "3", "5", "7", "1", "|"};
 		   
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -242,11 +242,11 @@ class GuitarParserTest {
 		test.add("B|-------------|");
 		test.add("G|-------------|");
 		test.add("D|-------------|");
-		test.add("A|-------------||");
+		test.add("A|-------------|");
 		test.add("E|-------------|");
 		
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "dotted half", "||"};
+		String[] arr = {"|", "dotted half", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -274,7 +274,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "||"};
+		String[] arr = {"|", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -302,7 +302,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "quarter", "quarter", "quarter", "quarter", "||"};
+		String[] arr = {"|", "quarter", "quarter", "quarter", "quarter", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -330,7 +330,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "half", "half", "||"};
+		String[] arr = {"|", "half", "half", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -358,7 +358,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		   
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "whole", "||"};
+		String[] arr = {"|", "whole", "|"};
 		   
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -386,7 +386,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		   
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "half", "quarter", "eighth", "eighth", "||"};
+		String[] arr = {"|", "half", "quarter", "eighth", "eighth", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -414,7 +414,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		   
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "whole", "whole", "whole", "whole", "whole", "whole", "||"};
+		String[] arr = {"|", "whole", "whole", "whole", "whole", "whole", "whole", "|"};
 		   
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -442,7 +442,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		   
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "half", "half", "quarter", "quarter", "eighth", "eighth", "eighth", "eighth", "||"};
+		String[] arr = {"|", "half", "half", "quarter", "quarter", "eighth", "eighth", "eighth", "eighth", "|"};
 		   
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -470,7 +470,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		   
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "dotted eighth", "16th", "16th", "16th", "||"};
+		String[] arr = {"|", "dotted eighth", "quarter", "dotted quarter", "16th", "|"};
 		   
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -527,7 +527,7 @@ class GuitarParserTest {
 		test.add("E|-0---------------|");
 		   
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "whole", "whole", "whole", "whole", "whole", "whole", "||"};
+		String[] arr = {"|", "whole", "whole", "whole", "whole", "whole", "whole", "|"};
 		   
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -727,7 +727,7 @@ class GuitarParserTest {
 		test.add("E|-10---------------|");
 		
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "2", "2", "2", "2", "2", "2", "2", "2", "||"};
+		String[] arr = {"|", "2", "2", "2", "2", "2", "2", "2", "2", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -755,7 +755,7 @@ class GuitarParserTest {
 		test.add("E|-10---------------|");
 		
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "2", "2", "2", "2", "2", "2", "2", "2", "2", "||"};
+		String[] arr = {"|", "2", "2", "2", "2", "2", "2", "2", "2", "2", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -783,7 +783,7 @@ class GuitarParserTest {
 		test.add("E|-10---------------|");
 		
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "16", "16", "16", "||"};
+		String[] arr = {"|", "16", "16", "16", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -812,7 +812,7 @@ class GuitarParserTest {
 		test.add("E|-10---------------|");
 		
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "||"};
+		String[] arr = {"|", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -840,7 +840,7 @@ class GuitarParserTest {
 		test.add("E|-10---------------|");
 		
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "||"};
+		String[] arr = {"|", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);
@@ -868,7 +868,7 @@ class GuitarParserTest {
 		test.add("E|-10---------------|");
 		
 		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "whole", "whole", "whole", "||"};
+		String[] arr = {"|", "whole", "whole", "whole", "|"};
 		
 		for (int i = 0; i < arr.length; i++) {
 			expected.add(arr[i]);

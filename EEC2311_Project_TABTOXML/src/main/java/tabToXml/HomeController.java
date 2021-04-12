@@ -265,7 +265,7 @@ public class HomeController implements Initializable {
 			//+ "\n\nSystem is in prototype phase, unable to process Drums completely."
 			//+ "\nUse with caution."
 			//+ "\nYou may find that rests and beams are not processed correctly.");
-			DrumParser2 dp = new DrumParser2(tfr);
+			DrumParser dp = new DrumParser(tfr);
 			xg = new xmlGen(dp);
 			sceneSwitcher(xg);
 			// the following two lines should be outside the switch case, but bass and drums dont work yet
