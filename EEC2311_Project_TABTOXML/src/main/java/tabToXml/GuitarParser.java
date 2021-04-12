@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuitarParser {
-
-	final String[] defaultTunings = {"E2","A2","D3","G3","B3","E4"};
+	
+	// Default Tunings (from higher to lower)
+	final String[] defaultGuitarTunings = {"E4", "B3", "G3", "D3", "A2", "E2"}; // NEW - Billy
+	final String[] defaultBassTunings = {"G2", "D2", "A1", "E1"}; // NEW - Billy
 	
 	// all the arrays to contain information gathered by the notes
 
@@ -27,7 +29,6 @@ public class GuitarParser {
 	private int divisions = 4; //current default is 4
 	private int padding = 1; // number of dashes used for padding, should be 0 or 1
 	
-	
 	public GuitarParser(TextFileReader tfrPassed) throws Exception {
 		tfr = tfrPassed;
 		
@@ -36,22 +37,38 @@ public class GuitarParser {
 		// Dynamic Setting of Tunings from TextFileReader
 		this.tuning = tfr.getStringChars();
 		int tempIterator = 0;
+		
 		for(int i = 0; i < tfr.getStringChars().size(); i++) {
+			// if no characters in tab for tuning
 			if( tfr.getStringChars().get(i) == null) {
-				this.tuning.set(i, this.defaultTunings[tempIterator%6]);
-				tempIterator++;
-				System.out.println("Added " + defaultTunings[(tempIterator-1)%6] + " at line " + i+1 );
+				// set default tuning of Bass
+				if (tfr.getDetectedInstrument() == "Bass") {
+					this.tuning.set(i, this.defaultBassTunings[tempIterator%4]);
+					System.out.println("Added " + defaultBassTunings[tempIterator%4] + " at line " + (i+1) );
+				}
+				// set default tuning of Guitar
+				else {
+					this.tuning.set(i, this.defaultGuitarTunings[tempIterator%6]);
+					System.out.println("Added " + defaultGuitarTunings[tempIterator%6] + " at line " + (i+1) );
+				}
 			}
-		}		
-		//assign numbers to Letters only tunings given by user (E -> E4 for example)
-		String tempString;
-		for(int i = 0; i < this.tuning.size(); i++){
-			tempString = this.tuning.get(i);
-			if(tempString.replaceAll("[a-zA-Z]","").length() == 0) { // there is no number
-				// add a random number between 2 and 6 - (perhaps modify later)
-				this.tuning.set(i, this.tuning.get(i) + ( (int)(Math.random()*5) + 2 ) ); // FIX
+			
+			else {
+				//assign numbers to Letters only tunings given by user (E -> E4 for example)
+				String tempString = this.tuning.get(i);
+				if (tempString.replaceAll("[a-zA-Z]","").length() == 0) { // there is no number
+					if (tfr.getDetectedInstrument() == "Bass") {
+						this.tuning.set(i, this.tuning.get(i) + this.defaultBassTunings[tempIterator%4].substring(1));
+					}
+					else {
+						this.tuning.set(i, this.tuning.get(i) + this.defaultGuitarTunings[tempIterator%6].substring(1));
+					}
+				}
 			}
+			
+			tempIterator++;
 		}		
+	
 		System.out.println("TFR Determined > "+this.tuning);
 		
 		// FINISHED GETTING TUNINGS ----------------------------------------------
@@ -567,7 +584,7 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                     				replaceIndex = durationArr.size() - graceNoteNum;
                     				durationArr.set(replaceIndex, "-1");
 
-                    				graceArr.add("true");	
+                    				graceArr.add("true");		
                     				graceNoteNum--;
                     			}
                     			
