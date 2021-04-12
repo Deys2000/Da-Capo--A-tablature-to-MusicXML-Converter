@@ -187,6 +187,12 @@ public class xmlGen {
             	ho1.setType(info[i][8].substring(6));
             	technical.setHammerOn(ho1);
             }
+            else if( info[i][8].substring(0,1).equals("N")) {
+            	Harmonic nh = new Harmonic();
+            	Natural nat = new Natural();
+            	nh.setNatural(nat);
+            	technical.setHarmonic(nh);
+            }
             //-------
             else if( info[i][8].substring(0,1).equals("a")) {
             	Slide sl = new Slide();
@@ -275,6 +281,7 @@ public class xmlGen {
 //            	technical.setHammerOn(ho1);
             }
             //-------------
+           
            	else {
            		
            	}

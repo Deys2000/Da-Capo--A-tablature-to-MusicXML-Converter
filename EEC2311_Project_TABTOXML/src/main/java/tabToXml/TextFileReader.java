@@ -82,7 +82,10 @@ public class TextFileReader {
 			while (sc.hasNextLine()) {
 				String line = sc.nextLine();
 				if (line.contains("-") && line.contains("|")) {
-			
+//					if (line.contains("REPEAT")) {
+//						continue;
+//					}
+//					
 					if (index <= numOfLines) {
 						
 						if (key == false) {
