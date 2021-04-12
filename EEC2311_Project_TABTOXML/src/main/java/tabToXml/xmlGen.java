@@ -494,8 +494,8 @@ public class xmlGen {
 				if( gp.getChordArr().get(i).equals("true"))
 					note.getDurationOrChordOrCue().add(c); // chord
 				// Grace Tag
-				if (gp.getGraceArr().get(i).equals("true")) 
-					note.setGrace(new Grace());
+//				if (gp.getGraceArr().get(i).equals("true")) 	
+//					note.setGrace(new Grace());					STILL A SMOL BUG IN HERE TODO 
 
 				Pitch pitch = new Pitch(gp.getNotes().get(i).substring(0,1),new BigInteger(gp.getNotes().get(i).substring(1)));
 				if(gp.getAlters().get(i) != null)
