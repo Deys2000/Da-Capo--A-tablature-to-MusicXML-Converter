@@ -584,6 +584,9 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                     			else {
                     				// Stop tracking grace notes
                     				trackingGrace = false;
+                    				
+                    				// Add tag for current note
+                    				graceArr.add("false");
                     			}
                     			// reset graceNoteLength
                     			graceNoteLength = 0;
