@@ -493,11 +493,16 @@ public class xmlGen {
 				Chord c = new Chord();
 				if( gp.getChordArr().get(i).equals("true"))
 					note.getDurationOrChordOrCue().add(c); // chord
+				// Grace Tag
+				if (gp.getGraceArr().get(i).equals("true")) 
+					note.setGrace(new Grace());
+
 				Pitch pitch = new Pitch(gp.getNotes().get(i).substring(0,1),new BigInteger(gp.getNotes().get(i).substring(1)));
 				if(gp.getAlters().get(i) != null)
 					pitch.setAlter(new BigDecimal(gp.getAlters().get(i)));
 				note.getDurationOrChordOrCue().add(pitch);
-				note.getDurationOrChordOrCue().add(new BigDecimal(gp.getDurationArr().get(i))); // duration
+				if (!gp.getDurationArr().get(i).equals("-1")) // check for -1 (possible due to grace notes)
+					note.getDurationOrChordOrCue().add(new BigDecimal(gp.getDurationArr().get(i))); // duration
 
 				note.setVoice("1"); // ---------------------------HARDCODED: we dont consider a second voice for drums
 				// RESOLVES BUG #22, for dotted notes
@@ -569,6 +574,7 @@ public class xmlGen {
 //					ho1.setType(gp.getHandPArr().get(i).substring(6));
 //					technical.setHammerOn(ho1);
 //				}
+				
 				if(gp.getHandPArr().get(i) == null) {
 	            	// do nothing
 	            }

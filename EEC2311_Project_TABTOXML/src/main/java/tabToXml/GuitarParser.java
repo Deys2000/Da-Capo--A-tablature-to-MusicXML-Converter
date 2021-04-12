@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuitarParser {
-
-	final String[] defaultTunings = {"E2","A2","D3","G3","B3","E4"};
+	
+	// Default Tunings (from higher to lower)
+	final String[] defaultGuitarTunings = {"E4", "B3", "G3", "D3", "A2", "E2"}; // NEW - Billy
+	final String[] defaultBassTunings = {"G2", "D2", "A1", "E1"}; // NEW - Billy
 	
 	// all the arrays to contain information gathered by the notes
 
@@ -27,7 +29,6 @@ public class GuitarParser {
 	private int divisions = 4; //current default is 4
 	private int padding = 1; // number of dashes used for padding, should be 0 or 1
 	
-	
 	public GuitarParser(TextFileReader tfrPassed) throws Exception {
 		tfr = tfrPassed;
 		
@@ -36,22 +37,38 @@ public class GuitarParser {
 		// Dynamic Setting of Tunings from TextFileReader
 		this.tuning = tfr.getStringChars();
 		int tempIterator = 0;
+		
 		for(int i = 0; i < tfr.getStringChars().size(); i++) {
+			// if no characters in tab for tuning
 			if( tfr.getStringChars().get(i) == null) {
-				this.tuning.set(i, this.defaultTunings[tempIterator%6]);
-				tempIterator++;
-				System.out.println("Added " + defaultTunings[(tempIterator-1)%6] + " at line " + i+1 );
+				// set default tuning of Bass
+				if (tfr.getDetectedInstrument() == "Bass") {
+					this.tuning.set(i, this.defaultBassTunings[tempIterator%4]);
+					System.out.println("Added " + defaultBassTunings[tempIterator%4] + " at line " + (i+1) );
+				}
+				// set default tuning of Guitar
+				else {
+					this.tuning.set(i, this.defaultGuitarTunings[tempIterator%6]);
+					System.out.println("Added " + defaultGuitarTunings[tempIterator%6] + " at line " + (i+1) );
+				}
 			}
-		}		
-		//assign numbers to Letters only tunings given by user (E -> E4 for example)
-		String tempString;
-		for(int i = 0; i < this.tuning.size(); i++){
-			tempString = this.tuning.get(i);
-			if(tempString.replaceAll("[a-zA-Z]","").length() == 0) { // there is no number
-				// add a random number between 2 and 6 - (perhaps modify later)
-				this.tuning.set(i, this.tuning.get(i) + ( (int)(Math.random()*5) + 2 ) );
+			
+			else {
+				//assign numbers to Letters only tunings given by user (E -> E4 for example)
+				String tempString = this.tuning.get(i);
+				if (tempString.replaceAll("[a-zA-Z]","").length() == 0) { // there is no number
+					if (tfr.getDetectedInstrument() == "Bass") {
+						this.tuning.set(i, this.tuning.get(i) + this.defaultBassTunings[tempIterator%4].substring(1));
+					}
+					else {
+						this.tuning.set(i, this.tuning.get(i) + this.defaultGuitarTunings[tempIterator%6].substring(1));
+					}
+				}
 			}
+			
+			tempIterator++;
 		}		
+	
 		System.out.println("TFR Determined > "+this.tuning);
 		
 		// FINISHED GETTING TUNINGS ----------------------------------------------
@@ -478,7 +495,7 @@ public class GuitarParser {
      * Generates duration and type arrays from parsed array
      * @param parsedTab - a formatted tab (arrayList of Strings)
      */
-    public void parseToRhythm(ArrayList<String> parsedTab) {
+public void parseToRhythm(ArrayList<String> parsedTab) {
     	
 //    	// For Debugging
 //    	for(int i = 0; i < parsedTab.size(); i++) {
@@ -519,6 +536,37 @@ public class GuitarParser {
                     noteLength = 0;
                 }
                 
+                // finish tracking grace notes
+                if(trackingGrace) {
+                	// Add grace note length to note before grace note start
+        			int replaceIndex = durationArr.size() - graceNoteNum - 2;
+        			durationArr.set(replaceIndex, "" + (Integer.parseInt(durationArr.get(replaceIndex)) + graceNoteLength));
+        			typeArr.set(replaceIndex, durationToType(Integer.parseInt(durationArr.get(replaceIndex)), divisions));
+        			
+        			// Repeat above step for all notes part of a chord, if note before grace note start is a chord note
+        			while (chords.get(replaceIndex) ==  "true") {
+        				replaceIndex--;
+        				durationArr.set(replaceIndex, "" + (Integer.parseInt(durationArr.get(replaceIndex)) + graceNoteLength));
+            			typeArr.set(replaceIndex, durationToType(Integer.parseInt(durationArr.get(replaceIndex)), divisions));
+        			}
+        			
+        			// replace all grace note durations with null and set grace tag
+        			while (graceNoteNum > 0) {
+        				replaceIndex = durationArr.size() - graceNoteNum - 1;
+        				durationArr.set(replaceIndex, "-1");
+
+        				graceArr.add("true");	
+        				graceNoteNum--;
+        			}
+        			
+        			// Add tag for current note (which is not a grace note)
+        			graceArr.add("false"); 
+        			
+        			// Stop tracking grace notes and reset graceNoteLength
+        			trackingGrace = false;
+        			graceNoteLength = 0;
+                }
+                
                 // Check for Double Barlines
                 if(counter + 1 < parsedTab.get(0).length() && parsedTab.get(0).charAt(counter + 1) == '|') {
                 	durationArr.add("||");
@@ -539,7 +587,7 @@ public class GuitarParser {
             	
             	// Assume Frets are Single digit
                 while(currentLine < lines) {
-                	                  
+                	
                 	// Add all notes to a chord
                     if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
                     	
@@ -550,11 +598,16 @@ public class GuitarParser {
                     	
                     	// check if fret is grace note (start)
                     	if(parsedTab.get(currentLine).charAt(counter - 1) == 'g') {
+
+                    		// System.out.println("Starting to Track Grace Notes Now"); // For Debugging
                     		trackingGrace = true;
-                    		graceNoteCounter = counter;
+                    		graceNoteCounter = counter; 
+                    		// account for double digit frets
+                    		if (isDoubleDigit)
+                				graceNoteCounter++;
                     	}
                     	else {
-                    		graceArr.add(null);
+                    		graceArr.add("false");
                     	}
                     	
                     	// starts counting noteLength, should only be done once
@@ -600,6 +653,71 @@ public class GuitarParser {
                     	// check if fret is doubledigit
                     	if(Character.isDigit(parsedTab.get(currentLine).charAt(counter+1))) {
                     		isDoubleDigit = true;
+                    	}
+
+                    	// check if fret is grace note
+                    	if(trackingGrace) {
+                    		// if fret continues grace note
+                    		if (checkGraceContinue(parsedTab.get(currentLine).charAt(counter - 1)) && (counter - graceNoteCounter == 2)) {
+                    			graceNoteNum++;
+                    			graceNoteLength += 2;
+                    			graceNoteCounter = counter;
+                    		}
+                    		// end grace note and add to arrays
+                    		else {
+                    			// Add grace note length to note before grace note start
+                    			int replaceIndex = durationArr.size() - graceNoteNum - 1;
+                    			durationArr.set(replaceIndex, "" + (Integer.parseInt(durationArr.get(replaceIndex)) + graceNoteLength));
+                    			typeArr.set(replaceIndex, durationToType(Integer.parseInt(durationArr.get(replaceIndex)), divisions));
+                    			
+                    			// Repeat above step for all notes part of a chord, if note before grace note start is a chord note
+                    			while (chords.get(replaceIndex) ==  "true") {
+                    				replaceIndex--;
+                    				durationArr.set(replaceIndex, "" + (Integer.parseInt(durationArr.get(replaceIndex)) + graceNoteLength));
+                        			typeArr.set(replaceIndex, durationToType(Integer.parseInt(durationArr.get(replaceIndex)), divisions));
+                    			}
+                    			
+                    			// replace all grace note durations with null and set grace tag
+                    			while (graceNoteNum > 0) {
+                    				replaceIndex = durationArr.size() - graceNoteNum;
+                    				durationArr.set(replaceIndex, "-1");
+
+                    				graceArr.add("true");		
+                    				graceNoteNum--;
+                    			}
+                    			
+                    			// Add tag for previous note (which is not a grace note)
+                    			graceArr.add("false"); 
+                    			
+                    			// Stop tracking grace notes
+                    			if (parsedTab.get(currentLine).charAt(counter - 1) == 'g') {
+                        			graceNoteCounter = counter;
+                        			// account for double digit frets
+                        			if (isDoubleDigit)
+                        				graceNoteCounter++;
+                        		}
+                    			else {
+                    				// Stop tracking grace notes
+                    				trackingGrace = false;
+                    				
+                    				// Add tag for current note
+                    				graceArr.add("false");
+                    			}
+                    			// reset graceNoteLength
+                    			graceNoteLength = 0;
+                    		}
+                    	}
+                    	// if not tracking grace note
+                    	else if (parsedTab.get(currentLine).charAt(counter - 1) == 'g'){
+                    		// System.out.println("Starting to Track Grace Notes Now"); // For Debugging
+                    		trackingGrace = true;
+                    		graceNoteCounter = counter;
+                    		// account for double digit frets
+                    		if (isDoubleDigit)
+                				graceNoteCounter++;
+                    	}
+                    	else {
+                    		graceArr.add("false");
                     	}
                     	
                     	// check if fret is grace note (continue)
@@ -692,7 +810,7 @@ public class GuitarParser {
     	
     	boolean result = false;
     	
-    	if (c == 'h' || c == 'p' || c == '/' || c == '/') {
+    	if (c == 'h' || c == 'p' || c == '/' || c == '\\' || c == 's') {
     		result = true;
     	}
     	
