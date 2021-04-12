@@ -47,13 +47,12 @@ public class TabView {
     // private static final int GROUP_EQUAL_SYMBOL = 2;
     // private static final int GROUP_ATTRIBUTE_VALUE = 3;
     private static boolean drum = false;
-    private static boolean guitar = false;
-    private static HashMap<Integer, Integer> measureLineEnd;
-    private static Integer maxLine;
-    private static int lineCount;
-    private static HashMap<Integer, Integer> measureLinePOS;
-
+    private static boolean guitar = true;
     public static boolean majorError = false;
+
+    private static ArrayList<Integer> barlinePos;
+    private static int lines;
+    private static int endofLine;
 
     public static void Xmlsyntax(CodeArea codeArea, ChoiceBox choiceBox) {
 
@@ -66,95 +65,17 @@ public class TabView {
     private static StyleSpans<Collection<String>> computeHighlighting(String text, ChoiceBox choiceBox) {
 
         majorError = false;
+        lines = MeasureLineCnt(text);
+        barlinePos = barLineAlignment(text, 0);
         Matcher matcher = XML_TAG.matcher(text);
         int lastKwEnd = 0;
         StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
-        ArrayList<ArrayList<Integer>> barlinePOS = new ArrayList<>();
-        int drumTagCount = 0;
-        int otherCount = 0;
-        lineCount = 0;;
-        measureLineEnd = new HashMap<>();
-        while (matcher.find()) {
-            ArrayList<Integer> barPos = new ArrayList<>();
-
-            String attributesText = matcher.group(MEASURE_INFO);
-            if (!attributesText.isEmpty()) {
-                Matcher iMatcher;
-                if (drum == true)
-                    iMatcher = DRUM_TAB.matcher(attributesText);
-                else
-                    iMatcher = GUITAR_TAB.matcher(attributesText);
-                while (iMatcher.find()) {
-                    if (iMatcher.end(MEASURE_BAR) != -1)
-                        barPos.add(iMatcher.end(MEASURE_BAR));
-                }
-                barlinePOS.add(barPos);
-                lineCount++;
-            }
-            int tempEnd = matcher.end(MEASURE_END) - matcher.start(MEASURE_START);
-            if (measureLineEnd.get(tempEnd) == null)
-                measureLineEnd.put(tempEnd, 1);
-            else
-                measureLineEnd.put(tempEnd, measureLineEnd.get(tempEnd) + 1);
-
-            if (matcher.group(DRUM_TAGS) != null)
-                drumTagCount++;
-            else
-                otherCount++;
-
-        }
-        int maxCount = Integer.MIN_VALUE;
-        for (Map.Entry<Integer, Integer> e : measureLineEnd.entrySet()) {
-            if (e.getValue() > maxCount) {
-                maxCount = e.getValue();
-                maxLine = e.getKey();
-            }
-        }
-        int measures = 0;
-        ArrayList<Integer> maxSize = new ArrayList<>();
-        for (ArrayList a : barlinePOS) {
-            maxSize.add(a.size());
-        }
-        if (!maxSize.isEmpty())
-            measures = mostFrequent(maxSize) + 1;
-        measureLinePOS = new HashMap<>();
-        for (ArrayList a : barlinePOS) {
-            int i = 0;
-            while (i < measures - 1 && a.size() == (measures - 1)) {
-                if (measureLinePOS.get(a.get(i)) == null) {
-                    measureLinePOS.put((Integer) a.get(i), 1);
-                } else {
-                    measureLinePOS.put((Integer) a.get(i), (measureLinePOS.get(a.get(i)) + 1));
-                }
-                i++;
-            }
-        }
-
-        System.out.println("drumTagCount: " + drumTagCount);
-        System.out.println("OtherCount: " + otherCount);
-
-        if (drumTagCount > otherCount) {
-            drum = true;
-            guitar = false;
-            choiceBox.getSelectionModel().select(2);
-        } else if (otherCount > drumTagCount) {
-            drum = false;
-            guitar = true;
-            choiceBox.getSelectionModel().select(1);
-        } else {
-            drum = false;
-            guitar = false;
-            majorError = true;
-            choiceBox.setValue("Unknown");
-        }
-
-        matcher.reset();
 
         while (matcher.find()) {
             if (matcher.group("MeasureLine") != null) {
 
                 String attributesText = matcher.group(MEASURE_INFO);
-                spansBuilder.add(Collections.emptyList(), matcher.start(BASE_NOTE) - lastKwEnd);
+                spansBuilder.add(Collections.emptyList(), (matcher.start(BASE_NOTE) - lastKwEnd));
                 if (drum == true && matcher.group(GUITAR_TAGS) != null) {
                     majorError = true;
                     spansBuilder.add(Collections.singleton("majorError"),
@@ -178,31 +99,42 @@ public class TabView {
                     else
                         iMatcher = GUITAR_TAB.matcher(attributesText);
                     lastKwEnd = 0;
-
                     while (iMatcher.find()) {
-
-                        spansBuilder.add(Collections.singleton("minorError"),
-                                iMatcher.end(INVALID_TAB) - iMatcher.start(INVALID_TAB));
-                        spansBuilder.add(Collections.singleton("dash"),
-                                iMatcher.end(MEASURE_DASH) - iMatcher.start(MEASURE_DASH));
-                        if (measureLinePOS.get(iMatcher.end(MEASURE_BAR)) != null && measureLinePOS.get(iMatcher.end(MEASURE_BAR)) >= lineCount-1 )
-                            spansBuilder.add(Collections.singleton("barLine"),
-                                    iMatcher.end(MEASURE_BAR) - iMatcher.start(MEASURE_BAR));
-                        else{                            
-                            if(iMatcher.end(MEASURE_BAR) - iMatcher.start(MEASURE_BAR) > 0)
+                        
+                        if (iMatcher.group(MEASURE_BAR) != null) {
+                            if (barlinePos.contains(iMatcher.start(MEASURE_BAR)))
+                                spansBuilder.add(Collections.singleton("barLine"),
+                                        iMatcher.end(MEASURE_BAR) - iMatcher.start(MEASURE_BAR));
+                            else {
                                 majorError = true;
-                            spansBuilder.add(Collections.singleton("majorError"),
-                                    iMatcher.end(MEASURE_BAR) - iMatcher.start(MEASURE_BAR));
+                                spansBuilder.add(Collections.singleton("majorError"),
+                                        iMatcher.end() - iMatcher.start());
+                            }
                         }
+                        else if (barlinePos.contains(iMatcher.start()))
+                        {
+                            majorError = true;
+                            spansBuilder.add(Collections.singleton("majorError"),
+                                    iMatcher.end() - iMatcher.start());
+                        }
+                        
+
+                        else if(iMatcher.group(INVALID_TAB) != null)
+                        spansBuilder.add(Collections.singleton("minorError"),
+                                iMatcher.end(INVALID_TAB) -  lastKwEnd);
+
+                        else if(iMatcher.group(MEASURE_DASH) != null)
+                        spansBuilder.add(Collections.singleton("dash"),
+                            iMatcher.end(MEASURE_DASH) -  lastKwEnd);
+
                         spansBuilder.add(Collections.singleton("guitar"),
                                 iMatcher.end(VALID_TAB) - iMatcher.start(VALID_TAB));
                         // spansBuilder.add(Collections.emptyList(), iMatcher.end() - lastKwEnd);
-                        lastKwEnd = iMatcher.end();
+                        lastKwEnd =iMatcher.end();
                     }
-
                 }
                 // spansBuilder.add(Collections.singleton("detected"), 1);
-                lastKwEnd = matcher.end(MEASURE_INFO);
+                lastKwEnd = matcher.start(MEASURE_INFO);
                 // spansBuilder.add(Collections.singleton("majorError"),
                 // matcher.start(MEASURE_END)
                 // - lastKwEnd);
@@ -218,17 +150,21 @@ public class TabView {
                     majorError = true;
                     spansBuilder.add(Collections.singleton("majorError"),
                             matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
-                } else if (matcher.end(MEASURE_END) - matcher.start(MEASURE_START) != maxLine) {
-                    majorError = true;
-                    spansBuilder.add(Collections.singleton("majorError"),
-                            matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
-                } else {
+                }
+                else if (matcher.end() - matcher.start() != endofLine) {
+                majorError = true;
+                spansBuilder.add(Collections.singleton("majorError"),
+                matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
+                }
+                else {
                     spansBuilder.add(Collections.singleton("detected"),
                             matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
                 }
             }
-
-            lastKwEnd = matcher.end();
+                lastKwEnd = matcher.end(MEASURE_END);
+            if ((lastKwEnd + 1) < text.length() && text.charAt(lastKwEnd + 1) == ' ') {
+                barlinePos = barLineAlignment(text, lastKwEnd);
+            }
         }
         spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
         return spansBuilder.create();
@@ -263,4 +199,134 @@ public class TabView {
         return res;
     }
 
+    static ArrayList<Integer> barLineAlignment(String text, int index) {
+        if (text.length() == 0)
+            return null;
+        Matcher temp = XML_TAG.matcher(text.substring(index));
+        if (temp.find() == false)
+            return null;
+        String line = temp.group(MEASURE_INFO);
+        endofLine = temp.end() - temp.start();
+        ArrayList<Integer> barLinePositions = new ArrayList<>();
+
+        Pattern barlinePattern = Pattern.compile("(\\|)", Pattern.MULTILINE);
+        Matcher barlineMatcher = barlinePattern.matcher(line);
+        while (barlineMatcher.find()) {
+
+            barLinePositions.add(barlineMatcher.start());
+        }
+
+        return barLinePositions;
+        // two cases to look at
+        // 1. pos i am at has a barline but it doesnt align with top.
+        // 2. pos i am at doesnt have barline but it does at the top.
+    }
+
+    // counts how many lines each measure should be
+    static int MeasureLineCnt(String text) {
+        Pattern tempPattern = Pattern.compile("(?<MeasureLine>^((CC|HH|SD|HT|MT|BD)|([a-gA-G])?)(\\|)(\\S+)(\\|$))",
+                Pattern.MULTILINE);
+        Matcher temp = tempPattern.matcher(text);
+        int lineCount = 0;
+        while (temp.find()) {
+            lineCount++;
+            if ((temp.end() + 1) >= text.length() || text.charAt(temp.end() + 1) == ' ')
+                break;
+        }
+        return lineCount;
+    }
+    // loop thru all matches... if i have a \n in the next char... then i have found
+    // my line numbers.
+
+    // now i need to make sure all future measures have the same number of lines...
+
+    // we can also loop thru the lines and find the positions of the barlines.
+    // static int detectInstument(String text)
+    // {
+
+    // for(int i == 0;)
+
+    // return lines;
+    // }
 }
+
+// ArrayList<ArrayList<Integer>> barlinePOS = new ArrayList<>();
+// int drumTagCount = 0;
+// int otherCount = 0;
+// lineCount = 0;;
+// measureLineEnd = new HashMap<>();
+// while (matcher.find()) {
+// ArrayList<Integer> barPos = new ArrayList<>();
+
+// String attributesText = matcher.group(MEASURE_INFO);
+// if (!attributesText.isEmpty()) {
+// Matcher iMatcher;
+// if (drum == true)
+// iMatcher = DRUM_TAB.matcher(attributesText);
+// else
+// iMatcher = GUITAR_TAB.matcher(attributesText);
+// while (iMatcher.find()) {
+// if (iMatcher.end(MEASURE_BAR) != -1)
+// barPos.add(iMatcher.end(MEASURE_BAR));
+// }
+// barlinePOS.add(barPos);
+// lineCount++;
+// }
+// int tempEnd = matcher.end(MEASURE_END) - matcher.start(MEASURE_START);
+// if (measureLineEnd.get(tempEnd) == null)
+// measureLineEnd.put(tempEnd, 1);
+// else
+// measureLineEnd.put(tempEnd, measureLineEnd.get(tempEnd) + 1);
+
+// if (matcher.group(DRUM_TAGS) != null)
+// drumTagCount++;
+// else
+// otherCount++;
+
+// }
+// int maxCount = Integer.MIN_VALUE;
+// for (Map.Entry<Integer, Integer> e : measureLineEnd.entrySet()) {
+// if (e.getValue() > maxCount) {
+// maxCount = e.getValue();
+// maxLine = e.getKey();
+// }
+// }
+// int measures = 0;
+// ArrayList<Integer> maxSize = new ArrayList<>();
+// for (ArrayList a : barlinePOS) {
+// maxSize.add(a.size());
+// }
+// if (!maxSize.isEmpty())
+// measures = mostFrequent(maxSize) + 1;
+// measureLinePOS = new HashMap<>();
+// for (ArrayList a : barlinePOS) {
+// int i = 0;
+// while (i < measures - 1 && a.size() == (measures - 1)) {
+// if (measureLinePOS.get(a.get(i)) == null) {
+// measureLinePOS.put((Integer) a.get(i), 1);
+// } else {
+// measureLinePOS.put((Integer) a.get(i), (measureLinePOS.get(a.get(i)) + 1));
+// }
+// i++;
+// }
+// }
+
+// System.out.println("drumTagCount: " + drumTagCount);
+// System.out.println("OtherCount: " + otherCount);
+
+// if (drumTagCount > otherCount) {
+// drum = true;
+// guitar = false;
+// choiceBox.getSelectionModel().select(2);
+// } else if (otherCount > drumTagCount) {
+// drum = false;
+// guitar = true;
+// choiceBox.getSelectionModel().select(1);
+// } else {
+// drum = false;
+// guitar = false;
+// majorError = true;
+// choiceBox.setValue("Unknown");
+// }
+
+// matcher.reset();
