@@ -32,7 +32,7 @@ public class GuitarParser {
 	public GuitarParser(TextFileReader tfrPassed) throws Exception {
 		tfr = tfrPassed;
 		
-		// GETTING TUNINGS // <- NEW - Syed-------------------------------------------
+		// GETTING TUNINGS // 
 		
 		// Dynamic Setting of Tunings from TextFileReader
 		this.tuning = tfr.getStringChars();
@@ -718,24 +718,6 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                     	}
                     	else {
                     		graceArr.add("false");
-                    	}
-                    	
-                    	// check if fret is grace note (continue)
-                    	if(trackingGrace) {
-                    		// if fret continues grace note
-                    		if (checkGraceContinue(parsedTab.get(currentLine).charAt(counter - 1)) && (counter - graceNoteCounter == 2)) {
-                    			graceNoteNum++;
-                    			graceNoteLength += 2;
-                    		}
-                    		// end grace note and add to arrays
-                    		else {
-                    			
-                    			
-                    			trackingGrace = false;
-                    		}
-                    	}
-                    	else {
-                    		graceArr.add(null);
                     	}
                     	
                     	// Adding tracked notes to arrays
