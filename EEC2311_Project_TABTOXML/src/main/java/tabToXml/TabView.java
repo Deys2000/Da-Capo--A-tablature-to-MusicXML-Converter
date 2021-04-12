@@ -16,6 +16,7 @@ import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 
 import drumTag.Instrument;
+import drumTag.Text;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,8 +26,8 @@ import javafx.stage.Stage;
 
 public class TabView {
 
-    private static final Pattern XML_TAG = Pattern
-            .compile("(?<MeasureLine>^((CC|HH|SD|HT|MT|BD)|([a-gA-G])?)(\\|)(\\S+)(\\|$))", Pattern.MULTILINE);
+    private static final Pattern XML_TAG = Pattern.compile(
+            "(?<MeasureLine>^((CC|HH|SD|HT|MT|BD)|([a-gA-G])?)(\\|)(\\S*(?<!\\|))(\\|?\\|))", Pattern.MULTILINE);
 
     private static final Pattern GUITAR_TAB = Pattern
             .compile("(?<Guitar>(-)|(\\|\\|?)|([hp^BbgGrR\\/sS\\[\\]\\*0-9])|([^\\|hp^BbgGrR\\/sS\\[\\]\\*0-9]))");
@@ -47,7 +48,7 @@ public class TabView {
     // private static final int GROUP_EQUAL_SYMBOL = 2;
     // private static final int GROUP_ATTRIBUTE_VALUE = 3;
     private static boolean drum = false;
-    private static boolean guitar = true;
+    private static boolean guitar = false;
     public static boolean majorError = false;
 
     private static ArrayList<Integer> barlinePos;
@@ -65,8 +66,11 @@ public class TabView {
     private static StyleSpans<Collection<String>> computeHighlighting(String text, ChoiceBox choiceBox) {
 
         majorError = false;
+        drum = false;
+        guitar = false;
         lines = MeasureLineCnt(text);
         barlinePos = barLineAlignment(text, 0);
+        detectInstument(text, choiceBox);
         Matcher matcher = XML_TAG.matcher(text);
         int lastKwEnd = 0;
         StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
@@ -100,7 +104,7 @@ public class TabView {
                         iMatcher = GUITAR_TAB.matcher(attributesText);
                     lastKwEnd = 0;
                     while (iMatcher.find()) {
-                        
+
                         if (iMatcher.group(MEASURE_BAR) != null) {
                             if (barlinePos.contains(iMatcher.start(MEASURE_BAR)))
                                 spansBuilder.add(Collections.singleton("barLine"),
@@ -110,27 +114,22 @@ public class TabView {
                                 spansBuilder.add(Collections.singleton("majorError"),
                                         iMatcher.end() - iMatcher.start());
                             }
-                        }
-                        else if (barlinePos.contains(iMatcher.start()))
-                        {
+                        } else if (barlinePos.contains(iMatcher.start())) {
                             majorError = true;
-                            spansBuilder.add(Collections.singleton("majorError"),
-                                    iMatcher.end() - iMatcher.start());
+                            spansBuilder.add(Collections.singleton("majorError"), iMatcher.end() - iMatcher.start());
                         }
-                        
 
-                        else if(iMatcher.group(INVALID_TAB) != null)
-                        spansBuilder.add(Collections.singleton("minorError"),
-                                iMatcher.end(INVALID_TAB) -  lastKwEnd);
+                        else if (iMatcher.group(INVALID_TAB) != null)
+                            spansBuilder.add(Collections.singleton("minorError"),
+                                    iMatcher.end(INVALID_TAB) - lastKwEnd);
 
-                        else if(iMatcher.group(MEASURE_DASH) != null)
-                        spansBuilder.add(Collections.singleton("dash"),
-                            iMatcher.end(MEASURE_DASH) -  lastKwEnd);
+                        else if (iMatcher.group(MEASURE_DASH) != null)
+                            spansBuilder.add(Collections.singleton("dash"), iMatcher.end(MEASURE_DASH) - lastKwEnd);
 
-                        spansBuilder.add(Collections.singleton("guitar"),
-                                iMatcher.end(VALID_TAB) - iMatcher.start(VALID_TAB));
+                        else if (iMatcher.group(VALID_TAB) != null)
+                            spansBuilder.add(Collections.singleton("guitar"), iMatcher.end(VALID_TAB) - lastKwEnd);
                         // spansBuilder.add(Collections.emptyList(), iMatcher.end() - lastKwEnd);
-                        lastKwEnd =iMatcher.end();
+                        lastKwEnd = iMatcher.end();
                     }
                 }
                 // spansBuilder.add(Collections.singleton("detected"), 1);
@@ -150,18 +149,16 @@ public class TabView {
                     majorError = true;
                     spansBuilder.add(Collections.singleton("majorError"),
                             matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
-                }
-                else if (matcher.end() - matcher.start() != endofLine) {
-                majorError = true;
-                spansBuilder.add(Collections.singleton("majorError"),
-                matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
-                }
-                else {
+                } else if (matcher.end() - matcher.start() != endofLine) {
+                    majorError = true;
+                    spansBuilder.add(Collections.singleton("majorError"),
+                            matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
+                } else {
                     spansBuilder.add(Collections.singleton("detected"),
                             matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
                 }
             }
-                lastKwEnd = matcher.end(MEASURE_END);
+            lastKwEnd = matcher.end(MEASURE_END);
             if ((lastKwEnd + 1) < text.length() && text.charAt(lastKwEnd + 1) == ' ') {
                 barlinePos = barLineAlignment(text, lastKwEnd);
             }
@@ -248,6 +245,42 @@ public class TabView {
 
     // return lines;
     // }
+
+    static void detectInstument(String text, ChoiceBox choiceBox) {
+        Pattern tempPattern = Pattern.compile("(?<MeasureLine>^((CC|HH|SD|HT|MT|BD)|([a-gA-G])?)(\\|)(\\S+)(\\|))",
+                Pattern.MULTILINE);
+        Matcher temp = tempPattern.matcher(text);
+        int drumTagCount = 0;
+        int otherCount = 0;
+        while (temp.find()) {
+            if (temp.group(DRUM_TAGS) != null)
+                drumTagCount++;
+            else if (temp.group(DRUM_TAGS) == null)
+                if (temp.group(MEASURE_START) != null)
+                    otherCount++;
+        }
+        System.out.println("drumTagCount: " + drumTagCount);
+        System.out.println("OtherCount: " + otherCount);
+
+        if (drumTagCount > otherCount) {
+
+            choiceBox.getSelectionModel().select(2);
+            drum = true;
+        }
+
+        else if (otherCount > drumTagCount) {
+            if (lines == 6) {
+                choiceBox.getSelectionModel().select(0);
+                System.out.println("i should choose guitar");
+            } else {
+                choiceBox.getSelectionModel().select(1);
+                System.out.println("i should choose bass");
+            }
+            guitar = false;
+        } else {
+            choiceBox.setValue("Unknown");
+        }
+    }
 }
 
 // ArrayList<ArrayList<Integer>> barlinePOS = new ArrayList<>();
