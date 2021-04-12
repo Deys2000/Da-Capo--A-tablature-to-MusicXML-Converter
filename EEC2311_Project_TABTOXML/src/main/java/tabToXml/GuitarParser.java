@@ -164,6 +164,17 @@ public class GuitarParser {
 								if (parsedTab.get(i).charAt(j-2) == '\\' || parsedTab.get(i).charAt(j-1) == '\\') {
 									fretNumVar = "\\" + fretNumVar;
 								}
+								//----
+								if ((parsedTab.get(i).charAt(j-2) == '[' || parsedTab.get(i).charAt(j-1) == '[') && parsedTab.get(i).charAt(j+1) == ']') {
+									fretNumVar = "[" + fretNumVar + "]";
+								}
+								if ((parsedTab.get(i).charAt(j-2) == '{' || parsedTab.get(i).charAt(j-1) == '{') && parsedTab.get(i).charAt(j+1) == '}') {
+									fretNumVar = "[" + fretNumVar + "]";
+								}
+								if ((parsedTab.get(i).charAt(j-2) == '(' || parsedTab.get(i).charAt(j-1) == '(') && parsedTab.get(i).charAt(j+1) == ')') {
+									fretNumVar = "[" + fretNumVar + "]";
+								}							
+								//-------
 //								else {fretNumVar = fretStringValue;}	
 								cal = i + 1;
 								fretStringVar = cal + "";
@@ -215,6 +226,18 @@ public class GuitarParser {
 								if (parsedTab.get(i).charAt(j-2) == '\\' || parsedTab.get(i).charAt(j-1) == '\\') {
 									fretNumVar = "\\" + fretNumVar;
 								}
+								//----
+								if ((parsedTab.get(i).charAt(j-2) == '[' || parsedTab.get(i).charAt(j-1) == '[') && parsedTab.get(i).charAt(j+1) == ']') {
+									fretNumVar = "[" + fretNumVar + "]";
+								}
+								if ((parsedTab.get(i).charAt(j-2) == '{' || parsedTab.get(i).charAt(j-1) == '{') && parsedTab.get(i).charAt(j+1) == '}') {
+									fretNumVar = "[" + fretNumVar + "]";
+								}
+								if ((parsedTab.get(i).charAt(j-2) == '(' || parsedTab.get(i).charAt(j-1) == '(') && parsedTab.get(i).charAt(j+1) == ')') {
+									fretNumVar = "[" + fretNumVar + "]";
+								}
+								
+								//-------
 //						        else {fretNumVar = fretStringValue;}							
 								fretStringVar = cal + "";
 							}								
@@ -346,6 +369,15 @@ public class GuitarParser {
 					handp.add("DstopDstart");
 				}
 				//----------
+				
+				//-----------
+				else if (fretNum.get(i).charAt(0) == '[' && fretNum.get(i).charAt(fretNum.get(i).length()-1) == ']') {
+					fretNum.set(i, fretNum.get(i).substring(1));
+					fretNum.set(i, fretNum.get(i).substring(0, fretNum.get(i).length()-1));
+					handp.add("Nharmonics");	
+				}
+				//-----------
+				
 	    		else if( fretNum.get(i).charAt(0) == '|') {
 	    			handp.add("|");
 	    		}

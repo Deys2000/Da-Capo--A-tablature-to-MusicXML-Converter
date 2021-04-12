@@ -56,7 +56,7 @@ public class Main extends Application {
 	public static void sideTask() throws Exception {
 
 		
-		TextFileReader fileReader = new TextFileReader("test2.txt");
+		TextFileReader fileReader = new TextFileReader("tab.txt");
 //
 //		//An if statement should select which one to call based on the instrument detection
 		GuitarParser gp = new GuitarParser(fileReader.getParsed());
