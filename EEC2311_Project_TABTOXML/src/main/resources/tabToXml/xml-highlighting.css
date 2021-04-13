@@ -46,3 +46,17 @@
 {
     -fx-background-color:#55D6BE;
 }
+.textArea
+{
+    -fx-background-color: #E0DFD5;
+    -fx-background-radius: 2;
+    -fx-font-family: consolas; 
+    -fx-font-size: 12pt;
+}
+.texts
+{
+    -fx-background-color: #E0DFD5;
+    -fx-background-radius: 2;
+    -fx-font-family: consolas; 
+    -fx-font-size: 30pt;
+}
