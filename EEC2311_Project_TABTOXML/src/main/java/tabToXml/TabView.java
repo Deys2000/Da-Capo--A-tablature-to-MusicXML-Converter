@@ -315,7 +315,7 @@ public class TabView {
         }
 
         else if (otherCount > drumTagCount) {
-            if (lines == 6) {
+            if (lines > 4) {
                 choiceBox.getSelectionModel().select(0);
             } else {
                 choiceBox.getSelectionModel().select(1);

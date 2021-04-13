@@ -1,6 +1,7 @@
 package tabToXml;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import org.fxmisc.richtext.CodeArea;
@@ -19,8 +21,10 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.binding.StringBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -51,6 +55,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
 
 import com.gluonhq.charm.glisten.control.Icon;
+import com.gluonhq.charm.glisten.control.TextField;
 import com.jfoenix.controls.JFXBadge;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -67,7 +72,7 @@ public class HomeController implements Initializable {
 	FileChooser fc;
 	File selectedFile, oldFile;
 	String txtFileContents, fileType;
-	TextFileReader textFile; 
+	static TextFileReader textFile;
 
 	StringBuilder parsedInfo;
 	String instrument = "";
@@ -100,13 +105,17 @@ public class HomeController implements Initializable {
 	@FXML
 	private JFXDrawer drawer1;
 	@FXML
-	public JFXButton saveButton, editButton, uploadButton, formartButton, convertButton;
+	public JFXButton saveButton, editButton, uploadButton, formartButton, convertButton , saveTimeSig;
+	@FXML
+	private javafx.scene.control.TextField titleText;
 	@FXML
 	private ChoiceBox choiceBox, beatChoice, typeChoice;
 	@FXML
 	Spinner<Integer> from, to;
 	@FXML
 	private StackPane stackPane;
+
+	static JFXDialog dialog;
 
 	private double xOffset = 0;
 	private double yOffset = 0;
@@ -122,7 +131,6 @@ public class HomeController implements Initializable {
 		System.out.println(location.getPath().substring(location.getPath().lastIndexOf('/') + 1));
 		String file = location.getPath().substring(location.getPath().lastIndexOf('/') + 1);
 		if (file.equals("Home5.fxml")) {
-			System.out.println(from);
 			var factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, TabView.measures.size(), 1);
 			var factory2 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, TabView.measures.size(), 1);
 			factory.setWrapAround(true);
@@ -130,8 +138,10 @@ public class HomeController implements Initializable {
 			from.setValueFactory(factory);
 			to.setValueFactory(factory2);
 			to.decrement();
-			beatChoice.getItems().addAll("2","4","6","8","9");
-			typeChoice.getItems().addAll("2","4","8");
+			beatChoice.getItems().addAll(2, 4, 6, 8, 9);
+			typeChoice.getItems().addAll(2, 4, 8);
+			titleText.setText(textFile.getMusicPieceTitle());
+			saveTimeSig.setDisable(true);
 			// from.setValueFactory(new SpinnerValueFactory<>());;
 		}
 		if (codeArea1 != null)
@@ -274,28 +284,19 @@ public class HomeController implements Initializable {
 				}
 			});
 			return;
-		} 
+		}
 		// read the contents of the Tablature Editor Window
 		String textAreaContents = codeArea1.getText();
 		// Once the contents are collected, they should be sent to the TextFileReader
 		// But the TextFileReader only takes file objects, so i need to make the
 		// contents of the text area back into a file to process
 		// making a file from the contants of the editor window
-		File newFile = new File("TabEditorContents");
-		FileWriter myWriter = null;
 		try {
-			myWriter = new FileWriter(newFile);
-			myWriter.write(textAreaContents + "\n\n");
-			myWriter.close();
-
-			// pass the file to textfilereader so we can begin the process
-			TextFileReader tfr = new TextFileReader(newFile);
-			System.out.println(tfr.getDetectedInstrument());
 			// EVERYTHING ABOVE THIS LINE HAS BEEN TESTED, IT WORKS :)
-			switch (tfr.getDetectedInstrument()) {
+			switch (textFile.getDetectedInstrument()) {
 			case "Guitar":
 				// tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument());
-				GuitarParser gp = new GuitarParser(tfr);
+				GuitarParser gp = new GuitarParser(textFile);
 				xg = new xmlGen(gp);
 				sceneSwitcher(xg);
 				// the following two lines should be outside the switch case, but bass and drums
@@ -310,7 +311,7 @@ public class HomeController implements Initializable {
 				// + "\n\nSystem is in prototype phase, unable to process Drums completely."
 				// + "\nUse with caution."
 				// + "\nYou may find that rests and beams are not processed correctly.");
-				DrumParser dp = new DrumParser(tfr);
+				DrumParser dp = new DrumParser(textFile);
 				xg = new xmlGen(dp);
 				sceneSwitcher(xg);
 				// the following two lines should be outside the switch case, but bass and drums
@@ -324,7 +325,7 @@ public class HomeController implements Initializable {
 			case "Bass":
 				// tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument()
 				// + "\nSystem is in prototype phase, unable to process Bass.");
-				GuitarParser bp = new GuitarParser(tfr);
+				GuitarParser bp = new GuitarParser(textFile);
 				xg = new xmlGen(bp);
 				sceneSwitcher(xg);
 				break;
@@ -387,8 +388,7 @@ public class HomeController implements Initializable {
 			});
 
 			return;
-		}
-		else if (TabView.noEndbar) {
+		} else if (TabView.noEndbar) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("MAJOR ERROR");
 			alert.setHeaderText("A measure is missing a endBarLine!");
@@ -399,13 +399,11 @@ public class HomeController implements Initializable {
 				}
 			});
 			return;
-		} 
+		}
 		GridPane grid = FXMLLoader.load(getClass().getResource("Home5.fxml"));
+	
 
-		// JFXDialogLayout content = new JFXDialogLayout();
-		// content.setHeading(new Text("Edit Tab"));
-		// content.setBody(grid);
-		JFXDialog dialog = new JFXDialog(stackPane, grid, JFXDialog.DialogTransition.LEFT);
+		dialog = new JFXDialog(stackPane, grid, JFXDialog.DialogTransition.LEFT);
 		dialog.show();
 	}
 
@@ -415,15 +413,22 @@ public class HomeController implements Initializable {
 		System.out.println(from.getEditor().getText());
 		System.out.println(from.getValue());
 
-		if(from.getValue() > to.getValue())
-		{
-			to.getValueFactory().setValue(from.getValue());;
+		saveTimeSig.setDisable(false);
+		if (from.getValue() > to.getValue()) {
+			to.getValueFactory().setValue(from.getValue());
+		}
+		if(from.getValue() != to.getValue()){
+			beatChoice.setValue(" ");
+			typeChoice.setValue(" ");
+		}
+		else{
+			beatChoice.setValue(textFile.attributesPerMeasure.get(from.getValue()-1).getBeats());
+			typeChoice.setValue(textFile.attributesPerMeasure.get(from.getValue()-1).getBeattype());
 		}
 
-		for(int i = from.getValue(); i <= to.getValue(); i++)
-		{
+		for (int i = from.getValue(); i <= to.getValue(); i++) {
 
-			for(int j = 0; j < TabView.measures.get(i).size(); j++){
+			for (int j = 0; j < TabView.measures.get(i).size(); j++) {
 
 				sb.append(TabView.measures.get(i).get(j));
 				sb.append("\n");
@@ -447,8 +452,7 @@ public class HomeController implements Initializable {
 			});
 
 			return;
-		} 
-		else if (TabView.measures == null || TabView.measures.isEmpty()) {
+		} else if (TabView.measures == null || TabView.measures.isEmpty()) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("No Tab Detected");
 			alert.setHeaderText("cant edit nothing... fool!");
@@ -460,8 +464,7 @@ public class HomeController implements Initializable {
 			});
 
 			return;
-		}
-		else if (TabView.noEndbar) {
+		} else if (TabView.noEndbar) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("MAJOR ERROR");
 			alert.setHeaderText("A measure is missing a endBarLine!");
@@ -472,8 +475,7 @@ public class HomeController implements Initializable {
 				}
 			});
 			return;
-		}  
-		else {
+		} else {
 			StringBuilder sb = new StringBuilder();
 
 			for (int i = 1; i <= TabView.measures.size(); i++) {
@@ -488,8 +490,17 @@ public class HomeController implements Initializable {
 			codeArea1.replaceText(sb.toString());
 			codeArea1.position(0, 0);
 			formartButton.setDisable(true);
-            editButton.setDisable(false);
-            convertButton.setDisable(false);
+			editButton.setDisable(false);
+			convertButton.setDisable(false);
+
+			File newFile = new File("TabEditorContents");
+			FileWriter myWriter = null;
+			myWriter = new FileWriter(newFile);
+			myWriter.write(sb.toString() + "\n\n");
+			myWriter.close();
+
+			// pass the file to textfilereader so we can begin the process
+			textFile = new TextFileReader(newFile);
 		}
 	}
 
@@ -580,48 +591,38 @@ public class HomeController implements Initializable {
 		}
 	}
 
+
+	public void saveEdit(MouseEvent event) throws IOException
+	{
+			
+			textFile.setRangeOfAttributes(from.getValue()-1, to.getValue()-1, beatChoice.getValue() == " " ? 4 : (Integer) beatChoice.getValue(),typeChoice.getValue() == " " ? 4 : (Integer) typeChoice.getValue(), "", "");
+			textFile.setMusicPieceTitle(titleText.getText());
+			dialog.close();
+	}
 	/**
 	 * Method to read a .txt file and displaying in the field window
 	 * 
 	 * @throws Exception
 	 */
 	public void reader() throws Exception {
-		TextFileReader guitarTab = new TextFileReader(selectedFile.getAbsolutePath());
-		// set area to be the text from the file
-		// tabTextArea1.setText(guitarTab.printOrginal());
+
+		StringBuilder sb = new StringBuilder(); 
+		try {
+			//File myObj = new File("filename.txt");
+			Scanner myReader = new Scanner(selectedFile);
+			while (myReader.hasNextLine()) {
+				String data = myReader.nextLine();
+				sb.append(data);
+				sb.append("\n");
+			}
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+
 		codeArea1.replaceText(" ");
-		codeArea1.replaceText(guitarTab.printOrginal());
+		codeArea1.replaceText(sb.toString());
 		codeArea1.position(0, 0);
-		// parsedInfo = new StringBuilder();
-		// //adding the parsed tab
-		// parsedInfo.append(guitarTab.printOrginal());
-		//
-		// gp = new GuitarParser();
-		// gp.translateParsed(selectedFile.getAbsolutePath());
-		//
-		// parsedInfo.append("\nNotes: " + gp.getNotes() + " Length of array: " +
-		// gp.getNotes().size());
-		// parsedInfo.append("\nFrets: " + gp.getFretNums() + " Length of array: " +
-		// gp.getFretNums().size());
-		// parsedInfo.append("\nFret Strings: " + gp.getFretStrings() + " Length of
-		// array: " + gp.getFretStrings().size());
-		//
-		// //RhythmParser rhythmParser = new RhythmParser(4);
-		// gp.parseToRhythm(guitarTab.getParsed());
-		//
-		// parsedInfo.append("\nDuration:" + gp.getDurationArr() + " Length of Array:" +
-		// gp.getDurationArr().size() );
-		// parsedInfo.append("\nType:" + gp.getTypeArr() + " Length of Array:" +
-		// gp.getTypeArr().size() );
-		//
-		// //tabTextArea2.setText(parsedInfo.toString());
-		//
-		// //new stuff
-		// //information = gp.processor();
-		// tabTextArea2.setText(xg.getXMLContent());
-		// //System.exit(0);
-		//
-		// instrument = guitarTab.detectInstrument();
-		// instrumentLabel.setText("Instrument Detection: " + instrument);
 	}
 }

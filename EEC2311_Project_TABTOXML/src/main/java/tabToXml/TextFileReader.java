@@ -582,8 +582,8 @@ public class TextFileReader {
 			// so measure 1 is actually at position 0
 			this.attributesPerMeasure.get(i).setBeats(beat);
 			this.attributesPerMeasure.get(i).setBeattype(beattype);
-			this.attributesPerMeasure.get(i).setSign(sign);
-			this.attributesPerMeasure.get(i).setLine(line);			
+			// this.attributesPerMeasure.get(i).setSign(sign);
+			// this.attributesPerMeasure.get(i).setLine(line);			
 		}		
 	}
 	// NEW METHOD FOR GUI
