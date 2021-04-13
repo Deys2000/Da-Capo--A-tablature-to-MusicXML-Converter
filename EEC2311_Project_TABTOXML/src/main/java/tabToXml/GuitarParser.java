@@ -617,20 +617,6 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                     		isDoubleDigit = true;
                     	}
                     	
-                    	// check if fret is grace note (start)
-                    	if(parsedTab.get(currentLine).charAt(counter - 1) == 'g') {
-
-                    		// System.out.println("Starting to Track Grace Notes Now"); // For Debugging
-                    		trackingGrace = true;
-                    		graceNoteCounter = counter; 
-                    		// account for double digit frets
-                    		if (isDoubleDigit)
-                				graceNoteCounter++;
-                    	}
-                    	else {
-                    		graceArr.add("false");
-                    	}
-                    	
                     	// starts counting noteLength, should only be done once
                     	if (prevChordNum == 0) {
                     		noteLength++;
@@ -642,7 +628,7 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                     currentLine++;
                 }
                 
-                // If DoubleDigit frets, recount using one's place
+                // If DoubleDigit frets, recount using one's place, and determine grace tags
                 if (isDoubleDigit) {
                 	int totalFretNum = 0;
                 	currentLine = 0;
@@ -650,6 +636,20 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                 	while (currentLine < lines) {
                 		if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
                 			totalFretNum++;
+                			
+                			// check if fret is grace note (start)
+    	                	if(parsedTab.get(currentLine).charAt(counter - 1) == 'g') {
+    	
+    	                		// System.out.println("Starting to Track Grace Notes Now"); // For Debugging
+    	                		trackingGrace = true;
+    	                		graceNoteCounter = counter; 
+    	                		// account for double digit frets
+    	                		if (isDoubleDigit)
+    	            				graceNoteCounter++;
+    	                	}
+    	                	else {
+    	                		graceArr.add("false");
+    	                	}
                 		}
                 		
                 		currentLine++;
@@ -659,6 +659,30 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                 	
                 	counter++;
                 	isDoubleDigit = false;
+                }
+                // If SingleDigits frets, determine grace tags
+                else {
+                	currentLine = 0;
+                	
+                	while (currentLine < lines) {
+                		if (Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
+		                	// check if fret is grace note (start)
+		                	if(parsedTab.get(currentLine).charAt(counter - 1) == 'g') {
+		
+		                		// System.out.println("Starting to Track Grace Notes Now"); // For Debugging
+		                		trackingGrace = true;
+		                		graceNoteCounter = counter; 
+		                		// account for double digit frets
+		                		if (isDoubleDigit)
+		            				graceNoteCounter++;
+		                	}
+		                	else {
+		                		graceArr.add("false");
+		                	}
+                		}
+	                	
+	                	currentLine++;
+                	}
                 }
             }
             
@@ -674,71 +698,6 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                     	// check if fret is doubledigit
                     	if(Character.isDigit(parsedTab.get(currentLine).charAt(counter+1))) {
                     		isDoubleDigit = true;
-                    	}
-
-                    	// check if fret is grace note
-                    	if(trackingGrace) {
-                    		// if fret continues grace note
-                    		if (checkGraceContinue(parsedTab.get(currentLine).charAt(counter - 1)) && (counter - graceNoteCounter == 2)) {
-                    			graceNoteNum++;
-                    			graceNoteLength += 2;
-                    			graceNoteCounter = counter;
-                    		}
-                    		// end grace note and add to arrays
-                    		else {
-                    			// Add grace note length to note before grace note start
-                    			int replaceIndex = durationArr.size() - graceNoteNum - 1;
-                    			durationArr.set(replaceIndex, "" + (Integer.parseInt(durationArr.get(replaceIndex)) + graceNoteLength));
-                    			typeArr.set(replaceIndex, durationToType(Integer.parseInt(durationArr.get(replaceIndex)), divisions));
-                    			
-                    			// Repeat above step for all notes part of a chord, if note before grace note start is a chord note
-                    			while (chords.get(replaceIndex) ==  "true") {
-                    				replaceIndex--;
-                    				durationArr.set(replaceIndex, "" + (Integer.parseInt(durationArr.get(replaceIndex)) + graceNoteLength));
-                        			typeArr.set(replaceIndex, durationToType(Integer.parseInt(durationArr.get(replaceIndex)), divisions));
-                    			}
-                    			
-                    			// replace all grace note durations with null and set grace tag
-                    			while (graceNoteNum > 0) {
-                    				replaceIndex = durationArr.size() - graceNoteNum;
-                    				durationArr.set(replaceIndex, "-1");
-
-                    				graceArr.add("true");		
-                    				graceNoteNum--;
-                    			}
-                    			
-                    			// Add tag for previous note (which is not a grace note)
-                    			graceArr.add("false"); 
-                    			
-                    			// Stop tracking grace notes
-                    			if (parsedTab.get(currentLine).charAt(counter - 1) == 'g') {
-                        			graceNoteCounter = counter;
-                        			// account for double digit frets
-                        			if (isDoubleDigit)
-                        				graceNoteCounter++;
-                        		}
-                    			else {
-                    				// Stop tracking grace notes
-                    				trackingGrace = false;
-                    				
-                    				// Add tag for current note
-                    				graceArr.add("false");
-                    			}
-                    			// reset graceNoteLength
-                    			graceNoteLength = 0;
-                    		}
-                    	}
-                    	// if not tracking grace note
-                    	else if (parsedTab.get(currentLine).charAt(counter - 1) == 'g'){
-                    		// System.out.println("Starting to Track Grace Notes Now"); // For Debugging
-                    		trackingGrace = true;
-                    		graceNoteCounter = counter;
-                    		// account for double digit frets
-                    		if (isDoubleDigit)
-                				graceNoteCounter++;
-                    	}
-                    	else {
-                    		graceArr.add("false");
                     	}
                     	
                     	// Adding tracked notes to arrays
@@ -765,6 +724,71 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                 	while (currentLine < lines) {
                 		if(Character.isDigit(parsedTab.get(currentLine).charAt(counter + 1))) {
                 			totalFretNum++;
+                			
+                			// check if fret is grace note
+                        	if(trackingGrace) {
+                        		// if fret continues grace note
+                        		if (checkGraceContinue(parsedTab.get(currentLine).charAt(counter - 1)) && (counter - graceNoteCounter == 2)) {
+                        			graceNoteNum++;
+                        			graceNoteLength += 2;
+                        			graceNoteCounter = counter;
+                        		}
+                        		// end grace note and add to arrays
+                        		else {
+                        			// Add grace note length to note before grace note start
+                        			int replaceIndex = durationArr.size() - graceNoteNum - 1;
+                        			durationArr.set(replaceIndex, "" + (Integer.parseInt(durationArr.get(replaceIndex)) + graceNoteLength));
+                        			typeArr.set(replaceIndex, durationToType(Integer.parseInt(durationArr.get(replaceIndex)), divisions));
+                        			
+                        			// Repeat above step for all notes part of a chord, if note before grace note start is a chord note
+                        			while (chords.get(replaceIndex) ==  "true") {
+                        				replaceIndex--;
+                        				durationArr.set(replaceIndex, "" + (Integer.parseInt(durationArr.get(replaceIndex)) + graceNoteLength));
+                            			typeArr.set(replaceIndex, durationToType(Integer.parseInt(durationArr.get(replaceIndex)), divisions));
+                        			}
+                        			
+                        			// replace all grace note durations with null and set grace tag
+                        			while (graceNoteNum > 0) {
+                        				replaceIndex = durationArr.size() - graceNoteNum;
+                        				durationArr.set(replaceIndex, "-1");
+
+                        				graceArr.add("true");		
+                        				graceNoteNum--;
+                        			}
+                        			
+                        			// Add tag for previous note (which is not a grace note)
+                        			graceArr.add("false"); 
+                        			
+                        			// Stop tracking grace notes
+                        			if (parsedTab.get(currentLine).charAt(counter - 1) == 'g') {
+                            			graceNoteCounter = counter;
+                            			// account for double digit frets
+                            			if (isDoubleDigit)
+                            				graceNoteCounter++;
+                            		}
+                        			else {
+                        				// Stop tracking grace notes
+                        				trackingGrace = false;
+                        				
+                        				// Add tag for current note
+                        				graceArr.add("false");
+                        			}
+                        			// reset graceNoteLength
+                        			graceNoteLength = 0;
+                        		}
+                        	}
+                        	// if not tracking grace note
+                        	else if (parsedTab.get(currentLine).charAt(counter - 1) == 'g'){
+                        		// System.out.println("Starting to Track Grace Notes Now"); // For Debugging
+                        		trackingGrace = true;
+                        		graceNoteCounter = counter;
+                        		// account for double digit frets
+                        		if (isDoubleDigit)
+                    				graceNoteCounter++;
+                        	}
+                        	else {
+                        		graceArr.add("false");
+                        	}
                 		}
                 		
                 		currentLine++;
@@ -775,6 +799,82 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                 	// increment counter and reset isDoubleDigit
                 	counter++;
                 	isDoubleDigit = false;
+                }
+                else {
+                	
+                	currentLine = 0;
+                	
+                	while (currentLine < lines) {
+                		if(Character.isDigit(parsedTab.get(currentLine).charAt(counter))) {
+                			
+                			// check if fret is grace note
+                        	if(trackingGrace) {
+                        		// if fret continues grace note
+                        		if (checkGraceContinue(parsedTab.get(currentLine).charAt(counter - 1)) && (counter - graceNoteCounter == 2)) {
+                        			graceNoteNum++;
+                        			graceNoteLength += 2;
+                        			graceNoteCounter = counter;
+                        		}
+                        		// end grace note and add to arrays
+                        		else {
+                        			// Add grace note length to note before grace note start
+                        			int replaceIndex = durationArr.size() - graceNoteNum - 1;
+                        			durationArr.set(replaceIndex, "" + (Integer.parseInt(durationArr.get(replaceIndex)) + graceNoteLength));
+                        			typeArr.set(replaceIndex, durationToType(Integer.parseInt(durationArr.get(replaceIndex)), divisions));
+                        			
+                        			// Repeat above step for all notes part of a chord, if note before grace note start is a chord note
+                        			while (chords.get(replaceIndex) ==  "true") {
+                        				replaceIndex--;
+                        				durationArr.set(replaceIndex, "" + (Integer.parseInt(durationArr.get(replaceIndex)) + graceNoteLength));
+                            			typeArr.set(replaceIndex, durationToType(Integer.parseInt(durationArr.get(replaceIndex)), divisions));
+                        			}
+                        			
+                        			// replace all grace note durations with null and set grace tag
+                        			while (graceNoteNum > 0) {
+                        				replaceIndex = durationArr.size() - graceNoteNum;
+                        				durationArr.set(replaceIndex, "-1");
+
+                        				graceArr.add("true");		
+                        				graceNoteNum--;
+                        			}
+                        			
+                        			// Add tag for previous note (which is not a grace note)
+                        			graceArr.add("false"); 
+                        			
+                        			// Stop tracking grace notes
+                        			if (parsedTab.get(currentLine).charAt(counter - 1) == 'g') {
+                            			graceNoteCounter = counter;
+                            			// account for double digit frets
+                            			if (isDoubleDigit)
+                            				graceNoteCounter++;
+                            		}
+                        			else {
+                        				// Stop tracking grace notes
+                        				trackingGrace = false;
+                        				
+                        				// Add tag for current note
+                        				graceArr.add("false");
+                        			}
+                        			// reset graceNoteLength
+                        			graceNoteLength = 0;
+                        		}
+                        	}
+                        	// if not tracking grace note
+                        	else if (parsedTab.get(currentLine).charAt(counter - 1) == 'g'){
+                        		// System.out.println("Starting to Track Grace Notes Now"); // For Debugging
+                        		trackingGrace = true;
+                        		graceNoteCounter = counter;
+                        		// account for double digit frets
+                        		if (isDoubleDigit)
+                    				graceNoteCounter++;
+                        	}
+                        	else {
+                        		graceArr.add("false");
+                        	}
+                		}
+                		
+                		currentLine++;
+                	}
                 }
  
                 // if there are notes in the current chord, copy them to previous chord and empty current chord
