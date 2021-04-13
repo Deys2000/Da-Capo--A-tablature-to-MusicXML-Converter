@@ -12,8 +12,20 @@ class DrumParserTest {
 	
 	@Test
 	// Tests whether the parser is able to recognize the number of lines correctly
-	void test_NumberOfStrings() throws Exception {
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab.txt");
+	void test_NumberOfStrings2() throws Exception {
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab_2Lines.txt");
+		DrumParser dp = new DrumParser(tfr);
+		
+		int expectedLength = 2;
+		int actualLength = dp.getDrumTabStrings().size();
+		
+		assertEquals(expectedLength,actualLength);      
+	}
+	
+	@Test
+	// Tests whether the parser is able to recognize the number of lines correctly
+	void test_NumberOfStrings4() throws Exception {
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		int expectedLength = 4;
@@ -23,9 +35,33 @@ class DrumParserTest {
 	}
 	
 	@Test
+	// Tests whether the parser is able to recognize the number of lines correctly
+	void test_NumberOfStrings6() throws Exception {
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab_6Lines.txt");
+		DrumParser dp = new DrumParser(tfr);
+		
+		int expectedLength = 6;
+		int actualLength = dp.getDrumTabStrings().size();
+		
+		assertEquals(expectedLength,actualLength);      
+	}
+	
+	@Test
+	// Tests whether the parser is able to recognize the number of lines correctly
+	void test_NumberOfStrings8() throws Exception {
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab_8Lines.txt");
+		DrumParser dp = new DrumParser(tfr);
+		
+		int expectedLength = 8;
+		int actualLength = dp.getDrumTabStrings().size();
+		
+		assertEquals(expectedLength,actualLength);      
+	}
+	
+	@Test
 	// Tests whether the parser is able to recognize the number of measures correctly
 	void test_NumberOfMeasures() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		int expectedLength = 4;
@@ -36,7 +72,7 @@ class DrumParserTest {
 	
 	@Test
 	void test_TransposeMethod() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		String[] expectedTransposed = {	"||||",	"X--o","----","----","---o","-oo-","----","----",
@@ -57,7 +93,7 @@ class DrumParserTest {
 	
 	@Test
 	void test_TextFileReaderObject() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		assertEquals(tfr, dp.getTFR());
@@ -71,7 +107,7 @@ class DrumParserTest {
 	 * @throws Exception
 	 */
 	void test_getMeasuresParsed() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		ArrayList<ArrayList<String>> expected = new ArrayList<ArrayList<String>>();
@@ -113,7 +149,7 @@ class DrumParserTest {
 	 * @throws Exception
 	 */
 	void test_VoiceSelecterMethod() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		int voice1 = 1;
@@ -136,7 +172,7 @@ class DrumParserTest {
 	 * @throws Exception
 	 */
 	void test_SetDrumStringInfo_Length() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		int expected = 4;	
@@ -151,7 +187,7 @@ class DrumParserTest {
 	 * @throws Exception
 	 */
 	void test_getInstrumentInitials_Values_Valid() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		ArrayList<String> expected = new ArrayList<String>();
@@ -170,7 +206,7 @@ class DrumParserTest {
 	 * @throws Exception
 	 */
 	void test_SetDrumStringInfo_Values_Invalid() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		ArrayList<String> expected = new ArrayList<String>();
@@ -190,7 +226,7 @@ class DrumParserTest {
 	@Test
 	// Tests whether the parser is able to recognize the number of lines correctly
 	void test_NumberOfStrings_Plus() throws Exception {
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		int expectedLength = 4;
@@ -202,7 +238,7 @@ class DrumParserTest {
 	@Test
 	// Tests whether the parser is able to recognize the number of measures correctly
 	void test_NumberOfMeasures_Plus() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		int expectedLength = 4;
@@ -213,7 +249,7 @@ class DrumParserTest {
 	
 	@Test
 	void test_TransposeMethod_Plus() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab+.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab+.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		String[] expectedTransposed = {	"||||",	"X-oo","--o-","--o-","--oo","-oo-","--o-","--o-",
@@ -234,7 +270,7 @@ class DrumParserTest {
 	
 	@Test
 	void test_TextFileReaderObject_Plus() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab+.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab+.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		assertEquals(tfr, dp.getTFR());
@@ -248,7 +284,7 @@ class DrumParserTest {
 	 * @throws Exception
 	 */
 	void test_getMeasuresParsed_Plus() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab+.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab+.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		ArrayList<ArrayList<String>> expected = new ArrayList<ArrayList<String>>();
@@ -290,7 +326,7 @@ class DrumParserTest {
 	 * @throws Exception
 	 */
 	void test_SetDrumStringInfo_Length_Plus() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab+.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab+.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		int expected = 4;	
@@ -305,7 +341,7 @@ class DrumParserTest {
 	 * @throws Exception
 	 */
 	void test_getInstrumentInitials_Values_Valid_Plus() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab+.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab+.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		ArrayList<String> expected = new ArrayList<String>();
@@ -324,7 +360,7 @@ class DrumParserTest {
 	 * @throws Exception
 	 */
 	void test_SetDrumStringInfo_Values_Invalid_Plus() throws Exception{
-		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/DrumsTab+.txt");
+		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab+.txt");
 		DrumParser dp = new DrumParser(tfr);
 		
 		ArrayList<String> expected = new ArrayList<String>();
