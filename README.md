@@ -41,6 +41,6 @@ At the moment, Da Capo can only translate a basic formatted guitar tablature, wi
 2. Open the directory in **VSC** and navigate to the terminal.
 
    ![vscTerminal](Images/vscTerminal.PNG) 
-3. Next you want to change your working **PWD** using this command ``**cd EEC2311\_Project\_TABTOXMl**``
+3. Next you want to change your working **PWD** using this command ``cd EEC2311ProjectTABTOXMl``
 
-4. Now, to actually build and run the project. Execute the following command in the same terminal ``_ **./gradlew run** _``
+4. Now, to actually build and run the project. Execute the following command in the same terminal ``./gradlew run``
