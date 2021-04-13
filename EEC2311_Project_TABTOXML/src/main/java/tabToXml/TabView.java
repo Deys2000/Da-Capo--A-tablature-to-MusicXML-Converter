@@ -5,9 +5,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.jfoenix.controls.JFXButton;
 
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
@@ -52,14 +55,18 @@ public class TabView {
     public static boolean majorError = false;
 
     private static ArrayList<Integer> barlinePos;
+    public static TreeMap<Integer, ArrayList<String>> measures;
     private static int lines;
     private static int endofLine;
 
-    public static void Xmlsyntax(CodeArea codeArea, ChoiceBox choiceBox) {
+    public static void Xmlsyntax(CodeArea codeArea, ChoiceBox choiceBox, JFXButton editButton, JFXButton formartButton, JFXButton convertButton) {
 
         // codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         codeArea.textProperty().addListener((obs, oldText, newText) -> {
             codeArea.setStyleSpans(0, computeHighlighting(newText, choiceBox));
+            formartButton.setDisable(false);
+            editButton.setDisable(true);
+            convertButton.setDisable(true);
         });
     }
 
@@ -68,16 +75,18 @@ public class TabView {
         majorError = false;
         drum = false;
         guitar = false;
+        measures = new TreeMap<>();
+
         lines = MeasureLineCnt(text);
         barlinePos = barLineAlignment(text, 0);
         detectInstument(text, choiceBox);
         Matcher matcher = XML_TAG.matcher(text);
         int lastKwEnd = 0;
+
         StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
 
         while (matcher.find()) {
             if (matcher.group("MeasureLine") != null) {
-
                 String attributesText = matcher.group(MEASURE_INFO);
                 spansBuilder.add(Collections.emptyList(), (matcher.start(BASE_NOTE) - lastKwEnd));
                 if (drum == true && matcher.group(GUITAR_TAGS) != null) {
@@ -159,7 +168,7 @@ public class TabView {
                 }
             }
             lastKwEnd = matcher.end(MEASURE_END);
-            if ((lastKwEnd + 1) < text.length() && text.charAt(lastKwEnd + 1) == ' ') {
+            if ((lastKwEnd + 1) < text.length() && (text.charAt(lastKwEnd + 1) == ' ' || text.charAt(lastKwEnd + 1) == '\n')) {
                 barlinePos = barLineAlignment(text, lastKwEnd);
             }
         }
@@ -197,20 +206,56 @@ public class TabView {
     }
 
     static ArrayList<Integer> barLineAlignment(String text, int index) {
-        if (text.length() == 0)
+        if (text.length() <= 0)
             return null;
-        Matcher temp = XML_TAG.matcher(text.substring(index));
+        text = text.substring(index);
+        Matcher temp = XML_TAG.matcher(text);
         if (temp.find() == false)
             return null;
         String line = temp.group(MEASURE_INFO);
         endofLine = temp.end() - temp.start();
         ArrayList<Integer> barLinePositions = new ArrayList<>();
+        ArrayList<Integer> DoublebarLinePosition = new ArrayList<>();
 
-        Pattern barlinePattern = Pattern.compile("(\\|)", Pattern.MULTILINE);
+        Pattern barlinePattern = Pattern.compile("((\\|)?\\|)", Pattern.MULTILINE);
         Matcher barlineMatcher = barlinePattern.matcher(line);
         while (barlineMatcher.find()) {
 
             barLinePositions.add(barlineMatcher.start());
+            DoublebarLinePosition.add(barlineMatcher.end(1));
+        }
+        int count  = measures.size() +1;
+        for (int i = 0; i < lines; i++) {
+            String atrributes = temp.group(MEASURE_INFO);
+            int j;
+            String note = text.substring(temp.start(BASE_NOTE) , temp.start(MEASURE_START));
+            for ( j = 0; j < barLinePositions.size(); j++) {
+                int startAt = j != 0 ? barLinePositions.get(j-1)+1 : 0;
+               // note = text.substring(temp.start(BASE_NOTE) + startAt, temp.end(BASE_NOTE) + startAt);
+                Boolean doubleBarline = text.substring(temp.start(MEASURE_START) + startAt,(temp.end(MEASURE_START) + barLinePositions.get(j))+1).equals("||");
+                if (measures.get(count+j) == null)
+                    measures.put(count+j, new ArrayList<>());
+                int barLineEnd = DoublebarLinePosition.contains(barLinePositions.get(j) +2) == true ?  barLinePositions.get(j)+1  : barLinePositions.get(j);
+                measures.get(count+j).add(note+text.substring(temp.start(MEASURE_START) + startAt,(temp.end(MEASURE_START) + barLineEnd+1)));
+            }
+            //j++;
+            if (measures.get(count+j) == null)
+                measures.put(count+j, new ArrayList<>());
+            int lastBarindex = temp.end(MEASURE_START) + atrributes.lastIndexOf('|');
+            //note = text.substring(temp.start(BASE_NOTE) , temp.start(MEASURE_START));
+            measures.get(count+j).add(note +text.substring(lastBarindex, temp.end(MEASURE_END)));
+                if(!temp.find())
+                        break;
+            // if(barLinePositions.size() == 0)
+            // {
+            //     if (measures.get(count) == null)
+            //         measures.put(count, new ArrayList<>());
+            //     int lastBarindex2 = temp.start(MEASURE_START);
+            //     measures.get(count).add(text.substring(lastBarindex2, temp.end()));
+            //     if(!temp.find())
+            //     break;
+            // }
+            
         }
 
         return barLinePositions;
@@ -227,7 +272,7 @@ public class TabView {
         int lineCount = 0;
         while (temp.find()) {
             lineCount++;
-            if ((temp.end() + 1) >= text.length() || text.charAt(temp.end() + 1) == ' ')
+            if ((temp.end() + 1) >= text.length() || text.charAt(temp.end() + 1) == ' ' ||  text.charAt(temp.end() + 1) == '\n')
                 break;
         }
         return lineCount;
@@ -259,8 +304,6 @@ public class TabView {
                 if (temp.group(MEASURE_START) != null)
                     otherCount++;
         }
-        System.out.println("drumTagCount: " + drumTagCount);
-        System.out.println("OtherCount: " + otherCount);
 
         if (drumTagCount > otherCount) {
 
@@ -271,10 +314,8 @@ public class TabView {
         else if (otherCount > drumTagCount) {
             if (lines == 6) {
                 choiceBox.getSelectionModel().select(0);
-                System.out.println("i should choose guitar");
             } else {
                 choiceBox.getSelectionModel().select(1);
-                System.out.println("i should choose bass");
             }
             guitar = false;
         } else {

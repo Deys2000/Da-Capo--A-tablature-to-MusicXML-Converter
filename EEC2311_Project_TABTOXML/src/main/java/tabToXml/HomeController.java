@@ -37,6 +37,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -65,6 +67,7 @@ public class HomeController implements Initializable {
 	FileChooser fc;
 	File selectedFile, oldFile;
 	String txtFileContents, fileType;
+	TextFileReader textFile; 
 
 	StringBuilder parsedInfo;
 	String instrument = "";
@@ -79,7 +82,7 @@ public class HomeController implements Initializable {
 	}
 
 	@FXML
-	private Button selectButton, convertButton;
+	private Button selectButton;
 	@FXML
 	private Label filePathLabel, statusLabel;
 	@FXML
@@ -89,15 +92,19 @@ public class HomeController implements Initializable {
 	@FXML
 	public CodeArea codeArea2;
 	@FXML
+	public CodeArea codeArea3;
+	@FXML
 	private HBox hBox;
 	@FXML
 	private HBox parentContainer;
 	@FXML
 	private JFXDrawer drawer1;
 	@FXML
-	private JFXButton saveButton,editButton,uploadButton; 
+	public JFXButton saveButton, editButton, uploadButton, formartButton, convertButton;
 	@FXML
-	private ChoiceBox choiceBox;
+	private ChoiceBox choiceBox, beatChoice, typeChoice;
+	@FXML
+	Spinner<Integer> from, to;
 	@FXML
 	private StackPane stackPane;
 
@@ -112,9 +119,24 @@ public class HomeController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		if(codeArea1 != null)
-			TabView.Xmlsyntax(codeArea1,choiceBox);
-		if(codeArea2 != null)
+		System.out.println(location.getPath().substring(location.getPath().lastIndexOf('/') + 1));
+		String file = location.getPath().substring(location.getPath().lastIndexOf('/') + 1);
+		if (file.equals("Home5.fxml")) {
+			System.out.println(from);
+			var factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, TabView.measures.size(), 1);
+			var factory2 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, TabView.measures.size(), 1);
+			factory.setWrapAround(true);
+			factory2.setWrapAround(true);
+			from.setValueFactory(factory);
+			to.setValueFactory(factory2);
+			to.decrement();
+			beatChoice.getItems().addAll("2","4","6","8","9");
+			typeChoice.getItems().addAll("2","4","8");
+			// from.setValueFactory(new SpinnerValueFactory<>());;
+		}
+		if (codeArea1 != null)
+			TabView.Xmlsyntax(codeArea1, choiceBox, editButton, formartButton, convertButton);
+		if (codeArea2 != null)
 			XMLView.Xmlsyntax(codeArea2);
 		if (choiceBox != null)
 			choiceBox.getItems().addAll("Guitar", "Bass", "Drum");
@@ -140,8 +162,8 @@ public class HomeController implements Initializable {
 		}
 
 		if (selectedFile == null) {
-			//statusLabel.setTextFill(Color.RED);
-			//statusLabel.setText("File Status: No file selected, pls select a .txt file");
+			// statusLabel.setTextFill(Color.RED);
+			// statusLabel.setText("File Status: No file selected, pls select a .txt file");
 			// convertButton.setDisable(true);
 		} else if (fileType.equals(".txt")) {
 			// statusLabel.setTextFill(Color.GREEN);
@@ -156,7 +178,7 @@ public class HomeController implements Initializable {
 			// tabTextArea2.setText("");
 			// instrumentLabel.setText("Instrument Detection: Unable to Identify");
 			// convertButton.setDisable(true);
-		}		
+		}
 	}
 
 	/**
@@ -173,7 +195,6 @@ public class HomeController implements Initializable {
 	public void quit(MouseEvent event) throws Exception {
 		currentStage.close();
 	}
-
 
 	// for moveing of window assign to onMousePressed event
 	public void dragger(MouseEvent event) throws Exception {
@@ -217,18 +238,29 @@ public class HomeController implements Initializable {
 		// empty the XMLArea before getting new info
 		// tabTextArea2.setText("");
 		// saveButton.setDisable(true);
-		if(TabView.majorError)
-		{
+		if (TabView.majorError) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("MAJOR ERROR");
 			alert.setHeaderText("FIX THE ERROR'S HIGHLIGTED IN RED!");
 			alert.setContentText("bar's are either missaligned or tab type cannot be determained.");
 			alert.showAndWait().ifPresent(rs -> {
-			    if (rs == ButtonType.OK) {
-			        System.out.println("Pressed OK.");
-			    }
-			});	
-		
+				if (rs == ButtonType.OK) {
+					System.out.println("Pressed OK.");
+				}
+			});
+
+			return;
+		} else if (TabView.measures == null || TabView.measures.isEmpty()) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("No Tab Detected");
+			alert.setHeaderText("cant convert nothing... fool!");
+			alert.setContentText("input a tab first.");
+			alert.showAndWait().ifPresent(rs -> {
+				if (rs == ButtonType.OK) {
+					System.out.println("Pressed OK.");
+				}
+			});
+
 			return;
 		}
 		// read the contents of the Tablature Editor Window
@@ -243,64 +275,66 @@ public class HomeController implements Initializable {
 			myWriter = new FileWriter(newFile);
 			myWriter.write(textAreaContents + "\n\n");
 			myWriter.close();
-		
-		
-		// pass the file to textfilereader so we can begin the process
-		TextFileReader tfr = new TextFileReader(newFile);
-		System.out.println(tfr.getDetectedInstrument());
-		// EVERYTHING ABOVE THIS LINE HAS BEEN TESTED, IT WORKS :)
-		switch(tfr.getDetectedInstrument()) {
-		case "Guitar":
-			//tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument());
-			GuitarParser gp = new GuitarParser(tfr);
-			xg = new xmlGen(gp);
-			sceneSwitcher(xg);
-			// the following two lines should be outside the switch case, but bass and drums dont work yet
-//		    if(tfr.checkAlignedVerticals() == false) {
-//		    	tabTextArea2.setText("tablature misaligned, please check spacing or input a different tab");
-//		    }
-			break;
-		case "Drum":
-			///tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument() 
-			//+ "\n\nSystem is in prototype phase, unable to process Drums completely."
-			//+ "\nUse with caution."
-			//+ "\nYou may find that rests and beams are not processed correctly.");
-			DrumParser2 dp = new DrumParser2(tfr);
-			xg = new xmlGen(dp);
-			sceneSwitcher(xg);
-			// the following two lines should be outside the switch case, but bass and drums dont work yet
-			//System.out.println("XMLCONTENT"+xg.getXMLContent());
-//			  if(tfr.checkAlignedVerticals() == false) {
-//			    	tabTextArea2.setText("tablature misaligned, please check spacing or input a different tab");
-//			    }
-			break;
-		case "Bass":
-			//tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument() 
-			//+ "\nSystem is in prototype phase, unable to process Bass.");
-			GuitarParser bp = new GuitarParser(tfr);
-			xg = new xmlGen(bp);
-			sceneSwitcher(xg);
-			break;
-		default:
-			//tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument());
-			throw new Exception();
-			//give some error message saying instrument was not detected or something
-			
-		}	
-		//xmlGen xg = null;	
-		} 
-		catch (Exception e) { 
-			e.printStackTrace(); 
+
+			// pass the file to textfilereader so we can begin the process
+			TextFileReader tfr = new TextFileReader(newFile);
+			System.out.println(tfr.getDetectedInstrument());
+			// EVERYTHING ABOVE THIS LINE HAS BEEN TESTED, IT WORKS :)
+			switch (tfr.getDetectedInstrument()) {
+			case "Guitar":
+				// tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument());
+				GuitarParser gp = new GuitarParser(tfr);
+				xg = new xmlGen(gp);
+				sceneSwitcher(xg);
+				// the following two lines should be outside the switch case, but bass and drums
+				// dont work yet
+				// if(tfr.checkAlignedVerticals() == false) {
+				// tabTextArea2.setText("tablature misaligned, please check spacing or input a
+				// different tab");
+				// }
+				break;
+			case "Drum":
+				/// tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument()
+				// + "\n\nSystem is in prototype phase, unable to process Drums completely."
+				// + "\nUse with caution."
+				// + "\nYou may find that rests and beams are not processed correctly.");
+				DrumParser2 dp = new DrumParser2(tfr);
+				xg = new xmlGen(dp);
+				sceneSwitcher(xg);
+				// the following two lines should be outside the switch case, but bass and drums
+				// dont work yet
+				// System.out.println("XMLCONTENT"+xg.getXMLContent());
+				// if(tfr.checkAlignedVerticals() == false) {
+				// tabTextArea2.setText("tablature misaligned, please check spacing or input a
+				// different tab");
+				// }
+				break;
+			case "Bass":
+				// tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument()
+				// + "\nSystem is in prototype phase, unable to process Bass.");
+				GuitarParser bp = new GuitarParser(tfr);
+				xg = new xmlGen(bp);
+				sceneSwitcher(xg);
+				break;
+			default:
+				// tabTextArea3.setText("Instrument Detected: "+ tfr.getDetectedInstrument());
+				throw new Exception();
+			// give some error message saying instrument was not detected or something
+
+			}
+			// xmlGen xg = null;
+		} catch (Exception e) {
+			e.printStackTrace();
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("User Message");
 			alert.setHeaderText("ERROR: INVALID INPUT");
 			alert.setContentText("System is Unable to recognize the Tablature. "
 					+ "\nPlease look at Section 5.2[Input Limitations] of the User Manual for more information");
 			alert.showAndWait().ifPresent(rs -> {
-			    if (rs == ButtonType.OK) {
-			        System.out.println("Pressed OK.");
-			    }
-			});	
+				if (rs == ButtonType.OK) {
+					System.out.println("Pressed OK.");
+				}
+			});
 		}
 	}
 
@@ -314,8 +348,34 @@ public class HomeController implements Initializable {
 	public void save(MouseEvent event) throws IOException {
 		saveFile(currentStage);
 	}
+
 	public void edit(MouseEvent event) throws IOException {
 
+		if (TabView.majorError) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("MAJOR ERROR");
+			alert.setHeaderText("FIX THE ERROR'S HIGHLIGTED IN RED!");
+			alert.setContentText("bar's are either missaligned or tab type cannot be determained.");
+			alert.showAndWait().ifPresent(rs -> {
+				if (rs == ButtonType.OK) {
+					System.out.println("Pressed OK.");
+				}
+			});
+
+			return;
+		} else if (TabView.measures == null || TabView.measures.isEmpty()) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("No Tab Detected");
+			alert.setHeaderText("cant edit nothing... fool!");
+			alert.setContentText("input a tab first.");
+			alert.showAndWait().ifPresent(rs -> {
+				if (rs == ButtonType.OK) {
+					System.out.println("Pressed OK.");
+				}
+			});
+
+			return;
+		}
 		GridPane grid = FXMLLoader.load(getClass().getResource("Home5.fxml"));
 
 		// JFXDialogLayout content = new JFXDialogLayout();
@@ -323,6 +383,78 @@ public class HomeController implements Initializable {
 		// content.setBody(grid);
 		JFXDialog dialog = new JFXDialog(stackPane, grid, JFXDialog.DialogTransition.LEFT);
 		dialog.show();
+	}
+
+	public void updateMeasure(MouseEvent event) throws IOException {
+		codeArea3.replaceText(" ");
+		StringBuilder sb = new StringBuilder();
+		System.out.println(from.getEditor().getText());
+		System.out.println(from.getValue());
+
+		if(from.getValue() > to.getValue())
+		{
+			to.getValueFactory().setValue(from.getValue());;
+		}
+
+		for(int i = from.getValue(); i <= to.getValue(); i++)
+		{
+
+			for(int j = 0; j < TabView.measures.get(i).size(); j++){
+
+				sb.append(TabView.measures.get(i).get(j));
+				sb.append("\n");
+			}
+			sb.append("\n");
+		}
+		codeArea3.replaceText(sb.toString());
+		codeArea3.position(0, 0);
+	}
+
+	public void compileTab(MouseEvent event) throws IOException {
+		if (TabView.majorError) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("MAJOR ERROR");
+			alert.setHeaderText("FIX THE ERROR'S HIGHLIGTED IN RED!");
+			alert.setContentText("bar's are either missaligned or tab type cannot be determained.");
+			alert.showAndWait().ifPresent(rs -> {
+				if (rs == ButtonType.OK) {
+					System.out.println("Pressed OK.");
+				}
+			});
+
+			return;
+		} 
+		else if (TabView.measures == null || TabView.measures.isEmpty()) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("No Tab Detected");
+			alert.setHeaderText("cant edit nothing... fool!");
+			alert.setContentText("input a tab first.");
+			alert.showAndWait().ifPresent(rs -> {
+				if (rs == ButtonType.OK) {
+					System.out.println("Pressed OK.");
+				}
+			});
+
+			return;
+		} 
+		else {
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 1; i <= TabView.measures.size(); i++) {
+				sb.append("\tMeasure: " + i);
+				sb.append("\n");
+				for (String s : TabView.measures.get(i))
+					sb.append(s + "\n");
+				sb.append("\n");
+			}
+
+			codeArea1.replaceText(" ");
+			codeArea1.replaceText(sb.toString());
+			codeArea1.position(0, 0);
+			formartButton.setDisable(true);
+            editButton.setDisable(false);
+            convertButton.setDisable(false);
+		}
 	}
 
 	/**
@@ -335,19 +467,16 @@ public class HomeController implements Initializable {
 		fc = new FileChooser();
 
 		String contenttoSave;
-		if(saveButton.getText().equals(" Save XML"))
-		{
+		if (saveButton.getText().equals(" Save XML")) {
 			fc.setTitle("Save MusicXML Conversion");
 			contenttoSave = xg.getXMLContent();
 			fc.getExtensionFilters().add(new ExtensionFilter("MusicXML File", "*.musicxml", "*.xml"));
-		}
-		else
-		{
+		} else {
 			fc.setTitle("Save Tab");
 			contenttoSave = codeArea1.getText();
 			fc.getExtensionFilters().add(new ExtensionFilter("text tab", "*.txt"));
 		}
-		
+
 		File file = fc.showSaveDialog(stage);
 		String operationResult = "Successfully written to file.";
 
@@ -374,44 +503,47 @@ public class HomeController implements Initializable {
 			});
 		}
 	}
-	private void sceneSwitcher(xmlGen xg2) throws IOException
-	{
+
+	private void sceneSwitcher(xmlGen xg2) throws IOException {
 		VirtualizedScrollPane<CodeArea> vSP = FXMLLoader.load(getClass().getResource("Home4.fxml"));
 		System.out.println(vSP.getContent().toString());
-		if(codeArea2 == null)
+		if (codeArea2 == null)
 			codeArea2 = vSP.getContent();
 
 		if (drawer1.getSidePane().isEmpty())
-					drawer1.setSidePane(vSP);
-				if (drawer1.isOpened()) {
-					drawer1.close();
-					saveButton.setText(" Save Tab");
-					editButton.setVisible(true);
-					uploadButton.setVisible(true);
-					codeArea1.requestFocus();
-					drawer1.toBack();
-					Timeline timeline = new Timeline();
-					KeyValue kv = new KeyValue(codeArea1.opacityProperty(), 1, Interpolator.EASE_IN);
-					KeyFrame kf = new KeyFrame(Duration.millis(500), kv);
-					timeline.getKeyFrames().add(kf);
-					timeline.play();
-					codeArea1.setEditable(true);
-				} else {
-					codeArea2.replaceText(" ");
-					codeArea2.replaceText(xg.getXMLContent());
-					codeArea2.position(0, 0);
-					drawer1.open();
-					saveButton.setText(" Save XML");
-					editButton.setVisible(false);
-					uploadButton.setVisible(false);
-					drawer1.toFront();
-					codeArea1.setOpacity(0);
-					codeArea1.setEditable(false);
-					codeArea2.requestFocus();
-					codeArea2.displaceCaret(0);
-					codeArea2.scrollYToPixel(0);
-				}
+			drawer1.setSidePane(vSP);
+		if (drawer1.isOpened()) {
+			drawer1.close();
+			saveButton.setText(" Save Tab");
+			editButton.setVisible(true);
+			uploadButton.setDisable(false);
+			formartButton.setVisible(true);
+			codeArea1.requestFocus();
+			drawer1.toBack();
+			Timeline timeline = new Timeline();
+			KeyValue kv = new KeyValue(codeArea1.opacityProperty(), 1, Interpolator.EASE_IN);
+			KeyFrame kf = new KeyFrame(Duration.millis(500), kv);
+			timeline.getKeyFrames().add(kf);
+			timeline.play();
+			codeArea1.setEditable(true);
+		} else {
+			codeArea2.replaceText(" ");
+			codeArea2.replaceText(xg.getXMLContent());
+			codeArea2.position(0, 0);
+			drawer1.open();
+			saveButton.setText(" Save XML");
+			editButton.setVisible(false);
+			uploadButton.setDisable(true);
+			formartButton.setVisible(false);
+			drawer1.toFront();
+			codeArea1.setOpacity(0);
+			codeArea1.setEditable(false);
+			codeArea2.requestFocus();
+			codeArea2.displaceCaret(0);
+			codeArea2.scrollYToPixel(0);
+		}
 	}
+
 	/**
 	 * Method to read a .txt file and displaying in the field window
 	 * 
