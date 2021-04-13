@@ -30,7 +30,7 @@ import javafx.stage.Stage;
 public class TabView {
 
     private static final Pattern XML_TAG = Pattern.compile(
-            "(?<MeasureLine>^((CC|HH|SD|HT|MT|BD)|([a-gA-G])?)(\\|)(\\S*(?<!\\|))(\\|?\\|))", Pattern.MULTILINE);
+            "(?<MeasureLine>^((CC|HH|SD|HT|MT|BD)|([a-gA-G])?)(\\|)(\\S*(?<!\\|))(\\|?\\|?$))", Pattern.MULTILINE);
 
     private static final Pattern GUITAR_TAB = Pattern
             .compile("(?<Guitar>(-)|(\\|\\|?)|([hp^BbgGrR\\/sS\\[\\]\\*0-9])|([^\\|hp^BbgGrR\\/sS\\[\\]\\*0-9]))");
@@ -53,6 +53,7 @@ public class TabView {
     private static boolean drum = false;
     private static boolean guitar = false;
     public static boolean majorError = false;
+    public static boolean noEndbar = false;
 
     private static ArrayList<Integer> barlinePos;
     public static TreeMap<Integer, ArrayList<String>> measures;
@@ -73,6 +74,7 @@ public class TabView {
     private static StyleSpans<Collection<String>> computeHighlighting(String text, ChoiceBox choiceBox) {
 
         majorError = false;
+        noEndbar =false;
         drum = false;
         guitar = false;
         measures = new TreeMap<>();
@@ -159,7 +161,8 @@ public class TabView {
                     spansBuilder.add(Collections.singleton("majorError"),
                             matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
                 } else if (matcher.end() - matcher.start() != endofLine) {
-                    majorError = true;
+                    //majorError = true;
+                    noEndbar = true; 
                     spansBuilder.add(Collections.singleton("majorError"),
                             matcher.end(MEASURE_END) - matcher.start(MEASURE_END));
                 } else {

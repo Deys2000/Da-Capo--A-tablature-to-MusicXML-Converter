@@ -248,7 +248,6 @@ public class HomeController implements Initializable {
 					System.out.println("Pressed OK.");
 				}
 			});
-
 			return;
 		} else if (TabView.measures == null || TabView.measures.isEmpty()) {
 			Alert alert = new Alert(AlertType.INFORMATION);
@@ -263,6 +262,19 @@ public class HomeController implements Initializable {
 
 			return;
 		}
+
+		else if (TabView.noEndbar) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("MAJOR ERROR");
+			alert.setHeaderText("A measure is missing a endBarLine!");
+			alert.setContentText("please fix this to continue.");
+			alert.showAndWait().ifPresent(rs -> {
+				if (rs == ButtonType.OK) {
+					System.out.println("Pressed OK.");
+				}
+			});
+			return;
+		} 
 		// read the contents of the Tablature Editor Window
 		String textAreaContents = codeArea1.getText();
 		// Once the contents are collected, they should be sent to the TextFileReader
@@ -298,7 +310,7 @@ public class HomeController implements Initializable {
 				// + "\n\nSystem is in prototype phase, unable to process Drums completely."
 				// + "\nUse with caution."
 				// + "\nYou may find that rests and beams are not processed correctly.");
-				DrumParser2 dp = new DrumParser2(tfr);
+				DrumParser dp = new DrumParser(tfr);
 				xg = new xmlGen(dp);
 				sceneSwitcher(xg);
 				// the following two lines should be outside the switch case, but bass and drums
@@ -376,6 +388,18 @@ public class HomeController implements Initializable {
 
 			return;
 		}
+		else if (TabView.noEndbar) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("MAJOR ERROR");
+			alert.setHeaderText("A measure is missing a endBarLine!");
+			alert.setContentText("please fix this to continue.");
+			alert.showAndWait().ifPresent(rs -> {
+				if (rs == ButtonType.OK) {
+					System.out.println("Pressed OK.");
+				}
+			});
+			return;
+		} 
 		GridPane grid = FXMLLoader.load(getClass().getResource("Home5.fxml"));
 
 		// JFXDialogLayout content = new JFXDialogLayout();
@@ -436,7 +460,19 @@ public class HomeController implements Initializable {
 			});
 
 			return;
-		} 
+		}
+		else if (TabView.noEndbar) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("MAJOR ERROR");
+			alert.setHeaderText("A measure is missing a endBarLine!");
+			alert.setContentText("please fix this to continue.");
+			alert.showAndWait().ifPresent(rs -> {
+				if (rs == ButtonType.OK) {
+					System.out.println("Pressed OK.");
+				}
+			});
+			return;
+		}  
 		else {
 			StringBuilder sb = new StringBuilder();
 
