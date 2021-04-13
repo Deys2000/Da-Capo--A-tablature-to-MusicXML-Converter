@@ -509,7 +509,7 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
         int beatType = 4; // beat type of current measure
         int dashNum = 17; // number of dashes in curretn measure
         int dashPerBeat = 0; // number of dashes per beat
-        int dashLength = 0; // noteLength of each dash
+        int dashLength = 0; // noteLength of each dash // DO WE NEED THIS???
         
         int noteLength = 0; // in 16th notes NEEDS TO BE CHANGED
         int lines = parsedTab.size(); // number of lines in staff
@@ -540,9 +540,9 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
             		measure++;
             	}
             	
-            	// Determine noteLength of each dash
+            	// Determine Divisions
             	dashNum -= padding;
-            	divisions = (dashNum / beats) * (beatType / 4); // temporary division, only works for simple time
+            	divisions = (dashNum / beats) * (beatType / 4); // CHECK FOR DIFFERENT CASES TO SEE IF THIS WORKS
             	
                 // Assuming note lengths end at barlines
                 if(noteLength != 0) {
