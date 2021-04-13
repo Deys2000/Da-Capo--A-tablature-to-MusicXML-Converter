@@ -202,6 +202,7 @@ public class TextFileReader {
 		int beattype = 4;
 		int fifths = 0;
 		int stafflines = this.numOfLines;
+		ArrayList<Integer> dashes = new ArrayList<>();
 		ArrayList<String> repeats = new ArrayList<>();
 		ArrayList<Boolean> repeatLB = new ArrayList<>();
 		ArrayList<Boolean> repeatRB = new ArrayList<>();
@@ -264,8 +265,12 @@ public class TextFileReader {
 		System.out.println(repeatLB  + "L:"+  repeatLB.size());
 		System.out.println(repeatRB +"L:"+ repeatRB.size());
 		
+		// generate dashes array
+		countDashes(dashes, parsedTab);
+		System.out.println("DASHES ARRAY : " + dashes);
+		
 		for(int i = 0; i < repeats.size(); i++) { // start at one to ignore the first bar that repeats has as that is not a measure			
-			attributesPerMeasure.add(new TFRAttribute(i+1,divisions,fifths, beats, beattype, sign, line, repeats.get(i), repeatLB.get(i), repeatRB.get(i)));			
+			attributesPerMeasure.add(new TFRAttribute(i+1,divisions,fifths, dashes.get(i), beats, beattype, sign, line, repeats.get(i), repeatLB.get(i), repeatRB.get(i)));			
 		}
 		System.out.println("ATTRIBUTES COLLECTED\n" + attributesPerMeasure);
 		
@@ -472,6 +477,40 @@ public class TextFileReader {
 		
 	}
 	
+	// counts number of dashes in each measure from a parsedTab, then adds then to the dashes array
+	// NEW, REPLACE OLD
+	public void countDashes(ArrayList<Integer> dashes, ArrayList<String> parsedTab) {
+		
+		int counter = 0;
+		int dashNum = 0;
+		boolean counting = false;
+		
+		while (counter < parsedTab.get(0).length()) {
+			
+			// check for barline
+			if (parsedTab.get(0).charAt(counter) == '|') {
+				if (!counting) {
+					counting = true;
+				}
+				else {
+					dashes.add(new Integer(dashNum));
+					dashNum = 0;
+				}
+				
+				// check for double barlines
+				if ((counter + 1) < parsedTab.get(0).length() && parsedTab.get(0).charAt(counter + 1) == '|') {
+					counter++;
+				}
+			}
+			else {
+				dashNum++;
+			}
+		
+			counter++;
+		}
+		
+	}
+	
 	//////////////////////////////////////
 	/// GETTER AND SETTER METHODS BELOW///
 	//////////////////////////////////////
@@ -548,6 +587,7 @@ class TFRAttribute{
 	int measure;
 	int divisions = 4;
 	int fifths = 0;
+	int dashes = 17;
 	int beats = 4;
 	int beattype = 4;
 	String sign = "TAB";
@@ -562,10 +602,11 @@ class TFRAttribute{
 	
 	
 	// Constructor
-	public TFRAttribute(int m, int d, int f, int b, int bt, String s, String l, String rT, Boolean rLB, Boolean rRB) {
+	public TFRAttribute(int m, int d, int f, int da, int b, int bt, String s, String l, String rT, Boolean rLB, Boolean rRB) {
 		this.measure = m;
 		this.divisions = d;
 		this.fifths = f;
+		this.dashes = da;
 		this.beats = b;
 		this.beattype = bt;
 		this.sign = s;
@@ -580,6 +621,7 @@ class TFRAttribute{
 		return ("Measure: "		+ measure + 
 				" Divisions: "	+ divisions +
 				" Fifths: "		+ fifths +
+				" Dashes: "		+ dashes +  
 				" Beats: "		+ beats +
 				" BeatType: "	+ beattype +
 				" Sign: "		+ sign +
@@ -592,6 +634,7 @@ class TFRAttribute{
 	// GETTERS
 	public int getDivisions() {return divisions;}
 	public int getFifths() {return fifths;}
+	public int getDashes() {return dashes;}
 	public int getBeats() {return beats;}
 	public int getBeattype() {return beattype;}
 	public String getSign() {return sign;}
@@ -609,6 +652,7 @@ class TFRAttribute{
 	//*add some setters maybe
 	public void setDivisions(int divisions) {this.divisions= divisions;}
 	public void setFifths(int fifths) {this.fifths = fifths;}
+	public void setDashes(int dashes) {this.dashes = dashes;}
 	public void setBeats(int beats) {this.beats =  beats;}
 	public void setBeattype(int beattype) {this.beattype = beattype;}
 	public void setSign(String sign) {this.sign = sign;}
