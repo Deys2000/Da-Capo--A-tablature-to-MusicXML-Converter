@@ -111,7 +111,6 @@ public class TextFileReader {
 		catch(FileNotFoundException e) {e.printStackTrace();}
 		finally {sc.close();}
 
-
 		// DETECT INSTRUMENT
 		instrument = "Unable to Identify";
 		int lines = numOfLines;
@@ -154,7 +153,6 @@ public class TextFileReader {
 						}
 						index++; 
 					}
-
 				}
 				if (index == numOfLines) {
 					key = true;
@@ -274,7 +272,6 @@ public class TextFileReader {
 		}
 		System.out.println("ATTRIBUTES COLLECTED\n" + attributesPerMeasure);
 		
-		
 	}// end of create attributes list method
  
 	public int getStaffLines(){
@@ -316,8 +313,6 @@ public class TextFileReader {
 		return line;
 	}
 			
-
-	
 	/**
 	 * Prints the original text file, used only for the GUI when you open a file
 	 * @return
@@ -436,11 +431,6 @@ public class TextFileReader {
 		
 	}
 	
-	public void ExtraDashCheck() {
-		//checks that there's extra dashes in certain rows of a tab
-		
-	}
-	
 	public boolean UnderscoreCheck() {
 		//checks that there's no underscores instead of dashes
 		Scanner underscoreScan = null;
@@ -478,7 +468,6 @@ public class TextFileReader {
 	}
 	
 	// counts number of dashes in each measure from a parsedTab, then adds then to the dashes array
-	// NEW, REPLACE OLD
 	public void countDashes(ArrayList<Integer> dashes, ArrayList<String> parsedTab) {
 		
 		int counter = 0;
