@@ -25,24 +25,7 @@ public class DrumParser {
 		tfr = passedtfr;
 		// WE WILL ASSUME THE FOLLOWING IS THE FORMAT OF OUR INFORMATION (precondition is that all must be same length)
 		// THIS CODE IS DESIGNED FOR NO PADDING IN EACH MEASURE //
-		// 1 List of Measures
-//		ArrayList<ArrayList<String>> exampleInputX = new ArrayList<ArrayList<String>>();
-//		ArrayList<String> m1 = new ArrayList<>();
-//		m1.add("|x---------------|");
-//		m1.add("|--x-x-x-x-x-x-x-|");
-//		m1.add("|----o-------o---|");
-//		m1.add("|----------------|");
-//		m1.add("|----------------|");
-//		m1.add("|o-------o-------|");
-//		ArrayList<String> m2 = new ArrayList<>();
-//		m2.add("|--------x-------|");
-//		m2.add("|----------------|");
-//		m2.add("|oooo------------|");
-//		m2.add("|----oo----------|");	
-//		m2.add("|------oo--------|");	
-//		m2.add("|o-------o-------|");	
-//		exampleInput.add(m1);
-//		exampleInput.add(m2);
+
 		// Method that breaks down the parsed tab into format required for drum parsing
 		ArrayList<String> parsedTab = tfr.getParsed();
 		ArrayList<ArrayList<String>> exampleInput = this.getMeasuresParsed(parsedTab);

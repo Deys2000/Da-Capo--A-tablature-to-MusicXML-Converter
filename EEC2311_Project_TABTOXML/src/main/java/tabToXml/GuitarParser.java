@@ -791,22 +791,6 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
             counter++;
         }
         
-        // Last chord/note length and ending barline is added
-        /*while (prevChordNum > 0) {
-	        durationArr.add("" + noteLength);
-	        typeArr.add(durationToType(noteLength, divisions));
-	        prevChordNum--;
-        }
-        durationArr.add("||");
-        typeArr.add("||");
-        graceArr.add("||"); */
-        
-//      // For debugging
-//      System.out.print("Duration Array: ");
-//      System.out.println(durationArr);
-//      System.out.print("Type Array: ");
-//      System.out.println(typeArr);
-//      System.out.println("GraceArr: " + graceArr);
     }
     
     private boolean checkGraceContinue(char c) {
