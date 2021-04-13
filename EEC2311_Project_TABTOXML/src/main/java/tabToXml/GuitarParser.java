@@ -25,9 +25,9 @@ public class GuitarParser {
 	
 	public ArrayList<String> tuning = new ArrayList<String>(); // DONE-> changed from static array to dynamic, it will be passed the instruments by textfilereader
 
+	private int padding = 1; // number of dashes used for padding, should be 0 or 1
 	
 	private int divisions = 4; //current default is 4
-	private int padding = 1; // number of dashes used for padding, should be 0 or 1
 	
 	public GuitarParser(TextFileReader tfrPassed) throws Exception {
 		tfr = tfrPassed;
@@ -503,7 +503,15 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
 //    	}
         
         int counter = 0; // iterates horizontally
-        int noteLength = 0; // in 16th notes
+        
+        int measure = 0; // current measure
+        int beats = 4; // beats in current measure
+        int beatType = 4; // beat type of current measure
+        int dashNum = 17; // number of dashes in curretn measure
+        int dashPerBeat = 0; // number of dashes per beat
+        int dashLength = 0; // noteLength of each dash
+        
+        int noteLength = 0; // in 16th notes NEEDS TO BE CHANGED
         int lines = parsedTab.size(); // number of lines in staff
         int currentLine = 0;
         int prevChordNum = 0; // number of notes in previous chord
@@ -522,7 +530,20 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
             
             // Skip "|" and padding "-"
             if (parsedTab.get(0).charAt(counter) == '|') {
-                
+            	
+            	// assign measure attributes to variables
+            	if (measure < tfr.getAttributesPerMeasure().size()) {
+            		beats = tfr.getAttributesPerMeasure().get(measure).getBeats();
+            		beatType = tfr.getAttributesPerMeasure().get(measure).getBeattype();
+            		dashNum = tfr.getAttributesPerMeasure().get(measure).getDashes();
+            		System.out.println("Measure " + (measure + 1) + ": beats = " + beats + " beattype = " + beatType + " dashes = " + dashNum);
+            		measure++;
+            	}
+            	
+            	// Determine noteLength of each dash
+            	dashNum -= padding;
+            	divisions = (dashNum / beats) * (beatType / 4); // temporary division, only works for simple time
+            	
                 // Assuming note lengths end at barlines
                 if(noteLength != 0) {
                 	// Add all tracked notes to arrays
