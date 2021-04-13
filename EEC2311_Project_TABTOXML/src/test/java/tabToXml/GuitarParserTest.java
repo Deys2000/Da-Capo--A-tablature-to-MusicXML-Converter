@@ -884,4 +884,261 @@ class GuitarParserTest {
 		
 		assertEquals(expected,actual);
 	}
+	
+	//Added March
+	@Test
+	void testHammeron1() throws Exception {
+		ArrayList<String> test = new ArrayList<>();
+		test.add("E|-7h9--------------|");
+		test.add("B|------------------|");
+		test.add("G|------------------|");
+		test.add("D|------------------|");
+		test.add("A|------------------|");
+		test.add("E|---------1h2------|");
+		
+		ArrayList<String> expected = new ArrayList<>();
+		String[] arr = {"|", "hstart", "hstop", "hstart", "hstop", "|"};
+		
+		for (int i = 0; i < arr.length; i++) {
+			expected.add(arr[i]);
+		}	
+		
+		System.out.println("expected type: \t" + expected);
+		
+		GuitarParser guitarParser = new GuitarParser(test);
+	
+		ArrayList<String> actual = guitarParser.getHandPArr();
+		
+		System.out.println("actual hammeron: \t" + actual);
+		
+		assertEquals(expected,actual);
+	}
+	
+	//Added March
+	@Test
+	void testPulloff1() throws Exception {
+		ArrayList<String> test = new ArrayList<>();
+		test.add("E|-9p7--------------|");
+		test.add("B|------------------|");
+		test.add("G|------------------|");
+		test.add("D|------------------|");
+		test.add("A|------------------|");
+		test.add("E|---------2p1------|");
+		
+		ArrayList<String> expected = new ArrayList<>();
+		String[] arr = {"|", "pstart", "pstop", "pstart", "pstop", "|"};
+		
+		for (int i = 0; i < arr.length; i++) {
+			expected.add(arr[i]);
+		}	
+		
+		System.out.println("expected type: \t" + expected);
+		
+		GuitarParser guitarParser = new GuitarParser(test);
+	
+		ArrayList<String> actual = guitarParser.getHandPArr();
+		
+		System.out.println("actual pull: \t" + actual);
+		
+		assertEquals(expected,actual);
+	}
+	
+	@Test
+	void testHammeronAndPulloff() throws Exception {
+		ArrayList<String> test = new ArrayList<>();
+		test.add("E|-7h9p6------------|");
+		test.add("B|------------------|");
+		test.add("G|------------------|");
+		test.add("D|------------------|");
+		test.add("A|------------------|");
+		test.add("E|---------2p1h2----|");
+		
+		ArrayList<String> expected = new ArrayList<>();
+		String[] arr = {"|", "hstart", "HstopPstart", "pstop", "pstart", "PstopHstart", "hstop", "|"};
+		
+		for (int i = 0; i < arr.length; i++) {
+			expected.add(arr[i]);
+		}	
+		
+		System.out.println("expected sequential HandP: \t" + expected);
+		
+		GuitarParser guitarParser = new GuitarParser(test);
+	
+		ArrayList<String> actual = guitarParser.getHandPArr();
+		
+		System.out.println("actual sequential HandP: \t" + actual);
+		
+		assertEquals(expected,actual);
+	}
+	
+	@Test
+	void testBend1() throws Exception {
+		ArrayList<String> test = new ArrayList<>();
+		test.add("E|-7b9--------------|");
+		test.add("B|------------------|");
+		test.add("G|------------------|");
+		test.add("D|------------------|");
+		test.add("A|------------------|");
+		test.add("E|---------1b2------|");
+		
+		ArrayList<String> expected = new ArrayList<>();
+		String[] arr = {"|", "b2", "neutral", "b1", "neutral", "|"};
+		
+		for (int i = 0; i < arr.length; i++) {
+			expected.add(arr[i]);
+		}	
+		
+		System.out.println("expected type: \t" + expected);
+		
+		GuitarParser guitarParser = new GuitarParser(test);
+	
+		ArrayList<String> actual = guitarParser.getHandPArr();
+		
+		System.out.println("actual bend: \t" + actual);
+		
+		assertEquals(expected,actual);
+	}
+	
+	@Test
+	void testRlease1() throws Exception {
+		ArrayList<String> test = new ArrayList<>();
+		test.add("E|-9r7--------------|");
+		test.add("B|------------------|");
+		test.add("G|------------------|");
+		test.add("D|------------------|");
+		test.add("A|------------------|");
+		test.add("E|---------2r1------|");
+		
+		ArrayList<String> expected = new ArrayList<>();
+		String[] arr = {"|", "b-2", "neutral", "b-1", "neutral", "|"};
+		
+		for (int i = 0; i < arr.length; i++) {
+			expected.add(arr[i]);
+		}	
+		
+		System.out.println("expected release: \t" + expected);
+		
+		GuitarParser guitarParser = new GuitarParser(test);
+	
+		ArrayList<String> actual = guitarParser.getHandPArr();
+		
+		System.out.println("actual release: \t" + actual);
+		
+		assertEquals(expected,actual);
+	}
+	
+	//-----------
+	@Test
+	void testAscedingSlide() throws Exception {
+		ArrayList<String> test = new ArrayList<>();
+		test.add("E|-7/9--------------|");
+		test.add("B|------------------|");
+		test.add("G|------------------|");
+		test.add("D|------------------|");
+		test.add("A|------------------|");
+		test.add("E|---------1/2------|");
+		
+		ArrayList<String> expected = new ArrayList<>();
+		String[] arr = {"|", "astart", "astop", "astart", "astop", "|"};
+		
+		for (int i = 0; i < arr.length; i++) {
+			expected.add(arr[i]);
+		}	
+		
+		System.out.println("expected ascending slide: \t" + expected);
+		
+		GuitarParser guitarParser = new GuitarParser(test);
+	
+		ArrayList<String> actual = guitarParser.getHandPArr();
+		
+		System.out.println("actual ascending slide: \t" + actual);
+		
+		assertEquals(expected,actual);
+	}
+	
+	@Test
+	void testDescendingSlide() throws Exception {
+		ArrayList<String> test = new ArrayList<>();
+		test.add("E|-9\\7--------------|");
+		test.add("B|------------------|");
+		test.add("G|------------------|");
+		test.add("D|------------------|");
+		test.add("A|------------------|");
+		test.add("E|--------4\\2-------|");
+		
+		ArrayList<String> expected = new ArrayList<>();
+		String[] arr = {"|", "dstart", "dstop", "dstart", "dstop", "|"};
+		
+		for (int i = 0; i < arr.length; i++) {
+			expected.add(arr[i]);
+		}	
+		
+		System.out.println("expected descending slide*: \t" + expected);
+		
+		GuitarParser guitarParser = new GuitarParser(test);
+	
+		ArrayList<String> actual = guitarParser.getHandPArr();
+		
+		System.out.println("actual descending slide*: \t" + actual);
+		
+		assertEquals(expected,actual);
+	}
+	
+	
+	@Test
+	void testSequentialDandASlide() throws Exception {
+		ArrayList<String> test = new ArrayList<>();
+		test.add("E|-7/9\\2------------|");
+		test.add("B|------------------|");
+		test.add("G|------------------|");
+		test.add("D|------------------|");
+		test.add("A|------------------|");
+		test.add("E|---------1/2\\1----|");
+		
+		ArrayList<String> expected = new ArrayList<>();
+		String[] arr = {"|", "astart", "AstopDstart", "dstop", "astart", "AstopDstart", "dstop", "|"};
+		
+		for (int i = 0; i < arr.length; i++) {
+			expected.add(arr[i]);
+		}	
+		
+		System.out.println("expected sequential slide*: \t" + expected);
+		
+		GuitarParser guitarParser = new GuitarParser(test);
+	
+		ArrayList<String> actual = guitarParser.getHandPArr();
+		
+		System.out.println("actual sequential slide*: \t" + actual);
+		
+		assertEquals(expected,actual);
+	}
+	
+	@Test
+	void testLegatoSlide() throws Exception {
+		ArrayList<String> test = new ArrayList<>();
+		test.add("E|-3s9--------------|");
+		test.add("B|------------------|");
+		test.add("G|------------------|");
+		test.add("D|------------------|");
+		test.add("A|------------------|");
+		test.add("E|---------10s12----|");
+		
+		ArrayList<String> expected = new ArrayList<>();
+		String[] arr = {"|", "sstart", "sstop", "sstart", "sstop", "|"};
+		
+		for (int i = 0; i < arr.length; i++) {
+			expected.add(arr[i]);
+		}	
+		
+		System.out.println("expected legato slide: \t" + expected);
+		
+		GuitarParser guitarParser = new GuitarParser(test);
+	
+		ArrayList<String> actual = guitarParser.getHandPArr();
+		
+		System.out.println("actual legato slide: \t" + actual);
+		
+		assertEquals(expected,actual);
+	}
+	
 }

@@ -275,18 +275,6 @@ public class GuitarParser {
 							}								
 						} 
 						
-//						if (!fretNumVar.isEmpty() && !chord.isEmpty() && !fretStringVar.isEmpty()) {
-//							if (parsedTab.get(i).charAt(j+1) == 'p' || parsedTab.get(i).charAt(j+1) == 'P') {
-//								fretNumVar = fretStringValue + "p";
-//							}else if (parsedTab.get(i).charAt(j-1) == 'p' || parsedTab.get(i).charAt(j-1) == 'P') {
-//								fretNumVar = "p" + fretStringValue;
-//							}else if (parsedTab.get(i).charAt(j+1) == 'h' || parsedTab.get(i).charAt(j+1) == 'H') {
-//								fretNumVar = fretStringValue + "h";
-//							}else if (parsedTab.get(i).charAt(j-1) == 'h' || parsedTab.get(i).charAt(j-1) == 'H') {
-//								fretNumVar = "h" + fretStringValue;
-//							}
-//						}
-										
 								
 						addToLists(chord, fretNumVar, String.valueOf(i+1), null);
 	
