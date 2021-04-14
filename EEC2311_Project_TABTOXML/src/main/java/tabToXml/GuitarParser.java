@@ -736,7 +736,7 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                         		// end grace note and add to arrays
                         		else {
                         			// Add grace note length to note before grace note start
-                        			int replaceIndex = durationArr.size() - graceNoteNum - 1;
+                        			int replaceIndex = durationArr.size() - graceNoteNum - 2;
                         			durationArr.set(replaceIndex, "" + (Integer.parseInt(durationArr.get(replaceIndex)) + graceNoteLength));
                         			typeArr.set(replaceIndex, durationToType(Integer.parseInt(durationArr.get(replaceIndex)), divisions));
                         			
@@ -749,7 +749,7 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                         			
                         			// replace all grace note durations with null and set grace tag
                         			while (graceNoteNum > 0) {
-                        				replaceIndex = durationArr.size() - graceNoteNum;
+                        				replaceIndex = durationArr.size() - graceNoteNum - 1;
                         				durationArr.set(replaceIndex, "-1");
 
                         				graceArr.add("true");		
@@ -818,7 +818,7 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                         		// end grace note and add to arrays
                         		else {
                         			// Add grace note length to note before grace note start
-                        			int replaceIndex = durationArr.size() - graceNoteNum - 1;
+                        			int replaceIndex = durationArr.size() - graceNoteNum - 2;
                         			durationArr.set(replaceIndex, "" + (Integer.parseInt(durationArr.get(replaceIndex)) + graceNoteLength));
                         			typeArr.set(replaceIndex, durationToType(Integer.parseInt(durationArr.get(replaceIndex)), divisions));
                         			
@@ -831,7 +831,7 @@ public void parseToRhythm(ArrayList<String> parsedTab) {
                         			
                         			// replace all grace note durations with null and set grace tag
                         			while (graceNoteNum > 0) {
-                        				replaceIndex = durationArr.size() - graceNoteNum;
+                        				replaceIndex = durationArr.size() - graceNoteNum - 1;
                         				durationArr.set(replaceIndex, "-1");
 
                         				graceArr.add("true");		
