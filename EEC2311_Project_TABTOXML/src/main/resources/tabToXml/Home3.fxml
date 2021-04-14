@@ -41,7 +41,7 @@
                         <Tooltip styleClass="Tooltip" text="formart tab" />
                      </tooltip>
                   </JFXButton>
-                  <JFXButton fx:id="editButton" contentDisplay="GRAPHIC_ONLY" ellipsisString="" focusTraversable="false" onMouseReleased="#edit" prefHeight="219.0" prefWidth="54.0" style="-fx-background-color: #55D6BE; -fx-background-radius: 0 0 0 0; -fx-border-width: 0 0 1 0; -fx-border-color: #acfcd9;" textOverrun="CLIP" VBox.vgrow="ALWAYS">
+                  <JFXButton fx:id="editButton" contentDisplay="GRAPHIC_ONLY" disable="true" ellipsisString="" focusTraversable="false" onMouseReleased="#edit" prefHeight="219.0" prefWidth="54.0" style="-fx-background-color: #55D6BE; -fx-background-radius: 0 0 0 0; -fx-border-width: 0 0 1 0; -fx-border-color: #acfcd9;" textOverrun="CLIP" VBox.vgrow="ALWAYS">
                      <graphic>
                         <SVGPath content="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
                      </graphic>
@@ -56,7 +56,7 @@
                         <Tooltip styleClass="Tooltip" text="Edit Tab" />
                      </tooltip>
                   </JFXButton>
-                  <JFXButton fx:id="convertButton" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" minHeight="100.0" onAction="#converter" prefHeight="211.0" prefWidth="54.0" style="-fx-background-color: #55D6BE; -fx-background-radius: 0 0 10 10; -fx-border-color: #acfcd9; -fx-border-width: 1 0 0 0;" text="Button" VBox.vgrow="ALWAYS">
+                  <JFXButton fx:id="convertButton" contentDisplay="GRAPHIC_ONLY" disable="true" focusTraversable="false" minHeight="100.0" onAction="#converter" prefHeight="211.0" prefWidth="54.0" style="-fx-background-color: #55D6BE; -fx-background-radius: 0 0 10 10; -fx-border-color: #acfcd9; -fx-border-width: 1 0 0 0;" text="Button" VBox.vgrow="ALWAYS">
                      <graphic>
                         <SVGPath content="M0 0h24M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
                      </graphic>
