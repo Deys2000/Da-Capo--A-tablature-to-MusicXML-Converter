@@ -14,7 +14,7 @@ class GuitarParserTest {
 	
 //	// Duration Tests
 	@Test
-	void testDuration2() throws Exception {
+	void testDuration1() throws Exception {
 		
 		String test = "E|-----------0-----|\n"
 					+ "B|---------0---0---|\n"
@@ -59,7 +59,7 @@ class GuitarParserTest {
 	 
 	 
 	@Test
-	void testDuration3() throws Exception {
+	void testDuration2() throws Exception {
 		
 		String test = "E|-----------------|\n"
 					+ "B|---------0---0---|\n"
@@ -106,7 +106,7 @@ class GuitarParserTest {
 	 
 	
 	@Test
-	void testDuration4() throws Exception {
+	void testDuration3() throws Exception {
 		
 		String test = "E|-----------------|\n"
 					+ "B|---------0-------|\n"
@@ -152,7 +152,7 @@ class GuitarParserTest {
 	}	
 	 
 	@Test
-	void testDuration5() throws Exception {
+	void testDuration4() throws Exception {
 		
 		String test = "E|-----------------|\n"
 					+ "B|-----------------|\n"
@@ -198,7 +198,7 @@ catch (Exception e) {
 	 
 	 
 	@Test
-	void testDuration6() throws Exception {
+	void testDuration5() throws Exception {
 		
 		String test = "E|-----------------|\n"
 					+ "B|---------0---0---|\n"
@@ -244,7 +244,7 @@ catch (Exception e) {
 	 
 	 
 	@Test 
-	void testDuration7() throws Exception {
+	void testDuration6() throws Exception {
 		String test = "E|-0---------------|\n"
 					+ "B|-0---------------|\n"
 					+ "G|-1---------------|\n"
@@ -288,7 +288,7 @@ catch (Exception e) {
 	}
 	 
 	@Test 
-	void testDuration8() throws Exception {
+	void testDuration7() throws Exception {
 		String test = "E|-------------0-1-|\n"
 					+ "B|---------0---0---|\n"
 					+ "G|---------0-----1-|\n"
@@ -333,7 +333,7 @@ catch (Exception e) {
 	
 	 
 	@Test
-	void testDuration9() throws Exception {
+	void testDuration8() throws Exception {
 		String test = "E|-----------------|\n"
 					+ "B|---------0-------|\n"
 					+ "G|----------------1|\n"
@@ -423,7 +423,7 @@ catch (Exception e) {
 //	}
 	
 	@Test
-	void testType2() throws Exception {
+	void testType1() throws Exception {
 		
 		String test = "E|-----------0-----|\n"
 					+ "B|---------0---0---|\n"
@@ -467,7 +467,7 @@ catch (Exception e) {
 	}
 	 
 	@Test
-	void testType3() throws Exception {
+	void testType2() throws Exception {
 		
 		String test = "E|-----------------|\n"
 					+ "B|---------0---0---|\n"
@@ -513,7 +513,7 @@ catch (Exception e) {
 	}
 	 
 	@Test
-	void testType4() throws Exception {
+	void testType3() throws Exception {
 		String test = "E|-----------------|\n"
 					+ "B|---------0-------|\n"
 					+ "G|-----------------|\n"
@@ -558,7 +558,7 @@ catch (Exception e) {
 	}	
 	 
 	@Test
-	void testType5() throws Exception {
+	void testType4() throws Exception {
 		
 		String test = "E|-----------------|\n"
 				+ "B|-----------------|\n"
@@ -604,7 +604,7 @@ catch (Exception e) {
 	}
 	 
 	@Test
-	void testType6() throws Exception {
+	void testType7() throws Exception {
 		
 		String test = "E|-----------------|\n"
 				+ "B|---------0---0---|\n"
@@ -650,7 +650,7 @@ catch (Exception e) {
 	}	
 	 
 	@Test 
-	void testType7() throws Exception {
+	void testType8() throws Exception {
 		
 		String test = "E|-0---------------|\n"
 				+ "B|-0---------------|\n"
@@ -695,7 +695,7 @@ catch (Exception e) {
 	}
 	 
 	@Test 
-	void testType8() throws Exception {
+	void testType9() throws Exception {
 		
 		String test = "E|-------------0-1-|\n"
 				+ "B|---------0---0---|\n"

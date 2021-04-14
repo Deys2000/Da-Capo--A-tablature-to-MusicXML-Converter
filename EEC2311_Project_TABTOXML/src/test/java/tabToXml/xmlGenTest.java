@@ -12,7 +12,7 @@ class xmlGenTest {
 
 	@Test
 	// Tests whether the objects creation for higher level object occurs 
-	void test_CorrectNestedObjectCreation() throws Exception{
+	void test_CorrectNestedObjectCreationDrums() throws Exception{
 		TextFileReader tfr = new TextFileReader( "src/test/java/drumTabs/DrumsTab.txt");
 		DrumParser dp = new DrumParser(tfr);
 		xmlGen xg = new xmlGen(dp);
@@ -28,6 +28,22 @@ class xmlGenTest {
 		assertTrue(xg.getDrumScorePartwise().getPart().getMeasure().get(1).getVoice1Note() !=null);
 		assertTrue(xg.getDrumScorePartwise().getPart().getMeasure().get(0).getAttributes() !=null);
 		assertTrue(xg.getDrumScorePartwise().getPart().getMeasure().get(1).getAttributes() !=null);			
+	}
+	@Test
+	// Tests whether the objects creation for higher level object occurs 
+	void test_CorrectNestedObjectCreationGuitar() throws Exception{
+		TextFileReader tfr = new TextFileReader( "src/test/java/tabToXml/GuitarTab.txt");
+		GuitarParser dp = new GuitarParser(tfr);
+		xmlGen xg = new xmlGen(dp);
+		
+		assertTrue(xg.getGuitarScorePartwise()!= null);
+		assertTrue(xg.getGuitarScorePartwise().getPartList() !=null);
+		assertTrue(xg.getGuitarScorePartwise().getPartList().getPartGroupOrScorePart() !=null);
+		assertTrue(xg.getGuitarScorePartwise().getPart().getMeasure() !=null);		
+		assertTrue(xg.getGuitarScorePartwise().getPart().getMeasure().get(0) !=null);
+		assertTrue(xg.getGuitarScorePartwise().getPart().getMeasure().get(1) !=null);			
+		assertTrue(xg.getGuitarScorePartwise().getPart().getMeasure().get(0).getAttributes() !=null);
+					
 	}
 	
 //	@Test
