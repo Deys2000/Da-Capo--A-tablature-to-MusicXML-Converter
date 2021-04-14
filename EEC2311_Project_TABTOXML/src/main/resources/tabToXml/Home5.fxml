@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import org.fxmisc.flowless.VirtualizedScrollPane?>
+<?import org.fxmisc.richtext.CodeArea?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #55D6BE; -fx-border-color: black;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tabToXml.HomeController">
+  <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.4000244140625" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="495.599951171875" minWidth="10.0" prefWidth="431.599951171875" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.199951171875" minWidth="10.0" prefWidth="166.000048828125" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="255.2000244140625" minHeight="0.0" prefHeight="245.59998779296876" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="281.59996337890624" minHeight="10.0" prefHeight="152.80001220703127" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <VBox prefHeight="310.0" prefWidth="331.0" GridPane.columnIndex="1" GridPane.rowSpan="2">
+         <GridPane.margin>
+            <Insets bottom="0.0" left="0.0" right="0.0" top="0.0" />
+         </GridPane.margin>
+         <children>
+            <StackPane alignment="TOP_RIGHT" prefHeight="415.0" prefWidth="432.0">
+               <children>
+                <VirtualizedScrollPane>
+              <content>
+                  <CodeArea fx:id="codeArea3" editable="false" prefHeight="341.0" prefWidth="392.0" styleClass="textArea">
+                     <StackPane.margin>
+                        <Insets bottom="80.0" left="20.0" right="20.0" top="80.0" />
+                     </StackPane.margin>
+                  </CodeArea>
+            </content>
+               <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+            </VirtualizedScrollPane>
+               </children>
+            </StackPane>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="197.0" prefWidth="168.0" style="-fx-border-color: #acfcd9; -fx-border-width: 0 0 1 0;" GridPane.columnIndex="2">
+         <children>
+            <Text stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-underline: true;" styleClass="text" text="Edit Measure Meta-data" textAlignment="CENTER" wrappingWidth="160.6327941417694">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <VBox alignment="CENTER" spacing="1.0" style="-fx-border-color: #acfcd9; -fx-border-width: 1 0 0 0;">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Music Piece Title" textAlignment="RIGHT" underline="true" />
+                  <TextField fx:id="titleText" prefHeight="26.0" prefWidth="301.0">
+                     <tooltip>
+                        <Tooltip styleClass="Tooltip" text="current music title" />
+                     </tooltip>
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+            </VBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="214.0" spacing="5.0" style="-fx-border-color: #acfcd9; -fx-border-width: 1 0 0 0;">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="From Measure:" textAlignment="RIGHT">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Text>
+                  <Spinner fx:id="from" prefHeight="20.0" prefWidth="79.0" style="-fx-background-color: #acfcd9; -fx-border-color: #acfcd9; -fx-border-radius: 5;">
+                     <tooltip>
+                        <Tooltip styleClass="Tooltip" text="Select Starting Measure" />
+                     </tooltip>
+                  </Spinner>
+               </children>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="109.0" spacing="5.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To Measure:" textAlignment="RIGHT" />
+                  <Spinner fx:id="to" prefHeight="27.0" prefWidth="79.0" style="-fx-border-color: #acfcd9; -fx-border-radius: 5; -fx-background-color: #acfcd9;">
+                     <tooltip>
+                        <Tooltip styleClass="Tooltip" text="Select Ending Measure" />
+                     </tooltip>
+                  </Spinner>
+               </children>
+            </HBox>
+            <JFXButton fx:id="viewBtn" onMouseReleased="#updateMeasure" style="-fx-background-color: #acfcd9;" text="View">
+               <tooltip>
+                  <Tooltip styleClass="Tooltip" text="view measure(s)" />
+               </tooltip>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </JFXButton>
+         </children>
+         <GridPane.margin>
+            <Insets right="5.0" />
+         </GridPane.margin>
+      </VBox>
+      <VBox alignment="TOP_CENTER" prefHeight="166.0" prefWidth="166.0" spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="2147483647">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time-Signature" textAlignment="CENTER" underline="true" wrappingWidth="163.7367820739746">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Text>
+            <HBox alignment="CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Beat:" textAlignment="CENTER" wrappingWidth="82.04052695631981" />
+                  <ChoiceBox fx:id="beatChoice" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #acfcd9;">
+                     <tooltip>
+                        <Tooltip styleClass="Tooltip" text="Select the measure's time signature" />
+                     </tooltip>
+                  </ChoiceBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="BeatType:" textAlignment="CENTER" wrappingWidth="82.04052695631981" />
+                  <ChoiceBox fx:id="typeChoice" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #acfcd9;">
+                     <tooltip>
+                        <Tooltip styleClass="Tooltip" text="Select the measure's time signature" />
+                     </tooltip>
+                  </ChoiceBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <JFXButton fx:id="saveTimeSig" onMouseReleased="#saveEdit" style="-fx-background-color: #acfcd9;" text="Save Changes">
+                     <tooltip>
+                        <Tooltip styleClass="Tooltip" text="Commit these changes" />
+                     </tooltip>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</GridPane>

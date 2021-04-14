@@ -1,0 +1,62 @@
+.tagmark {
+    -fx-fill: gray;
+}
+.anytag {
+    -fx-fill: crimson;
+}
+.paren {
+    -fx-fill: firebrick;
+    -fx-font-weight: bold;
+}
+.attribute {
+    -fx-fill: darkviolet;
+}
+.avalue {
+    -fx-fill: black;
+}
+
+.comment {
+	-fx-fill: teal;
+}
+.detected
+{
+    -fx-fill: #349e9a; /* default: 55D6BE, dark: 24827e , medium: 349e9a */
+}
+.mesureContent
+{
+    -fx-fill: blue; 
+}
+.guitar
+{
+    -fx-fill: #349e9a ; 
+}
+.barLine
+{
+    -fx-fill: #349e9a ; 
+}
+.minorError
+{
+    -fx-fill: #f3ff4e ; 
+}
+.majorError
+{
+    -fx-fill: #ff5555 ; 
+}
+.Tooltip
+{
+    -fx-background-color:#55D6BE;
+}
+.textArea
+{
+    -fx-background-color: #E0DFD5;
+    -fx-background-radius: 2;
+    -fx-font-family: consolas; 
+    -fx-font-size: 12pt;
+}
+.texts
+{
+    -fx-background-color: #E0DFD5;
+    -fx-background-radius: 2;
+    -fx-font-family: consolas; 
+    -fx-font-size: 30pt;
+}
