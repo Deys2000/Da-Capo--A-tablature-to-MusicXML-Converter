@@ -5,9 +5,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 class GuitarParserTest {
 
+	/*// Commenting out old tests
 //	// Duration Tests
 	@Test
 	void testDuration2() throws Exception {
@@ -1139,5 +1143,138 @@ class GuitarParserTest {
 		System.out.println("actual legato slide: \t" + actual);
 
 		assertEquals(expected,actual);
+	}
+	*/
+	
+	// Grace Note tests
+	@Test
+	void testGrace1() throws Exception {
+		
+		String test = "|-----------0-----|-0---------------|\n"
+					+ "|---------0---0---|-0---------------|\n"
+					+ "|-------1-------1-|-1---------------|\n"
+					+ "|-----2-----------|-2---------------|\n"
+					+ "|---2-------------|-2---------------|\n"
+					+ "|-0---------------|-0---------------|";
+		
+		TextFileReader tfr;
+		GuitarParser gp;
+		
+		File newFile = new File("testFile");
+		FileWriter myWriter = null;
+		try {
+			myWriter = new FileWriter(newFile);
+			myWriter.write(test + "\n\n");
+			myWriter.close();
+			
+			tfr = new TextFileReader(newFile);
+			gp = new GuitarParser(tfr);
+			
+			ArrayList<String> expected = new ArrayList<>();
+			String[] arr = {"|", "false", "false", "false", "false", "false", "false", "false", "false", 
+							"|", "false", "false", "false", "false", "false", "false", "|"};
+
+			for (int i = 0; i < arr.length; i++) {
+				expected.add(arr[i]);
+			}	
+
+			System.out.println("expected grace note array: \t" + expected);
+
+			ArrayList<String> actual = gp.getGraceArr();
+
+			System.out.println("actual grace note array: \t" + actual);
+
+			assertEquals(expected,actual);
+		}
+		catch (Exception e) { 
+			e.printStackTrace(); 
+		}
+	}
+	
+	@Test
+	void testGrace2() throws Exception {
+		
+		String test = "|-----------0-----|-0---g---0-------|\n"
+					+ "|-----------------|-----------------|\n"
+					+ "|------p1-0---0h1-|-----------------|\n"
+					+ "|-----------------|-----------------|\n"
+					+ "|--g2-2-----------|-----------------|\n"
+					+ "|-0---------------|-----------------|";
+		
+		TextFileReader tfr;
+		GuitarParser gp;
+		
+		File newFile = new File("testFile");
+		FileWriter myWriter = null;
+		try {
+			myWriter = new FileWriter(newFile);
+			myWriter.write(test + "\n\n");
+			myWriter.close();
+			
+			tfr = new TextFileReader(newFile);
+			gp = new GuitarParser(tfr);
+			
+			ArrayList<String> expected = new ArrayList<>();
+			String[] arr = {"|", "false", "false", "false", "false", "false", "false", "false", "false", 
+							"|", "false", "false", "|"};
+
+			for (int i = 0; i < arr.length; i++) {
+				expected.add(arr[i]);
+			}	
+
+			System.out.println("expected grace note array: \t" + expected);
+
+			ArrayList<String> actual = gp.getGraceArr();
+
+			System.out.println("actual grace note array: \t" + actual);
+
+			assertEquals(expected,actual);
+		}
+		catch (Exception e) { 
+			e.printStackTrace(); 
+		}
+	}
+	
+	@Test
+	void testGrace3() throws Exception {
+		
+		String test = "|----------g0h4p0-|\n"
+					+ "|-----------------|\n"
+					+ "|------g1p0-------|\n"
+					+ "|-----------------|\n"
+					+ "|--g2h3-----------|\n"
+					+ "|-0---------------|";
+		
+		TextFileReader tfr;
+		GuitarParser gp;
+		
+		File newFile = new File("testFile");
+		FileWriter myWriter = null;
+		try {
+			myWriter = new FileWriter(newFile);
+			myWriter.write(test + "\n\n");
+			myWriter.close();
+			
+			tfr = new TextFileReader(newFile);
+			gp = new GuitarParser(tfr);
+			
+			ArrayList<String> expected = new ArrayList<>();
+			String[] arr = {"|", "false", "true", "false", "true", "false", "true", "true", "false", "|"};
+
+			for (int i = 0; i < arr.length; i++) {
+				expected.add(arr[i]);
+			}	
+
+			System.out.println("expected grace note array: \t" + expected);
+
+			ArrayList<String> actual = gp.getGraceArr();
+
+			System.out.println("actual grace note array: \t" + actual);
+
+			assertEquals(expected,actual);
+		}
+		catch (Exception e) { 
+			e.printStackTrace(); 
+		}
 	}
 }
