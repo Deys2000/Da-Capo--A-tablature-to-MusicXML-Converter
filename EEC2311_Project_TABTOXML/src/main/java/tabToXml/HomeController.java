@@ -87,11 +87,11 @@ public class HomeController implements Initializable {
 	}
 
 	@FXML
-	private Button selectButton;
+	public Button selectButton;
 	@FXML
-	private Label filePathLabel, statusLabel;
+	public Label filePathLabel, statusLabel;
 	@FXML
-	private TextArea tabTextArea1, tabTextArea2, tabTextArea3;
+	public TextArea tabTextArea1, tabTextArea2, tabTextArea3;
 	@FXML
 	public CodeArea codeArea1;
 	@FXML
@@ -99,23 +99,23 @@ public class HomeController implements Initializable {
 	@FXML
 	public CodeArea codeArea3;
 	@FXML
-	private HBox hBox;
+	public HBox hBox;
 	@FXML
-	private HBox parentContainer;
+	public HBox parentContainer;
 	@FXML
-	private JFXDrawer drawer1;
+	public JFXDrawer drawer1;
 	@FXML
 	public JFXButton saveButton, editButton, uploadButton, formartButton, convertButton , saveTimeSig;
 	@FXML
-	private javafx.scene.control.TextField titleText;
+	public javafx.scene.control.TextField titleText;
 	@FXML
-	private ChoiceBox choiceBox, beatChoice, typeChoice;
+	public ChoiceBox choiceBox, beatChoice, typeChoice;
 	@FXML
-	Spinner<Integer> from, to;
+	public Spinner<Integer> from, to;
 	@FXML
-	private StackPane stackPane;
+	public StackPane stackPane;
 
-	static JFXDialog dialog;
+	public static JFXDialog dialog;
 
 	private double xOffset = 0;
 	private double yOffset = 0;
