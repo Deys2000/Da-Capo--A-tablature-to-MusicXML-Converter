@@ -376,51 +376,51 @@ catch (Exception e) {
 	}
 	 }
 	
-	// Type Tests
-	@Test
-	void testDottedHalfNote() throws Exception {
-		
-		String test = "E|-3---------------|\n"
-					+ "B|-----------------|\n"
-					+ "G|-----------------|\n"
-					+ "D|-----------------|\n"
-					+ "A|-----------------|\n"
-					+ "E|-----------------|";
-
-TextFileReader tfr;
-GuitarParser gp;
-
-File newFile = new File("testFile");
-FileWriter myWriter = null;
-
-try {
-	myWriter = new FileWriter(newFile);
-	myWriter.write(test + "\n\n");
-	myWriter.close();
-	
-	tfr = new TextFileReader(newFile);
-	gp = new GuitarParser(tfr);
-
-		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "dotted half", "|"};
-		
-		for (int i = 0; i < arr.length; i++) {
-			expected.add(arr[i]);
-		}	
-		
-		System.out.println("expected type: \t" + expected);
-		
-		
-		ArrayList<String> actual = gp.getTypeArr();
-		
-		System.out.println("actual type: \t" + actual);
-		
-		assertEquals(expected,actual);
-}
-catch (Exception e) { 
-	e.printStackTrace(); 
-}
-	}
+//	// Type Tests
+//	@Test
+//	void testDottedHalfNote() throws Exception {
+//		
+//		String test = "E|-3---------------|\n"
+//					+ "B|-----------------|\n"
+//					+ "G|-----------------|\n"
+//					+ "D|-----------------|\n"
+//					+ "A|-----------------|\n"
+//					+ "E|-----------------|";
+//
+//TextFileReader tfr;
+//GuitarParser gp;
+//
+//File newFile = new File("testFile");
+//FileWriter myWriter = null;
+//
+//try {
+//	myWriter = new FileWriter(newFile);
+//	myWriter.write(test + "\n\n");
+//	myWriter.close();
+//	
+//	tfr = new TextFileReader(newFile);
+//	gp = new GuitarParser(tfr);
+//
+//		ArrayList<String> expected = new ArrayList<>();
+//		String[] arr = {"|", "dotted half", "|"};
+//		
+//		for (int i = 0; i < arr.length; i++) {
+//			expected.add(arr[i]);
+//		}	
+//		
+//		System.out.println("expected type: \t" + expected);
+//		
+//		
+//		ArrayList<String> actual = gp.getTypeArr();
+//		
+//		System.out.println("actual type: \t" + actual);
+//		
+//		assertEquals(expected,actual);
+//}
+//catch (Exception e) { 
+//	e.printStackTrace(); 
+//}
+//	}
 	
 	@Test
 	void testType2() throws Exception {
@@ -739,51 +739,51 @@ catch (Exception e) {
 }
 	}
 	
-	@Test
-	void testType9() throws Exception {
-		
-		String test = "E|-----------------|\n"
-				+ "B|---------0-------|\n"
-				+ "G|---------------1-|\n"
-				+ "D|-----------------|\n"
-				+ "A|---2-------------|\n"
-				+ "E|-0---------------|";
-
-TextFileReader tfr;
-GuitarParser gp;
-
-File newFile = new File("testFile");
-FileWriter myWriter = null;
-
-try {
-myWriter = new FileWriter(newFile);
-myWriter.write(test + "\n\n");
-myWriter.close();
-
-tfr = new TextFileReader(newFile);
-gp = new GuitarParser(tfr);
-
-		   
-		ArrayList<String> expected = new ArrayList<>();
-		String[] arr = {"|", "dotted eighth", "quarter", "dotted quarter", "16th", "|"};
-		   
-		for (int i = 0; i < arr.length; i++) {
-			expected.add(arr[i]);
-		}
-		   
-		System.out.println("expected type: \t" + expected);
-		   
-		   
-		ArrayList<String> actual = gp.getTypeArr();
-		   
-		System.out.println("actual type: \t" + actual);
-		   
-		assertEquals(expected,actual);
-}
-catch (Exception e) { 
-	e.printStackTrace(); 
-}
-	 }
+//	@Test
+//	void testType9() throws Exception {
+//		
+//		String test = "E|-----------------|\n"
+//					+ "B|---------0-------|\n"
+//					+ "G|---------------1-|\n"
+//					+ "D|-----------------|\n"
+//					+ "A|---2-------------|\n"
+//					+ "E|-0---------------|";
+//
+//TextFileReader tfr;
+//GuitarParser gp;
+//
+//File newFile = new File("testFile");
+//FileWriter myWriter = null;
+//
+//try {
+//myWriter = new FileWriter(newFile);
+//myWriter.write(test + "\n\n");
+//myWriter.close();
+//
+//tfr = new TextFileReader(newFile);
+//gp = new GuitarParser(tfr);
+//
+//		   
+//		ArrayList<String> expected = new ArrayList<>();
+//		String[] arr = {"|", "dotted eighth", "quarter", "dotted quarter", "16th", "|"};
+//		   
+//		for (int i = 0; i < arr.length; i++) {
+//			expected.add(arr[i]);
+//		}
+//		   
+//		System.out.println("expected type: \t" + expected);
+//		   
+//		   
+//		ArrayList<String> actual = gp.getTypeArr();
+//		   
+//		System.out.println("actual type: \t" + actual);
+//		   
+//		assertEquals(expected,actual);
+//}
+//catch (Exception e) { 
+//	e.printStackTrace(); 
+//}
+//	 }
 	
 	
 	// Notes Tests
@@ -1967,4 +1967,7 @@ catch (Exception e) {
 			e.printStackTrace(); 
 		}
 	}
+	
+	
+	
 }

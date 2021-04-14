@@ -22,7 +22,7 @@ class TextFileReaderTest {
 
 	@Test
 	void test_TextFileReaderFile() {
-		String expectedfile = "src/test/java/tabToXml/DrumsTab.txt";
+		String expectedfile = "src/test/java/drumTabs/DrumsTab.txt";
 			
 		TextFileReader tfr = new TextFileReader(expectedfile);	
 		
@@ -81,7 +81,7 @@ class TextFileReaderTest {
 	
 	@Test
 	public void testReader2() {
-		TextFileReader fileReader = new TextFileReader("src/test/java/tabToXml/DrumsTab.txt");
+		TextFileReader fileReader = new TextFileReader("src/test/java/drumTabs/DrumsTab.txt");
 		String expected = "Drum";
 		String actual = fileReader.getDetectedInstrument();
 		
