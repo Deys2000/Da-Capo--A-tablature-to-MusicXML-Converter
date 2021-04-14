@@ -11,17 +11,31 @@ import java.io.IOException;
 
 class GuitarParserTest {
 
-	/*// Commenting out old tests
+	
 //	// Duration Tests
 	@Test
 	void testDuration2() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------0-----|");
-		test.add("B|---------0---0---|");
-		test.add("G|-------1-------1-|");
-		test.add("D|-----2-----------|");
-		test.add("A|---2-------------|");
-		test.add("E|-0---------------|");
+		
+		String test = "E|-----------0-----|\n"
+					+ "B|---------0---0---|\n"
+					+ "G|-------1-------1-|\n"
+					+ "D|-----2-----------|\n"
+					+ "A|---2-------------|\n"
+					+ "E|-0---------------|";
+		
+		TextFileReader tfr;
+		GuitarParser gp;
+		
+		File newFile = new File("testFile");
+		FileWriter myWriter = null;
+		
+		try {
+			myWriter = new FileWriter(newFile);
+			myWriter.write(test + "\n\n");
+			myWriter.close();
+			
+			tfr = new TextFileReader(newFile);
+			gp = new GuitarParser(tfr);
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "2", "2", "2", "2", "2", "2", "2", "2", "|"};
@@ -31,25 +45,43 @@ class GuitarParserTest {
 		}	
 		
 		System.out.println("expected duration: \t" + expected);
-		
-		GuitarParser guitarParser = new GuitarParser(test);
-		
-		ArrayList<String> actual = guitarParser.getDurationArr();
+				
+		ArrayList<String> actual = gp.getDurationArr();
 		
 		System.out.println("actual duration: \t" + actual);
 		
 		assertEquals(expected,actual);
+		}
+		catch (Exception e) { 
+			e.printStackTrace(); 
+		}
 	}
+	 
 	 
 	@Test
 	void testDuration3() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------------|");
-		test.add("B|---------0---0---|");
-		test.add("G|-----------------|");
-		test.add("D|-----2-----------|");
-		test.add("A|-----------------|");
-		test.add("E|-0---------------|");
+		
+		String test = "E|-----------------|\n"
+					+ "B|---------0---0---|\n"
+					+ "G|-----------------|\n"
+					+ "D|-----2-----------|\n"
+					+ "A|-----------------|\n"
+					+ "E|-0---------------|";
+		
+		TextFileReader tfr;
+		GuitarParser gp;
+		
+		File newFile = new File("testFile");
+		FileWriter myWriter = null;
+		
+		try {
+			myWriter = new FileWriter(newFile);
+			myWriter.write(test + "\n\n");
+			myWriter.close();
+			
+			tfr = new TextFileReader(newFile);
+			gp = new GuitarParser(tfr);
+
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "4", "4", "4", "4", "|"};
@@ -60,24 +92,43 @@ class GuitarParserTest {
 		
 		System.out.println("expected duration: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getDurationArr();
+		ArrayList<String> actual = gp.getDurationArr();
 		   
 		System.out.println("actual duration: \t" + actual);
 		
 		assertEquals(expected,actual);
+		}
+		catch (Exception e) { 
+			e.printStackTrace(); 
+		}
 	}
 	 
+	
 	@Test
 	void testDuration4() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------------|");
-		test.add("B|---------0-------|");
-		test.add("G|-----------------|");
-		test.add("D|-----------------|");
-		test.add("A|-----------------|");
-		test.add("E|-0---------------|");
+		
+		String test = "E|-----------------|\n"
+					+ "B|---------0-------|\n"
+					+ "G|-----------------|\n"
+					+ "D|-----------------|\n"
+					+ "A|-----------------|\n"
+					+ "E|-0---------------|";
+		
+		TextFileReader tfr;
+		GuitarParser gp;
+		
+		File newFile = new File("testFile");
+		FileWriter myWriter = null;
+		
+		try {
+			myWriter = new FileWriter(newFile);
+			myWriter.write(test + "\n\n");
+			myWriter.close();
+			
+			tfr = new TextFileReader(newFile);
+			gp = new GuitarParser(tfr);
+
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "8", "8", "|"};
@@ -88,25 +139,43 @@ class GuitarParserTest {
 		   
 		System.out.println("expected duration: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getDurationArr();
+		ArrayList<String> actual = gp.getDurationArr();
 		
 		System.out.println("actual duration: \t" + actual);
 		
 		assertEquals(expected,actual);
+				}
+		catch (Exception e) { 
+			e.printStackTrace(); 
+		}
 	}	
 	 
 	@Test
 	void testDuration5() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------------|");
-		test.add("B|-----------------|");
-		test.add("G|-----------------|");
-		test.add("D|-----------------|");
-		test.add("A|-----------------|");
-		test.add("E|-0---------------|");
-		   
+		
+		String test = "E|-----------------|\n"
+					+ "B|-----------------|\n"
+					+ "G|-----------------|\n"
+					+ "D|-----------------|\n"
+					+ "A|-----------------|\n"
+					+ "E|-0---------------|";
+		
+		TextFileReader tfr;
+		GuitarParser gp;
+		
+		File newFile = new File("testFile");
+		FileWriter myWriter = null;
+		
+		try {
+			myWriter = new FileWriter(newFile);
+			myWriter.write(test + "\n\n");
+			myWriter.close();
+			
+			tfr = new TextFileReader(newFile);
+			gp = new GuitarParser(tfr);
+		
+	
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "16", "|"};
 		   
@@ -115,25 +184,43 @@ class GuitarParserTest {
 		}
 		   
 		System.out.println("expected duration: \t" + expected);
-		
-		GuitarParser guitarParser = new GuitarParser(test);
-		
-		ArrayList<String> actual = guitarParser.getDurationArr();
+				
+		ArrayList<String> actual = gp.getDurationArr();
 		   
 		System.out.println("actual duration: \t" + actual);
 		   
 		assertEquals(expected,actual);
+		}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
+	 
 	 
 	@Test
 	void testDuration6() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------------|");
-		test.add("B|---------0---0---|");
-		test.add("G|---------------1-|");
-		test.add("D|-----------------|");
-		test.add("A|-----------------|");
-		test.add("E|-0---------------|");
+		
+		String test = "E|-----------------|\n"
+					+ "B|---------0---0---|\n"
+					+ "G|---------------1-|\n"
+					+ "D|-----------------|\n"
+					+ "A|-----------------|\n"
+					+ "E|-0---------------|";
+		
+		TextFileReader tfr;
+		GuitarParser gp;
+		
+		File newFile = new File("testFile");
+		FileWriter myWriter = null;
+		
+		try {
+			myWriter = new FileWriter(newFile);
+			myWriter.write(test + "\n\n");
+			myWriter.close();
+			
+			tfr = new TextFileReader(newFile);
+			gp = new GuitarParser(tfr);
+
 		   
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "8", "4", "2", "2", "|"};
@@ -143,25 +230,42 @@ class GuitarParserTest {
 		}
 		   
 		System.out.println("expected duration: \t" + expected);
-		
-		GuitarParser guitarParser = new GuitarParser(test);
-		
-		ArrayList<String> actual = guitarParser.getDurationArr();
+				
+		ArrayList<String> actual = gp.getDurationArr();
 		
 		System.out.println("actual duration: \t" + actual);
 		
 		assertEquals(expected,actual);
+		}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}	
+	 
 	 
 	@Test 
 	void testDuration7() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-0---------------|");
-		test.add("B|-0---------------|");
-		test.add("G|-1---------------|");
-		test.add("D|-2---------------|");
-		test.add("A|-2---------------|");
-		test.add("E|-0---------------|");
+		String test = "E|-0---------------|\n"
+					+ "B|-0---------------|\n"
+					+ "G|-1---------------|\n"
+					+ "D|-2---------------|\n"
+					+ "A|-2---------------|\n"
+					+ "E|-0---------------|";
+		
+		TextFileReader tfr;
+		GuitarParser gp;
+		
+		File newFile = new File("testFile");
+		FileWriter myWriter = null;
+		
+		try {
+			myWriter = new FileWriter(newFile);
+			myWriter.write(test + "\n\n");
+			myWriter.close();
+			
+			tfr = new TextFileReader(newFile);
+			gp = new GuitarParser(tfr);
+		
 		   
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "16", "16", "16", "16", "16", "16", "|"};
@@ -171,25 +275,41 @@ class GuitarParserTest {
 		}
 		   
 		System.out.println("expected duration: \t" + expected);
-		
-		GuitarParser guitarParser = new GuitarParser(test);
-		
-		ArrayList<String> actual = guitarParser.getDurationArr();
+				
+		ArrayList<String> actual = gp.getDurationArr();
 		
 		System.out.println("actual duration: \t" + actual);
 		   
 		assertEquals(expected,actual);
+		}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	 
 	@Test 
 	void testDuration8() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-------------0-1-|");
-		test.add("B|---------0---0---|");
-		test.add("G|---------0-----1-|");
-		test.add("D|-----------------|");
-		test.add("A|-0---------------|");
-		test.add("E|-0---------------|");
+		String test = "E|-------------0-1-|\n"
+					+ "B|---------0---0---|\n"
+					+ "G|---------0-----1-|\n"
+					+ "D|-----------------|\n"
+					+ "A|-0---------------|\n"
+					+ "E|-0---------------|";
+		
+		TextFileReader tfr;
+		GuitarParser gp;
+		
+		File newFile = new File("testFile");
+		FileWriter myWriter = null;
+		
+		try {
+			myWriter = new FileWriter(newFile);
+			myWriter.write(test + "\n\n");
+			myWriter.close();
+			
+			tfr = new TextFileReader(newFile);
+			gp = new GuitarParser(tfr);
+		
 		   
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "8", "8", "4", "4", "2", "2", "2", "2", "|"};
@@ -199,27 +319,42 @@ class GuitarParserTest {
 		}
 		   
 		System.out.println("expected duration: \t" + expected);
-		   
-		GuitarParser guitarParser = new GuitarParser(test);
-		
-		ArrayList<String> actual = guitarParser.getDurationArr();
+		   		
+		ArrayList<String> actual = gp.getDurationArr();
 		   
 		System.out.println("actual duration: \t" + actual);
 		   
 		assertEquals(expected,actual);
+		}
+		catch (Exception e) { 
+			e.printStackTrace(); 
+		}
 	}
 	
 	 
 	@Test
 	void testDuration9() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------------|");
-		test.add("B|---------0-------|");
-		test.add("G|----------------1|");
-		test.add("D|-----------------|");
-		test.add("A|----2------------|");
-		test.add("E|-0---------------|");
-		   
+		String test = "E|-----------------|\n"
+					+ "B|---------0-------|\n"
+					+ "G|----------------1|\n"
+					+ "D|-----------------|\n"
+					+ "A|----2------------|\n"
+					+ "E|-0---------------|";
+	
+	TextFileReader tfr;
+	GuitarParser gp;
+	
+	File newFile = new File("testFile");
+	FileWriter myWriter = null;
+	
+	try {
+		myWriter = new FileWriter(newFile);
+		myWriter.write(test + "\n\n");
+		myWriter.close();
+		
+		tfr = new TextFileReader(newFile);
+		gp = new GuitarParser(tfr);
+
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "3", "5", "7", "1", "|"};
 		   
@@ -229,26 +364,43 @@ class GuitarParserTest {
 		   
 		System.out.println("expected duration: \t" + expected);
 		   
-		GuitarParser guitarParser = new GuitarParser(test);
 		   
-		ArrayList<String> actual = guitarParser.getDurationArr();
+		ArrayList<String> actual = gp.getDurationArr();
 		   
 		System.out.println("actual duration: \t" + actual);
 		   
 		assertEquals(expected,actual);
+	}
+	catch (Exception e) { 
+		e.printStackTrace(); 
+	}
 	 }
 	
 	// Type Tests
 	@Test
 	void testDottedHalfNote() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-3-----------|");
-		test.add("B|-------------|");
-		test.add("G|-------------|");
-		test.add("D|-------------|");
-		test.add("A|-------------|");
-		test.add("E|-------------|");
 		
+		String test = "E|-3---------------|\n"
+					+ "B|-----------------|\n"
+					+ "G|-----------------|\n"
+					+ "D|-----------------|\n"
+					+ "A|-----------------|\n"
+					+ "E|-----------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+	myWriter = new FileWriter(newFile);
+	myWriter.write(test + "\n\n");
+	myWriter.close();
+	
+	tfr = new TextFileReader(newFile);
+	gp = new GuitarParser(tfr);
+
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "dotted half", "|"};
 		
@@ -258,24 +410,41 @@ class GuitarParserTest {
 		
 		System.out.println("expected type: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getTypeArr();
+		ArrayList<String> actual = gp.getTypeArr();
 		
 		System.out.println("actual type: \t" + actual);
 		
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	
 	@Test
 	void testType2() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------0-----|");
-		test.add("B|---------0---0---|");
-		test.add("G|-------1-------1-|");
-		test.add("D|-----2-----------|");
-		test.add("A|---2-------------|");
-		test.add("E|-0---------------|");
+		
+		String test = "E|-----------0-----|\n"
+					+ "B|---------0---0---|\n"
+					+ "G|-------1-------1-|\n"
+					+ "D|-----2-----------|\n"
+					+ "A|---2-------------|\n"
+					+ "E|-0---------------|";
+	
+	TextFileReader tfr;
+	GuitarParser gp;
+	
+	File newFile = new File("testFile");
+	FileWriter myWriter = null;
+	
+	try {
+		myWriter = new FileWriter(newFile);
+		myWriter.write(test + "\n\n");
+		myWriter.close();
+		
+		tfr = new TextFileReader(newFile);
+		gp = new GuitarParser(tfr);
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "|"};
@@ -285,25 +454,42 @@ class GuitarParserTest {
 		}	
 		
 		System.out.println("expected type: \t" + expected);
-		
-		GuitarParser guitarParser = new GuitarParser(test);
-		
-		ArrayList<String> actual = guitarParser.getTypeArr();
+				
+		ArrayList<String> actual = gp.getTypeArr();
 		
 		System.out.println("actual type: \t" + actual);
 		
 		assertEquals(expected,actual);
 	}
+	catch (Exception e) { 
+		e.printStackTrace(); 
+	}
+	}
 	 
 	@Test
 	void testType3() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------------|");
-		test.add("B|---------0---0---|");
-		test.add("G|-----------------|");
-		test.add("D|-----2-----------|");
-		test.add("A|-----------------|");
-		test.add("E|-0---------------|");
+		
+		String test = "E|-----------------|\n"
+					+ "B|---------0---0---|\n"
+					+ "G|-----------------|\n"
+					+ "D|-----2-----------|\n"
+					+ "A|-----------------|\n"
+					+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+	myWriter = new FileWriter(newFile);
+	myWriter.write(test + "\n\n");
+	myWriter.close();
+	
+	tfr = new TextFileReader(newFile);
+	gp = new GuitarParser(tfr);
+		
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "quarter", "quarter", "quarter", "quarter", "|"};
@@ -314,24 +500,41 @@ class GuitarParserTest {
 		
 		System.out.println("expected type: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getTypeArr();
+		ArrayList<String> actual = gp.getTypeArr();
 		   
 		System.out.println("actual type: \t" + actual);
 		
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	 
 	@Test
 	void testType4() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------------|");
-		test.add("B|---------0-------|");
-		test.add("G|-----------------|");
-		test.add("D|-----------------|");
-		test.add("A|-----------------|");
-		test.add("E|-0---------------|");
+		String test = "E|-----------------|\n"
+					+ "B|---------0-------|\n"
+					+ "G|-----------------|\n"
+					+ "D|-----------------|\n"
+					+ "A|-----------------|\n"
+					+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);
+
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "half", "half", "|"};
@@ -342,24 +545,42 @@ class GuitarParserTest {
 		   
 		System.out.println("expected type: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getTypeArr();
+		ArrayList<String> actual = gp.getTypeArr();
 		
 		System.out.println("actual type: \t" + actual);
 		
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}	
 	 
 	@Test
 	void testType5() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------------|");
-		test.add("B|-----------------|");
-		test.add("G|-----------------|");
-		test.add("D|-----------------|");
-		test.add("A|-----------------|");
-		test.add("E|-0---------------|");
+		
+		String test = "E|-----------------|\n"
+				+ "B|-----------------|\n"
+				+ "G|-----------------|\n"
+				+ "D|-----------------|\n"
+				+ "A|-----------------|\n"
+				+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);
+
 		   
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "whole", "|"};
@@ -370,24 +591,42 @@ class GuitarParserTest {
 		   
 		System.out.println("expected type: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getTypeArr();
+		ArrayList<String> actual = gp.getTypeArr();
 		   
 		System.out.println("actual type: \t" + actual);
 		   
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	 
 	@Test
 	void testType6() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------------|");
-		test.add("B|---------0---0---|");
-		test.add("G|---------------1-|");
-		test.add("D|-----------------|");
-		test.add("A|-----------------|");
-		test.add("E|-0---------------|");
+		
+		String test = "E|-----------------|\n"
+				+ "B|---------0---0---|\n"
+				+ "G|---------------1-|\n"
+				+ "D|-----------------|\n"
+				+ "A|-----------------|\n"
+				+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);
+
 		   
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "half", "quarter", "eighth", "eighth", "|"};
@@ -398,24 +637,41 @@ class GuitarParserTest {
 		   
 		System.out.println("expected type: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getTypeArr();
+		ArrayList<String> actual = gp.getTypeArr();
 		
 		System.out.println("actual type: \t" + actual);
 		
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}	
 	 
 	@Test 
 	void testType7() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-0---------------|");
-		test.add("B|-0---------------|");
-		test.add("G|-1---------------|");
-		test.add("D|-2---------------|");
-		test.add("A|-2---------------|");
-		test.add("E|-0---------------|");
+		
+		String test = "E|-0---------------|\n"
+				+ "B|-0---------------|\n"
+				+ "G|-1---------------|\n"
+				+ "D|-2---------------|\n"
+				+ "A|-2---------------|\n"
+				+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);
 		   
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "whole", "whole", "whole", "whole", "whole", "whole", "|"};
@@ -426,24 +682,41 @@ class GuitarParserTest {
 		   
 		System.out.println("expected type: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getTypeArr();
+		ArrayList<String> actual = gp.getTypeArr();
 		
 		System.out.println("actual type: \t" + actual);
 		   
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	 
 	@Test 
 	void testType8() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-------------0-1-|");
-		test.add("B|---------0---0---|");
-		test.add("G|---------0-----1-|");
-		test.add("D|-----------------|");
-		test.add("A|-0---------------|");
-		test.add("E|-0---------------|");
+		
+		String test = "E|-------------0-1-|\n"
+				+ "B|---------0---0---|\n"
+				+ "G|---------0-----1-|\n"
+				+ "D|-----------------|\n"
+				+ "A|-0---------------|\n"
+				+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);
 		   
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "half", "half", "quarter", "quarter", "eighth", "eighth", "eighth", "eighth", "|"};
@@ -454,24 +727,42 @@ class GuitarParserTest {
 		   
 		System.out.println("expected type: \t" + expected);
 		   
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getTypeArr();
+		ArrayList<String> actual = gp.getTypeArr();
 		   
 		System.out.println("actual type: \t" + actual);
 		   
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	
 	@Test
 	void testType9() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------------|");
-		test.add("B|---------0-------|");
-		test.add("G|----------------1|");
-		test.add("D|-----------------|");
-		test.add("A|----2------------|");
-		test.add("E|-0---------------|");
+		
+		String test = "E|-----------------|\n"
+				+ "B|---------0-------|\n"
+				+ "G|---------------1-|\n"
+				+ "D|-----------------|\n"
+				+ "A|---2-------------|\n"
+				+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);
+
 		   
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "dotted eighth", "quarter", "dotted quarter", "16th", "|"};
@@ -482,25 +773,42 @@ class GuitarParserTest {
 		   
 		System.out.println("expected type: \t" + expected);
 		   
-		GuitarParser guitarParser = new GuitarParser(test);
 		   
-		ArrayList<String> actual = guitarParser.getTypeArr();
+		ArrayList<String> actual = gp.getTypeArr();
 		   
 		System.out.println("actual type: \t" + actual);
 		   
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	 }
+	
 	
 	// Notes Tests
 	@Test
 	void testNotes1() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------0-----|");
-		test.add("B|---------0---0---|");
-		test.add("G|-------1-------1-|");
-		test.add("D|-----2-----------|");
-		test.add("A|---2-------------|");
-		test.add("E|-0---------------|");
+		String test = "E|-----------0-----|\n"
+					+ "B|---------0---0---|\n"
+					+ "G|-------1-------1-|\n"
+					+ "D|-----2-----------|\n"
+					+ "A|---2-------------|\n"
+					+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "E2", "B2", "E3", "G3", "B3", "E4", "B3", "G3", "||"};
@@ -511,25 +819,43 @@ class GuitarParserTest {
 		
 		System.out.println("expected notes: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getNotes();
+		ArrayList<String> actual = gp.getNotes();
 		
 		System.out.println("actual notes: \t" + actual);
 		
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	 	 
 	@Test 
 	void testNotes2() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-0---------------|");
-		test.add("B|-0---------------|");
-		test.add("G|-1---------------|");
-		test.add("D|-2---------------|");
-		test.add("A|-2---------------|");
-		test.add("E|-0---------------|");
-		   
+		
+		
+		String test = "E|-0---------------|\n"
+				+ "B|-0---------------|\n"
+				+ "G|-1---------------|\n"
+				+ "D|-2---------------|\n"
+				+ "A|-2---------------|\n"
+				+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
+
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "whole", "whole", "whole", "whole", "whole", "whole", "|"};
 		   
@@ -539,25 +865,42 @@ class GuitarParserTest {
 		   
 		System.out.println("expected type: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getTypeArr();
+		ArrayList<String> actual = gp.getTypeArr();
 		
 		System.out.println("actual type: \t" + actual);
 		   
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	
 	// Fret Number Tests
 	@Test
 	void testFretNumber1() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------0-----|");
-		test.add("B|---------0---0---|");
-		test.add("G|-------1-------1-|");
-		test.add("D|-----2-----------|");
-		test.add("A|---2-------------|");
-		test.add("E|-0---------------|");
+		
+		String test = "E|-----------0-----|\n"
+				+ "B|---------0---0---|\n"
+				+ "G|-------1-------1-|\n"
+				+ "D|-----2-----------|\n"
+				+ "A|---2-------------|\n"
+				+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "0", "2", "2", "1", "0", "0", "0", "1", "||"};
@@ -568,24 +911,41 @@ class GuitarParserTest {
 		
 		System.out.println("expected fret numbers: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getFretNums();
+		ArrayList<String> actual = gp.getFretNums();
 		
 		System.out.println("actual fert numbers: \t" + actual);
 		
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	 	 
 	@Test 
 	void testFretNumber2() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-0---------------|");
-		test.add("B|-0---------------|");
-		test.add("G|-1---------------|");
-		test.add("D|-2---------------|");
-		test.add("A|-2---------------|");
-		test.add("E|-0---------------|");
+		
+		String test = "E|-0---------------|\n"
+				+ "B|-0---------------|\n"
+				+ "G|-1---------------|\n"
+				+ "D|-2---------------|\n"
+				+ "A|-2---------------|\n"
+				+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
 		   
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "0", "0", "1", "2", "2", "0", "||"};
@@ -596,25 +956,41 @@ class GuitarParserTest {
 		   
 		System.out.println("expected fret numbers: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getFretNums();
+		ArrayList<String> actual = gp.getFretNums();
 		
 		System.out.println("actual fret numbers: \t" + actual);
 		   
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	
 	// Fret String Tests
 	@Test
 	void testFretString1() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------0-----|");
-		test.add("B|---------0---0---|");
-		test.add("G|-------1-------1-|");
-		test.add("D|-----2-----------|");
-		test.add("A|---2-------------|");
-		test.add("E|-0---------------|");
+		String test = "E|-----------0-----|\n"
+				+ "B|---------0---0---|\n"
+				+ "G|-------1-------1-|\n"
+				+ "D|-----2-----------|\n"
+				+ "A|---2-------------|\n"
+				+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "6", "5", "4", "3", "2", "1", "2", "3", "||"};
@@ -625,24 +1001,40 @@ class GuitarParserTest {
 		
 		System.out.println("expected fret strings: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getFretStrings();
+		ArrayList<String> actual = gp.getFretStrings();
 		
 		System.out.println("actual fert strings: \t" + actual);
 		
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	 	 
 	@Test 
 	void testFretString2() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-0---------------|");
-		test.add("B|-0---------------|");
-		test.add("G|-1---------------|");
-		test.add("D|-2---------------|");
-		test.add("A|-2---------------|");
-		test.add("E|-0---------------|");
+		String test = "E|-0---------------|\n"
+				+ "B|-0---------------|\n"
+				+ "G|-1---------------|\n"
+				+ "D|-2---------------|\n"
+				+ "A|-2---------------|\n"
+				+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
 		   
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "1", "2", "3", "4", "5", "6", "||"};
@@ -653,25 +1045,40 @@ class GuitarParserTest {
 		   
 		System.out.println("expected fret strings: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
-		
-		ArrayList<String> actual = guitarParser.getFretStrings();
+		ArrayList<String> actual = gp.getFretStrings();
 		
 		System.out.println("actual fret strings: \t" + actual);
 		   
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	
 	// Chord Tests
 	@Test
 	void testChord1() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-----------0-----|");
-		test.add("B|---------0---0---|");
-		test.add("G|-------1-------1-|");
-		test.add("D|-----2-----------|");
-		test.add("A|---2-------------|");
-		test.add("E|-0---------------|");
+		String test = "E|-----------0-----|\n"
+				+ "B|---------0---0---|\n"
+				+ "G|-------1-------1-|\n"
+				+ "D|-----2-----------|\n"
+				+ "A|---2-------------|\n"
+				+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "false", "false", "false", "false", "false", "false", "false", "false", "|"};
@@ -682,24 +1089,41 @@ class GuitarParserTest {
 		
 		System.out.println("expected chord values: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getChordArr();
+		ArrayList<String> actual = gp.getChordArr();
 		
 		System.out.println("actual chord values: \t" + actual);
 		
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	 	 
 	@Test 
 	void testChord2() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-0---------------|");
-		test.add("B|-0---------------|");
-		test.add("G|-1---------------|");
-		test.add("D|-2---------------|");
-		test.add("A|-2---------------|");
-		test.add("E|-0---------------|");
+		String test = "E|-0---------------|\n"
+				+ "B|-0---------------|\n"
+				+ "G|-1---------------|\n"
+				+ "D|-2---------------|\n"
+				+ "A|-2---------------|\n"
+				+ "E|-0---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
+		   
 		   
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "false", "true", "true", "true", "true", "true", "|"};
@@ -710,25 +1134,44 @@ class GuitarParserTest {
 		   
 		System.out.println("expected chord values: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getChordArr();
+		ArrayList<String> actual = gp.getChordArr();
 		
 		System.out.println("actual chord values: \t" + actual);
 		   
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
+	
 	
 	//DoubleDigit Tests for rhythmParser
 	@Test
 	void testDoubleDigitDuration1() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|------------0-----|");
-		test.add("B|----------0---0---|");
-		test.add("G|--------1-------1-|");
-		test.add("D|------2-----------|");
-		test.add("A|----2-------------|");
-		test.add("E|-10---------------|");
+		
+		String test = "E|------------0-----|\n"
+				+ "B|----------0---0---|\n"
+				+ "G|--------1-------1-|\n"
+				+ "D|------2-----------|\n"
+				+ "A|----2-------------|\n"
+				+ "E|-10---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
+	
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "2", "2", "2", "2", "2", "2", "2", "2", "|"};
@@ -739,24 +1182,43 @@ class GuitarParserTest {
 		
 		System.out.println("expected duration: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getDurationArr();
+		ArrayList<String> actual = gp.getDurationArr();
 		
 		System.out.println("actual duration: \t" + actual);
 		
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	
 	@Test
 	void testDoubleDigitDuration2() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-11---------0-----|");
-		test.add("B|----------0---0---|");
-		test.add("G|--------1-------1-|");
-		test.add("D|------2-----------|");
-		test.add("A|----2-------------|");
-		test.add("E|-10---------------|");
+		
+		
+		String test = "E|-11---------0-----|\n"
+				+ "B|----------0---0---|\n"
+				+ "G|--------1-------1-|\n"
+				+ "D|------2-----------|\n"
+				+ "A|----2-------------|\n"
+				+ "E|-10---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
+
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "2", "2", "2", "2", "2", "2", "2", "2", "2", "|"};
@@ -767,24 +1229,42 @@ class GuitarParserTest {
 		
 		System.out.println("expected duration: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getDurationArr();
+		ArrayList<String> actual = gp.getDurationArr();
 		
 		System.out.println("actual duration: \t" + actual);
 		
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	
 	@Test
 	void testDoubleDigitDuration3() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-11---------------|");
-		test.add("B|--0---------------|");
-		test.add("G|------------------|");
-		test.add("D|------------------|");
-		test.add("A|------------------|");
-		test.add("E|-10---------------|");
+		
+		String test = "E|-11---------------|\n"
+				+ "B|--0---------------|\n"
+				+ "G|------------------|\n"
+				+ "D|------------------|\n"
+				+ "A|------------------|\n"
+				+ "E|-10---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
+
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "16", "16", "16", "|"};
@@ -795,25 +1275,41 @@ class GuitarParserTest {
 		
 		System.out.println("expected duration: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getDurationArr();
+		ArrayList<String> actual = gp.getDurationArr();
 		
 		System.out.println("actual duration: \t" + actual);
 		
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	
 	//DoubleDigit Tests for rhythmParser
 	@Test
 	void testDoubleDigitType1() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|------------0-----|");
-		test.add("B|----------0---0---|");
-		test.add("G|--------1-------1-|");
-		test.add("D|------2-----------|");
-		test.add("A|----2-------------|");
-		test.add("E|-10---------------|");
+		String test = "E|------------0-----|\n"
+				+ "B|----------0---0---|\n"
+				+ "G|--------1-------1-|\n"
+				+ "D|------2-----------|\n"
+				+ "A|----2-------------|\n"
+				+ "E|-10---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "|"};
@@ -824,24 +1320,41 @@ class GuitarParserTest {
 		
 		System.out.println("expected type: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getTypeArr();
+		ArrayList<String> actual = gp.getTypeArr();
 		
 		System.out.println("actual type: \t" + actual);
 		
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	
 	@Test
 	void testDoubleDigitType2() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-11---------0-----|");
-		test.add("B|----------0---0---|");
-		test.add("G|--------1-------1-|");
-		test.add("D|------2-----------|");
-		test.add("A|----2-------------|");
-		test.add("E|-10---------------|");
+		
+		String test = "E|-11---------0-----|\n"
+				+ "B|----------0---0---|\n"
+				+ "G|--------1-------1-|\n"
+				+ "D|------2-----------|\n"
+				+ "A|----2-------------|\n"
+				+ "E|-10---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "eighth", "|"};
@@ -852,24 +1365,41 @@ class GuitarParserTest {
 		
 		System.out.println("expected type: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getTypeArr();
+		ArrayList<String> actual = gp.getTypeArr();
 		
 		System.out.println("actual type: \t" + actual);
 		
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 	
 	@Test
 	void testDoubleDigitType3() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-11---------------|");
-		test.add("B|--0---------------|");
-		test.add("G|------------------|");
-		test.add("D|------------------|");
-		test.add("A|------------------|");
-		test.add("E|-10---------------|");
+		
+		String test = "E|-11---------------|\n"
+				+ "B|--0---------------|\n"
+				+ "G|------------------|\n"
+				+ "D|------------------|\n"
+				+ "A|------------------|\n"
+				+ "E|-10---------------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
 		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "whole", "whole", "whole", "|"};
@@ -880,25 +1410,43 @@ class GuitarParserTest {
 		
 		System.out.println("expected type: \t" + expected);
 		
-		GuitarParser guitarParser = new GuitarParser(test);
 		
-		ArrayList<String> actual = guitarParser.getTypeArr();
+		ArrayList<String> actual = gp.getTypeArr();
 		
 		System.out.println("actual type: \t" + actual);
 		
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 
 	//Added March
 	@Test
 	void testHammeron1() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-7h9--------------|");
-		test.add("B|------------------|");
-		test.add("G|------------------|");
-		test.add("D|------------------|");
-		test.add("A|------------------|");
-		test.add("E|---------1h2------|");
+		
+		String test = "E|-7h9-------------|\n"
+					+ "B|-----------------|\n"
+					+ "G|-----------------|\n"
+					+ "D|-----------------|\n"
+					+ "A|-----------------|\n"
+					+ "E|--------1h2------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
+
 
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "hstart", "hstop", "hstart", "hstop", "|"};
@@ -909,25 +1457,45 @@ class GuitarParserTest {
 
 		System.out.println("expected type: \t" + expected);
 
-		GuitarParser guitarParser = new GuitarParser(test);
 
-		ArrayList<String> actual = guitarParser.getHandPArr();
+		ArrayList<String> actual = gp.getHandPArr();
 
 		System.out.println("actual hammeron: \t" + actual);
 
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 
 	//Added March
 	@Test
 	void testPulloff1() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-9p7--------------|");
-		test.add("B|------------------|");
-		test.add("G|------------------|");
-		test.add("D|------------------|");
-		test.add("A|------------------|");
-		test.add("E|---------2p1------|");
+		
+		
+		
+		String test = "E|-9p7-------------|\n"
+					+ "B|-----------------|\n"
+					+ "G|-----------------|\n"
+					+ "D|-----------------|\n"
+					+ "A|-----------------|\n"
+					+ "E|--------2p1------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
+
 
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "pstart", "pstop", "pstart", "pstop", "|"};
@@ -938,25 +1506,42 @@ class GuitarParserTest {
 
 		System.out.println("expected type: \t" + expected);
 
-		GuitarParser guitarParser = new GuitarParser(test);
-
-		ArrayList<String> actual = guitarParser.getHandPArr();
+		ArrayList<String> actual = gp.getHandPArr();
 
 		System.out.println("actual pull: \t" + actual);
 
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 
 	@Test
 	void testHammeronAndPulloff() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-7h9p6------------|");
-		test.add("B|------------------|");
-		test.add("G|------------------|");
-		test.add("D|------------------|");
-		test.add("A|------------------|");
-		test.add("E|---------2p1h2----|");
+		
+		
+		String test = "E|-7h9p6-----------|\n"
+					+ "B|-----------------|\n"
+					+ "G|-----------------|\n"
+					+ "D|-----------------|\n"
+					+ "A|-----------------|\n"
+					+ "E|--------2p1h2----|";
 
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
+		
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "hstart", "HstopPstart", "pstop", "pstart", "PstopHstart", "hstop", "|"};
 
@@ -966,24 +1551,42 @@ class GuitarParserTest {
 
 		System.out.println("expected sequential HandP: \t" + expected);
 
-		GuitarParser guitarParser = new GuitarParser(test);
 
-		ArrayList<String> actual = guitarParser.getHandPArr();
+		ArrayList<String> actual = gp.getHandPArr();
 
 		System.out.println("actual sequential HandP: \t" + actual);
 
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
+
 	}
 
 	@Test
 	void testBend1() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-7b9--------------|");
-		test.add("B|------------------|");
-		test.add("G|------------------|");
-		test.add("D|------------------|");
-		test.add("A|------------------|");
-		test.add("E|---------1b2------|");
+		
+		String test = "E|-7b9-------------|\n"
+				+ "B|-----------------|\n"
+				+ "G|-----------------|\n"
+				+ "D|-----------------|\n"
+				+ "A|-----------------|\n"
+				+ "E|--------1b2------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
 
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "b2", "neutral", "b1", "neutral", "|"};
@@ -994,24 +1597,42 @@ class GuitarParserTest {
 
 		System.out.println("expected type: \t" + expected);
 
-		GuitarParser guitarParser = new GuitarParser(test);
 
-		ArrayList<String> actual = guitarParser.getHandPArr();
+		ArrayList<String> actual = gp.getHandPArr();
 
 		System.out.println("actual bend: \t" + actual);
 
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 
 	@Test
 	void testRlease1() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-9r7--------------|");
-		test.add("B|------------------|");
-		test.add("G|------------------|");
-		test.add("D|------------------|");
-		test.add("A|------------------|");
-		test.add("E|---------2r1------|");
+		
+		String test = "E|-9r7-------------|\n"
+				+ "B|-----------------|\n"
+				+ "G|-----------------|\n"
+				+ "D|-----------------|\n"
+				+ "A|-----------------|\n"
+				+ "E|--------2r1------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
+
 
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "b-2", "neutral", "b-1", "neutral", "|"};
@@ -1022,25 +1643,41 @@ class GuitarParserTest {
 
 		System.out.println("expected release: \t" + expected);
 
-		GuitarParser guitarParser = new GuitarParser(test);
 
-		ArrayList<String> actual = guitarParser.getHandPArr();
+		ArrayList<String> actual = gp.getHandPArr();
 
 		System.out.println("actual release: \t" + actual);
 
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 
 	//-----------
 	@Test
 	void testAscedingSlide() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-7/9--------------|");
-		test.add("B|------------------|");
-		test.add("G|------------------|");
-		test.add("D|------------------|");
-		test.add("A|------------------|");
-		test.add("E|---------1/2------|");
+		String test = "E|-7/9-------------|\n"
+				+ "B|-----------------|\n"
+				+ "G|-----------------|\n"
+				+ "D|-----------------|\n"
+				+ "A|-----------------|\n"
+				+ "E|--------1/2------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
 
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "astart", "astop", "astart", "astop", "|"};
@@ -1051,24 +1688,40 @@ class GuitarParserTest {
 
 		System.out.println("expected ascending slide: \t" + expected);
 
-		GuitarParser guitarParser = new GuitarParser(test);
 
-		ArrayList<String> actual = guitarParser.getHandPArr();
+		ArrayList<String> actual = gp.getHandPArr();
 
 		System.out.println("actual ascending slide: \t" + actual);
 
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 
 	@Test
 	void testDescendingSlide() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-9\\7--------------|");
-		test.add("B|------------------|");
-		test.add("G|------------------|");
-		test.add("D|------------------|");
-		test.add("A|------------------|");
-		test.add("E|--------4\\2-------|");
+		String test = "E|-9\\7-------------|\n"
+				+ "B|-----------------|\n"
+				+ "G|-----------------|\n"
+				+ "D|-----------------|\n"
+				+ "A|-----------------|\n"
+				+ "E|--------4\\2------|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
 
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "dstart", "dstop", "dstart", "dstop", "|"};
@@ -1079,25 +1732,43 @@ class GuitarParserTest {
 
 		System.out.println("expected descending slide*: \t" + expected);
 
-		GuitarParser guitarParser = new GuitarParser(test);
 
-		ArrayList<String> actual = guitarParser.getHandPArr();
+		ArrayList<String> actual = gp.getHandPArr();
 
 		System.out.println("actual descending slide*: \t" + actual);
 
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 
 
 	@Test
 	void testSequentialDandASlide() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-7/9\\2------------|");
-		test.add("B|------------------|");
-		test.add("G|------------------|");
-		test.add("D|------------------|");
-		test.add("A|------------------|");
-		test.add("E|---------1/2\\1----|");
+		
+		String test = "E|-7/9\\2-----------|\n"
+					+ "B|-----------------|\n"
+					+ "G|-----------------|\n"
+					+ "D|-----------------|\n"
+					+ "A|-----------------|\n"
+					+ "E|--------1/2\\1----|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
+
 
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "astart", "AstopDstart", "dstop", "astart", "AstopDstart", "dstop", "|"};
@@ -1108,24 +1779,40 @@ class GuitarParserTest {
 
 		System.out.println("expected sequential slide*: \t" + expected);
 
-		GuitarParser guitarParser = new GuitarParser(test);
-
-		ArrayList<String> actual = guitarParser.getHandPArr();
+		ArrayList<String> actual = gp.getHandPArr();
 
 		System.out.println("actual sequential slide*: \t" + actual);
 
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
 
 	@Test
 	void testLegatoSlide() throws Exception {
-		ArrayList<String> test = new ArrayList<>();
-		test.add("E|-3s9--------------|");
-		test.add("B|------------------|");
-		test.add("G|------------------|");
-		test.add("D|------------------|");
-		test.add("A|------------------|");
-		test.add("E|---------10s12----|");
+		String test = "E|-3s9-------------|\n"
+					+ "B|-----------------|\n"
+					+ "G|-----------------|\n"
+					+ "D|-----------------|\n"
+					+ "A|-----------------|\n"
+					+ "E|--------10s12----|";
+
+TextFileReader tfr;
+GuitarParser gp;
+
+File newFile = new File("testFile");
+FileWriter myWriter = null;
+
+try {
+myWriter = new FileWriter(newFile);
+myWriter.write(test + "\n\n");
+myWriter.close();
+
+tfr = new TextFileReader(newFile);
+gp = new GuitarParser(tfr);	
+	
 
 		ArrayList<String> expected = new ArrayList<>();
 		String[] arr = {"|", "sstart", "sstop", "sstart", "sstop", "|"};
@@ -1136,15 +1823,18 @@ class GuitarParserTest {
 
 		System.out.println("expected legato slide: \t" + expected);
 
-		GuitarParser guitarParser = new GuitarParser(test);
 
-		ArrayList<String> actual = guitarParser.getHandPArr();
+		ArrayList<String> actual = gp.getHandPArr();
 
 		System.out.println("actual legato slide: \t" + actual);
 
 		assertEquals(expected,actual);
+}
+catch (Exception e) { 
+	e.printStackTrace(); 
+}
 	}
-	*/
+	
 	
 	// Grace Note tests
 	@Test
